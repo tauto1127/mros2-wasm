@@ -18,11 +18,12 @@ function clean_subdirectory()
 if [ ${OPT} == "clean" ];
 then
   echo "build operation is set to clean"
-  rm -rf ./cmsis-posix/Third_Party/FreeRTOS
-  rm -rf ./lwip-posix/Third_Party/STM32CubeF7
-  clean_subdirectory cmsis-posix
-  clean_subdirectory lwip-posix
+  rm -rf ./cmsis-wasm/Third_Party/FreeRTOS
+  rm -rf ./lwip-wasm/Third_Party/STM32CubeF7
+  clean_subdirectory cmsis-wasm
+  clean_subdirectory lwip-wasm
   #clean_subdirectory mros2
+  rm -rf ../library
   rm -rf cmake_build/
   echo "build clean is completed"
   exit 0
@@ -105,20 +106,20 @@ function generate_template_functions()
 
 if [ ${OPT} = "all" ]
 then
-  download_files cmsis-posix
-  build_subdirectory cmsis-posix 
-  download_files lwip-posix 
-  build_subdirectory lwip-posix 
+  download_files cmsis-wasm
+  # build_subdirectory cmsis-wasm
+  download_files lwip-wasm
+  # build_subdirectory lwip-wasm
   generate_template_functions
-  #build_subdirectory mros2 CMAKE_OS_POSIX=true
+  # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -D CMAKE_APPNAME=${APPNAME}
+  cmake ../.. -D CMAKE_APPNAME=${APPNAME}
   make
   cd ..
 elif [ ${OPT} = "up" ]
 then
   cd cmake_build
-  cmake .. -D CMAKE_APPNAME=${APPNAME}
+  cmake -v ../.. -D CMAKE_APPNAME=${APPNAME}
   make
   cd ..
 else

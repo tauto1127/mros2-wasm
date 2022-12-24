@@ -4,7 +4,7 @@
 
 #include "cmsis_os.h"
 #include "netif.h"
-#include "netif_posix_add.h"
+#include "netif_wasm_add.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +12,7 @@
 
 int main(int argc, char* argv[])
 {
-  netif_posix_add(NETIF_IPADDR, NETIF_NETMASK);
+  netif_wasm_add(NETIF_IPADDR, NETIF_NETMASK);
 
   osKernelStart();
 

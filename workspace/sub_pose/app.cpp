@@ -4,7 +4,7 @@
 #include "geometry_msgs/msg/pose.hpp"
 
 #include "netif.h"
-#include "netif_posix_add.h"
+#include "netif_wasm_add.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -18,7 +18,7 @@ void userCallback(geometry_msgs::msg::Pose *msg)
 
 int main(int argc, char* argv[])
 {
-  netif_posix_add(NETIF_IPADDR, NETIF_NETMASK);
+  netif_wasm_add(NETIF_IPADDR, NETIF_NETMASK);
 
   osKernelStart();
 
