@@ -26,13 +26,14 @@ int main(int argc, char* argv[])
   osKernelStart();
 
   printf("mros2-posix start!\r\n");
-  printf("app name: echoreply_string\r\n");
+  printf("happy happy mROS 2!\r\n");
+  printf("app name: echoreply_stringgggg\r\n");
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mros2_node");
-  pub = node.create_publisher<std_msgs::msg::String>("to_linux", 10);
-  sub = node.create_subscription<std_msgs::msg::String>("to_stm", 10, userCallback);
+  mros2::Node node = mros2::Node::create_node("mros2_node2");
+  // pub = node.create_publisher<std_msgs::msg::String>("to_linux", 10);
+  sub = node.create_subscription<std_msgs::msg::String>("to_linux", 10, userCallback);
   osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
 

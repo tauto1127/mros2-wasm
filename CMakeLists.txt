@@ -3,10 +3,14 @@ cmake_minimum_required(VERSION ${APL_CMAKE_VERSION})
 
 # Set WASI-specific flags before project() call
 if(CMAKE_TOOLCHAIN_FILE MATCHES "wasi-sdk")
-  set(CMAKE_C_COMPILER_WORKS 1)
-  set(CMAKE_CXX_COMPILER_WORKS 1)
-  set(CMAKE_C_FLAGS_INIT "-Wno-unused-command-line-argument")
-  set(CMAKE_CXX_FLAGS_INIT "-Wno-unused-command-line-argument")
+	set(CMAKE_C_COMPILER_WORKS 1)
+	set(CMAKE_CXX_COMPILER_WORKS 1)
+	set(CMAKE_C_FLAGS_INIT "-Wno-unused-command-line-argument")
+	set(CMAKE_CXX_FLAGS_INIT "-Wno-unused-command-line-argument")
+endif()
+
+if(NOT DEFINED CMAKE_APPNAME)
+  set(CMAKE_APPNAME "echoback_string")
 endif()
 
 project(mros2-wasm-project
@@ -87,16 +91,34 @@ function(COMPILE_TO_WASM SOURCE_FILE)
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/${MROS2_APPNAME}
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/custom_msgs
     )
-  	target_compile_options(${MAIN_TARGET_NAME} INTERFACE -pthread -nostdlib -z stack-size=5000)
+  	target_compile_options(${MAIN_TARGET_NAME} INTERFACE -pthread -nostdlib -z stack-size=65536)
   	target_link_libraries(${MAIN_TARGET_NAME} socket_wasi_ext mros2 lwip cmsis)
-  	target_link_options(${MAIN_TARGET_NAME} PRIVATE
-    	LINKER:--export=__heap_base,--export=__data_end
-    	LINKER:--export=__wasm_call_ctors
-    	LINKER:--shared-memory
-      LINKER:--initial-memory=262144,--max-memory=262144
-    	LINKER:--no-check-features
-    	LINKER:--allow-undefined
-    	LINKER:--export=malloc,--export=free,--export=calloc,--export=realloc
+  	# target_link_options(${MAIN_TARGET_NAME} PRIVATE
+    # 	LINKER:--export=__heap_base,--export=__data_end
+    # 	LINKER:--export=__wasm_call_ctors
+    # 	LINKER:--shared-memory
+    #   LINKER:--initial-memory=262144,--max-memory=262144
+    # 	LINKER:--no-check-features
+    # 	LINKER:--allow-undefined
+    # 	LINKER:--export=malloc,--export=free,--export=calloc,--export=realloc
+    target_link_options(${MAIN_TARGET_NAME} PRIVATE
+        LINKER:--export=__heap_base,--export=__data_end
+        LINKER:--export=__wasm_call_ctors
+        LINKER:--shared-memory
+        LINKER:--import-memory
+        # メモリサイズを大幅に増加
+        LINKER:--initial-memory=1073741824,--max-memory=1073741824
+        LINKER:-zstack-size=6553600
+
+        LINKER:--no-check-features
+        LINKER:--allow-undefined
+        LINKER:--export=malloc,--export=free,--export=calloc,--export=realloc
+        # WAMR pthread API用のエクスポート
+        LINKER:--export=pthread_create,--export=pthread_join,--export=pthread_detach
+        LINKER:--export=pthread_mutex_init,--export=pthread_mutex_destroy
+        LINKER:--export=pthread_mutex_lock,--export=pthread_mutex_unlock
+        LINKER:--export=pthread_cond_init,--export=pthread_cond_destroy
+        LINKER:--export=pthread_cond_wait,--export=pthread_cond_signa
 	)
 endfunction()
 

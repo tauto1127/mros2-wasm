@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mros2_node");
+  mros2::Node node = mros2::Node::create_node("mros2_node1");
   mros2::Publisher pub = node.create_publisher<std_msgs::msg::String>("to_linux", 10);
   mros2::Subscriber sub = node.create_subscription<std_msgs::msg::String>("to_stm", 10, userCallback);
 
