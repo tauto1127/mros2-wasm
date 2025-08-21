@@ -62,7 +62,10 @@ add_subdirectory(mros2)
 include(workspace/${MROS2_APPNAME}/Filelists.cmake) 
 
 function(COMPILE_TO_WASM SOURCE_FILE)
-	get_filename_component(FILE_NAME ${SOURCE_FILE} NAME_WLE)
+	# get_filename_component(FILE_NAME ${SOURCE_FILE} NAME_WLE)
+  # 出力ファイル名をアプリ名にする
+  set(FILE_NAME ${CMAKE_APPNAME})
+
 
 	set(WASM_MODULE ${FILE_NAME}.wasm)
 
@@ -122,4 +125,5 @@ function(COMPILE_TO_WASM SOURCE_FILE)
 	)
 endfunction()
 
+message(STATUS "apl_SRCS is : ${apl_SRCS}")
 compile_to_wasm(${apl_SRCS})
