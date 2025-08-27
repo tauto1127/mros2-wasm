@@ -113,7 +113,7 @@ then
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk/share/cmake/wasi-sdk.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME}
+  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-19- -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-19/share/cmake/wasi-sdk.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk-19/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME}
   make
   cd ..
 elif [ ${OPT} = "up" ]

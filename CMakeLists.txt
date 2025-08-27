@@ -108,7 +108,8 @@ function(COMPILE_TO_WASM SOURCE_FILE)
         LINKER:--export=__heap_base,--export=__data_end
         LINKER:--export=__wasm_call_ctors
         LINKER:--shared-memory
-        LINKER:--import-memory
+        # LINKER:--import-memory
+        LINKER:--export-memory
         # メモリサイズを大幅に増加
         LINKER:--initial-memory=1073741824,--max-memory=1073741824
         LINKER:-zstack-size=6553600
