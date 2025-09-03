@@ -1,0 +1,22 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "WASI",
+            "compilerPath": "/path/to/wasi-sdk/bin/clang",
+            "includePath": [
+                "/opt/wasi-sdk-19/share/wasi-sysroot/include",
+                "/opt/wasi-sdk-19/share/wasi-sysroot/include/c++/v1",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "__wasi__",
+                "_WASI_EMULATED_SIGNAL",
+                "_WASI_EMULATED_PROCESS_CLOCKS"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ]
+}
