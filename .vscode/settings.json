@@ -2,5 +2,34 @@
     "cmake.configureSettings": {
         "CMAKE_TOOLCHAIN_FILE": "/opt/wasi-sdk-19/share/cmake/wasi-sdk.cmake"
     },
-    "cmake.generator": "Ninja"
+    "cmake.generator": "Ninja",
+    "files.associations": {
+        "netif_wasm_get.h": "c",
+        "memp_std.h": "c",
+        "typeindex": "c",
+        "typeinfo": "c",
+        "ratio": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "__tree": "c",
+        "array": "c",
+        "bitset": "c",
+        "deque": "c",
+        "initializer_list": "c",
+        "list": "c",
+        "map": "c",
+        "queue": "c",
+        "set": "c",
+        "string": "c",
+        "string_view": "c",
+        "unordered_map": "c",
+        "unordered_set": "c",
+        "vector": "c",
+        "utility": "c",
+        "chrono": "c",
+        "*.tpp": "c",
+        "type_traits": "c",
+        "*.inc": "c",
+        "functional": "c"
+    }
 }
