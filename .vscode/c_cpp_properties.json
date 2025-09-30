@@ -3,10 +3,10 @@
     "configurations": [
         {
             "name": "WASI",
-            "compilerPath": "/path/to/wasi-sdk/bin/clang",
+            "compilerPath": "/opt/wasi-sdk-21/bin/clang",
             "includePath": [
-                "/opt/wasi-sdk-19/share/wasi-sysroot/include",
-                "/opt/wasi-sdk-19/share/wasi-sysroot/include/c++/v1",
+                "/opt/wasi-sdk-21/share/wasi-sysroot/include",
+                "/opt/wasi-sdk-21/share/wasi-sysroot/include/c++/v1",
                 "${workspaceFolder}/**"
             ],
             "defines": [

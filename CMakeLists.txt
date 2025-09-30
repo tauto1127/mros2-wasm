@@ -94,7 +94,7 @@ function(COMPILE_TO_WASM SOURCE_FILE)
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/${MROS2_APPNAME}
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/custom_msgs
     )
-  	target_compile_options(${MAIN_TARGET_NAME} INTERFACE -pthread -nostdlib -z stack-size=65536)
+  	target_compile_options(${MAIN_TARGET_NAME} PRIVATE -pthread -z stack-size=65536)
   	target_link_libraries(${MAIN_TARGET_NAME} socket_wasi_ext mros2 lwip cmsis)
   	# target_link_options(${MAIN_TARGET_NAME} PRIVATE
     # 	LINKER:--export=__heap_base,--export=__data_end
@@ -105,6 +105,8 @@ function(COMPILE_TO_WASM SOURCE_FILE)
     # 	LINKER:--allow-undefined
     # 	LINKER:--export=malloc,--export=free,--export=calloc,--export=realloc
     target_link_options(${MAIN_TARGET_NAME} PRIVATE
+        -pthread
+        SHELL:-Wl,--whole-archive -lc++ -lc++abi -lpthread -Wl,--no-whole-archive
         LINKER:--export=__heap_base,--export=__data_end
         LINKER:--export=__wasm_call_ctors
         LINKER:--shared-memory
@@ -115,14 +117,7 @@ function(COMPILE_TO_WASM SOURCE_FILE)
         LINKER:-zstack-size=6553600
 
         LINKER:--no-check-features
-        LINKER:--allow-undefined
         LINKER:--export=malloc,--export=free,--export=calloc,--export=realloc
-        # WAMR pthread API用のエクスポート
-        LINKER:--export=pthread_create,--export=pthread_join,--export=pthread_detach
-        LINKER:--export=pthread_mutex_init,--export=pthread_mutex_destroy
-        LINKER:--export=pthread_mutex_lock,--export=pthread_mutex_unlock
-        LINKER:--export=pthread_cond_init,--export=pthread_cond_destroy
-        LINKER:--export=pthread_cond_wait,--export=pthread_cond_signa
 	)
 endfunction()
 
