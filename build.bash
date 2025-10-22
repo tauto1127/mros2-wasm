@@ -43,6 +43,11 @@ else
   exit 1
 fi
 
+if [ -z "${WAMR_ROOT}" ];
+then
+  export WAMR_ROOT="${HOME}/wamr-2.1.0-with-wasi-threads"
+fi
+
 
 if [ -d cmake_build ]
 then
@@ -113,7 +118,7 @@ then
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-19 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-19/share/cmake/wasi-sdk.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk-19/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk-21/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
   make
   cd ..
 elif [ ${OPT} = "up" ]
