@@ -61,6 +61,9 @@ function download_files()
   local dir=${1}
   cd ${dir}
   bash Third_Party/download.bash
+  if [ "${dir}" == "lwip-wasm" ]; then
+    sed -i 's/^#define LWIP_PROVIDE_ERRNO/\/\* #define LWIP_PROVIDE_ERRNO \*\//g' Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+  fi
   cd ..
 }
 
@@ -76,9 +79,9 @@ function build_subdirectory()
   cd ${dir}
   if [ $# -eq 1 ]
   then
-    cmake ..
+    cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}"
   else
-    cmake .. -D ${2}
+    cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -D ${2}
   fi
   make
   if [ -d ../public/include ]
@@ -111,14 +114,20 @@ function generate_template_functions()
 
 if [ ${OPT} = "all" ]
 then
+  LOCAL_SYSROOT="${HOME}/wasi-sysroot"
+  if [ ! -d "${LOCAL_SYSROOT}" ]; then
+    echo "Creating local copy of wasi-sysroot at ${LOCAL_SYSROOT}..."
+    cp -r /opt/wasi-sdk-21/share/wasi-sysroot "${LOCAL_SYSROOT}"
+    /opt/wasi-sdk-21/bin/llvm-ar -d "${LOCAL_SYSROOT}/lib/wasm32-wasi/libc.a" dlmalloc.o
+  fi
   download_files cmsis-wasm
-  # build_subdirectory cmsis-wasm
+  build_subdirectory cmsis-wasm
   download_files lwip-wasm
-  # build_subdirectory lwip-wasm
+  build_subdirectory lwip-wasm
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk-21/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
   make
   cd ..
 elif [ ${OPT} = "up" ]
