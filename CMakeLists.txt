@@ -70,7 +70,7 @@ function(COMPILE_TO_WASM SOURCE_FILE)
 	set(WASM_MODULE ${FILE_NAME}.wasm)
 
 	set(MAIN_TARGET_NAME MODULE_${FILE_NAME})
-	add_executable(${MAIN_TARGET_NAME} ${SOURCE_FILE})
+	add_executable(${MAIN_TARGET_NAME} ${SOURCE_FILE} ${ARGN})
   	set_target_properties(${MAIN_TARGET_NAME} PROPERTIES OUTPUT_NAME ${WASM_MODULE})
     target_include_directories(${MAIN_TARGET_NAME}
       # CMSIS INCLUDES
@@ -94,8 +94,26 @@ function(COMPILE_TO_WASM SOURCE_FILE)
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/${MROS2_APPNAME}
       PRIVATE ${PROJECT_SOURCE_DIR}/workspace/custom_msgs
     )
+    if(apl_INCLUDES)
+      target_include_directories(${MAIN_TARGET_NAME} PRIVATE ${apl_INCLUDES})
+    endif()
+    if(apl_SYSTEM_INCLUDES)
+      target_include_directories(${MAIN_TARGET_NAME} SYSTEM PRIVATE ${apl_SYSTEM_INCLUDES})
+    endif()
+
   	target_compile_options(${MAIN_TARGET_NAME} INTERFACE -pthread -nostdlib -z stack-size=65536)
-  	target_link_libraries(${MAIN_TARGET_NAME} socket_wasi_ext mros2 lwip cmsis)
+    if(apl_CXXFLAGS)
+      target_compile_options(${MAIN_TARGET_NAME} PRIVATE ${apl_CXXFLAGS})
+    endif()
+
+  	target_link_libraries(${MAIN_TARGET_NAME} PRIVATE socket_wasi_ext mros2 lwip cmsis)
+    if(apl_LIBS)
+      target_link_libraries(${MAIN_TARGET_NAME} PRIVATE ${apl_LIBS})
+    endif()
+    if(apl_LINK_LIBS)
+      target_link_libraries(${MAIN_TARGET_NAME} PRIVATE ${apl_LINK_LIBS})
+    endif()
+
     target_link_options(${MAIN_TARGET_NAME} PRIVATE
         LINKER:--export=__heap_base,--export=__data_end
         LINKER:--export=__wasm_call_ctors
