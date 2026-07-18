@@ -136,7 +136,13 @@ then
 elif [ ${OPT} = "up" ]
 then
   cd cmake_build
-  cmake .. -D CMAKE_APPNAME=${APPNAME}
+  cmake .. \
+    -DCMAKE_APPNAME=${APPNAME} \
+    -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" \
+    -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" \
+    -DWAMR_ROOT="${WAMR_ROOT}" \
+    -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" \
+    -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}"
   make
   cd ..
 else
