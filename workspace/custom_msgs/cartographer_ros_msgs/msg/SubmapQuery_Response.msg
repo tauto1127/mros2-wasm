@@ -1,0 +1,3 @@
+cartographer_ros_msgs/msg/StatusResponse status
+int32 submap_version
+uint8 textures

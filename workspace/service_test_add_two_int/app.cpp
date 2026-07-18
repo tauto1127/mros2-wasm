@@ -52,7 +52,13 @@ int main(int argc, char *argv[])
 
     printf("future.get() return\r\n");
     std_msgs::msg::Int64 msg_test;
-    msg_test.copyFromBuf(&response.get()[4]);
+    const std::vector<uint8_t> response_frame = response.get();
+    if (response_frame.size() < 4)
+    {
+      printf("invalid service response: size=%zu\r\n", response_frame.size());
+      break;
+    }
+    msg_test.copyFromBuf(&response_frame[4]);
     printf("future subscribed msg_test: calculation sum:'%ld'\r\n", msg_test.data);
     break;
   }
