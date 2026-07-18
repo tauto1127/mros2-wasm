@@ -27,10 +27,14 @@ set(CARTOGRAPHER_ROOT "${PROJECT_SOURCE_DIR}/third_party/cartographer" CACHE PAT
 set(CARTOGRAPHER_LIBRARY_ROOT
     "${PROJECT_SOURCE_DIR}/third_party/cartographer-library" CACHE PATH
     "Cartographer WASI dependency libraries")
+set(ZLIB_LIBRARY
+    "${PROJECT_SOURCE_DIR}/cmake_build/zlib-wasi/libz.a" CACHE FILEPATH
+    "WASI-built static zlib library")
 
 message(STATUS "WAMR_ROOT=${WAMR_ROOT}")
 message(STATUS "CARTOGRAPHER_ROOT=${CARTOGRAPHER_ROOT}")
 message(STATUS "CARTOGRAPHER_LIBRARY_ROOT=${CARTOGRAPHER_LIBRARY_ROOT}")
+message(STATUS "ZLIB_LIBRARY=${ZLIB_LIBRARY}")
 
 set(debug true)
 # set(CMAKE_C_FLAGS "-std=gnu99")

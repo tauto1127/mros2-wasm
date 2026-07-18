@@ -1,10 +1,13 @@
 #!/bin/bash
+set -e
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 WASI_SDK_ROOT=${WASI_SDK_ROOT:-/opt/wasi-sdk-21}
 WAMR_ROOT=${WAMR_ROOT:-${SCRIPT_DIR}/third_party/wamr}
 CARTOGRAPHER_ROOT=${CARTOGRAPHER_ROOT:-${SCRIPT_DIR}/third_party/cartographer}
 CARTOGRAPHER_LIBRARY_ROOT=${CARTOGRAPHER_LIBRARY_ROOT:-${SCRIPT_DIR}/third_party/cartographer-library}
+ZLIB_LIBRARY=${ZLIB_LIBRARY:-${SCRIPT_DIR}/cmake_build/zlib-wasi/libz.a}
+LOCAL_SYSROOT=${LOCAL_SYSROOT:-${HOME}/wasi-sysroot}
 
 if [ $# -gt 2 ] || [ $# -eq 0 ]
 then
@@ -115,14 +118,18 @@ function generate_template_functions()
 	cd ..
 }
 
-if [ ${OPT} = "all" ]
-then
-  LOCAL_SYSROOT="${HOME}/wasi-sysroot"
+function ensure_local_sysroot()
+{
   if [ ! -d "${LOCAL_SYSROOT}" ]; then
     echo "Creating local copy of wasi-sysroot at ${LOCAL_SYSROOT}..."
-    cp -r /opt/wasi-sdk-21/share/wasi-sysroot "${LOCAL_SYSROOT}"
+    cp -r "${WASI_SDK_ROOT}/share/wasi-sysroot" "${LOCAL_SYSROOT}"
     "${WASI_SDK_ROOT}/bin/llvm-ar" -d "${LOCAL_SYSROOT}/lib/wasm32-wasi/libc.a" dlmalloc.o
   fi
+}
+
+if [ ${OPT} = "all" ]
+then
+  ensure_local_sysroot
   download_files cmsis-wasm
   build_subdirectory cmsis-wasm
   download_files lwip-wasm
@@ -130,7 +137,7 @@ then
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+  cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" -DZLIB_LIBRARY="${ZLIB_LIBRARY}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
   make
   cd ..
 elif [ ${OPT} = "up" ]
@@ -140,9 +147,11 @@ then
     -DCMAKE_APPNAME=${APPNAME} \
     -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" \
     -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" \
+    -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" \
     -DWAMR_ROOT="${WAMR_ROOT}" \
     -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" \
-    -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}"
+    -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" \
+    -DZLIB_LIBRARY="${ZLIB_LIBRARY}"
   make
   cd ..
 else
