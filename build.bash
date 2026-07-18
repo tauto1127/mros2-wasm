@@ -1,5 +1,11 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+WASI_SDK_ROOT=${WASI_SDK_ROOT:-/opt/wasi-sdk-21}
+WAMR_ROOT=${WAMR_ROOT:-${SCRIPT_DIR}/third_party/wamr}
+CARTOGRAPHER_ROOT=${CARTOGRAPHER_ROOT:-${SCRIPT_DIR}/third_party/cartographer}
+CARTOGRAPHER_LIBRARY_ROOT=${CARTOGRAPHER_LIBRARY_ROOT:-${SCRIPT_DIR}/third_party/cartographer-library}
+
 if [ $# -gt 2 ] || [ $# -eq 0 ]
 then
   echo "Usage: $0 {all|up|clean} appname"
@@ -43,10 +49,7 @@ else
   exit 1
 fi
 
-if [ -z "${WAMR_ROOT}" ];
-then
-  export WAMR_ROOT="${HOME}/wamr-2.1.0-with-wasi-threads"
-fi
+export WAMR_ROOT
 
 
 if [ -d cmake_build ]
@@ -79,9 +82,9 @@ function build_subdirectory()
   cd ${dir}
   if [ $# -eq 1 ]
   then
-    cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}"
+    cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}"
   else
-    cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -D ${2}
+    cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -D ${2}
   fi
   make
   if [ -d ../public/include ]
@@ -118,7 +121,7 @@ then
   if [ ! -d "${LOCAL_SYSROOT}" ]; then
     echo "Creating local copy of wasi-sysroot at ${LOCAL_SYSROOT}..."
     cp -r /opt/wasi-sdk-21/share/wasi-sysroot "${LOCAL_SYSROOT}"
-    /opt/wasi-sdk-21/bin/llvm-ar -d "${LOCAL_SYSROOT}/lib/wasm32-wasi/libc.a" dlmalloc.o
+    "${WASI_SDK_ROOT}/bin/llvm-ar" -d "${LOCAL_SYSROOT}/lib/wasm32-wasi/libc.a" dlmalloc.o
   fi
   download_files cmsis-wasm
   build_subdirectory cmsis-wasm
@@ -127,13 +130,13 @@ then
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+  cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
   make
   cd ..
 elif [ ${OPT} = "up" ]
 then
   cd cmake_build
-  cmake -v .. -D CMAKE_APPNAME=${APPNAME}
+  cmake .. -D CMAKE_APPNAME=${APPNAME}
   make
   cd ..
 else

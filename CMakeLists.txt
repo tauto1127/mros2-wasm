@@ -18,6 +18,20 @@ project(mros2-wasm-project
   LANGUAGES CXX C
 )
 
+# Keep project dependencies relative to this repository. CMake resolves these
+# paths to absolute paths internally, while the checkout remains relocatable.
+set(WAMR_ROOT "${PROJECT_SOURCE_DIR}/third_party/wamr" CACHE PATH
+    "WAMR checkout containing core/iwasm/libraries/lib-socket")
+set(CARTOGRAPHER_ROOT "${PROJECT_SOURCE_DIR}/third_party/cartographer" CACHE PATH
+    "Cartographer source checkout")
+set(CARTOGRAPHER_LIBRARY_ROOT
+    "${PROJECT_SOURCE_DIR}/third_party/cartographer-library" CACHE PATH
+    "Cartographer WASI dependency libraries")
+
+message(STATUS "WAMR_ROOT=${WAMR_ROOT}")
+message(STATUS "CARTOGRAPHER_ROOT=${CARTOGRAPHER_ROOT}")
+message(STATUS "CARTOGRAPHER_LIBRARY_ROOT=${CARTOGRAPHER_LIBRARY_ROOT}")
+
 set(debug true)
 # set(CMAKE_C_FLAGS "-std=gnu99")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
