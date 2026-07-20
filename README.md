@@ -70,10 +70,19 @@ This section explains how to build and execute mros2-posix application as a Linu
 
 ### Build for mros2-posix app
 
-First of all, clone this repository. Note that **--recursive** is mandatory.
+First of all, clone this repository and initialize its submodules. The Boost
+submodule contains private nested-module URLs that are not needed for this
+experiment, so initialize the top-level dependencies explicitly instead of
+using `--recursive` for every submodule.
 
 ```
-git clone --recursive https://github.com/mROS-base/mros2-posix.git
+git clone https://github.com/mROS-base/mros2-posix.git
+cd mros2-posix/
+git submodule update --init --recursive mros2 lwip-wasm
+git submodule update --init cmsis-wasm workspace/occupancy_grid_node \
+  third_party/wamr third_party/cartographer \
+  third_party/cartographer-library/wasi/boost \
+  third_party/cartographer-library/wasi/zlib
 ```
 
 Please set your network information to the below file.
@@ -84,10 +93,30 @@ Please set your network information to the below file.
 Move to `mros2-posix/` and build with the target app name.
 
 ```
-cd mros2-posix/
 bash build.bash clean
 bash build.bash all echoback_string
 ```
+
+### Cartographer WASM experiment
+
+The Cartographer/zlib dependencies are not built by the normal application
+build. Build the WASI zlib archive once, then build the node:
+
+```bash
+./build_wasi_cartographer_deps.bash
+./build.bash all occupancy_grid_node
+```
+
+For an incremental rebuild, use:
+
+```bash
+./build.bash up occupancy_grid_node
+```
+
+The default dependency locations are relative to this repository. They can
+be overridden when comparing an existing checkout, for example with
+`WAMR_ROOT`, `CARTOGRAPHER_ROOT`, `CARTOGRAPHER_LIBRARY_ROOT`,
+`WASI_SDK_ROOT`, and `ZLIB_LIBRARY`.
 
 Once build process is successfully completed, you can find `mros2-posix` executable in `cmake_build/`. 
 

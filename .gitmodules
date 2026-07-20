@@ -1,9 +1,29 @@
 [submodule "mros2"]
   path = mros2
-  url = git@github.com:Sorasky4/mros2.git
+  url = git@github.com:tauto1127/mros2.git
+  branch = service-communication
 [submodule "cmsis-wasm"]
 	path = cmsis-wasm
 	url = git@github.com:tauto1127/cmsis-wasm.git
 [submodule "lwip-wasm"]
 	path = lwip-wasm
 	url = git@github.com:tauto1127/lwip-wasm.git
+[submodule "workspace/occupancy_grid_node"]
+	path = workspace/occupancy_grid_node
+	url = git@github.com:tauto1127/occupancy_grid_node_mros2_wasm.git
+[submodule "third_party/wamr"]
+	path = third_party/wamr
+	url = https://github.com/tauto1127/wasm-micro-runtime.git
+	branch = fast-interpreter-cr
+[submodule "third_party/cartographer"]
+	path = third_party/cartographer
+	url = https://github.com/cartographer-project/cartographer.git
+	branch = master
+[submodule "third_party/cartographer-library/wasi/boost"]
+	path = third_party/cartographer-library/wasi/boost
+	url = https://github.com/tauto1127/boost.git
+	branch = wasi-1.74.0
+[submodule "third_party/cartographer-library/wasi/zlib"]
+	path = third_party/cartographer-library/wasi/zlib
+	url = https://github.com/madler/zlib.git
+	branch = develop

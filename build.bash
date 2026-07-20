@@ -1,4 +1,13 @@
 #!/bin/bash
+set -e
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+WASI_SDK_ROOT=${WASI_SDK_ROOT:-/opt/wasi-sdk-21}
+WAMR_ROOT=${WAMR_ROOT:-${SCRIPT_DIR}/third_party/wamr}
+CARTOGRAPHER_ROOT=${CARTOGRAPHER_ROOT:-${SCRIPT_DIR}/third_party/cartographer}
+CARTOGRAPHER_LIBRARY_ROOT=${CARTOGRAPHER_LIBRARY_ROOT:-${SCRIPT_DIR}/third_party/cartographer-library}
+ZLIB_LIBRARY=${ZLIB_LIBRARY:-${SCRIPT_DIR}/cmake_build/zlib-wasi/libz.a}
+LOCAL_SYSROOT=${LOCAL_SYSROOT:-${HOME}/wasi-sysroot}
 
 if [ $# -gt 2 ] || [ $# -eq 0 ]
 then
@@ -43,10 +52,7 @@ else
   exit 1
 fi
 
-if [ -z "${WAMR_ROOT}" ];
-then
-  export WAMR_ROOT="${HOME}/wamr-2.1.0-with-wasi-threads"
-fi
+export WAMR_ROOT
 
 
 if [ -d cmake_build ]
@@ -61,6 +67,9 @@ function download_files()
   local dir=${1}
   cd ${dir}
   bash Third_Party/download.bash
+  if [ "${dir}" == "lwip-wasm" ]; then
+    sed -i 's/^#define LWIP_PROVIDE_ERRNO/\/\* #define LWIP_PROVIDE_ERRNO \*\//g' Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+  fi
   cd ..
 }
 
@@ -76,9 +85,9 @@ function build_subdirectory()
   cd ${dir}
   if [ $# -eq 1 ]
   then
-    cmake ..
+    cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}"
   else
-    cmake .. -D ${2}
+    cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -D ${2}
   fi
   make
   if [ -d ../public/include ]
@@ -109,22 +118,40 @@ function generate_template_functions()
 	cd ..
 }
 
+function ensure_local_sysroot()
+{
+  if [ ! -d "${LOCAL_SYSROOT}" ]; then
+    echo "Creating local copy of wasi-sysroot at ${LOCAL_SYSROOT}..."
+    cp -r "${WASI_SDK_ROOT}/share/wasi-sysroot" "${LOCAL_SYSROOT}"
+    "${WASI_SDK_ROOT}/bin/llvm-ar" -d "${LOCAL_SYSROOT}/lib/wasm32-wasi/libc.a" dlmalloc.o
+  fi
+}
+
 if [ ${OPT} = "all" ]
 then
+  ensure_local_sysroot
   download_files cmsis-wasm
-  # build_subdirectory cmsis-wasm
+  build_subdirectory cmsis-wasm
   download_files lwip-wasm
-  # build_subdirectory lwip-wasm
+  build_subdirectory lwip-wasm
   generate_template_functions
   # build_subdirectory mros2 CMAKE_OS_POSIX=true
   cd cmake_build
-  cmake .. -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT=/opt/wasi-sdk-21/share/wasi-sysroot -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
+  cmake .. -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" -DWAMR_ROOT="${WAMR_ROOT}" -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" -DZLIB_LIBRARY="${ZLIB_LIBRARY}" -D CMAKE_APPNAME=${APPNAME} -D CMAKE_EXPORT_COMPILE_COMMANDS=1
   make
   cd ..
 elif [ ${OPT} = "up" ]
 then
   cd cmake_build
-  cmake -v .. -D CMAKE_APPNAME=${APPNAME}
+  cmake .. \
+    -DCMAKE_APPNAME=${APPNAME} \
+    -DWASI_SDK_PREFIX="${WASI_SDK_ROOT}" \
+    -DCMAKE_TOOLCHAIN_FILE="${WASI_SDK_ROOT}/share/cmake/wasi-sdk-pthread.cmake" \
+    -DCMAKE_SYSROOT="${LOCAL_SYSROOT}" \
+    -DWAMR_ROOT="${WAMR_ROOT}" \
+    -DCARTOGRAPHER_ROOT="${CARTOGRAPHER_ROOT}" \
+    -DCARTOGRAPHER_LIBRARY_ROOT="${CARTOGRAPHER_LIBRARY_ROOT}" \
+    -DZLIB_LIBRARY="${ZLIB_LIBRARY}"
   make
   cd ..
 else

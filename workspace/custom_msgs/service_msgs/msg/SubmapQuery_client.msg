@@ -1,0 +1,2 @@
+int32 trajectory_id
+int32 submap_index
