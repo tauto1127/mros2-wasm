@@ -1,0 +1,66 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "レストア後のUDP受信エラーの出どころと原因",
+  "description": "socket journalを使ったチェックポイント・レストア実験で、レストア後に発生した `thread_udp_recv: line:377 sd=4 -1` などのエラーを、ログからnative UDP socketの再生成処理まで追います。",
+  "isPrimary": true,
+  "steps": [
+    {
+      "title": "このログで起きていること",
+      "description": "# 観測されたエラー\n\n対象ログ `/tmp/mros2-socket-journal.7jAteX/restore.log` の 511〜514 行に、次のエラーがあります。\n\n```text\nthread_udp_recv: line:377 sd=4 -1\nthread_udp_recv: line:377 sd=8 -1\nthread_udp_recv: line:377 sd=10 -1\nthread_udp_recv: line:377 sd=11 -1\n```\n\n4本のUDP受信スレッドが、レストア後にそれぞれのsocket fdで`recvfrom()`に失敗しています。直前の 498〜500 行では、レストア後に`udp_recv()`と受信スレッドが起動しています。"
+    },
+    {
+      "title": "1. エラーを出している場所",
+      "file": "lwip-wasm/src/core/udp.c",
+      "line": 373,
+      "description": "# `recvfrom()`の戻り値が負になる\n\n受信スレッドは、`mcp->sd`をnative UDP socket fdとして`recvfrom()`に渡します。戻り値が`0`未満になると、ログに`sd`と戻り値を出して、socketの再生成へ進みます。\n\n```c\nrecv_msglen = recvfrom(mcp->sd, ...);\nif (recv_msglen < 0) {\n  ...\n  udp_mc_recover(mcp);\n}\n```\n\nしたがって、ログの`line:377`はエラーの発生源ではなく、この`recvfrom()`失敗を検出している箇所です。"
+    },
+    {
+      "title": "2. 受信スレッドはUDP PCBごとに作られる",
+      "file": "lwip-wasm/src/core/udp.c",
+      "line": 248,
+      "description": "# `udp_recv()`から受信スレッドを起動\n\nRTPS側がUDP PCBに受信コールバックを登録すると、`osThreadNew()`で`thread_udp_recv()`が起動します。今回の4つのエラーは、4つのUDP受信経路が同じタイミングで失敗したことを示しています。"
+    },
+    {
+      "title": "3. `sd`の正体",
+      "file": "lwip-wasm/src/core/udp_multicast.h",
+      "line": 18,
+      "description": "# `sd`はWasmのUDP PCBではない\n\n`UdpMcInfoType`には、UDP PCBに対応するnative側の状態が入っています。\n\n```text\nUdpMcInfoType\n  ├─ pcb                 Wasm/lwIP側のUDP PCB\n  ├─ sd                  native UDP socketのfd\n  ├─ local_ipaddr        bind時のローカルIP\n  ├─ port                bindしたポート\n  └─ multicast_request  multicast参加情報\n```\n\nここが重要です。`sd`は単なる整数に見えますが、実体はホストOSのプロセスに属するsocketです。整数値だけをチェックポイントから別ホストへ持っていっても、移行先で同じsocketが存在することは保証されません。"
+    },
+    {
+      "title": "4. native socketが作られる場所",
+      "file": "lwip-wasm/src/core/udp_multicast.c",
+      "line": 8,
+      "description": "# `udp_mc_initialize()`\n\n`UdpMcInfo`の初期化時に、ここでホストOSのUDP socketを作ります。\n\n```c\ninfo->sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);\n```\n\nレストア前のホストで作られたsocketと、レストア先ホストで必要なsocketは、別のOS資源です。Wasmメモリに保存された`sd`の値だけでは、レストア先のsocketを再構成できません。"
+    },
+    {
+      "title": "5. socketを作る呼び出し経路",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 51,
+      "description": "# RTPSからUDP socketまで\n\nRTPSの`createUdpConnection()`は、まずローカルポートを探します。見つからなければ`UdpConnection`を作り、`udp_bind()`と`udp_recv()`を呼びます。\n\n```text\nRTPS packet\n  → createUdpConnection(srcPort)\n  → UdpConnection / udp_new()\n  → udp_bind()\n  → udp_recv()\n  → thread_udp_recv()\n  → recvfrom(mcp->sd)\n```\n\nこの経路で`udp_new()`の中から`udp_mc_info_alloc()`が呼ばれ、native socketが作られます。"
+    },
+    {
+      "title": "6. 同じポートならsocketは作り直さない",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 52,
+      "description": "# 再探索しても既存接続を返す\n\n`createUdpConnection()`は、同じローカルポートの接続がすでにあれば、既存の`UdpConnection`をそのまま返します。\n\n```cpp\nif (m_conns[i].port == receivePort) {\n  return &m_conns[i];\n}\n```\n\nそのため、IPが変わっただけでは、ここからnative socketを作り直す処理には入りません。今回のログでは、再探索ではなく、受信中の`recvfrom()`失敗をきっかけに別の回復経路へ進んでいます。"
+    },
+    {
+      "title": "7. エラー後の回復処理",
+      "file": "lwip-wasm/src/core/udp_multicast.c",
+      "line": 27,
+      "description": "# `udp_mc_recover()`\n\n`recvfrom()`が失敗すると、次の順番でsocketを作り直します。\n\n```text\n現在のIPを再取得\n  ↓\n古いfdをclose\n  ↓\nsocket()\n  ↓\nポートへbind\n  ↓\nmulticastへ再参加\n```\n\n特に 37〜44 行で古いfdを閉じ、新しいfdを`socket()`で取得します。56 行以降では、以前のmulticast groupがあれば再参加します。"
+    },
+    {
+      "title": "8. 現時点の原因結論",
+      "file": "lwip-wasm/src/core/udp.c",
+      "line": 365,
+      "description": "# 原因のつながり\n\n```text\nチェックポイント時\n  WasmメモリにUdpMcInfo.sd=4/8/10/11が保存される\n        ↓\nレストア先\n  スレッドとWasm側の状態は復元される\n  しかしnative OS socketは同じfdとして復元されない\n        ↓\nrecvfrom(mcp->sd) が -1\n        ↓\nline:377 のエラー\n        ↓\nudp_mc_recover()で新しいsocketを作る\n```\n\nしたがって、現時点の最も有力な原因は、**チェックポイントで保存されたnative socket fdを、レストア先でも有効なfdとして使おうとしていること**です。ログには`errno`が出ていないため、`EBADF`などの具体的なOSエラー番号まではこのログだけでは確定できません。ただし、複数のfdがレストア後に同時に`recvfrom()`失敗していることは、native socket状態が移行できていないという説明と一致します。"
+    },
+    {
+      "title": "9. 追加で確認すべき観測点",
+      "file": "lwip-wasm/src/core/udp.c",
+      "line": 374,
+      "description": "# 原因を確定するための不足情報\n\nこのログ出力は`recv_msglen`と`sd`だけで、`errno`を記録していません。原因を確定するには、少なくとも次を同じログに残す必要があります。\n\n- `recvfrom()`直後の`errno`\n- `fcntl(mcp->sd, F_GETFD)`などによるfdの有効性\n- `udp_mc_recover()`内の`socket()`、`bind()`、multicast再参加の戻り値と`errno`\n- 回復後に新しいfdで`recvfrom()`が成功したか\n\nこのTourでは実装変更は行わず、エラーの出どころと、現在のコードから導ける原因候補を整理しています。"
+    }
+  ]
+}

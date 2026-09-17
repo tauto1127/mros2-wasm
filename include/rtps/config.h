@@ -42,12 +42,6 @@ namespace rtps
     {
         const VendorId_t VENDOR_ID = {13, 37};
         // const VendorId_t VENDOR_ID = {01, 15};//fastdds
-        const std::array<uint8_t, 4> IP_ADDRESS = {
-            192, 168, 100, 3}; // Needs to be set in lwipcfg.h too.
-        // const std::array<uint8_t, 4> IP_ADDRESS = {
-        //     192, 168, 10, 11}; // Needs to be set in lwipcfg.h too.
-        // const std::array<uint8_t, 4> IP_ADDRESS = {
-        //     10, 124, 57, 53}; // Needs to be set in lwipcfg.h too.
         const GuidPrefix_t BASE_GUID_PREFIX{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12};
 
         const uint8_t DOMAIN_ID = 0; // 230 possible with UDP

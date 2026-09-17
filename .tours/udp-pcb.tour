@@ -1,0 +1,59 @@
+{
+  "title": "UDP PCBとソケットの再利用",
+  "description": "mros2-wasmのRTPS通信で、ローカルポート・UDP PCB・native UDP socketがどのように対応し、同じポートで再利用されるかを追います。",
+  "isPrimary": true,
+  "steps": [
+    {
+      "title": "このTourで追うもの",
+      "description": "# UDP PCBとnative socketの対応\n\nこのTourでは、次の流れをコード上で確認します。\n\n```text\nRTPS送信\n  ↓\nローカルポートを検索\n  ↓\nUdpConnection\n  ↓\nlwIP UDP PCB\n  ↓\nnative UDP socket\n  ↓\nsendto()で相手へ送信\n```\n\nポイントは、**相手ごとにsocketを作るのではなく、同じローカルポートの通信で同じsocketを共有する**ことです。"
+    },
+    {
+      "title": "1. 送信前に接続を取得",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 136,
+      "description": "# `srcPort`は自分側のポート\n\n`sendPacket()`は、まずパケットの`srcPort`を使って`UdpConnection`を取得します。\n\nここでいう「connection」は、相手とのTCPのようなOS接続ではありません。自分側のUDP PCBとnative socketをまとめて扱うためのオブジェクトです。"
+    },
+    {
+      "title": "2. 同じポートなら既存のPCBを再利用",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 53,
+      "description": "# ポート番号がキャッシュのキー\n\n`m_conns`を調べ、同じ`receivePort`を持つ`UdpConnection`があれば、そのまま返します。\n\n```cpp\nif (m_conns[i].port == receivePort) {\n  return &m_conns[i];\n}\n```\n\nしたがって、再探索して相手のIPが変わっても、ローカルポートが同じなら、ここではsocketを作り直しません。"
+    },
+    {
+      "title": "3. 初回だけUdpConnectionを作る",
+      "file": "mros2/embeddedRTPS/include/rtps/communication/UdpConnection.h",
+      "line": 39,
+      "description": "# UdpConnectionの生成\n\nポートがまだ登録されていない場合だけ、コンストラクタが呼ばれます。\n\n```cpp\nexplicit UdpConnection(uint16_t port) : port(port) {\n  pcb = udp_new();\n}\n```\n\nここで`udp_new()`が呼ばれ、新しいlwIP UDP PCBが作られます。"
+    },
+    {
+      "title": "4. UDP PCBに管理情報を追加",
+      "file": "lwip-wasm/src/core/udp.c",
+      "line": 318,
+      "description": "# `udp_new()`\n\n`udp_new()`はlwIPの`udp_pcb`を確保して初期化します。\n\nその後、`udp_mc_info_alloc(pcb)`で、このPCBに対応する追加情報`UdpMcInfo`を割り当てます。\n\n```text\nudp_pcb\n  └── UdpMcInfo\n        └── native socketのfd\n```"
+    },
+    {
+      "title": "5. native UDP socketを作る",
+      "file": "lwip-wasm/src/core/udp_multicast.c",
+      "line": 11,
+      "description": "# `socket()`はここで呼ばれる\n\n`UdpMcInfo`の初期化で、実際のホスト側UDP socketが作られます。\n\n```cpp\ninfo->sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);\n```\n\nつまり、`udp_new()` 1回に対してnative socketも1つ作られます。"
+    },
+    {
+      "title": "6. PCBをローカルポートにbind",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 66,
+      "description": "# `udp_bind()`\n\n新しく作ったPCBをローカルポートにbindします。\n\n```cpp\nudp_bind(udp_conn.pcb, IP_ADDR_ANY, receivePort);\n```\n\n`IP_ADDR_ANY`なので、特定のIPではなく、そのホストのインターフェースで指定ポートを受けます。"
+    },
+    {
+      "title": "7. 同じsocketから相手ごとに送信",
+      "file": "mros2/embeddedRTPS/src/communication/UdpDriver.cpp",
+      "line": 121,
+      "description": "# 宛先だけを変えて送信\n\n送信時は`conn.pcb`を渡して`udp_sendto()`を呼びます。\n\n同じローカルポートを使う複数のRTPS相手に対して、ローカル側のPCBとnative socketは同じままです。相手のIPとポートは`destAddr`と`destPort`で変わります。\n\n```text\nsame local port\n  → same PCB\n  → same native socket\n  → different destination\n```"
+    },
+    {
+      "title": "8. 移行時に確認すべき場所",
+      "file": "lwip-wasm/src/core/udp_multicast.c",
+      "line": 27,
+      "description": "# IP変更後のsocket状態\n\n今回のチェックポイント・レストアでは、次の状態が一致している必要があります。\n\n- Wasm側に復元された`udp_pcb`\n- `UdpMcInfo`が持つnative socket fd\n- socketがbindしているポート\n- multicast membership\n- 移行先で現在有効なIP\n\n現在のコードには、受信エラー時にsocketを再生成してmulticastへ再参加する`udp_mc_recover()`があります。ただし、通常の再探索だけでは`createUdpConnection()`のキャッシュが残るため、この経路が必ず実行されるとは限りません。"
+    }
+  ]
+}
