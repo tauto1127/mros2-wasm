@@ -7,11 +7,15 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 
 void userCallback(std_msgs::msg::String *msg)
 {
-  printf("subscribed msg: '%s'\r\n", msg->data.c_str());
+  const char *separator = strrchr(msg->data.c_str(), ':');
+  const int message_id = separator ? atoi(separator + 1) : -1;
+  printf("[CR-RERUN-20260927] APP callback topic=/to_stm id=%d payload='%s'\r\n",
+         message_id, msg->data.c_str());
 }
 
 int main(int argc, char* argv[])
@@ -35,9 +39,13 @@ int main(int argc, char* argv[])
   auto count = 0;
   while (1) {
     auto msg = std_msgs::msg::String();
-    msg.data = "Hello from mros2-posix onto Linux: " + std::to_string(count++);
-    printf("publishing msg: '%s'\r\n", msg.data.c_str());
+    const int message_id = count++;
+    msg.data = "Hello from mros2-posix onto Linux: " + std::to_string(message_id);
+    printf("[CR-RERUN-20260927] APP publish_begin topic=/to_linux id=%d payload='%s'\r\n",
+           message_id, msg.data.c_str());
     pub.publish(msg);
+    printf("[CR-RERUN-20260927] APP publish_return topic=/to_linux id=%d\r\n",
+           message_id);
     osDelay(1000);
   }
 
