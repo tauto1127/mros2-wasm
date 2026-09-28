@@ -1,0 +1,122 @@
+[CR-NATIVE-R04-BUILD] command=rtk cp -a /home/osslab/mros2-posix-worktree /tmp/mros2-posix-run04-final-source
+[CR-NATIVE-R04-BUILD] command=rtk cp /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-04/native_peer.cpp /tmp/mros2-posix-run04-final-source/workspace/echoreply_string/app.cpp
+[CR-NATIVE-R04-BUILD] command=rtk proxy patch -p1 -d /tmp/mros2-posix-run04-final-source
+patching file include/rtps/config.h
+Hunk #1 succeeded at 41 with fuzz 1.
+[CR-NATIVE-R04-BUILD] command=rtk cmake -S /tmp/mros2-posix-run04-final-source -B /tmp/mros2-posix-run04-final-build -DCMAKE_APPNAME=echoreply_string
+CMake Deprecation Warning at CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- The CXX compiler identification is GNU 11.4.0
+-- The C compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- CMAKE_APPNAME=echoreply_string
+CMake Deprecation Warning at cmsis-posix/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- CMSIS_POSIX_OPTION_FILEPATH is not defined
+-- BUILD_TYPE debug
+-- GCOV disabled
+CMake Deprecation Warning at cmsis-posix/src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- cmsis_DIR=/tmp/mros2-posix-run04-final-source/cmsis-posix/public
+CMake Deprecation Warning at lwip-posix/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- LWIP_POSIX_OPTION_FILEPATH is not defined
+-- cmsis_DIR=/tmp/mros2-posix-run04-final-source/lwip-posix/../cmsis-posix/public
+-- BUILD_TYPE debug
+-- LWIP_DIR /tmp/mros2-posix-run04-final-source/lwip-posix
+-- LWIP_CORE_DIR /tmp/mros2-posix-run04-final-source/lwip-posix/lwip
+-- lwip_DIR=/tmp/mros2-posix-run04-final-source/lwip-posix/public
+-- mros2_DIR=/tmp/mros2-posix-run04-final-source/mros2
+-- Configuring done (0.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/mros2-posix-run04-final-build
+[CR-NATIVE-R04-BUILD] command=rtk cmake --build /tmp/mros2-posix-run04-final-build --target mros2-posix --parallel 4
+[  2%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/netif/netif_posix.c.o
+[  4%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.o
+[  6%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.o
+[  8%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.o
+[ 10%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_mutexes.c.o
+[ 12%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_semaphores.c.o
+[ 14%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/api/cmsis_thread.c.o
+[ 16%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/lwip.c.o
+[ 18%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/cmsis_posix_os_memory.c.o
+[ 20%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/cmsis_posix_os_message_queue.c.o
+[ 22%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/cmsis_posix_os_queue.c.o
+[ 25%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/igmp.c.o
+[ 27%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/udp.c.o
+[ 29%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/sys_utils.c.o
+[ 31%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/cmsis_posix_os_thread_sync.c.o
+[ 33%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/cmsis_posix_os_time.c.o
+[ 35%] Building C object cmsis-posix/src/CMakeFiles/cmsis.dir/core/posix_os.c.o
+[ 37%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/udp_multicast.c.o
+[ 39%] Building C object lwip-posix/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.o
+[ 41%] Building C object lwip-posix/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.o
+[ 43%] Linking C static library libcmsis.a
+[ 45%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.o
+[ 47%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.o
+[ 50%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/mem.c.o
+[ 50%] Built target cmsis
+[ 52%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/memp.c.o
+[ 54%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/stats.c.o
+[ 56%] Building C object lwip-posix/CMakeFiles/lwip.dir/lwip/src/core/sys.c.o
+[ 58%] Linking C static library liblwip.a
+[ 58%] Built target lwip
+[ 60%] Building CXX object CMakeFiles/mros2-posix.dir/workspace/echoreply_string/app.cpp.o
+[ 62%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/src/mros2.cpp.o
+[ 64%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/communication/UdpDriver.cpp.o
+[ 66%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/messages/MessageTypes.cpp.o
+[ 68%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/messages/MessageReceiver.cpp.o
+[ 70%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/discovery/TopicData.cpp.o
+[ 72%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/discovery/ParticipantProxyData.cpp.o
+[ 75%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp.o
+[ 77%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp.o
+[ 79%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/storages/PBufWrapper.cpp.o
+[ 81%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/ThreadPool.cpp.o
+[ 83%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/entities/Participant.cpp.o
+[ 85%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/entities/Domain.cpp.o
+[ 87%] Building CXX object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/src/entities/StatelessReader.cpp.o
+[ 89%] Building C object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/common.c.o
+[ 91%] Building C object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/basic.c.o
+[ 93%] Building C object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/string.c.o
+[ 95%] Building C object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/sequence.c.o
+[ 97%] Building C object CMakeFiles/mros2-posix.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/array.c.o
+[100%] Linking CXX executable mros2-posix
+[100%] Built target mros2-posix
+[CR-NATIVE-R04-BUILD] event=build_complete executable=/tmp/mros2-posix-run04-final-build/mros2-posix

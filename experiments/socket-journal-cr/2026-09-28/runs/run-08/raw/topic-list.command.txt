@@ -1,0 +1,1 @@
+rtk proxy timeout 5s docker exec mros2-cr-run08-native-peer bash -lc 'source /opt/ros/humble/setup.bash; ROS_LOG_DIR=/tmp ROS_HOME=/tmp ros2 topic list --no-daemon'

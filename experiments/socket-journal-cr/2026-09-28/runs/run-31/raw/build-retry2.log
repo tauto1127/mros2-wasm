@@ -1,0 +1,27 @@
+[  4%] Built target socket_wasi_ext
+[ 30%] Built target cmsis
+[ 34%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/lwip.c.obj
+[ 34%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/igmp.c.obj
+[ 36%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp.c.obj
+[ 38%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/netif/netif_wasm.c.obj
+[ 40%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast.c.obj
+[ 42%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.obj
+[ 44%] Building C object lwip-wasm/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.obj
+[ 46%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.obj
+/tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/src/core/udp_multicast.c:89:53: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+   89 |   printf("set TTL: ttl=%d, optlen=%d\n", info->ttl, sizeof(info->ttl));
+      |                                   ~~                ^~~~~~~~~~~~~~~~~
+      |                                   %lu
+/tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/src/core/udp_multicast.c:68:13: warning: variable 'ipaddr' set but not used [-Wunused-but-set-variable]
+   68 |   in_addr_t ipaddr;
+      |             ^
+2 warnings generated.
+[ 48%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.obj
+[ 50%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/mem.c.obj
+[ 52%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/memp.c.obj
+[ 54%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/stats.c.obj
+[ 56%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/sys.c.obj
+[ 58%] Linking C static library liblwip.a
+[ 60%] Built target lwip
+[ 62%] Linking CXX executable echoback_string.wasm
+[100%] Built target MODULE_echoback_string

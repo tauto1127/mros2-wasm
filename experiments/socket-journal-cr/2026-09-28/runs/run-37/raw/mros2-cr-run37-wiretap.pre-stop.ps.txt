@@ -1,0 +1,6 @@
+    PID COMMAND
+      1 sleep infinity
+     14 python3 /run/rtps_wire_tap.py /run/raw/peer-wire.jsonl
+     20 ps -eo pid,args
+
+rc=0

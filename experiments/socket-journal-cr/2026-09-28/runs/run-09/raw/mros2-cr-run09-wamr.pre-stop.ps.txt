@@ -1,0 +1,6 @@
+    PID COMMAND
+      1 sleep infinity
+     52 /runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 --restore /artifact/echoback_string.wasm
+     78 ps -eo pid,args
+
+rc=0

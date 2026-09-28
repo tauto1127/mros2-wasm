@@ -1,0 +1,96 @@
+--- /tmp/mros2-wasm-sedp-race-20260928-run31/baseline/src/discovery/SEDPAgent.cpp	2026-09-28 17:09:57.087181469 +0900
++++ /tmp/mros2-wasm-sedp-race-20260928-run31/source/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp	2026-09-28 17:07:46.137372081 +0900
+@@ -29,10 +29,45 @@
+ #include "rtps/entities/Writer.h"
+ #include "rtps/messages/MessageTypes.h"
+ #include "rtps/utils/Log.h"
++#include "rtps/utils/SEDPRaceTrace.h"
+ #include "ucdr/microcdr.h"
+ 
++#include <atomic>
++#include <cstdarg>
++#include <cstdio>
++#include <ctime>
++
+ using rtps::SEDPAgent;
+ 
++namespace rtps
++{
++void sedpRaceTrace(const char *event, const char *format, ...)
++{
++  static std::atomic<std::uint64_t> sequence{0};
++  const std::uint64_t traceSequence =
++      sequence.fetch_add(1, std::memory_order_relaxed) + 1;
++  struct timespec monotonicTime
++  {
++  };
++  unsigned long long monotonicNs = 0;
++  if (::clock_gettime(CLOCK_MONOTONIC, &monotonicTime) == 0)
++  {
++    monotonicNs =
++        static_cast<unsigned long long>(monotonicTime.tv_sec) * 1000000000ULL +
++        static_cast<unsigned long long>(monotonicTime.tv_nsec);
++  }
++  char details[512];
++  va_list arguments;
++  va_start(arguments, format);
++  ::vsnprintf(details, sizeof(details), format, arguments);
++  va_end(arguments);
++  ::printf("[SEDP-RACE] seq=%llu mono_ns=%llu event=%s %s\n",
++           static_cast<unsigned long long>(traceSequence), monotonicNs, event,
++           details);
++  ::fflush(stdout);
++}
++} // namespace rtps
++
+ #if SEDP_VERBOSE && RTPS_GLOBAL_VERBOSE
+ #define SEDP_LOG(...)    \
+   if (true)              \
+@@ -348,8 +383,21 @@
+                                rtps::SMElement::SCHEME_PL_CDR_LE.size());
+   ucdr_serialize_uint16_t(&microbuffer, zero_options);
+   writer.m_attributes.serializeIntoUcdrBuffer(microbuffer); // ここでEDPパケットに送るwriterの情報を書き込んでいる？
+-  m_endpoints.sedpPubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
+-                                       ucdr_buffer_length(&microbuffer));
++  const auto *change =
++      m_endpoints.sedpPubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
++                                           ucdr_buffer_length(&microbuffer));
++  if (change != nullptr)
++  {
++    char localEndpointGuid[48];
++    rtps::formatSedpRaceGuid(writer.m_attributes.endpointGuid,
++                             localEndpointGuid, sizeof(localEndpointGuid));
++    rtps::sedpRaceTrace(
++        "change_created",
++        "role=publication local_endpoint_guid=%s topic=%s sequence=%d:%u",
++        localEndpointGuid, writer.m_attributes.topicName,
++        change->sequenceNumber.high,
++        static_cast<unsigned>(change->sequenceNumber.low));
++  }
+ #if SEDP_VERBOSE
+   SEDP_LOG("Added new change to sedpPubWriter.\n");
+ #endif
+@@ -385,8 +433,21 @@
+                                rtps::SMElement::SCHEME_PL_CDR_LE.size());
+   ucdr_serialize_uint16_t(&microbuffer, zero_options);
+   reader.m_attributes.serializeIntoUcdrBuffer(microbuffer); // ここでEDPパケットに送るreaderの情報を書き込んでいる？
+-  m_endpoints.sedpSubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
+-                                       ucdr_buffer_length(&microbuffer));
++  const auto *change =
++      m_endpoints.sedpSubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
++                                           ucdr_buffer_length(&microbuffer));
++  if (change != nullptr)
++  {
++    char localEndpointGuid[48];
++    rtps::formatSedpRaceGuid(reader.m_attributes.endpointGuid,
++                             localEndpointGuid, sizeof(localEndpointGuid));
++    rtps::sedpRaceTrace(
++        "change_created",
++        "role=subscription local_endpoint_guid=%s topic=%s sequence=%d:%u",
++        localEndpointGuid, reader.m_attributes.topicName,
++        change->sequenceNumber.high,
++        static_cast<unsigned>(change->sequenceNumber.low));
++  }
+ #if SEDP_VERBOSE
+   SEDP_LOG("Added new change to sedpSubWriter.\n");
+ #endif

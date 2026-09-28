@@ -1,0 +1,1 @@
+rtk proxy docker exec --workdir /state mros2-cr-manual-20260928-01-wamr sh -c 'printf '"'"'%s\n'"'"' "$$" > /run/raw/wasm-restore.pid; exec /runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 --restore /artifact/echoback_string.wasm'

@@ -1,0 +1,151 @@
+{
+  "probe_ready": {
+    "event": "probe_ready",
+    "host_mono_ns": 2245200187639846,
+    "interface": "eth0",
+    "mode": "read-only; no socket calls; no ROS node",
+    "process_pid": 1,
+    "sources": [
+      "/proc/net/igmp",
+      "/proc/net/udp",
+      "/proc/net/udp6",
+      "/proc/1/fd"
+    ],
+    "utc": "2026-09-27T05:16:20.997+00:00"
+  },
+  "first_snapshot_sample": 1,
+  "proc_tables_read": true,
+  "pid1_fd_ownership_known": true,
+  "preflight_usable": true,
+  "process_fd_enumeration": {
+    "directory_error": null,
+    "ownership_known": true,
+    "unreadable_fd_errors": [],
+    "vanished_fd_races": []
+  },
+  "groups": [
+    {
+      "group": "239.255.0.1",
+      "group_hex_proc": "0100FFEF",
+      "interface": "lo",
+      "reporter": "0",
+      "timer": "0:00000000",
+      "users": 1
+    },
+    {
+      "group": "224.0.0.1",
+      "group_hex_proc": "010000E0",
+      "interface": "lo",
+      "reporter": "0",
+      "timer": "0:00000000",
+      "users": 1
+    },
+    {
+      "group": "239.255.0.1",
+      "group_hex_proc": "0100FFEF",
+      "interface": "eth0",
+      "reporter": "0",
+      "timer": "0:00000000",
+      "users": 1
+    },
+    {
+      "group": "224.0.0.1",
+      "group_hex_proc": "010000E0",
+      "interface": "eth0",
+      "reporter": "0",
+      "timer": "0:00000000",
+      "users": 1
+    }
+  ],
+  "ipv4_udp_sockets": [
+    {
+      "drops": "0",
+      "inode": "26465910",
+      "local_ip": "172.18.0.5",
+      "local_port": 53535,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [
+        "14"
+      ],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    },
+    {
+      "drops": "0",
+      "inode": "26455921",
+      "local_ip": "127.0.0.11",
+      "local_port": 47906,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    },
+    {
+      "drops": "0",
+      "inode": "26465904",
+      "local_ip": "0.0.0.0",
+      "local_port": 7400,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [
+        "9"
+      ],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    },
+    {
+      "drops": "0",
+      "inode": "26465906",
+      "local_ip": "0.0.0.0",
+      "local_port": 7410,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [
+        "10"
+      ],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    },
+    {
+      "drops": "0",
+      "inode": "26465907",
+      "local_ip": "0.0.0.0",
+      "local_port": 7411,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [
+        "12"
+      ],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    },
+    {
+      "drops": "0",
+      "inode": "26465909",
+      "local_ip": "0.0.0.0",
+      "local_port": 57666,
+      "pid1_fd_ownership_known": true,
+      "pid1_fds": [
+        "13"
+      ],
+      "remote_ip": "0.0.0.0",
+      "remote_port": 0,
+      "state": "07",
+      "tx_rx_queue": "00000000:00000000",
+      "uid": "0"
+    }
+  ],
+  "raw_fields_present": true
+}

@@ -1,0 +1,9 @@
+2026-09-28T11:11:03.397+00:00 preflight passed
+2026-09-28T11:11:04.252+00:00 containers launched
+2026-09-28T11:11:04.253+00:00 spawned pid=1814366 /usr/bin/python3 /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-63/peer_collector.py mros2-cr-run63-native-peer /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-63/raw
+2026-09-28T11:11:04.556+00:00 spawned pid=1814412 /usr/bin/python3 /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-63/wiretap_collector.py mros2-cr-run63-wiretap /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-63/raw
+2026-09-28T11:11:04.758+00:00 spawned pid=1814448 /usr/bin/python3 /home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-63/run_wasm_phase.py checkpoint mros2-cr-run63-wamr
+[SEDP-HB-RUN63] event=gate_result name=roundtrip-gate result=pass complete_count=10 strict_count=0 ids=5,6,7,9,10,11,13,14,15,17
+2026-09-28T11:11:23.333+00:00 pre-gate rc=0
+2026-09-28T11:11:30.721+00:00 cleanup wasm-checkpoint.pid:rc=0; peer-app.pid:rc=0; wiretap.pid:rc=0; stop_rc=0 rm_rc=0
+2026-09-28T11:11:30.721+00:00 run63_finished code=0 stop=None pre=0 baseline=None post=None

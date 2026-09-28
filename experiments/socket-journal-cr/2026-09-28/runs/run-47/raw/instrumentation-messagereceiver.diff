@@ -1,0 +1,49 @@
+diff --git a/src/messages/MessageReceiver.cpp b/src/messages/MessageReceiver.cpp
+index be12189..1560471 100644
+--- a/src/messages/MessageReceiver.cpp
++++ b/src/messages/MessageReceiver.cpp
+@@ -29,6 +29,8 @@ Author: i11 - Embedded Software, RWTH Aachen University
+ #include "rtps/entities/Writer.h"
+ #include "rtps/messages/MessageTypes.h"
+ #include "rtps/utils/Log.h"
++#include "rtps/utils/SEDPHbTrace.h"
++#include "rtps/utils/SEDPRaceTrace.h"
+ 
+ #include <stdio.h>
+ 
+@@ -321,7 +323,35 @@ bool MessageReceiver::processAckNackSubmessage(MessageProcessingInfo &msgInfo)
+     return false;
+   }
+ 
++  const char *hb_writer = rtps::sedpHbWriterName(submsgAckNack.writerId);
++  if (hb_writer != nullptr)
++  {
++    char sourcePrefix[25];
++    char readerId[16];
++    rtps::formatSedpRaceGuidPrefix(sourceGuidPrefix, sourcePrefix,
++                                   sizeof(sourcePrefix));
++    rtps::formatSedpRaceEntityId(submsgAckNack.readerId, readerId,
++                                 sizeof(readerId));
++    const unsigned bitmap0 = submsgAckNack.readerSNState.numBits > 0
++                                 ? submsgAckNack.readerSNState.bitMap[0]
++                                 : 0u;
++    rtps::sedpHbTrace(
++        "acknack_received",
++        "writer=%s source_prefix=%s reader_id=%s base=%d:%u num_bits=%u bitmap0=0x%08x count=%u",
++        hb_writer, sourcePrefix, readerId,
++        submsgAckNack.readerSNState.base.high,
++        static_cast<unsigned>(submsgAckNack.readerSNState.base.low),
++        static_cast<unsigned>(submsgAckNack.readerSNState.numBits), bitmap0,
++        static_cast<unsigned>(submsgAckNack.count.value));
++  }
++
+   Writer *writer = mp_part->getWriter(submsgAckNack.writerId);
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("acknack_dispatch",
++                      "writer=%s writer_found=%u", hb_writer,
++                      static_cast<unsigned>(writer != nullptr));
++  }
+   if (writer != nullptr)
+   {
+     writer->onNewAckNack(submsgAckNack, sourceGuidPrefix);

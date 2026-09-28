@@ -1,0 +1,144 @@
+--- /tmp/mros2-wasm-sedp-race-20260928-run31/baseline/include/rtps/entities/StatefulWriter.tpp	2026-09-28 17:09:57.049180945 +0900
++++ /tmp/mros2-wasm-sedp-race-20260928-run31/source/mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp	2026-09-28 17:01:15.406949166 +0900
+@@ -26,6 +26,7 @@
+ #include "rtps/entities/StatefulWriter.h"
+ #include "rtps/messages/MessageFactory.h"
+ #include "rtps/utils/Log.h"
++#include "rtps/utils/SEDPRaceTrace.h"
+ #include <algorithm>
+ #include <cstring>
+ #include <stdio.h>
+@@ -113,7 +114,47 @@
+   printGuid(newProxy.remoteReaderGuid);
+ #endif
+ 
++  const char *sedpWriter = nullptr;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    sedpWriter = "sedp_publications";
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    sedpWriter = "sedp_subscriptions";
++  }
++
++  const bool proxiesEmptyBefore = m_proxies.isEmpty();
+   bool success = m_proxies.add(newProxy);
++  if (sedpWriter != nullptr)
++  {
++    SequenceNumber_t historyMin;
++    SequenceNumber_t historyMax;
++    SequenceNumber_t nextSequenceNumber;
++    {
++      Lock lock(m_mutex);
++      historyMin = m_history.getSeqNumMin();
++      historyMax = m_history.getSeqNumMax();
++      nextSequenceNumber = m_nextSequenceNumberToSend;
++    }
++    char writerGuid[48];
++    char remoteReaderGuid[48];
++    rtps::formatSedpRaceGuid(m_attributes.endpointGuid, writerGuid,
++                             sizeof(writerGuid));
++    rtps::formatSedpRaceGuid(newProxy.remoteReaderGuid, remoteReaderGuid,
++                             sizeof(remoteReaderGuid));
++    rtps::sedpRaceTrace(
++        "proxy_added",
++        "writer=%s writer_guid=%s remote_reader_guid=%s proxies_empty_before=%u proxies_empty_after=%u next=%d:%u history_min=%d:%u history_max=%d:%u add_success=%u",
++        sedpWriter, writerGuid, remoteReaderGuid,
++        static_cast<unsigned>(proxiesEmptyBefore),
++        static_cast<unsigned>(m_proxies.isEmpty()), nextSequenceNumber.high,
++        static_cast<unsigned>(nextSequenceNumber.low), historyMin.high,
++        static_cast<unsigned>(historyMin.low), historyMax.high,
++        static_cast<unsigned>(historyMax.low), static_cast<unsigned>(success));
++  }
+   if (!m_enforceUnicast)
+   {
+     manageSendOptions();
+@@ -321,6 +362,41 @@
+ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::progress()
+ {
++  const char *sedpWriter = nullptr;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    sedpWriter = "sedp_publications";
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    sedpWriter = "sedp_subscriptions";
++  }
++
++  const SequenceNumber_t nextBefore = m_nextSequenceNumberToSend;
++  const bool proxiesEmptyBefore = m_proxies.isEmpty();
++  SequenceNumber_t historyMinBefore;
++  SequenceNumber_t historyMaxBefore;
++  if (sedpWriter != nullptr)
++  {
++    {
++      Lock lock(m_mutex);
++      historyMinBefore = m_history.getSeqNumMin();
++      historyMaxBefore = m_history.getSeqNumMax();
++    }
++    char writerEntityId[16];
++    rtps::formatSedpRaceEntityId(m_attributes.endpointGuid.entityId,
++                                 writerEntityId, sizeof(writerEntityId));
++    rtps::sedpRaceTrace(
++        "progress_enter",
++        "writer=%s writer_eid=%s proxies_empty=%u next_before=%d:%u history_min=%d:%u history_max=%d:%u",
++        sedpWriter, writerEntityId,
++        static_cast<unsigned>(proxiesEmptyBefore), nextBefore.high,
++        static_cast<unsigned>(nextBefore.low), historyMinBefore.high,
++        static_cast<unsigned>(historyMinBefore.low), historyMaxBefore.high,
++        static_cast<unsigned>(historyMaxBefore.low));
++  }
+ 
+   // newChangeIdentify() marks service traffic with this project-specific
+   // SampleIdentity high word.  A generated request is otherwise silently
+@@ -337,9 +413,11 @@
+     }
+   }
+ 
++  bool sendAttempted = false;
+   for (const auto &proxy : m_proxies)
+   {
+     bool success;
++    sendAttempted = true;
+     if (!m_enforceUnicast)
+     {
+       success = sendDataWRMulticast(proxy, m_nextSequenceNumberToSend);
+@@ -354,6 +432,31 @@
+     }
+   }
+   ++m_nextSequenceNumberToSend;
++  if (sedpWriter != nullptr)
++  {
++    SequenceNumber_t historyMinAfter;
++    SequenceNumber_t historyMaxAfter;
++    {
++      Lock lock(m_mutex);
++      historyMinAfter = m_history.getSeqNumMin();
++      historyMaxAfter = m_history.getSeqNumMax();
++    }
++    const SequenceNumber_t nextAfter = m_nextSequenceNumberToSend;
++    char writerEntityId[16];
++    rtps::formatSedpRaceEntityId(m_attributes.endpointGuid.entityId,
++                                 writerEntityId, sizeof(writerEntityId));
++    rtps::sedpRaceTrace(
++        "progress_exit",
++        "writer=%s writer_eid=%s proxies_empty_before=%u proxies_empty_after=%u next_before=%d:%u next_after=%d:%u history_min=%d:%u history_max=%d:%u send_attempted=%u",
++        sedpWriter, writerEntityId,
++        static_cast<unsigned>(proxiesEmptyBefore),
++        static_cast<unsigned>(m_proxies.isEmpty()), nextBefore.high,
++        static_cast<unsigned>(nextBefore.low), nextAfter.high,
++        static_cast<unsigned>(nextAfter.low), historyMinAfter.high,
++        static_cast<unsigned>(historyMinAfter.low), historyMaxAfter.high,
++        static_cast<unsigned>(historyMaxAfter.low),
++        static_cast<unsigned>(sendAttempted));
++  }
+ }
+ 
+ template <typename NetworkDriver>

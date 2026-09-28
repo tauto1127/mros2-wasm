@@ -1,0 +1,34 @@
+[  2%] Building C object lwip-wasm/CMakeFiles/socket_wasi_ext.dir/__/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c.obj
+[  6%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj
+[  6%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj
+[  8%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/api/cmsis_message_queue.c:1:
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_message_queue.h:4:
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_queue.h:4:
+/tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_common.h:4:10: fatal error: 'cmsis_os.h' file not found
+    4 | #include "cmsis_os.h"
+      |          ^~~~~~~~~~~~
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/api/cmsis_generic.c:1:
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_thread_sync.h:4:
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_queue.h:4:
+/tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_common.h:4:10: fatal error: 'cmsis_os.h' file not found
+    4 | #include "cmsis_os.h"
+      |          ^~~~~~~~~~~~
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/api/cmsis_kernel.c:1:
+In file included from /tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_time.h:4:
+/tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/src/core/cmsis_wasm_common.h:4:10: fatal error: 'cmsis_os.h' file not found
+    4 | #include "cmsis_os.h"
+      |          ^~~~~~~~~~~~
+1 error generated.
+1 error generated.
+gmake[3]: *** [cmsis-wasm/src/CMakeFiles/cmsis.dir/build.make:79: cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj] Error 1
+gmake[3]: *** Waiting for unfinished jobs....
+gmake[3]: *** [cmsis-wasm/src/CMakeFiles/cmsis.dir/build.make:107: cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj] Error 1
+1 error generated.
+gmake[3]: *** [cmsis-wasm/src/CMakeFiles/cmsis.dir/build.make:93: cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:211: cmsis-wasm/src/CMakeFiles/cmsis.dir/all] Error 2
+gmake[2]: *** Waiting for unfinished jobs....
+[ 10%] Linking C static library libsocket_wasi_ext.a
+[ 10%] Built target socket_wasi_ext
+gmake[1]: *** [CMakeFiles/Makefile2:186: CMakeFiles/MODULE_echoback_string.dir/rule] Error 2
+gmake: *** [Makefile:169: MODULE_echoback_string] Error 2

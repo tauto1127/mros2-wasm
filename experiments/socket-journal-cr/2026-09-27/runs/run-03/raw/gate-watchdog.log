@@ -1,0 +1,5 @@
+[CR-RERUN-20260927-R03] utc=2026-09-27T05:18:39.579+00:00 host_mono_ns=2245338770076511 event=watchdog_start container='mros2-cr-run03-wamr' gate_seconds=60 pass_marker='/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-03/raw/gate-pass.ok'
+[CR-RERUN-20260927-R03] utc=2026-09-27T05:18:45.809+00:00 host_mono_ns=2245344999496402 event=process_verified_seen process_verified_mono_ns=2245344969265309 deadline_mono_ns=2245404969265309
+[CR-RERUN-20260927-R03] utc=2026-09-27T05:19:45.958+00:00 host_mono_ns=2245405148813735 event=gate_timeout_sigterm_sent pid=32 returncode=0 args='/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/echoback_string.wasm' error=''
+[CR-RERUN-20260927-R03] utc=2026-09-27T05:19:46.047+00:00 host_mono_ns=2245405237940292 event=gate_timeout_after_term_unverifiable pid=32 args='' error=''
+[CR-RERUN-20260927-R03] utc=2026-09-27T05:19:48.242+00:00 host_mono_ns=2245407432461695 event=fallback_runner_stop returncode=0 output='Flag --time has been deprecated, use --timeout instead\nmros2-cr-run03-wamr' error=''

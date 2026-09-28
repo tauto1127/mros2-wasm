@@ -1,0 +1,512 @@
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.758+00:00 host_mono_ns=2352966948497930 event=collector_start host_pid=1818551 container=mros2-cr-run66-native-peer
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.828+00:00 host_mono_ns=2352967018730170 [CR-NATIVE-R04] event=process_start pid=14
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.828+00:00 host_mono_ns=2352967019166153 ipaddr=0x050012ac
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019183787 mask=0x00ffffff
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019193735 [CR-NATIVE-R04] event=netif_config ip=172.18.0.5 mask=255.255.255.0 result=0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019203885 LOG_NOTICE : 00000000.000 : osKernelStart
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019213292 [CR-NATIVE-R04] event=mros2_init_begin
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019246385 LOG_DEBUG : 00000000.000 : mROS 2 initialization is completed
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019256364 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019265140 LOG_DEBUG : 00000000.000 : [MROS2LIB] create_node
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019274237 LOG_DEBUG : 00000000.000 : [MROS2LIB] start creating participant
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019283054 LOG_DEBUG : 00000000.000 : [MROS2LIB] mros2_init task start
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019291891 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_init() 28: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019301509 LOG_DEBUG : 00000000.000 : [MROS2LIB] Initilizing lwIP complete
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019310366 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019319453 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019328680 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x747d08000db0 exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019337938 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019345192 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7401 enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019349880 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x747d08000db0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019354509 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019359068 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019363636 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019368195 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019372623 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019382763 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x747d08000dd0 exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019387391 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019391800 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019396078 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019400686 LOG_DEBUG : 00000000.000 : LOG_NOTICE : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7400 enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019405606 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x747d08000dd0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019410044 thread_udp_recv:UP: mcp=0x747d08000db0LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019414563 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019423039 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019427858 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019432547 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x50012ac groupaddr=0x100ffef
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019437877 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019442215 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019446653 LOG_NOTICE : 00000000.001 : LOG_NOTICE : 00000000.001 : thread_udp_recv:UP: mcp=0x747d08000dd0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019451262 udp_mc_joingroup(): mcp=0x747d08000db0 ifaddr=0x50012ac groupaddr=0x100ffef
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019455640 LOG_NOTICE : 00000000.001 : udp_mc_joingroup(): mcp=0x747d08000dd0 ifaddr=0x50012ac groupaddr=0x100ffef
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.829+00:00 host_mono_ns=2352967019460269 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119200222 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119232703 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119247972 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x747d08000df0 exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119260636 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119271396 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7411 enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119293288 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x747d08000df0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119302044 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119310580 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119319277 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119327763 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119336339 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119344875 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x747d08000e10 exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119353482 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119362038 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7410 enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119370594 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x747d08000e10
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119379040 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119387516 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119396072 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119404328 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119413114 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119421841 LOG_NOTICE : 00000000.100 : thread_udp_recv:UP: mcp=0x747d08000df0
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119430377 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119438362 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119446628 LOG_NOTICE : 00000000.100 : thread_udp_recv:UP: mcp=0x747d08000e10
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119462918 LOG_DEBUG : 00000000.100 : [MROS2LIB] successfully created participant
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119472106 LOG_DEBUG : 00000000.101 : [MROS2LIB] create_publisher complete.
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119480471 LOG_DEBUG : 00000000.101 : [MROS2LIB] create_subscription complete.
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119737627 LOG_DEBUG : 00000000.101 : [MROS2LIB] Initilizing Domain complete
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119933327 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119969846 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119980356 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:27.929+00:00 host_mono_ns=2352967119988601 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.029+00:00 host_mono_ns=2352967219832664 LOG_NOTICE : 00000000.201 : native peer ready: /to_linux -> /to_stm
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.029+00:00 host_mono_ns=2352967219888019 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.029+00:00 host_mono_ns=2352967219899290 [CR-NATIVE-R04] event=peer_ready subscribe=/to_linux publish=/to_stm type=std_msgs/msg/String
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843281191 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843328801 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843443658 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843513680 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843524681 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.653+00:00 host_mono_ns=2352967843532896 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.656+00:00 host_mono_ns=2352967847162703 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.657+00:00 host_mono_ns=2352967847186128 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.930+00:00 host_mono_ns=2352968120761865 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.930+00:00 host_mono_ns=2352968120816358 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.930+00:00 host_mono_ns=2352968120829092 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:28.930+00:00 host_mono_ns=2352968120837558 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.653+00:00 host_mono_ns=2352968844122429 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.654+00:00 host_mono_ns=2352968844172033 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.930+00:00 host_mono_ns=2352969120898624 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.930+00:00 host_mono_ns=2352969120944020 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.930+00:00 host_mono_ns=2352969120956123 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:29.930+00:00 host_mono_ns=2352969120964879 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.654+00:00 host_mono_ns=2352969844579422 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.654+00:00 host_mono_ns=2352969844620269 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.931+00:00 host_mono_ns=2352970121428664 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.931+00:00 host_mono_ns=2352970121479239 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.931+00:00 host_mono_ns=2352970121492434 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:30.931+00:00 host_mono_ns=2352970121500970 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.654+00:00 host_mono_ns=2352970844793270 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.654+00:00 host_mono_ns=2352970844864244 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.929+00:00 host_mono_ns=2352971119750768 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.929+00:00 host_mono_ns=2352971119816572 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.929+00:00 host_mono_ns=2352971120128311 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971120187323 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971120633666 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971120655527 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971120903015 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971120950474 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971121066083 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971121099125 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971121113152 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.930+00:00 host_mono_ns=2352971121123481 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.931+00:00 host_mono_ns=2352971121316005 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.931+00:00 host_mono_ns=2352971121360940 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.931+00:00 host_mono_ns=2352971121372301 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:31.931+00:00 host_mono_ns=2352971121380777 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.637+00:00 host_mono_ns=2352971827542702 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.637+00:00 host_mono_ns=2352971827606943 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.637+00:00 host_mono_ns=2352971827623505 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.637+00:00 host_mono_ns=2352971827636239 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831235559 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831286415 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831312855 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831330318 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831888542 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831922336 === DEBUG [lwip-posix]: recvfrom received packet of len 216! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.641+00:00 host_mono_ns=2352971831940490 LOG_DEBUG : 00000004.813 : [MROS2LIB] subscriber matched with remote publisher
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.645+00:00 host_mono_ns=2352971835484465 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.645+00:00 host_mono_ns=2352971835514512 === DEBUG [lwip-posix]: recvfrom received packet of len 216! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.645+00:00 host_mono_ns=2352971835527346 LOG_DEBUG : 00000004.817 : [MROS2LIB] publisher matched with remote subscriber
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.655+00:00 host_mono_ns=2352971845206000 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.655+00:00 host_mono_ns=2352971845278637 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938379811 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938426850 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938644832 [CR-NATIVE-R04] epoch=1790593952.748110675 event=peer_receive topic=/to_linux id=4 payload='Hello from mros2-posix onto Linux: 4'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938691240 [CR-NATIVE-R04] epoch=1790593952.748152324 event=peer_echo_publish_return topic=/to_stm id=4 payload='Hello from mros2-posix onto Linux: 4'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938702772 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.748+00:00 host_mono_ns=2352971938711809 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.931+00:00 host_mono_ns=2352972121482794 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.931+00:00 host_mono_ns=2352972121529632 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.931+00:00 host_mono_ns=2352972121543789 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:32.931+00:00 host_mono_ns=2352972121552606 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.655+00:00 host_mono_ns=2352972845314671 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.655+00:00 host_mono_ns=2352972845353324 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.748+00:00 host_mono_ns=2352972939087653 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.748+00:00 host_mono_ns=2352972939128410 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.749+00:00 host_mono_ns=2352972939394733 [CR-NATIVE-R04] epoch=1790593953.748872659 event=peer_receive topic=/to_linux id=5 payload='Hello from mros2-posix onto Linux: 5'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.749+00:00 host_mono_ns=2352972939441341 [CR-NATIVE-R04] epoch=1790593953.748904960 event=peer_echo_publish_return topic=/to_stm id=5 payload='Hello from mros2-posix onto Linux: 5'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.749+00:00 host_mono_ns=2352972939453103 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.749+00:00 host_mono_ns=2352972939462361 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.931+00:00 host_mono_ns=2352973121500761 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.931+00:00 host_mono_ns=2352973121548281 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.931+00:00 host_mono_ns=2352973121560083 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:33.931+00:00 host_mono_ns=2352973121569671 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.655+00:00 host_mono_ns=2352973845674915 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.655+00:00 host_mono_ns=2352973845721122 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940551182 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940601286 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940614031 [CR-NATIVE-R04] epoch=1790593954.750115551 event=peer_receive topic=/to_linux id=6 payload='Hello from mros2-posix onto Linux: 6'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940646231 [CR-NATIVE-R04] epoch=1790593954.750154334 event=peer_echo_publish_return topic=/to_stm id=6 payload='Hello from mros2-posix onto Linux: 6'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940664235 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.750+00:00 host_mono_ns=2352973940673102 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.931+00:00 host_mono_ns=2352974121755285 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.931+00:00 host_mono_ns=2352974121807023 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.931+00:00 host_mono_ns=2352974121819807 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:34.931+00:00 host_mono_ns=2352974121828894 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.655+00:00 host_mono_ns=2352974846123925 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.655+00:00 host_mono_ns=2352974846169632 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941343281 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941383848 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941656563 [CR-NATIVE-R04] epoch=1790593955.751112457 event=peer_receive topic=/to_linux id=7 payload='Hello from mros2-posix onto Linux: 7'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941700866 [CR-NATIVE-R04] epoch=1790593955.751145730 event=peer_echo_publish_return topic=/to_stm id=7 payload='Hello from mros2-posix onto Linux: 7'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941712498 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.751+00:00 host_mono_ns=2352974941721806 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120203066 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120259453 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120274541 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120286574 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120944597 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.930+00:00 host_mono_ns=2352975120965707 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121610736 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121668024 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121680287 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121689214 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121698311 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:35.931+00:00 host_mono_ns=2352975121706517 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.640+00:00 host_mono_ns=2352975830912133 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.640+00:00 host_mono_ns=2352975830957649 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.640+00:00 host_mono_ns=2352975830982476 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.640+00:00 host_mono_ns=2352975830995330 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.644+00:00 host_mono_ns=2352975834748451 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.644+00:00 host_mono_ns=2352975834796131 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.644+00:00 host_mono_ns=2352975834814866 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.644+00:00 host_mono_ns=2352975834829203 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.656+00:00 host_mono_ns=2352975846268104 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.656+00:00 host_mono_ns=2352975846294714 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.751+00:00 host_mono_ns=2352975942183585 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.752+00:00 host_mono_ns=2352975942235373 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.752+00:00 host_mono_ns=2352975942248117 [CR-NATIVE-R04] epoch=1790593956.751756300 event=peer_receive topic=/to_linux id=8 payload='Hello from mros2-posix onto Linux: 8'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.752+00:00 host_mono_ns=2352975942258938 [CR-NATIVE-R04] epoch=1790593956.751792759 event=peer_echo_publish_return topic=/to_stm id=8 payload='Hello from mros2-posix onto Linux: 8'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.752+00:00 host_mono_ns=2352975942282252 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.752+00:00 host_mono_ns=2352975942291259 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.931+00:00 host_mono_ns=2352976121752992 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.931+00:00 host_mono_ns=2352976121803858 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.931+00:00 host_mono_ns=2352976121816812 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:36.931+00:00 host_mono_ns=2352976121825679 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.656+00:00 host_mono_ns=2352976846881189 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.656+00:00 host_mono_ns=2352976846939089 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943023056 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943069023 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943083721 [CR-NATIVE-R04] epoch=1790593957.752583398 event=peer_receive topic=/to_linux id=9 payload='Hello from mros2-posix onto Linux: 9'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943096615 [CR-NATIVE-R04] epoch=1790593957.752619696 event=peer_echo_publish_return topic=/to_stm id=9 payload='Hello from mros2-posix onto Linux: 9'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943116012 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.752+00:00 host_mono_ns=2352976943127263 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.931+00:00 host_mono_ns=2352977122031202 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.931+00:00 host_mono_ns=2352977122085034 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.931+00:00 host_mono_ns=2352977122103719 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:37.931+00:00 host_mono_ns=2352977122116152 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.657+00:00 host_mono_ns=2352977847352741 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.657+00:00 host_mono_ns=2352977847892811 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.753+00:00 host_mono_ns=2352977944103157 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.753+00:00 host_mono_ns=2352977944154865 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.753+00:00 host_mono_ns=2352977944168020 [CR-NATIVE-R04] epoch=1790593958.753672726 event=peer_receive topic=/to_linux id=10 payload='Hello from mros2-posix onto Linux: 10'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.754+00:00 host_mono_ns=2352977944178830 [CR-NATIVE-R04] epoch=1790593958.753704146 event=peer_echo_publish_return topic=/to_stm id=10 payload='Hello from mros2-posix onto Linux: 10'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.754+00:00 host_mono_ns=2352977944198427 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.754+00:00 host_mono_ns=2352977944207404 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.932+00:00 host_mono_ns=2352978122414968 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.932+00:00 host_mono_ns=2352978122475813 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.932+00:00 host_mono_ns=2352978122607452 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:38.932+00:00 host_mono_ns=2352978122615978 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.657+00:00 host_mono_ns=2352978847541852 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.657+00:00 host_mono_ns=2352978847590083 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978944675513 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978944717963 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978944730026 [CR-NATIVE-R04] epoch=1790593959.754320985 event=peer_receive topic=/to_linux id=11 payload='Hello from mros2-posix onto Linux: 11'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978944740897 [CR-NATIVE-R04] epoch=1790593959.754354368 event=peer_echo_publish_return topic=/to_stm id=11 payload='Hello from mros2-posix onto Linux: 11'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978944967805 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.754+00:00 host_mono_ns=2352978945033139 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979120281471 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979120339520 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979120474505 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979120510223 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979121133981 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.930+00:00 host_mono_ns=2352979121163006 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.931+00:00 host_mono_ns=2352979121505914 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.931+00:00 host_mono_ns=2352979121518828 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.932+00:00 host_mono_ns=2352979122358755 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.932+00:00 host_mono_ns=2352979122409350 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.932+00:00 host_mono_ns=2352979122421654 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:39.932+00:00 host_mono_ns=2352979122456359 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.644+00:00 host_mono_ns=2352979834554678 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.644+00:00 host_mono_ns=2352979834601096 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.644+00:00 host_mono_ns=2352979834793139 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.644+00:00 host_mono_ns=2352979834839055 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.648+00:00 host_mono_ns=2352979838235001 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.648+00:00 host_mono_ns=2352979838275568 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.648+00:00 host_mono_ns=2352979838287470 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.648+00:00 host_mono_ns=2352979838296187 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.657+00:00 host_mono_ns=2352979847740669 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.657+00:00 host_mono_ns=2352979847797907 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946473861 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946530097 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946553011 [CR-NATIVE-R04] epoch=1790593960.756052177 event=peer_receive topic=/to_linux id=12 payload='Hello from mros2-posix onto Linux: 12'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946564312 [CR-NATIVE-R04] epoch=1790593960.756100959 event=peer_echo_publish_return topic=/to_stm id=12 payload='Hello from mros2-posix onto Linux: 12'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946573670 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.756+00:00 host_mono_ns=2352979946581845 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.932+00:00 host_mono_ns=2352980122672920 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.932+00:00 host_mono_ns=2352980122720911 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.932+00:00 host_mono_ns=2352980122735488 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:40.932+00:00 host_mono_ns=2352980122747291 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.657+00:00 host_mono_ns=2352980848189863 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.658+00:00 host_mono_ns=2352980848229698 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.756+00:00 host_mono_ns=2352980947188968 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.757+00:00 host_mono_ns=2352980947228633 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.757+00:00 host_mono_ns=2352980947249242 [CR-NATIVE-R04] epoch=1790593961.756785658 event=peer_receive topic=/to_linux id=13 payload='Hello from mros2-posix onto Linux: 13'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.757+00:00 host_mono_ns=2352980947260493 [CR-NATIVE-R04] epoch=1790593961.756820554 event=peer_echo_publish_return topic=/to_stm id=13 payload='Hello from mros2-posix onto Linux: 13'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.757+00:00 host_mono_ns=2352980947270101 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.757+00:00 host_mono_ns=2352980947278467 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.932+00:00 host_mono_ns=2352981122908782 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.932+00:00 host_mono_ns=2352981122961612 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.932+00:00 host_mono_ns=2352981122975608 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:41.932+00:00 host_mono_ns=2352981122987370 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.658+00:00 host_mono_ns=2352981848464776 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.658+00:00 host_mono_ns=2352981848510102 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981947797272 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981947836056 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981948027297 [CR-NATIVE-R04] epoch=1790593962.757442514 event=peer_receive topic=/to_linux id=14 payload='Hello from mros2-posix onto Linux: 14'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981948084525 [CR-NATIVE-R04] epoch=1790593962.757477320 event=peer_echo_publish_return topic=/to_stm id=14 payload='Hello from mros2-posix onto Linux: 14'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981948096197 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.757+00:00 host_mono_ns=2352981948105454 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.932+00:00 host_mono_ns=2352982122905140 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.932+00:00 host_mono_ns=2352982122958301 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.932+00:00 host_mono_ns=2352982122972528 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:42.932+00:00 host_mono_ns=2352982122983408 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.658+00:00 host_mono_ns=2352982848709964 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.659+00:00 host_mono_ns=2352982849276534 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949507718 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949556881 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949581467 [CR-NATIVE-R04] epoch=1790593963.759079621 event=peer_receive topic=/to_linux id=15 payload='Hello from mros2-posix onto Linux: 15'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949595253 [CR-NATIVE-R04] epoch=1790593963.759121330 event=peer_echo_publish_return topic=/to_stm id=15 payload='Hello from mros2-posix onto Linux: 15'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949606815 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.759+00:00 host_mono_ns=2352982949617365 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.930+00:00 host_mono_ns=2352983120578890 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.930+00:00 host_mono_ns=2352983120628784 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.930+00:00 host_mono_ns=2352983120646017 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.930+00:00 host_mono_ns=2352983120661747 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.931+00:00 host_mono_ns=2352983121790880 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.931+00:00 host_mono_ns=2352983121819003 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122206294 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122255808 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122696300 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122713883 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122723902 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:43.932+00:00 host_mono_ns=2352983122732158 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.647+00:00 host_mono_ns=2352983837666456 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.647+00:00 host_mono_ns=2352983837706562 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.647+00:00 host_mono_ns=2352983837885710 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.647+00:00 host_mono_ns=2352983837930545 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.651+00:00 host_mono_ns=2352983841359903 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.651+00:00 host_mono_ns=2352983841398647 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.651+00:00 host_mono_ns=2352983841420338 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.651+00:00 host_mono_ns=2352983841431178 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.658+00:00 host_mono_ns=2352983848930104 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.658+00:00 host_mono_ns=2352983848973847 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950331128 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950371074 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950383417 [CR-NATIVE-R04] epoch=1790593964.759748510 event=peer_receive topic=/to_linux id=16 payload='Hello from mros2-posix onto Linux: 16'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950394178 [CR-NATIVE-R04] epoch=1790593964.759781753 event=peer_echo_publish_return topic=/to_stm id=16 payload='Hello from mros2-posix onto Linux: 16'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950403595 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.760+00:00 host_mono_ns=2352983950411921 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.933+00:00 host_mono_ns=2352984123552961 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.933+00:00 host_mono_ns=2352984123601843 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.933+00:00 host_mono_ns=2352984123615158 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:44.933+00:00 host_mono_ns=2352984123624205 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.659+00:00 host_mono_ns=2352984849430723 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.659+00:00 host_mono_ns=2352984849473093 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.760+00:00 host_mono_ns=2352984950970629 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.760+00:00 host_mono_ns=2352984951035892 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.761+00:00 host_mono_ns=2352984951374331 [CR-NATIVE-R04] epoch=1790593965.760786082 event=peer_receive topic=/to_linux id=17 payload='Hello from mros2-posix onto Linux: 17'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.761+00:00 host_mono_ns=2352984951421300 [CR-NATIVE-R04] epoch=1790593965.760819044 event=peer_echo_publish_return topic=/to_stm id=17 payload='Hello from mros2-posix onto Linux: 17'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.761+00:00 host_mono_ns=2352984951432852 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.761+00:00 host_mono_ns=2352984951442119 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.933+00:00 host_mono_ns=2352985123625422 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.933+00:00 host_mono_ns=2352985123672281 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.933+00:00 host_mono_ns=2352985123683883 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:45.933+00:00 host_mono_ns=2352985123692810 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.660+00:00 host_mono_ns=2352985850320429 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.660+00:00 host_mono_ns=2352985850367047 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952818033 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952863670 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952875722 [CR-NATIVE-R04] epoch=1790593966.762173418 event=peer_receive topic=/to_linux id=18 payload='Hello from mros2-posix onto Linux: 18'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952886393 [CR-NATIVE-R04] epoch=1790593966.762213403 event=peer_echo_publish_return topic=/to_stm id=18 payload='Hello from mros2-posix onto Linux: 18'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952895951 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.762+00:00 host_mono_ns=2352985952904216 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.933+00:00 host_mono_ns=2352986124072111 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.933+00:00 host_mono_ns=2352986124121123 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.933+00:00 host_mono_ns=2352986124132956 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:46.933+00:00 host_mono_ns=2352986124141802 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.660+00:00 host_mono_ns=2352986850762979 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.660+00:00 host_mono_ns=2352986850807433 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953641022 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953694333 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953765928 [CR-NATIVE-R04] epoch=1790593967.763279832 event=peer_receive topic=/to_linux id=19 payload='Hello from mros2-posix onto Linux: 19'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953798330 [CR-NATIVE-R04] epoch=1790593967.763319988 event=peer_echo_publish_return topic=/to_stm id=19 payload='Hello from mros2-posix onto Linux: 19'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953812126 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.763+00:00 host_mono_ns=2352986953821393 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.930+00:00 host_mono_ns=2352987120503783 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.930+00:00 host_mono_ns=2352987120551032 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.930+00:00 host_mono_ns=2352987120631044 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.930+00:00 host_mono_ns=2352987120643016 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.931+00:00 host_mono_ns=2352987121552104 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.931+00:00 host_mono_ns=2352987121581219 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.931+00:00 host_mono_ns=2352987122030307 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.931+00:00 host_mono_ns=2352987122063169 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.933+00:00 host_mono_ns=2352987123615983 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.933+00:00 host_mono_ns=2352987123637453 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.933+00:00 host_mono_ns=2352987123649165 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:47.933+00:00 host_mono_ns=2352987123660426 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460637451 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460674211 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460690421 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460705570 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460728794 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460740616 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460756075 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460768278 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460954881 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460970991 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460982363 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987460992642 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461015876 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461028981 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461105636 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461119201 === DEBUG [lwip-posix]: recvfrom received packet of len 68! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461130122 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.270+00:00 host_mono_ns=2352987461140281 === DEBUG [lwip-posix]: recvfrom received packet of len 68! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461267111 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461310573 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461339227 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461348745 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461926797 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.271+00:00 host_mono_ns=2352987461941335 === DEBUG [lwip-posix]: recvfrom received packet of len 488! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.272+00:00 host_mono_ns=2352987462259997 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.272+00:00 host_mono_ns=2352987462301004 === DEBUG [lwip-posix]: recvfrom received packet of len 488! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.272+00:00 host_mono_ns=2352987462962384 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.272+00:00 host_mono_ns=2352987462977823 === DEBUG [lwip-posix]: recvfrom received packet of len 460! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466461494 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466478366 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466616867 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466639981 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466652825 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466662804 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466672663 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.276+00:00 host_mono_ns=2352987466681840 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.285+00:00 host_mono_ns=2352987476163112 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.286+00:00 host_mono_ns=2352987476187227 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.290+00:00 host_mono_ns=2352987480314925 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.290+00:00 host_mono_ns=2352987480333771 === DEBUG [lwip-posix]: recvfrom received packet of len 464! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.340+00:00 host_mono_ns=2352987531156905 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531186891 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531203092 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531214143 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531231085 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531240352 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531249660 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.341+00:00 host_mono_ns=2352987531258447 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560561986 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560584168 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560764809 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560776671 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560803953 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.370+00:00 host_mono_ns=2352987560813100 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660875874 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660901693 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660913265 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660922021 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660930748 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.470+00:00 host_mono_ns=2352987660938803 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671309677 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671336317 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671350283 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671359300 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671368327 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671376503 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671384879 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.481+00:00 host_mono_ns=2352987671393074 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761718212 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761773256 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761785479 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761794245 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761803092 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.571+00:00 host_mono_ns=2352987761811328 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.651+00:00 host_mono_ns=2352987841449148 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.651+00:00 host_mono_ns=2352987841496227 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.651+00:00 host_mono_ns=2352987841508790 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.651+00:00 host_mono_ns=2352987841517767 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.654+00:00 host_mono_ns=2352987844677978 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.654+00:00 host_mono_ns=2352987844714146 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.654+00:00 host_mono_ns=2352987844729355 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.654+00:00 host_mono_ns=2352987844740436 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.660+00:00 host_mono_ns=2352987851104910 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.660+00:00 host_mono_ns=2352987851143994 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861525156 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861549222 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861708773 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861727178 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861740834 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.671+00:00 host_mono_ns=2352987861752496 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951398601 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951420002 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951430521 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951439078 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951447664 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951455759 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951464285 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.761+00:00 host_mono_ns=2352987951472441 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954300964 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954344547 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954357150 [CR-NATIVE-R04] epoch=1790593968.763944763 event=peer_receive topic=/to_linux id=20 payload='Hello from mros2-posix onto Linux: 20'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954368181 [CR-NATIVE-R04] epoch=1790593968.763963900 event=peer_echo_publish_return topic=/to_stm id=20 payload='Hello from mros2-posix onto Linux: 20'
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954399200 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.764+00:00 host_mono_ns=2352987954408447 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961612727 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961646150 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961658273 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961667160 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961675987 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.771+00:00 host_mono_ns=2352987961684112 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987981733207 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987981759206 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987981770989 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987981779805 === DEBUG [lwip-posix]: recvfrom received packet of len 88! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982024367 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982070264 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982084802 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982100671 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982110300 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982120349 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982139735 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.791+00:00 host_mono_ns=2352987982148522 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.792+00:00 host_mono_ns=2352987982867600 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.792+00:00 host_mono_ns=2352987982894251 === DEBUG [lwip-posix]: recvfrom received packet of len 116! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.792+00:00 host_mono_ns=2352987982906484 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.792+00:00 host_mono_ns=2352987982915351 === DEBUG [lwip-posix]: recvfrom received packet of len 116! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.933+00:00 host_mono_ns=2352988123705968 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.933+00:00 host_mono_ns=2352988123741776 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.933+00:00 host_mono_ns=2352988123751394 
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:48.933+00:00 host_mono_ns=2352988123758357 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[SEDP-HB-RUN66] host_utc=2026-09-28T11:12:49.446+00:00 host_mono_ns=2352988637142313 event=collector_exit host_exit_status=143

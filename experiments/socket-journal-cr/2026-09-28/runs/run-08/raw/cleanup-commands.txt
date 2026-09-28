@@ -1,0 +1,5 @@
+rtk proxy docker exec mros2-cr-run08-wamr kill -TERM 14
+rtk proxy docker exec mros2-cr-run08-native-peer kill -TERM 14
+rtk proxy docker exec mros2-cr-run08-wiretap kill -TERM 14
+rtk proxy docker stop -t 5 mros2-cr-run08-native-peer mros2-cr-run08-wamr mros2-cr-run08-wiretap
+rtk proxy docker rm mros2-cr-run08-native-peer mros2-cr-run08-wamr mros2-cr-run08-wiretap

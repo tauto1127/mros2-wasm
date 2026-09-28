@@ -1,0 +1,1 @@
+rtk proxy docker exec mros2-cr-run44-wiretap sh -c 'printf '"'"'%s\n'"'"' "$$" > /run/raw/wiretap.pid; exec python3 /run/rtps_wire_tap.py /run/raw/peer-wire.jsonl'

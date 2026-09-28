@@ -1,0 +1,58 @@
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {
+            "63d3315c8d9de311393546c873643d538c0aef528c8d178d10973e41b617182b": {
+                "Name": "mros2-cr-run10-wamr",
+                "EndpointID": "d9623bfabd4aa9778d13970fde5bd6603faec85eaa2de439a01b81bf5311c5bf",
+                "MacAddress": "8a:ee:44:c3:f7:86",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            },
+            "78c87c762c6cbd1f03baf1076e1f3776a4ba6449e9428e335aaac68966acc559": {
+                "Name": "mros2-cr-run10-native-peer",
+                "EndpointID": "13f60f4aaf703fc665dc95fbaa2d0e45742bc28082d0b8a60ef5215b4d476e95",
+                "MacAddress": "ce:ac:55:fc:63:ee",
+                "IPv4Address": "172.18.0.5/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 5,
+                        "DynamicIPsAvailable": 65531
+                    }
+                }
+            }
+        }
+    }
+]
+
+rc=0

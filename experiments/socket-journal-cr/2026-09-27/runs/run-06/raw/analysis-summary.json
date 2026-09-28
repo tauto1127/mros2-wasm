@@ -1,0 +1,102 @@
+{
+  "created_utc": "2026-09-27T11:31:55.194+00:00",
+  "gate_window": {
+    "restore_process_start_utc": "2026-09-27T11:19:55.773000+00:00",
+    "restore_process_verified_utc": "2026-09-27T11:19:55.960000+00:00",
+    "deadline_result_utc": "2026-09-27T11:21:26.063000+00:00",
+    "checkpoint_max_publish_id": 81,
+    "wasm_publish_ids_after_checkpoint": {
+      "count": 87,
+      "min": 83,
+      "max": 169
+    },
+    "peer_receive_ids_after_checkpoint": {
+      "count": 88,
+      "min": 83,
+      "max": 170
+    },
+    "peer_echo_ids_after_checkpoint": {
+      "count": 88,
+      "min": 83,
+      "max": 170
+    },
+    "wasm_callback_ids_after_checkpoint": [
+      82
+    ],
+    "complete_roundtrip_ids": [],
+    "verdict": "fail"
+  },
+  "checkpoint": {
+    "dump_count": 182,
+    "overflow": 0,
+    "result": 0
+  },
+  "restore": {
+    "replay_count": 182,
+    "successful_count": 182,
+    "failure_count": 0,
+    "fallback_count": 2,
+    "skipped_count": 0,
+    "unknown_count": 0,
+    "function_return": 0,
+    "local_ip_update_lines": [
+      "[CR-RUN06-WAMR] host_utc=2026-09-27T11:19:57.628+00:00 host_mono_ns=2267016818245088 phase=restore container_pid=38 LOG_ERROR : 00000189.197 : netif_wasm: local ip changed to 0x060012ac"
+    ],
+    "udp_receive_recovery_ok_ports": [
+      "7400",
+      "7401",
+      "7410",
+      "7411"
+    ],
+    "callback_ids_seen_in_restore_log": [
+      82
+    ]
+  },
+  "wire_during_gate_window": {
+    "data_frames_by_source_destination_port": [
+      {
+        "source_ip": "172.18.0.5",
+        "destination_ip": "239.255.0.1",
+        "destination_port": 7400,
+        "count": 91
+      },
+      {
+        "source_ip": "172.18.0.6",
+        "destination_ip": "172.18.0.5",
+        "destination_port": 7410,
+        "count": 2
+      },
+      {
+        "source_ip": "172.18.0.6",
+        "destination_ip": "172.18.0.5",
+        "destination_port": 7411,
+        "count": 88
+      },
+      {
+        "source_ip": "172.18.0.6",
+        "destination_ip": "239.255.0.1",
+        "destination_port": 7400,
+        "count": 89
+      }
+    ],
+    "wasm_172_18_0_6_to_peer_172_18_0_5_port_7411_data_frames": 88,
+    "peer_172_18_0_5_to_old_ip_172_18_0_3_port_7411_data_frames": 0,
+    "peer_172_18_0_5_to_new_ip_172_18_0_6_port_7411_data_frames": 0
+  },
+  "post_gate_observation": {
+    "from_utc": "2026-09-27T11:21:26.063000+00:00",
+    "stopped_after_utc": "2026-09-27T11:23:51.930000+00:00",
+    "elapsed_seconds_after_gate_until_stop": 145.867,
+    "additional_peer_receive_ids": {
+      "count": 146,
+      "min": 171,
+      "max": 316
+    },
+    "additional_peer_echo_ids": {
+      "count": 146,
+      "min": 171,
+      "max": 316
+    },
+    "note": "The same restore process continued during passive boundary inspection after the 90-second gate timed out; no second checkpoint/restore or configuration change occurred."
+  }
+}

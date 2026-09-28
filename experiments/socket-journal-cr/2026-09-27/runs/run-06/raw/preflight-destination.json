@@ -1,0 +1,85 @@
+{
+  "result": "pass",
+  "error": null,
+  "details": {
+    "utc": "2026-09-27T11:19:22.609+00:00",
+    "network": {
+      "Name": "mros2-cr-net",
+      "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+      "Created": "2026-09-17T22:17:05.917007055+09:00",
+      "Scope": "local",
+      "Driver": "bridge",
+      "EnableIPv4": true,
+      "EnableIPv6": false,
+      "IPAM": {
+        "Driver": "default",
+        "Options": {},
+        "Config": [
+          {
+            "Subnet": "172.18.0.0/16",
+            "Gateway": "172.18.0.1"
+          }
+        ]
+      },
+      "Internal": false,
+      "Attachable": false,
+      "Ingress": false,
+      "ConfigFrom": {
+        "Network": ""
+      },
+      "ConfigOnly": false,
+      "Options": {},
+      "Labels": {},
+      "Containers": {
+        "4a6061ac7851a9f77d2818e6472d0e02f890fdd105c55d30fecafd82e49c3544": {
+          "Name": "mros2-cr-run06-source",
+          "EndpointID": "9a8542a79f9963f0ea81bfe53c34982474907789d8949eb7bc0f6abd84cc9bba",
+          "MacAddress": "fa:94:d8:28:65:f2",
+          "IPv4Address": "172.18.0.3/16",
+          "IPv6Address": ""
+        },
+        "72bd60b9d22ecd0a3a13a5b6b798aba62514fac87cf9b48011fe169513c0bfc3": {
+          "Name": "mros2-cr-run06-native-peer",
+          "EndpointID": "384989a36c5069598458cd7491ca3dbc68803fb286d9333c7a66567e263628fe",
+          "MacAddress": "6e:07:50:32:3d:bd",
+          "IPv4Address": "172.18.0.5/16",
+          "IPv6Address": ""
+        }
+      },
+      "Status": {
+        "IPAM": {
+          "Subnets": {
+            "172.18.0.0/16": {
+              "IPsInUse": 5,
+              "DynamicIPsAvailable": 65531
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "id": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "existing_container_names": [
+      "cartographer-e2e-arm64-builder",
+      "mros2-cr-run06-native-peer",
+      "mros2-cr-run06-source",
+      "mros2-cr-run06-wiretap"
+    ],
+    "candidate_ips": [
+      "172.18.0.3",
+      "172.18.0.5",
+      "172.18.0.6"
+    ],
+    "occupied_ips": {
+      "172.18.0.3": "4a6061ac7851a9f77d2818e6472d0e02f890fdd105c55d30fecafd82e49c3544",
+      "172.18.0.5": "72bd60b9d22ecd0a3a13a5b6b798aba62514fac87cf9b48011fe169513c0bfc3"
+    },
+    "artifacts": {},
+    "tmp_free_bytes": 18631258112,
+    "tmp_root_exists": true,
+    "destination_preflight": true
+  }
+}

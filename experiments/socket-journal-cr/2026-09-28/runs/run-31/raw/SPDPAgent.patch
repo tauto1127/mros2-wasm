@@ -1,0 +1,49 @@
+--- /tmp/mros2-wasm-sedp-race-20260928-run31/baseline/src/discovery/SPDPAgent.cpp	2026-09-28 17:09:57.123181967 +0900
++++ /tmp/mros2-wasm-sedp-race-20260928-run31/source/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp	2026-09-28 17:07:46.137372081 +0900
+@@ -30,6 +30,7 @@
+ #include "rtps/entities/Writer.h"
+ #include "rtps/messages/MessageTypes.h"
+ #include "rtps/utils/Log.h"
++#include "rtps/utils/SEDPRaceTrace.h"
+ #include "rtps/utils/udpUtils.h"
+ #include "rtps/communication/TcpipCoreLock.h"
+ #include "netif_wasm_add.h"
+@@ -285,6 +286,9 @@
+ 
+ bool SPDPAgent::addProxiesForBuiltInEndpoints()
+ {
++  char participantPrefix[25];
++  rtps::formatSedpRaceGuidPrefix(m_proxyDataBuffer.m_guid.prefix,
++                                 participantPrefix, sizeof(participantPrefix));
+ 
+   LocatorIPv4 *locator = nullptr;
+ 
+@@ -302,12 +306,28 @@
+ 
+   if (!locator)
+   {
++    rtps::sedpRaceTrace(
++        "builtin_proxy_plan",
++        "participant_guid_prefix=%s locator=none pub_writer=%u sub_writer=%u pub_reader=%u sub_reader=%u",
++        participantPrefix,
++        static_cast<unsigned>(m_proxyDataBuffer.hasPublicationWriter()),
++        static_cast<unsigned>(m_proxyDataBuffer.hasSubscriptionWriter()),
++        static_cast<unsigned>(m_proxyDataBuffer.hasPublicationReader()),
++        static_cast<unsigned>(m_proxyDataBuffer.hasSubscriptionReader()));
+     return false;
+   }
+ 
+   ip4_addr_t ip4addr = locator->getIp4Address();
+   const char *addr = ip4addr_ntoa(&ip4addr);
+   SPDP_LOG("Adding IPv4 Locator %s\n", addr);
++  rtps::sedpRaceTrace(
++      "builtin_proxy_plan",
++        "participant_guid_prefix=%s selected_metatraffic_locator=%s:%u pub_writer=%u sub_writer=%u pub_reader=%u sub_reader=%u",
++      participantPrefix, addr, static_cast<unsigned>(locator->port),
++      static_cast<unsigned>(m_proxyDataBuffer.hasPublicationWriter()),
++      static_cast<unsigned>(m_proxyDataBuffer.hasSubscriptionWriter()),
++      static_cast<unsigned>(m_proxyDataBuffer.hasPublicationReader()),
++      static_cast<unsigned>(m_proxyDataBuffer.hasSubscriptionReader()));
+ 
+   if (m_proxyDataBuffer.hasPublicationWriter())
+   {

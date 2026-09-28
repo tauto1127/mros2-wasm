@@ -1,0 +1,922 @@
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.345+00:00 host_mono_ns=2336325535748171 event=collector_start host_pid=1749951 container=mros2-cr-run19-native-peer
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.414+00:00 host_mono_ns=2336325605127858 [CR-NATIVE-R04] event=process_start pid=14
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605604358 ipaddr=0x050012ac
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605621751 mask=0x00ffffff
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605633483 [CR-NATIVE-R04] event=netif_config ip=172.18.0.5 mask=255.255.255.0 result=0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605645506 LOG_NOTICE : 00000000.000 : osKernelStart
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605656096 [CR-NATIVE-R04] event=mros2_init_begin
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605689178 LOG_DEBUG : 00000000.000 : mROS 2 initialization is completed
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605701101 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605711841 LOG_DEBUG : 00000000.000 : [MROS2LIB] create_node
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605722431 LOG_DEBUG : 00000000.000 : [MROS2LIB] start creating participant
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605732700 LOG_DEBUG : 00000000.000 : [MROS2LIB] mros2_init task start
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605743080 LOG_DEBUG : 00000000.000 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_init() 28: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605754742 LOG_DEBUG : 00000000.000 : [MROS2LIB] Initilizing lwIP complete
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605765222 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605775982 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605786893 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x78b6c8000db0 exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605797904 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605808524 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7401 enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605819314 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x78b6c8000db0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605829834 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605840193 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605850593 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605860842 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605880650 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605891310 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x78b6c8000dd0 exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605901780 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605912039 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7400 enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605922309 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x78b6c8000dd0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605932638 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605942937 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605953187 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605962995 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605973345 LOG_NOTICE : 00000000.001 : thread_udp_recv:UP: mcp=0x78b6c8000db0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605983725 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325605994345 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x50012ac groupaddr=0x100ffef
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606021897 LOG_NOTICE : 00000000.001 : udp_mc_joingroup(): mcp=0x78b6c8000db0 ifaddr=0x50012ac groupaddr=0x100ffef
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606037827 LOG_NOTICE : 00000000.001 : udp_mc_joingroup(): mcp=0x78b6c8000dd0 ifaddr=0x50012ac groupaddr=0x100ffef
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606048357 LOG_DEBUG : 00000000.001 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606058907 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606069176 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.415+00:00 host_mono_ns=2336325606079686 LOG_NOTICE : 00000000.001 : thread_udp_recv:UP: mcp=0x78b6c8000dd0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705639197 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705687598 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705703548 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x78b6c8000df0 exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705734747 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705744786 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7411 enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705754234 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x78b6c8000df0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705763151 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705771968 LOG_DEBUG : 00000000.100 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705781055 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705789941 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 307: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705799910 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705811813 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x78b6c8000e10 exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705824306 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_new() 327: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705837040 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 142: ipaddr=0x0 port=7410 enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705847791 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 155: mcp exist 0x78b6c8000e10
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705856858 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_bind() 225: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705865634 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 240: enter
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705874521 LOG_DEBUG : 00000000.101 : /tmp/mros2-posix-run04-final-source/lwip-posix/src/core/udp.c udp_recv() 251: exit
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705883258 LOG_DEBUG : 00000000.101 : [MROS2LIB] successfully created participant
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705903055 LOG_DEBUG : 00000000.101 : [MROS2LIB] create_publisher complete.
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705912693 LOG_DEBUG : 00000000.101 : [MROS2LIB] create_subscription complete.
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705924145 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705936859 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705949373 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705970773 === DEBUG [lwip-posix]: thread_udp_recv thread started! ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705983617 LOG_NOTICE : 00000000.101 : thread_udp_recv:UP: mcp=0x78b6c8000e10
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325705996522 LOG_NOTICE : 00000000.101 : thread_udp_recv:UP: mcp=0x78b6c8000df0
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325706027160 LOG_DEBUG : 00000000.101 : [MROS2LIB] Initilizing Domain complete
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325706047989 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325706056916 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325706065983 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.515+00:00 host_mono_ns=2336325706074549 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.615+00:00 host_mono_ns=2336325806056249 LOG_NOTICE : 00000000.201 : native peer ready: /to_linux -> /to_stm
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.615+00:00 host_mono_ns=2336325806108458 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:06.615+00:00 host_mono_ns=2336325806120150 [CR-NATIVE-R04] event=peer_ready subscribe=/to_linux publish=/to_stm type=std_msgs/msg/String
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456767669 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456812654 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456826359 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456836929 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456856035 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.266+00:00 host_mono_ns=2336326456866545 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.271+00:00 host_mono_ns=2336326461954335 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.271+00:00 host_mono_ns=2336326461983851 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.516+00:00 host_mono_ns=2336326706844243 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.516+00:00 host_mono_ns=2336326706918353 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.516+00:00 host_mono_ns=2336326706931708 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:07.516+00:00 host_mono_ns=2336326706941076 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.267+00:00 host_mono_ns=2336327457492147 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.267+00:00 host_mono_ns=2336327457544045 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.517+00:00 host_mono_ns=2336327707442812 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.517+00:00 host_mono_ns=2336327707499809 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.517+00:00 host_mono_ns=2336327707624625 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:08.517+00:00 host_mono_ns=2336327707672806 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.268+00:00 host_mono_ns=2336328458219760 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.268+00:00 host_mono_ns=2336328458276958 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.517+00:00 host_mono_ns=2336328707528402 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.517+00:00 host_mono_ns=2336328707583697 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.517+00:00 host_mono_ns=2336328707595549 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:09.517+00:00 host_mono_ns=2336328707604686 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.268+00:00 host_mono_ns=2336329458529163 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.268+00:00 host_mono_ns=2336329458583596 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.516+00:00 host_mono_ns=2336329706737046 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.516+00:00 host_mono_ns=2336329706791619 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.516+00:00 host_mono_ns=2336329706927596 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.516+00:00 host_mono_ns=2336329706973743 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707444062 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707488876 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707500659 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707510006 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707866420 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707886828 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707896356 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.517+00:00 host_mono_ns=2336329707903540 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.523+00:00 host_mono_ns=2336329713582446 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.523+00:00 host_mono_ns=2336329713607103 === DEBUG [lwip-posix]: recvfrom received packet of len 52! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.523+00:00 host_mono_ns=2336329713617723 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:10.523+00:00 host_mono_ns=2336329713626670 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.268+00:00 host_mono_ns=2336330458847922 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.268+00:00 host_mono_ns=2336330458901653 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.354+00:00 host_mono_ns=2336330545165563 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.355+00:00 host_mono_ns=2336330545221579 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.355+00:00 host_mono_ns=2336330545233962 [CR-NATIVE-R04] epoch=1790577311.354713691 event=peer_receive topic=/to_linux id=4 payload='Hello from mros2-posix onto Linux: 4'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.355+00:00 host_mono_ns=2336330545244552 [CR-NATIVE-R04] epoch=1790577311.354760870 event=peer_echo_publish_return topic=/to_stm id=4 payload='Hello from mros2-posix onto Linux: 4'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.517+00:00 host_mono_ns=2336330707630164 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.517+00:00 host_mono_ns=2336330707686450 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.517+00:00 host_mono_ns=2336330707698784 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:11.517+00:00 host_mono_ns=2336330707708532 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.269+00:00 host_mono_ns=2336331459308735 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.269+00:00 host_mono_ns=2336331459368948 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.355+00:00 host_mono_ns=2336331545640041 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.355+00:00 host_mono_ns=2336331545689173 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.355+00:00 host_mono_ns=2336331545703911 [CR-NATIVE-R04] epoch=1790577312.355246179 event=peer_receive topic=/to_linux id=5 payload='Hello from mros2-posix onto Linux: 5'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.355+00:00 host_mono_ns=2336331545717186 [CR-NATIVE-R04] epoch=1790577312.355263261 event=peer_echo_publish_return topic=/to_stm id=5 payload='Hello from mros2-posix onto Linux: 5'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.517+00:00 host_mono_ns=2336331707865839 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.517+00:00 host_mono_ns=2336331707894624 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.517+00:00 host_mono_ns=2336331707909001 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:12.517+00:00 host_mono_ns=2336331707920382 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.269+00:00 host_mono_ns=2336332459376993 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.269+00:00 host_mono_ns=2336332459424322 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.355+00:00 host_mono_ns=2336332546097043 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.355+00:00 host_mono_ns=2336332546129555 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.355+00:00 host_mono_ns=2336332546154943 [CR-NATIVE-R04] epoch=1790577313.355791308 event=peer_receive topic=/to_linux id=6 payload='Hello from mros2-posix onto Linux: 6'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.356+00:00 host_mono_ns=2336332546173638 [CR-NATIVE-R04] epoch=1790577313.355818870 event=peer_echo_publish_return topic=/to_stm id=6 payload='Hello from mros2-posix onto Linux: 6'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.517+00:00 host_mono_ns=2336332708109719 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.517+00:00 host_mono_ns=2336332708145336 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.517+00:00 host_mono_ns=2336332708159153 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:13.518+00:00 host_mono_ns=2336332708170434 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.269+00:00 host_mono_ns=2336333459937721 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.269+00:00 host_mono_ns=2336333459995049 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.357+00:00 host_mono_ns=2336333547397318 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.357+00:00 host_mono_ns=2336333547457131 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.357+00:00 host_mono_ns=2336333547469825 [CR-NATIVE-R04] epoch=1790577314.356986985 event=peer_receive topic=/to_linux id=7 payload='Hello from mros2-posix onto Linux: 7'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.357+00:00 host_mono_ns=2336333547481036 [CR-NATIVE-R04] epoch=1790577314.357026580 event=peer_echo_publish_return topic=/to_stm id=7 payload='Hello from mros2-posix onto Linux: 7'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.516+00:00 host_mono_ns=2336333707149900 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707190316 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707202620 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707211877 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707796662 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707841927 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707853539 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.517+00:00 host_mono_ns=2336333707862676 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.518+00:00 host_mono_ns=2336333708338826 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.518+00:00 host_mono_ns=2336333708370075 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.523+00:00 host_mono_ns=2336333713894770 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:14.523+00:00 host_mono_ns=2336333713931349 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.270+00:00 host_mono_ns=2336334460464245 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.270+00:00 host_mono_ns=2336334460505913 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.357+00:00 host_mono_ns=2336334548041393 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.357+00:00 host_mono_ns=2336334548096688 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.357+00:00 host_mono_ns=2336334548120002 [CR-NATIVE-R04] epoch=1790577315.357607476 event=peer_receive topic=/to_linux id=8 payload='Hello from mros2-posix onto Linux: 8'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.357+00:00 host_mono_ns=2336334548130983 [CR-NATIVE-R04] epoch=1790577315.357644035 event=peer_echo_publish_return topic=/to_stm id=8 payload='Hello from mros2-posix onto Linux: 8'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.518+00:00 host_mono_ns=2336334708593470 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.518+00:00 host_mono_ns=2336334708646159 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.518+00:00 host_mono_ns=2336334708655757 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:15.518+00:00 host_mono_ns=2336334708663021 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.270+00:00 host_mono_ns=2336335460944301 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.270+00:00 host_mono_ns=2336335460999094 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.359+00:00 host_mono_ns=2336335549648366 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.359+00:00 host_mono_ns=2336335549706115 === DEBUG [lwip-posix]: recvfrom received packet of len 100! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.359+00:00 host_mono_ns=2336335549835930 [CR-NATIVE-R04] epoch=1790577316.359295812 event=peer_receive topic=/to_linux id=9 payload='Hello from mros2-posix onto Linux: 9'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.359+00:00 host_mono_ns=2336335549880574 [CR-NATIVE-R04] epoch=1790577316.359334765 event=peer_echo_publish_return topic=/to_stm id=9 payload='Hello from mros2-posix onto Linux: 9'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.518+00:00 host_mono_ns=2336335708573171 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.518+00:00 host_mono_ns=2336335708628205 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.518+00:00 host_mono_ns=2336335708640237 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:16.518+00:00 host_mono_ns=2336335708649615 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.270+00:00 host_mono_ns=2336336461163592 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.271+00:00 host_mono_ns=2336336461231962 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.360+00:00 host_mono_ns=2336336550307722 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.360+00:00 host_mono_ns=2336336550363107 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.360+00:00 host_mono_ns=2336336550377915 [CR-NATIVE-R04] epoch=1790577317.359883763 event=peer_receive topic=/to_linux id=10 payload='Hello from mros2-posix onto Linux: 10'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.360+00:00 host_mono_ns=2336336550391200 [CR-NATIVE-R04] epoch=1790577317.359915032 event=peer_echo_publish_return topic=/to_stm id=10 payload='Hello from mros2-posix onto Linux: 10'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.518+00:00 host_mono_ns=2336336708751365 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.518+00:00 host_mono_ns=2336336708816548 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.518+00:00 host_mono_ns=2336336708834222 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:17.518+00:00 host_mono_ns=2336336708848569 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.271+00:00 host_mono_ns=2336337461852192 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.271+00:00 host_mono_ns=2336337461913147 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.361+00:00 host_mono_ns=2336337551786044 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.361+00:00 host_mono_ns=2336337551845526 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.361+00:00 host_mono_ns=2336337551987634 [CR-NATIVE-R04] epoch=1790577318.361398483 event=peer_receive topic=/to_linux id=11 payload='Hello from mros2-posix onto Linux: 11'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.361+00:00 host_mono_ns=2336337552070010 [CR-NATIVE-R04] epoch=1790577318.361439100 event=peer_echo_publish_return topic=/to_stm id=11 payload='Hello from mros2-posix onto Linux: 11'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.516+00:00 host_mono_ns=2336337707158829 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.517+00:00 host_mono_ns=2336337707222760 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.517+00:00 host_mono_ns=2336337707387661 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.517+00:00 host_mono_ns=2336337707408901 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708293382 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708335752 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708737831 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708771826 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708783407 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.518+00:00 host_mono_ns=2336337708792625 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.519+00:00 host_mono_ns=2336337710038097 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:18.519+00:00 host_mono_ns=2336337710070669 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.272+00:00 host_mono_ns=2336338462317339 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.272+00:00 host_mono_ns=2336338462375789 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.362+00:00 host_mono_ns=2336338552703404 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.362+00:00 host_mono_ns=2336338552760873 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.362+00:00 host_mono_ns=2336338552784558 [CR-NATIVE-R04] epoch=1790577319.362315724 event=peer_receive topic=/to_linux id=12 payload='Hello from mros2-posix onto Linux: 12'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.362+00:00 host_mono_ns=2336338552795949 [CR-NATIVE-R04] epoch=1790577319.362352033 event=peer_echo_publish_return topic=/to_stm id=12 payload='Hello from mros2-posix onto Linux: 12'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.518+00:00 host_mono_ns=2336338709115463 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.519+00:00 host_mono_ns=2336338709172531 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.519+00:00 host_mono_ns=2336338709184694 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:19.519+00:00 host_mono_ns=2336338709193811 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.272+00:00 host_mono_ns=2336339462689854 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.272+00:00 host_mono_ns=2336339462744216 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.363+00:00 host_mono_ns=2336339553728642 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.363+00:00 host_mono_ns=2336339553786231 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.363+00:00 host_mono_ns=2336339553808814 [CR-NATIVE-R04] epoch=1790577320.363330362 event=peer_receive topic=/to_linux id=13 payload='Hello from mros2-posix onto Linux: 13'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.363+00:00 host_mono_ns=2336339553819674 [CR-NATIVE-R04] epoch=1790577320.363368714 event=peer_echo_publish_return topic=/to_stm id=13 payload='Hello from mros2-posix onto Linux: 13'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.519+00:00 host_mono_ns=2336339709472064 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.519+00:00 host_mono_ns=2336339709566422 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.519+00:00 host_mono_ns=2336339709578986 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:20.519+00:00 host_mono_ns=2336339709588323 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.272+00:00 host_mono_ns=2336340463043911 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.272+00:00 host_mono_ns=2336340463103033 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.364+00:00 host_mono_ns=2336340554554210 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.364+00:00 host_mono_ns=2336340554612089 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.364+00:00 host_mono_ns=2336340554624643 [CR-NATIVE-R04] epoch=1790577321.364123068 event=peer_receive topic=/to_linux id=14 payload='Hello from mros2-posix onto Linux: 14'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.364+00:00 host_mono_ns=2336340554635423 [CR-NATIVE-R04] epoch=1790577321.364155148 event=peer_echo_publish_return topic=/to_stm id=14 payload='Hello from mros2-posix onto Linux: 14'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.519+00:00 host_mono_ns=2336340709495928 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.519+00:00 host_mono_ns=2336340709555220 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.519+00:00 host_mono_ns=2336340709569908 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:21.519+00:00 host_mono_ns=2336340709582261 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.273+00:00 host_mono_ns=2336341463667009 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.274+00:00 host_mono_ns=2336341464191670 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.365+00:00 host_mono_ns=2336341555722636 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.365+00:00 host_mono_ns=2336341555776207 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.365+00:00 host_mono_ns=2336341555787839 [CR-NATIVE-R04] epoch=1790577322.365320358 event=peer_receive topic=/to_linux id=15 payload='Hello from mros2-posix onto Linux: 15'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.365+00:00 host_mono_ns=2336341555798048 [CR-NATIVE-R04] epoch=1790577322.365356386 event=peer_echo_publish_return topic=/to_stm id=15 payload='Hello from mros2-posix onto Linux: 15'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.517+00:00 host_mono_ns=2336341707462750 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.517+00:00 host_mono_ns=2336341707512013 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.517+00:00 host_mono_ns=2336341707535217 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.517+00:00 host_mono_ns=2336341707546939 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.518+00:00 host_mono_ns=2336341708448322 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.518+00:00 host_mono_ns=2336341708479861 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709541867 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709602342 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709642517 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709651925 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709909652 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:22.519+00:00 host_mono_ns=2336341709954286 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.273+00:00 host_mono_ns=2336342463876243 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.273+00:00 host_mono_ns=2336342463924013 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.366+00:00 host_mono_ns=2336342556840687 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.366+00:00 host_mono_ns=2336342556895951 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.366+00:00 host_mono_ns=2336342557196940 [CR-NATIVE-R04] epoch=1790577323.366665658 event=peer_receive topic=/to_linux id=16 payload='Hello from mros2-posix onto Linux: 16'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.367+00:00 host_mono_ns=2336342557254889 [CR-NATIVE-R04] epoch=1790577323.366704461 event=peer_echo_publish_return topic=/to_stm id=16 payload='Hello from mros2-posix onto Linux: 16'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.519+00:00 host_mono_ns=2336342709977739 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.519+00:00 host_mono_ns=2336342710060566 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.519+00:00 host_mono_ns=2336342710079662 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:23.519+00:00 host_mono_ns=2336342710091534 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.274+00:00 host_mono_ns=2336343464287315 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.274+00:00 host_mono_ns=2336343464342389 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.367+00:00 host_mono_ns=2336343557758658 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.367+00:00 host_mono_ns=2336343557805737 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.367+00:00 host_mono_ns=2336343557818311 [CR-NATIVE-R04] epoch=1790577324.367341072 event=peer_receive topic=/to_linux id=17 payload='Hello from mros2-posix onto Linux: 17'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.367+00:00 host_mono_ns=2336343557829412 [CR-NATIVE-R04] epoch=1790577324.367380356 event=peer_echo_publish_return topic=/to_stm id=17 payload='Hello from mros2-posix onto Linux: 17'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.519+00:00 host_mono_ns=2336343709964552 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.519+00:00 host_mono_ns=2336343710046066 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.519+00:00 host_mono_ns=2336343710062397 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:24.519+00:00 host_mono_ns=2336343710074931 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.274+00:00 host_mono_ns=2336344464504546 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.274+00:00 host_mono_ns=2336344464553409 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.368+00:00 host_mono_ns=2336344558755182 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.368+00:00 host_mono_ns=2336344558800407 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.368+00:00 host_mono_ns=2336344558826647 [CR-NATIVE-R04] epoch=1790577325.368324710 event=peer_receive topic=/to_linux id=18 payload='Hello from mros2-posix onto Linux: 18'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.368+00:00 host_mono_ns=2336344558845472 [CR-NATIVE-R04] epoch=1790577325.368361921 event=peer_echo_publish_return topic=/to_stm id=18 payload='Hello from mros2-posix onto Linux: 18'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.519+00:00 host_mono_ns=2336344710143440 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.520+00:00 host_mono_ns=2336344710199566 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.520+00:00 host_mono_ns=2336344710211208 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:25.520+00:00 host_mono_ns=2336344710220356 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.275+00:00 host_mono_ns=2336345465513672 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.275+00:00 host_mono_ns=2336345465568937 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.369+00:00 host_mono_ns=2336345560092638 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.369+00:00 host_mono_ns=2336345560147391 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.369+00:00 host_mono_ns=2336345560159464 [CR-NATIVE-R04] epoch=1790577326.369637540 event=peer_receive topic=/to_linux id=19 payload='Hello from mros2-posix onto Linux: 19'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.370+00:00 host_mono_ns=2336345560170104 [CR-NATIVE-R04] epoch=1790577326.369676924 event=peer_echo_publish_return topic=/to_stm id=19 payload='Hello from mros2-posix onto Linux: 19'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.517+00:00 host_mono_ns=2336345707782065 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.517+00:00 host_mono_ns=2336345707837069 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.517+00:00 host_mono_ns=2336345707849222 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.517+00:00 host_mono_ns=2336345707858199 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.518+00:00 host_mono_ns=2336345708881592 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.518+00:00 host_mono_ns=2336345708911087 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.519+00:00 host_mono_ns=2336345709856082 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.519+00:00 host_mono_ns=2336345709884155 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.519+00:00 host_mono_ns=2336345709895978 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.519+00:00 host_mono_ns=2336345709905315 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.520+00:00 host_mono_ns=2336345710360846 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:26.520+00:00 host_mono_ns=2336345710387055 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.275+00:00 host_mono_ns=2336346466086555 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.276+00:00 host_mono_ns=2336346466363148 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.371+00:00 host_mono_ns=2336346561473223 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.371+00:00 host_mono_ns=2336346561544398 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.371+00:00 host_mono_ns=2336346561687338 [CR-NATIVE-R04] epoch=1790577327.371296852 event=peer_receive topic=/to_linux id=20 payload='Hello from mros2-posix onto Linux: 20'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.371+00:00 host_mono_ns=2336346561713347 [CR-NATIVE-R04] epoch=1790577327.371339923 event=peer_echo_publish_return topic=/to_stm id=20 payload='Hello from mros2-posix onto Linux: 20'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.519+00:00 host_mono_ns=2336346710128921 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.520+00:00 host_mono_ns=2336346710190909 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.520+00:00 host_mono_ns=2336346710301668 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:27.520+00:00 host_mono_ns=2336346710330462 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.275+00:00 host_mono_ns=2336347465795985 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.275+00:00 host_mono_ns=2336347465839437 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.372+00:00 host_mono_ns=2336347562481088 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.372+00:00 host_mono_ns=2336347562538346 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.372+00:00 host_mono_ns=2336347562552714 [CR-NATIVE-R04] epoch=1790577328.372032783 event=peer_receive topic=/to_linux id=21 payload='Hello from mros2-posix onto Linux: 21'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.372+00:00 host_mono_ns=2336347562565638 [CR-NATIVE-R04] epoch=1790577328.372069573 event=peer_echo_publish_return topic=/to_stm id=21 payload='Hello from mros2-posix onto Linux: 21'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.520+00:00 host_mono_ns=2336347710374205 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.520+00:00 host_mono_ns=2336347710429610 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.520+00:00 host_mono_ns=2336347710443626 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:28.520+00:00 host_mono_ns=2336347710455008 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.276+00:00 host_mono_ns=2336348466224019 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.276+00:00 host_mono_ns=2336348466272470 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.373+00:00 host_mono_ns=2336348563319207 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.373+00:00 host_mono_ns=2336348563373289 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.373+00:00 host_mono_ns=2336348563388728 [CR-NATIVE-R04] epoch=1790577329.372927990 event=peer_receive topic=/to_linux id=22 payload='Hello from mros2-posix onto Linux: 22'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.373+00:00 host_mono_ns=2336348563402124 [CR-NATIVE-R04] epoch=1790577329.372967665 event=peer_echo_publish_return topic=/to_stm id=22 payload='Hello from mros2-posix onto Linux: 22'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.520+00:00 host_mono_ns=2336348710458902 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.520+00:00 host_mono_ns=2336348710503095 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.520+00:00 host_mono_ns=2336348710517052 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:29.520+00:00 host_mono_ns=2336348710550365 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.276+00:00 host_mono_ns=2336349466558595 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.276+00:00 host_mono_ns=2336349466600554 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.373+00:00 host_mono_ns=2336349564135732 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.374+00:00 host_mono_ns=2336349564177741 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.374+00:00 host_mono_ns=2336349564298239 [CR-NATIVE-R04] epoch=1790577330.373734867 event=peer_receive topic=/to_linux id=23 payload='Hello from mros2-posix onto Linux: 23'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.374+00:00 host_mono_ns=2336349564342112 [CR-NATIVE-R04] epoch=1790577330.373769312 event=peer_echo_publish_return topic=/to_stm id=23 payload='Hello from mros2-posix onto Linux: 23'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.517+00:00 host_mono_ns=2336349707826641 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.517+00:00 host_mono_ns=2336349707873560 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.517+00:00 host_mono_ns=2336349707893327 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.517+00:00 host_mono_ns=2336349707902955 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.518+00:00 host_mono_ns=2336349709039763 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.518+00:00 host_mono_ns=2336349709054561 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710391596 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710440258 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710452862 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710462129 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710481085 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:30.520+00:00 host_mono_ns=2336349710490282 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.277+00:00 host_mono_ns=2336350467524618 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.277+00:00 host_mono_ns=2336350467577197 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.374+00:00 host_mono_ns=2336350564809414 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.374+00:00 host_mono_ns=2336350564855661 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.374+00:00 host_mono_ns=2336350564868626 [CR-NATIVE-R04] epoch=1790577331.374405884 event=peer_receive topic=/to_linux id=24 payload='Hello from mros2-posix onto Linux: 24'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.374+00:00 host_mono_ns=2336350564879396 [CR-NATIVE-R04] epoch=1790577331.374439377 event=peer_echo_publish_return topic=/to_stm id=24 payload='Hello from mros2-posix onto Linux: 24'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.520+00:00 host_mono_ns=2336350710558799 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.520+00:00 host_mono_ns=2336350710622890 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.520+00:00 host_mono_ns=2336350710674658 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:31.520+00:00 host_mono_ns=2336350710687472 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.277+00:00 host_mono_ns=2336351467857622 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.278+00:00 host_mono_ns=2336351468395327 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.375+00:00 host_mono_ns=2336351566197020 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.376+00:00 host_mono_ns=2336351566239771 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.376+00:00 host_mono_ns=2336351566262333 [CR-NATIVE-R04] epoch=1790577332.375787619 event=peer_receive topic=/to_linux id=25 payload='Hello from mros2-posix onto Linux: 25'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.376+00:00 host_mono_ns=2336351566273414 [CR-NATIVE-R04] epoch=1790577332.375831993 event=peer_echo_publish_return topic=/to_stm id=25 payload='Hello from mros2-posix onto Linux: 25'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.520+00:00 host_mono_ns=2336351710918427 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.520+00:00 host_mono_ns=2336351710967339 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.520+00:00 host_mono_ns=2336351710980133 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:32.520+00:00 host_mono_ns=2336351710989682 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.278+00:00 host_mono_ns=2336352468630805 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.278+00:00 host_mono_ns=2336352468686481 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.376+00:00 host_mono_ns=2336352567060274 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.376+00:00 host_mono_ns=2336352567112693 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.376+00:00 host_mono_ns=2336352567144313 [CR-NATIVE-R04] epoch=1790577333.376635183 event=peer_receive topic=/to_linux id=26 payload='Hello from mros2-posix onto Linux: 26'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.376+00:00 host_mono_ns=2336352567161866 [CR-NATIVE-R04] epoch=1790577333.376675740 event=peer_echo_publish_return topic=/to_stm id=26 payload='Hello from mros2-posix onto Linux: 26'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.521+00:00 host_mono_ns=2336352711215660 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.521+00:00 host_mono_ns=2336352711262860 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.521+00:00 host_mono_ns=2336352711277177 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:33.521+00:00 host_mono_ns=2336352711288608 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.278+00:00 host_mono_ns=2336353468903097 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.278+00:00 host_mono_ns=2336353468958412 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.378+00:00 host_mono_ns=2336353568479111 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.378+00:00 host_mono_ns=2336353568525819 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.378+00:00 host_mono_ns=2336353568540467 [CR-NATIVE-R04] epoch=1790577334.378094767 event=peer_receive topic=/to_linux id=27 payload='Hello from mros2-posix onto Linux: 27'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.378+00:00 host_mono_ns=2336353568574030 [CR-NATIVE-R04] epoch=1790577334.378135855 event=peer_echo_publish_return topic=/to_stm id=27 payload='Hello from mros2-posix onto Linux: 27'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.517+00:00 host_mono_ns=2336353708061561 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.517+00:00 host_mono_ns=2336353708116746 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.517+00:00 host_mono_ns=2336353708140801 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.517+00:00 host_mono_ns=2336353708151431 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.519+00:00 host_mono_ns=2336353709240659 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.519+00:00 host_mono_ns=2336353709267249 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710570340 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710610837 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710875707 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710897488 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710909360 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:34.520+00:00 host_mono_ns=2336353710918678 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.279+00:00 host_mono_ns=2336354469474505 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.279+00:00 host_mono_ns=2336354469520262 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.379+00:00 host_mono_ns=2336354569977881 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.379+00:00 host_mono_ns=2336354570047753 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.379+00:00 host_mono_ns=2336354570073822 [CR-NATIVE-R04] epoch=1790577335.379583909 event=peer_receive topic=/to_linux id=28 payload='Hello from mros2-posix onto Linux: 28'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.379+00:00 host_mono_ns=2336354570085033 [CR-NATIVE-R04] epoch=1790577335.379620849 event=peer_echo_publish_return topic=/to_stm id=28 payload='Hello from mros2-posix onto Linux: 28'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.521+00:00 host_mono_ns=2336354711342497 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.521+00:00 host_mono_ns=2336354711388845 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.521+00:00 host_mono_ns=2336354711401158 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:35.521+00:00 host_mono_ns=2336354711410476 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.279+00:00 host_mono_ns=2336355469825599 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.279+00:00 host_mono_ns=2336355469880503 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.380+00:00 host_mono_ns=2336355571144856 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.381+00:00 host_mono_ns=2336355571198557 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.381+00:00 host_mono_ns=2336355571233634 [CR-NATIVE-R04] epoch=1790577336.380661295 event=peer_receive topic=/to_linux id=29 payload='Hello from mros2-posix onto Linux: 29'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.381+00:00 host_mono_ns=2336355571244454 [CR-NATIVE-R04] epoch=1790577336.380699717 event=peer_echo_publish_return topic=/to_stm id=29 payload='Hello from mros2-posix onto Linux: 29'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.521+00:00 host_mono_ns=2336355711440119 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.521+00:00 host_mono_ns=2336355711493399 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.521+00:00 host_mono_ns=2336355711505172 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:36.521+00:00 host_mono_ns=2336355711514469 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.279+00:00 host_mono_ns=2336356470109645 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.280+00:00 host_mono_ns=2336356470645858 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.381+00:00 host_mono_ns=2336356571789934 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.381+00:00 host_mono_ns=2336356571843635 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.381+00:00 host_mono_ns=2336356571855988 [CR-NATIVE-R04] epoch=1790577337.381377096 event=peer_receive topic=/to_linux id=30 payload='Hello from mros2-posix onto Linux: 30'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.381+00:00 host_mono_ns=2336356571866648 [CR-NATIVE-R04] epoch=1790577337.381418193 event=peer_echo_publish_return topic=/to_stm id=30 payload='Hello from mros2-posix onto Linux: 30'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.521+00:00 host_mono_ns=2336356711627706 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.521+00:00 host_mono_ns=2336356711675356 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.521+00:00 host_mono_ns=2336356711687448 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:37.521+00:00 host_mono_ns=2336356711697067 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.280+00:00 host_mono_ns=2336357470519679 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.280+00:00 host_mono_ns=2336357470583019 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.382+00:00 host_mono_ns=2336357572645750 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.382+00:00 host_mono_ns=2336357572691737 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.382+00:00 host_mono_ns=2336357572706565 [CR-NATIVE-R04] epoch=1790577338.382245265 event=peer_receive topic=/to_linux id=31 payload='Hello from mros2-posix onto Linux: 31'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.382+00:00 host_mono_ns=2336357572719429 [CR-NATIVE-R04] epoch=1790577338.382274931 event=peer_echo_publish_return topic=/to_stm id=31 payload='Hello from mros2-posix onto Linux: 31'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.517+00:00 host_mono_ns=2336357708162930 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.518+00:00 host_mono_ns=2336357708215439 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.518+00:00 host_mono_ns=2336357708418703 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.518+00:00 host_mono_ns=2336357708476813 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.519+00:00 host_mono_ns=2336357709224235 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.519+00:00 host_mono_ns=2336357709251917 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.520+00:00 host_mono_ns=2336357710569946 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.520+00:00 host_mono_ns=2336357710601125 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.521+00:00 host_mono_ns=2336357711245302 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.521+00:00 host_mono_ns=2336357711278074 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.521+00:00 host_mono_ns=2336357711301709 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:38.521+00:00 host_mono_ns=2336357711311848 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.280+00:00 host_mono_ns=2336358470689591 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.280+00:00 host_mono_ns=2336358470745887 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.384+00:00 host_mono_ns=2336358574362642 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.384+00:00 host_mono_ns=2336358574408879 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.384+00:00 host_mono_ns=2336358574431492 [CR-NATIVE-R04] epoch=1790577339.383966726 event=peer_receive topic=/to_linux id=32 payload='Hello from mros2-posix onto Linux: 32'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.384+00:00 host_mono_ns=2336358574442753 [CR-NATIVE-R04] epoch=1790577339.384002854 event=peer_echo_publish_return topic=/to_stm id=32 payload='Hello from mros2-posix onto Linux: 32'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.521+00:00 host_mono_ns=2336358711619810 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.521+00:00 host_mono_ns=2336358711667610 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.521+00:00 host_mono_ns=2336358711689621 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:39.521+00:00 host_mono_ns=2336358711699560 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.280+00:00 host_mono_ns=2336359471110415 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.280+00:00 host_mono_ns=2336359471156743 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.385+00:00 host_mono_ns=2336359575627178 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.385+00:00 host_mono_ns=2336359575668205 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.385+00:00 host_mono_ns=2336359575825091 [CR-NATIVE-R04] epoch=1790577340.385316262 event=peer_receive topic=/to_linux id=33 payload='Hello from mros2-posix onto Linux: 33'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.385+00:00 host_mono_ns=2336359575869355 [CR-NATIVE-R04] epoch=1790577340.385354575 event=peer_echo_publish_return topic=/to_stm id=33 payload='Hello from mros2-posix onto Linux: 33'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.521+00:00 host_mono_ns=2336359711788426 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.521+00:00 host_mono_ns=2336359711840013 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.521+00:00 host_mono_ns=2336359711852156 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:40.521+00:00 host_mono_ns=2336359711861504 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.281+00:00 host_mono_ns=2336360471609587 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.281+00:00 host_mono_ns=2336360471663018 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.386+00:00 host_mono_ns=2336360576956619 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.386+00:00 host_mono_ns=2336360577031140 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.387+00:00 host_mono_ns=2336360577315086 [CR-NATIVE-R04] epoch=1790577341.386772283 event=peer_receive topic=/to_linux id=34 payload='Hello from mros2-posix onto Linux: 34'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.387+00:00 host_mono_ns=2336360577359540 [CR-NATIVE-R04] epoch=1790577341.386813110 event=peer_echo_publish_return topic=/to_stm id=34 payload='Hello from mros2-posix onto Linux: 34'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.521+00:00 host_mono_ns=2336360711726970 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.521+00:00 host_mono_ns=2336360711791873 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.521+00:00 host_mono_ns=2336360711860943 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:41.521+00:00 host_mono_ns=2336360711880931 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.282+00:00 host_mono_ns=2336361472286659 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.282+00:00 host_mono_ns=2336361472339890 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.387+00:00 host_mono_ns=2336361577925696 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.387+00:00 host_mono_ns=2336361577975860 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.387+00:00 host_mono_ns=2336361577992161 [CR-NATIVE-R04] epoch=1790577342.387410444 event=peer_receive topic=/to_linux id=35 payload='Hello from mros2-posix onto Linux: 35'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.387+00:00 host_mono_ns=2336361578026947 [CR-NATIVE-R04] epoch=1790577342.387445140 event=peer_echo_publish_return topic=/to_stm id=35 payload='Hello from mros2-posix onto Linux: 35'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.518+00:00 host_mono_ns=2336361708864579 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.518+00:00 host_mono_ns=2336361708915986 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.518+00:00 host_mono_ns=2336361708936996 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.518+00:00 host_mono_ns=2336361708946454 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.520+00:00 host_mono_ns=2336361710315239 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.520+00:00 host_mono_ns=2336361710367578 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711601820 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711630634 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711642817 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711652195 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711668005 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:42.521+00:00 host_mono_ns=2336361711690237 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.282+00:00 host_mono_ns=2336362472628831 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.282+00:00 host_mono_ns=2336362472674588 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.388+00:00 host_mono_ns=2336362578676086 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.388+00:00 host_mono_ns=2336362578718436 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.388+00:00 host_mono_ns=2336362578730889 [CR-NATIVE-R04] epoch=1790577343.388272836 event=peer_receive topic=/to_linux id=36 payload='Hello from mros2-posix onto Linux: 36'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.388+00:00 host_mono_ns=2336362578741560 [CR-NATIVE-R04] epoch=1790577343.388308133 event=peer_echo_publish_return topic=/to_stm id=36 payload='Hello from mros2-posix onto Linux: 36'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.521+00:00 host_mono_ns=2336362712168783 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.522+00:00 host_mono_ns=2336362712215251 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.522+00:00 host_mono_ns=2336362712227244 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:43.522+00:00 host_mono_ns=2336362712236461 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.282+00:00 host_mono_ns=2336363472786297 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.282+00:00 host_mono_ns=2336363472843946 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.389+00:00 host_mono_ns=2336363579551280 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.389+00:00 host_mono_ns=2336363579599611 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.389+00:00 host_mono_ns=2336363579614770 [CR-NATIVE-R04] epoch=1790577344.389126009 event=peer_receive topic=/to_linux id=37 payload='Hello from mros2-posix onto Linux: 37'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.389+00:00 host_mono_ns=2336363579627955 [CR-NATIVE-R04] epoch=1790577344.389162237 event=peer_echo_publish_return topic=/to_stm id=37 payload='Hello from mros2-posix onto Linux: 37'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.521+00:00 host_mono_ns=2336363712152983 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.522+00:00 host_mono_ns=2336363712201484 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.522+00:00 host_mono_ns=2336363712215511 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:44.522+00:00 host_mono_ns=2336363712226782 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.283+00:00 host_mono_ns=2336364473266413 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.283+00:00 host_mono_ns=2336364473319113 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.390+00:00 host_mono_ns=2336364580682205 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.390+00:00 host_mono_ns=2336364580729224 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.390+00:00 host_mono_ns=2336364580743732 [CR-NATIVE-R04] epoch=1790577345.390255231 event=peer_receive topic=/to_linux id=38 payload='Hello from mros2-posix onto Linux: 38'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.390+00:00 host_mono_ns=2336364580756786 [CR-NATIVE-R04] epoch=1790577345.390290548 event=peer_echo_publish_return topic=/to_stm id=38 payload='Hello from mros2-posix onto Linux: 38'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.522+00:00 host_mono_ns=2336364712278340 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.522+00:00 host_mono_ns=2336364712336560 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.522+00:00 host_mono_ns=2336364712348502 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:45.522+00:00 host_mono_ns=2336364712357890 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.283+00:00 host_mono_ns=2336365473605374 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.283+00:00 host_mono_ns=2336365473654567 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.391+00:00 host_mono_ns=2336365581343173 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.391+00:00 host_mono_ns=2336365581395041 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.391+00:00 host_mono_ns=2336365581541457 [CR-NATIVE-R04] epoch=1790577346.391050943 event=peer_receive topic=/to_linux id=39 payload='Hello from mros2-posix onto Linux: 39'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.391+00:00 host_mono_ns=2336365581587364 [CR-NATIVE-R04] epoch=1790577346.391094996 event=peer_echo_publish_return topic=/to_stm id=39 payload='Hello from mros2-posix onto Linux: 39'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.518+00:00 host_mono_ns=2336365709052807 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.518+00:00 host_mono_ns=2336365709095878 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.518+00:00 host_mono_ns=2336365709107921 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.518+00:00 host_mono_ns=2336365709117239 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.519+00:00 host_mono_ns=2336365710129491 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.520+00:00 host_mono_ns=2336365710174826 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365711361999 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365711387146 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365712049608 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365712079504 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365712094903 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:46.521+00:00 host_mono_ns=2336365712104491 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.284+00:00 host_mono_ns=2336366474271371 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.284+00:00 host_mono_ns=2336366474895090 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.392+00:00 host_mono_ns=2336366582951552 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.392+00:00 host_mono_ns=2336366582995445 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.392+00:00 host_mono_ns=2336366583038216 [CR-NATIVE-R04] epoch=1790577347.392508226 event=peer_receive topic=/to_linux id=40 payload='Hello from mros2-posix onto Linux: 40'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.392+00:00 host_mono_ns=2336366583079163 [CR-NATIVE-R04] epoch=1790577347.392547992 event=peer_echo_publish_return topic=/to_stm id=40 payload='Hello from mros2-posix onto Linux: 40'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.522+00:00 host_mono_ns=2336366712404227 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.522+00:00 host_mono_ns=2336366712464130 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.522+00:00 host_mono_ns=2336366712490610 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:47.522+00:00 host_mono_ns=2336366712503695 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.284+00:00 host_mono_ns=2336367474558032 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.284+00:00 host_mono_ns=2336367474603397 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.393+00:00 host_mono_ns=2336367583549460 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.393+00:00 host_mono_ns=2336367583594134 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.393+00:00 host_mono_ns=2336367583607009 [CR-NATIVE-R04] epoch=1790577348.393127555 event=peer_receive topic=/to_linux id=41 payload='Hello from mros2-posix onto Linux: 41'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.393+00:00 host_mono_ns=2336367583617889 [CR-NATIVE-R04] epoch=1790577348.393161299 event=peer_echo_publish_return topic=/to_stm id=41 payload='Hello from mros2-posix onto Linux: 41'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.522+00:00 host_mono_ns=2336367712448078 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.522+00:00 host_mono_ns=2336367712497411 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.522+00:00 host_mono_ns=2336367712509203 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:48.522+00:00 host_mono_ns=2336367712518381 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.284+00:00 host_mono_ns=2336368474812584 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.284+00:00 host_mono_ns=2336368474859252 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.394+00:00 host_mono_ns=2336368584539900 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.394+00:00 host_mono_ns=2336368584583443 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.394+00:00 host_mono_ns=2336368584595746 [CR-NATIVE-R04] epoch=1790577349.394102957 event=peer_receive topic=/to_linux id=42 payload='Hello from mros2-posix onto Linux: 42'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.394+00:00 host_mono_ns=2336368584606767 [CR-NATIVE-R04] epoch=1790577349.394137933 event=peer_echo_publish_return topic=/to_stm id=42 payload='Hello from mros2-posix onto Linux: 42'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.522+00:00 host_mono_ns=2336368712655050 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.522+00:00 host_mono_ns=2336368712712609 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.522+00:00 host_mono_ns=2336368712727958 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:49.522+00:00 host_mono_ns=2336368712739550 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.285+00:00 host_mono_ns=2336369475427735 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.285+00:00 host_mono_ns=2336369475480023 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.395+00:00 host_mono_ns=2336369585442173 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.395+00:00 host_mono_ns=2336369585489653 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.395+00:00 host_mono_ns=2336369585501695 [CR-NATIVE-R04] epoch=1790577350.395003656 event=peer_receive topic=/to_linux id=43 payload='Hello from mros2-posix onto Linux: 43'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.395+00:00 host_mono_ns=2336369585525370 [CR-NATIVE-R04] epoch=1790577350.395039354 event=peer_echo_publish_return topic=/to_stm id=43 payload='Hello from mros2-posix onto Linux: 43'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.519+00:00 host_mono_ns=2336369709203479 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.519+00:00 host_mono_ns=2336369709262230 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.519+00:00 host_mono_ns=2336369709283881 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.519+00:00 host_mono_ns=2336369709293409 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.520+00:00 host_mono_ns=2336369710297927 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.520+00:00 host_mono_ns=2336369710329847 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.521+00:00 host_mono_ns=2336369711560411 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.521+00:00 host_mono_ns=2336369711589266 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.522+00:00 host_mono_ns=2336369712571010 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.522+00:00 host_mono_ns=2336369712603672 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.522+00:00 host_mono_ns=2336369712620123 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:50.522+00:00 host_mono_ns=2336369712629911 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.285+00:00 host_mono_ns=2336370475780100 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.285+00:00 host_mono_ns=2336370475828120 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.396+00:00 host_mono_ns=2336370586307591 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.396+00:00 host_mono_ns=2336370586353498 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.396+00:00 host_mono_ns=2336370586365841 [CR-NATIVE-R04] epoch=1790577351.395863975 event=peer_receive topic=/to_linux id=44 payload='Hello from mros2-posix onto Linux: 44'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.396+00:00 host_mono_ns=2336370586376742 [CR-NATIVE-R04] epoch=1790577351.395897839 event=peer_echo_publish_return topic=/to_stm id=44 payload='Hello from mros2-posix onto Linux: 44'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.523+00:00 host_mono_ns=2336370713287956 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.523+00:00 host_mono_ns=2336370713337930 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.523+00:00 host_mono_ns=2336370713349813 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:51.523+00:00 host_mono_ns=2336370713359160 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.285+00:00 host_mono_ns=2336371475857987 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.285+00:00 host_mono_ns=2336371475923972 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.396+00:00 host_mono_ns=2336371587169790 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.397+00:00 host_mono_ns=2336371587218211 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.397+00:00 host_mono_ns=2336371587231106 [CR-NATIVE-R04] epoch=1790577352.396514414 event=peer_receive topic=/to_linux id=45 payload='Hello from mros2-posix onto Linux: 45'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.397+00:00 host_mono_ns=2336371587244371 [CR-NATIVE-R04] epoch=1790577352.396542807 event=peer_echo_publish_return topic=/to_stm id=45 payload='Hello from mros2-posix onto Linux: 45'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.523+00:00 host_mono_ns=2336371713381613 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.523+00:00 host_mono_ns=2336371713430866 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.523+00:00 host_mono_ns=2336371713443009 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:52.523+00:00 host_mono_ns=2336371713452136 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.286+00:00 host_mono_ns=2336372476426444 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.286+00:00 host_mono_ns=2336372476471169 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.397+00:00 host_mono_ns=2336372588095672 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.397+00:00 host_mono_ns=2336372588140507 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.397+00:00 host_mono_ns=2336372588152960 [CR-NATIVE-R04] epoch=1790577353.397405110 event=peer_receive topic=/to_linux id=46 payload='Hello from mros2-posix onto Linux: 46'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.397+00:00 host_mono_ns=2336372588163640 [CR-NATIVE-R04] epoch=1790577353.397431820 event=peer_echo_publish_return topic=/to_stm id=46 payload='Hello from mros2-posix onto Linux: 46'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.523+00:00 host_mono_ns=2336372713470285 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.523+00:00 host_mono_ns=2336372713527042 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.523+00:00 host_mono_ns=2336372713543123 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:53.523+00:00 host_mono_ns=2336372713555736 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.286+00:00 host_mono_ns=2336373476591159 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.286+00:00 host_mono_ns=2336373476646343 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.398+00:00 host_mono_ns=2336373588675840 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.398+00:00 host_mono_ns=2336373588725454 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.398+00:00 host_mono_ns=2336373588740963 [CR-NATIVE-R04] epoch=1790577354.398235330 event=peer_receive topic=/to_linux id=47 payload='Hello from mros2-posix onto Linux: 47'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.398+00:00 host_mono_ns=2336373588754438 [CR-NATIVE-R04] epoch=1790577354.398263152 event=peer_echo_publish_return topic=/to_stm id=47 payload='Hello from mros2-posix onto Linux: 47'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.519+00:00 host_mono_ns=2336373709505869 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.519+00:00 host_mono_ns=2336373709589207 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.519+00:00 host_mono_ns=2336373709617109 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.519+00:00 host_mono_ns=2336373709627429 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.520+00:00 host_mono_ns=2336373710536626 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.520+00:00 host_mono_ns=2336373710583585 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.521+00:00 host_mono_ns=2336373711803108 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.521+00:00 host_mono_ns=2336373711831652 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.523+00:00 host_mono_ns=2336373713248068 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.523+00:00 host_mono_ns=2336373713277674 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.523+00:00 host_mono_ns=2336373713292361 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:54.523+00:00 host_mono_ns=2336373713304123 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.286+00:00 host_mono_ns=2336374476917308 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.286+00:00 host_mono_ns=2336374476967352 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.399+00:00 host_mono_ns=2336374589698623 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.399+00:00 host_mono_ns=2336374589745111 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.399+00:00 host_mono_ns=2336374589759929 [CR-NATIVE-R04] epoch=1790577355.399297407 event=peer_receive topic=/to_linux id=48 payload='Hello from mros2-posix onto Linux: 48'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.399+00:00 host_mono_ns=2336374589773084 [CR-NATIVE-R04] epoch=1790577355.399325931 event=peer_echo_publish_return topic=/to_stm id=48 payload='Hello from mros2-posix onto Linux: 48'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.523+00:00 host_mono_ns=2336374713617680 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.523+00:00 host_mono_ns=2336374713671682 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.523+00:00 host_mono_ns=2336374713692011 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:55.523+00:00 host_mono_ns=2336374713706107 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.287+00:00 host_mono_ns=2336375477993954 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.288+00:00 host_mono_ns=2336375478565984 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.400+00:00 host_mono_ns=2336375590498109 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.400+00:00 host_mono_ns=2336375590545779 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.400+00:00 host_mono_ns=2336375590560648 [CR-NATIVE-R04] epoch=1790577356.400078258 event=peer_receive topic=/to_linux id=49 payload='Hello from mros2-posix onto Linux: 49'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.400+00:00 host_mono_ns=2336375590573201 [CR-NATIVE-R04] epoch=1790577356.400099048 event=peer_echo_publish_return topic=/to_stm id=49 payload='Hello from mros2-posix onto Linux: 49'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.523+00:00 host_mono_ns=2336375713830985 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.523+00:00 host_mono_ns=2336375713878925 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.523+00:00 host_mono_ns=2336375713893222 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:56.523+00:00 host_mono_ns=2336375713905686 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.288+00:00 host_mono_ns=2336376478312661 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.288+00:00 host_mono_ns=2336376478359830 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.401+00:00 host_mono_ns=2336376591337678 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.401+00:00 host_mono_ns=2336376591383505 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.401+00:00 host_mono_ns=2336376591396309 [CR-NATIVE-R04] epoch=1790577357.400932795 event=peer_receive topic=/to_linux id=50 payload='Hello from mros2-posix onto Linux: 50'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.401+00:00 host_mono_ns=2336376591406989 [CR-NATIVE-R04] epoch=1790577357.400956610 event=peer_echo_publish_return topic=/to_stm id=50 payload='Hello from mros2-posix onto Linux: 50'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.523+00:00 host_mono_ns=2336376713817465 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.523+00:00 host_mono_ns=2336376713865576 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.523+00:00 host_mono_ns=2336376713878049 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:57.523+00:00 host_mono_ns=2336376713887477 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.288+00:00 host_mono_ns=2336377478567985 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.288+00:00 host_mono_ns=2336377478625624 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.402+00:00 host_mono_ns=2336377592265063 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.402+00:00 host_mono_ns=2336377592312753 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.402+00:00 host_mono_ns=2336377592325246 [CR-NATIVE-R04] epoch=1790577358.401827157 event=peer_receive topic=/to_linux id=51 payload='Hello from mros2-posix onto Linux: 51'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.402+00:00 host_mono_ns=2336377592335896 [CR-NATIVE-R04] epoch=1790577358.401878244 event=peer_echo_publish_return topic=/to_stm id=51 payload='Hello from mros2-posix onto Linux: 51'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.519+00:00 host_mono_ns=2336377709706471 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.519+00:00 host_mono_ns=2336377709760984 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.519+00:00 host_mono_ns=2336377709776834 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.519+00:00 host_mono_ns=2336377709789437 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.520+00:00 host_mono_ns=2336377711038046 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.520+00:00 host_mono_ns=2336377711086067 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.522+00:00 host_mono_ns=2336377712254734 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.522+00:00 host_mono_ns=2336377712287165 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.523+00:00 host_mono_ns=2336377713633969 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.523+00:00 host_mono_ns=2336377713664357 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.523+00:00 host_mono_ns=2336377713678744 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:58.523+00:00 host_mono_ns=2336377713690286 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.288+00:00 host_mono_ns=2336378478779205 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.288+00:00 host_mono_ns=2336378478826915 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.402+00:00 host_mono_ns=2336378593029560 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.402+00:00 host_mono_ns=2336378593073743 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.402+00:00 host_mono_ns=2336378593086407 [CR-NATIVE-R04] epoch=1790577359.402586675 event=peer_receive topic=/to_linux id=52 payload='Hello from mros2-posix onto Linux: 52'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.402+00:00 host_mono_ns=2336378593097849 [CR-NATIVE-R04] epoch=1790577359.402611582 event=peer_echo_publish_return topic=/to_stm id=52 payload='Hello from mros2-posix onto Linux: 52'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.523+00:00 host_mono_ns=2336378713834602 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.523+00:00 host_mono_ns=2336378713876340 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.523+00:00 host_mono_ns=2336378713888173 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:35:59.523+00:00 host_mono_ns=2336378713897951 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.289+00:00 host_mono_ns=2336379479300132 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.289+00:00 host_mono_ns=2336379479361608 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.404+00:00 host_mono_ns=2336379594206584 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.404+00:00 host_mono_ns=2336379594257540 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.404+00:00 host_mono_ns=2336379594375683 [CR-NATIVE-R04] epoch=1790577360.403782475 event=peer_receive topic=/to_linux id=53 payload='Hello from mros2-posix onto Linux: 53'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.404+00:00 host_mono_ns=2336379594431128 [CR-NATIVE-R04] epoch=1790577360.403819535 event=peer_echo_publish_return topic=/to_stm id=53 payload='Hello from mros2-posix onto Linux: 53'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.523+00:00 host_mono_ns=2336379713954138 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.523+00:00 host_mono_ns=2336379713997370 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.524+00:00 host_mono_ns=2336379714197538 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:00.524+00:00 host_mono_ns=2336379714216524 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.289+00:00 host_mono_ns=2336380479643470 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.290+00:00 host_mono_ns=2336380480196525 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.404+00:00 host_mono_ns=2336380594567374 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.404+00:00 host_mono_ns=2336380594604945 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.404+00:00 host_mono_ns=2336380594633198 [CR-NATIVE-R04] epoch=1790577361.404279843 event=peer_receive topic=/to_linux id=54 payload='Hello from mros2-posix onto Linux: 54'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.404+00:00 host_mono_ns=2336380594644570 [CR-NATIVE-R04] epoch=1790577361.404312364 event=peer_echo_publish_return topic=/to_stm id=54 payload='Hello from mros2-posix onto Linux: 54'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.523+00:00 host_mono_ns=2336380714081756 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.523+00:00 host_mono_ns=2336380714127202 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.523+00:00 host_mono_ns=2336380714138944 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:01.523+00:00 host_mono_ns=2336380714148112 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.289+00:00 host_mono_ns=2336381479985288 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.289+00:00 host_mono_ns=2336381480053628 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.405+00:00 host_mono_ns=2336381595925763 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.405+00:00 host_mono_ns=2336381595981489 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.405+00:00 host_mono_ns=2336381596033377 [CR-NATIVE-R04] epoch=1790577362.405552140 event=peer_receive topic=/to_linux id=55 payload='Hello from mros2-posix onto Linux: 55'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.405+00:00 host_mono_ns=2336381596053965 [CR-NATIVE-R04] epoch=1790577362.405591173 event=peer_echo_publish_return topic=/to_stm id=55 payload='Hello from mros2-posix onto Linux: 55'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.519+00:00 host_mono_ns=2336381709916607 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.519+00:00 host_mono_ns=2336381709964908 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.519+00:00 host_mono_ns=2336381709986929 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.519+00:00 host_mono_ns=2336381709996648 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.520+00:00 host_mono_ns=2336381710877492 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.520+00:00 host_mono_ns=2336381710918699 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.522+00:00 host_mono_ns=2336381712279099 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.522+00:00 host_mono_ns=2336381712306530 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.523+00:00 host_mono_ns=2336381714030767 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.523+00:00 host_mono_ns=2336381714060543 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.523+00:00 host_mono_ns=2336381714075311 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:02.523+00:00 host_mono_ns=2336381714087354 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.290+00:00 host_mono_ns=2336382480331667 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.290+00:00 host_mono_ns=2336382480379147 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.406+00:00 host_mono_ns=2336382596569713 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.406+00:00 host_mono_ns=2336382596622683 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.406+00:00 host_mono_ns=2336382596646518 [CR-NATIVE-R04] epoch=1790577363.406190729 event=peer_receive topic=/to_linux id=56 payload='Hello from mros2-posix onto Linux: 56'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.406+00:00 host_mono_ns=2336382596657890 [CR-NATIVE-R04] epoch=1790577363.406226066 event=peer_echo_publish_return topic=/to_stm id=56 payload='Hello from mros2-posix onto Linux: 56'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.524+00:00 host_mono_ns=2336382714396732 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.524+00:00 host_mono_ns=2336382714444162 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.524+00:00 host_mono_ns=2336382714456746 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:03.524+00:00 host_mono_ns=2336382714467346 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.290+00:00 host_mono_ns=2336383480410667 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.290+00:00 host_mono_ns=2336383480469509 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.407+00:00 host_mono_ns=2336383597736097 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.407+00:00 host_mono_ns=2336383597786573 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.407+00:00 host_mono_ns=2336383597814335 [CR-NATIVE-R04] epoch=1790577364.407335262 event=peer_receive topic=/to_linux id=57 payload='Hello from mros2-posix onto Linux: 57'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.407+00:00 host_mono_ns=2336383597829724 [CR-NATIVE-R04] epoch=1790577364.407374557 event=peer_echo_publish_return topic=/to_stm id=57 payload='Hello from mros2-posix onto Linux: 57'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.524+00:00 host_mono_ns=2336383714531587 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.524+00:00 host_mono_ns=2336383714575651 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.524+00:00 host_mono_ns=2336383714587443 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:04.524+00:00 host_mono_ns=2336383714596670 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.290+00:00 host_mono_ns=2336384480794455 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.290+00:00 host_mono_ns=2336384480839299 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.408+00:00 host_mono_ns=2336384598563513 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.408+00:00 host_mono_ns=2336384598620140 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.408+00:00 host_mono_ns=2336384598632764 [CR-NATIVE-R04] epoch=1790577365.408097706 event=peer_receive topic=/to_linux id=58 payload='Hello from mros2-posix onto Linux: 58'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.408+00:00 host_mono_ns=2336384598643915 [CR-NATIVE-R04] epoch=1790577365.408133433 event=peer_echo_publish_return topic=/to_stm id=58 payload='Hello from mros2-posix onto Linux: 58'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.524+00:00 host_mono_ns=2336384714484672 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.524+00:00 host_mono_ns=2336384714514609 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.524+00:00 host_mono_ns=2336384714548072 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:05.524+00:00 host_mono_ns=2336384714557730 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.291+00:00 host_mono_ns=2336385481326923 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.291+00:00 host_mono_ns=2336385481831105 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.408+00:00 host_mono_ns=2336385599071906 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.408+00:00 host_mono_ns=2336385599105910 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.408+00:00 host_mono_ns=2336385599128322 [CR-NATIVE-R04] epoch=1790577366.408754338 event=peer_receive topic=/to_linux id=59 payload='Hello from mros2-posix onto Linux: 59'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.408+00:00 host_mono_ns=2336385599141547 [CR-NATIVE-R04] epoch=1790577366.408786018 event=peer_echo_publish_return topic=/to_stm id=59 payload='Hello from mros2-posix onto Linux: 59'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.520+00:00 host_mono_ns=2336385710517421 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.520+00:00 host_mono_ns=2336385710567115 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.520+00:00 host_mono_ns=2336385710602242 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.520+00:00 host_mono_ns=2336385710614735 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.521+00:00 host_mono_ns=2336385711801426 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.521+00:00 host_mono_ns=2336385711830581 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.522+00:00 host_mono_ns=2336385713087375 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.522+00:00 host_mono_ns=2336385713131498 === DEBUG [lwip-posix]: recvfrom received packet of len 48! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.524+00:00 host_mono_ns=2336385714483632 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.524+00:00 host_mono_ns=2336385714511925 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.524+00:00 host_mono_ns=2336385714525882 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:06.524+00:00 host_mono_ns=2336385714537173 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.290+00:00 host_mono_ns=2336386480944452 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.290+00:00 host_mono_ns=2336386480980620 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.409+00:00 host_mono_ns=2336386600158439 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.410+00:00 host_mono_ns=2336386600205107 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.410+00:00 host_mono_ns=2336386600220065 [CR-NATIVE-R04] epoch=1790577367.409711337 event=peer_receive topic=/to_linux id=60 payload='Hello from mros2-posix onto Linux: 60'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.410+00:00 host_mono_ns=2336386600233110 [CR-NATIVE-R04] epoch=1790577367.409729611 event=peer_echo_publish_return topic=/to_stm id=60 payload='Hello from mros2-posix onto Linux: 60'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.524+00:00 host_mono_ns=2336386714832502 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.524+00:00 host_mono_ns=2336386714893487 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.524+00:00 host_mono_ns=2336386714905560 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.524+00:00 host_mono_ns=2336386714915268 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855864186 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855909952 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855923668 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855936693 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855950669 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855964265 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855979223 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386855993199 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856072519 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856094320 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856108808 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856121882 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856133745 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.665+00:00 host_mono_ns=2336386856146369 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856189390 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856201884 === DEBUG [lwip-posix]: recvfrom received packet of len 68! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856214968 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856227372 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856244093 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856253120 === DEBUG [lwip-posix]: recvfrom received packet of len 68! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856262448 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.666+00:00 host_mono_ns=2336386856271234 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.667+00:00 host_mono_ns=2336386857534921 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.667+00:00 host_mono_ns=2336386857548507 === DEBUG [lwip-posix]: recvfrom received packet of len 488! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.667+00:00 host_mono_ns=2336386857839807 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.667+00:00 host_mono_ns=2336386857846720 === DEBUG [lwip-posix]: recvfrom received packet of len 488! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.668+00:00 host_mono_ns=2336386858856427 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.668+00:00 host_mono_ns=2336386858873660 === DEBUG [lwip-posix]: recvfrom received packet of len 460! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861239789 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861258434 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861320671 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861331973 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861458211 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861484040 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861496724 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.671+00:00 host_mono_ns=2336386861506442 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.678+00:00 host_mono_ns=2336386868546859 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.678+00:00 host_mono_ns=2336386868559503 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.686+00:00 host_mono_ns=2336386876668168 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.686+00:00 host_mono_ns=2336386876679960 === DEBUG [lwip-posix]: recvfrom received packet of len 464! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926270812 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926292743 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926304145 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926315416 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926334232 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926343419 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926352516 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.736+00:00 host_mono_ns=2336386926360962 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956092967 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956123304 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956134706 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956143632 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956152740 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.765+00:00 host_mono_ns=2336386956161336 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.865+00:00 host_mono_ns=2336387056143340 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.865+00:00 host_mono_ns=2336387056163499 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.866+00:00 host_mono_ns=2336387056176032 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.866+00:00 host_mono_ns=2336387056202081 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.866+00:00 host_mono_ns=2336387056211810 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.866+00:00 host_mono_ns=2336387056220446 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066407516 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066430660 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066597435 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066632832 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066645626 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066654954 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066664662 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.876+00:00 host_mono_ns=2336387066673438 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156260260 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156312128 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156339940 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156353516 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156366340 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:07.966+00:00 host_mono_ns=2336387156378944 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256307527 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256356890 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256613435 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256630257 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256642820 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.066+00:00 host_mono_ns=2336387256653981 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347251841 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347305652 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347318356 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347327574 === DEBUG [lwip-posix]: recvfrom received packet of len 64! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347336951 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347345548 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347354625 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.157+00:00 host_mono_ns=2336387347382127 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356243885 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356284181 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356432632 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356447660 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356457799 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.166+00:00 host_mono_ns=2336387356466716 === DEBUG [lwip-posix]: recvfrom received packet of len 280! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.187+00:00 host_mono_ns=2336387378090567 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.187+00:00 host_mono_ns=2336387378118379 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.187+00:00 host_mono_ns=2336387378128959 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.187+00:00 host_mono_ns=2336387378137816 === DEBUG [lwip-posix]: recvfrom received packet of len 88! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378277239 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378318267 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378330550 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378339617 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378349786 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378358362 === DEBUG [lwip-posix]: recvfrom received packet of len 120! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378374673 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378383580 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378800026 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378825655 === DEBUG [lwip-posix]: recvfrom received packet of len 116! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378848718 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.188+00:00 host_mono_ns=2336387378861673 === DEBUG [lwip-posix]: recvfrom received packet of len 116! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.291+00:00 host_mono_ns=2336387481792896 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.291+00:00 host_mono_ns=2336387481846096 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.410+00:00 host_mono_ns=2336387600449421 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.410+00:00 host_mono_ns=2336387600481371 === DEBUG [lwip-posix]: recvfrom received packet of len 104! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.410+00:00 host_mono_ns=2336387600488304 [CR-NATIVE-R04] epoch=1790577368.410112697 event=peer_receive topic=/to_linux id=61 payload='Hello from mros2-posix onto Linux: 61'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.410+00:00 host_mono_ns=2336387600495688 [CR-NATIVE-R04] epoch=1790577368.410139558 event=peer_echo_publish_return topic=/to_stm id=61 payload='Hello from mros2-posix onto Linux: 61'
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.524+00:00 host_mono_ns=2336387714599244 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.524+00:00 host_mono_ns=2336387714650571 === DEBUG [lwip-posix]: udp_sendto called! Bypassing to POSIX sendto ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.524+00:00 host_mono_ns=2336387714663866 
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.524+00:00 host_mono_ns=2336387714673955 === DEBUG [lwip-posix]: recvfrom received packet of len 204! Bypassing to pcb->recv ===
+[CR-DISCOVERY-PROBE-R19] host_utc=2026-09-28T06:36:08.848+00:00 host_mono_ns=2336388038326632 event=collector_exit host_exit_status=143

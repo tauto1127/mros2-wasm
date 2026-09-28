@@ -1,0 +1,229 @@
+[
+    {
+        "Id": "81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3",
+        "Created": "2026-09-28T06:29:18.409103429Z",
+        "Path": "/ros_entrypoint.sh",
+        "Args": [
+            "sleep",
+            "infinity"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 1742103,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-09-28T06:29:18.473667881Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+        "ResolvConfPath": "/var/lib/docker/containers/81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3/hostname",
+        "HostsPath": "/var/lib/docker/containers/81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3/hosts",
+        "LogPath": "/var/lib/docker/containers/81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3/81c4de6b03a49c9db1c19d7f039a6a05303e77ad9630de410e738ecae23ebdc3-json.log",
+        "Name": "/mros2-cr-run14-native-peer",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "/tmp/mros2-posix-run04-final-build/mros2-posix:/native-peer:ro"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "mros2-cr-net",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+                "Destination": "/native-peer",
+                "Mode": "ro",
+                "RW": false,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "81c4de6b03a4",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8",
+                "ROS_DISTRO=humble"
+            ],
+            "Cmd": [
+                "sleep",
+                "infinity"
+            ],
+            "Image": "ros:humble",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/ros_entrypoint.sh"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "47b3869667a3b920bb88a0f72378c7b4c1ec219284b362d2a82db708923a20ff",
+            "SandboxKey": "/var/run/docker/netns/47b3869667a3",
+            "Ports": {},
+            "Networks": {
+                "mros2-cr-net": {
+                    "IPAMConfig": {
+                        "IPv4Address": "172.18.0.5"
+                    },
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+                    "EndpointID": "24ec112b7e69fa6369cc76c503df20c76e755b43408d17f0b397beed67920bb6",
+                    "Gateway": "172.18.0.1",
+                    "IPAddress": "172.18.0.5",
+                    "MacAddress": "f6:4a:9e:9e:cb:1e",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "mros2-cr-run14-native-peer",
+                        "81c4de6b03a4"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:ba0391e31ffcfc5a1014578ecb0f4ca438be9d624b6375c85576ae16bc5232e6",
+            "size": 2909,
+            "annotations": {
+                "com.docker.official-images.bashbrew.arch": "amd64",
+                "org.opencontainers.image.base.digest": "sha256:00e8ee27be2e594747b6ba8c2791a2724e3a38a7fe66366bbd05e4e7da7ce55d",
+                "org.opencontainers.image.base.name": "ros:humble-ros-core-jammy",
+                "org.opencontainers.image.created": "2026-09-09T03:30:01Z",
+                "org.opencontainers.image.revision": "20e3ba685bb353a3c00be9ba01c1b7a6823c9472",
+                "org.opencontainers.image.source": "https://github.com/osrf/docker_images.git#20e3ba685bb353a3c00be9ba01c1b7a6823c9472:ros/humble/ubuntu/jammy/ros-base",
+                "org.opencontainers.image.url": "https://hub.docker.com/_/ros",
+                "org.opencontainers.image.version": "humble-ros-base"
+            },
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]
+
+rc=0

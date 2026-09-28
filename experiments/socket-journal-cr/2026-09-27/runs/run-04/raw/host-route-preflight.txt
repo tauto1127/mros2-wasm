@@ -1,0 +1,5 @@
+default via 192.168.100.1 dev enp4s0 proto static metric 100 
+169.254.0.0/16 dev enp4s0 scope link metric 1000 
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
+172.18.0.0/16 dev br-609362e37c7a proto kernel scope link src 172.18.0.1 linkdown 
+192.168.100.0/24 dev enp4s0 proto kernel scope link src 192.168.100.11 metric 100 

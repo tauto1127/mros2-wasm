@@ -1,0 +1,459 @@
+diff --git a/include/rtps/entities/StatefulWriter.tpp b/include/rtps/entities/StatefulWriter.tpp
+index b156445..703e86a 100644
+--- a/include/rtps/entities/StatefulWriter.tpp
++++ b/include/rtps/entities/StatefulWriter.tpp
+@@ -27,9 +27,12 @@ Author: i11 - Embedded Software, RWTH Aachen University
+ #include "rtps/messages/MessageFactory.h"
+ #include "rtps/utils/Log.h"
+ #include "rtps/utils/SEDPRaceTrace.h"
++#include "rtps/utils/SEDPHbTrace.h"
+ #include <algorithm>
++#include <atomic>
+ #include <cstring>
+ #include <errno.h>
++#include <pthread.h>
+ #include <stdio.h>
+ #include <time.h>
+ 
+@@ -107,12 +110,18 @@ bool StatefulWriterT<NetworkDriver>::init(TopicData attributes,
+   {
+     printf("[DISCOVERY_PROBE] event=heartbeat_thread_create writer=sedp_publications created=%u\n",
+            (unsigned int)(m_heartbeatThread != NULL));
++    rtps::sedpHbTrace("heartbeat_thread_create",
++                      "writer=sedp_publications created=%u",
++                      static_cast<unsigned>(m_heartbeatThread != NULL));
+   }
+   else if (m_attributes.endpointGuid.entityId ==
+            ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
+   {
+     printf("[DISCOVERY_PROBE] event=heartbeat_thread_create writer=sedp_subscriptions created=%u\n",
+            (unsigned int)(m_heartbeatThread != NULL));
++    rtps::sedpHbTrace("heartbeat_thread_create",
++                      "writer=sedp_subscriptions created=%u",
++                      static_cast<unsigned>(m_heartbeatThread != NULL));
+   }
+ 
+   m_is_initialized_ = true;
+@@ -499,6 +508,32 @@ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+     const SubmessageAckNack &msg, const GuidPrefix_t &sourceGuidPrefix)
+ {
++  const char *hb_writer =
++      rtps::sedpHbWriterName(m_attributes.endpointGuid.entityId);
++  if (hb_writer != nullptr)
++  {
++    char sourcePrefix[25];
++    char readerId[16];
++    rtps::formatSedpRaceGuidPrefix(sourceGuidPrefix, sourcePrefix,
++                                   sizeof(sourcePrefix));
++    rtps::formatSedpRaceEntityId(msg.readerId, readerId, sizeof(readerId));
++    const unsigned bitmap0 = msg.readerSNState.numBits > 0
++                                 ? msg.readerSNState.bitMap[0]
++                                 : 0u;
++    const unsigned preemptive =
++        (msg.readerSNState.base.high == 0 && msg.readerSNState.base.low == 0)
++            ? 1u
++            : 0u;
++    rtps::sedpHbTrace(
++        "on_acknack_enter",
++        "writer=%s source_prefix=%s reader_id=%s proxies_empty=%u base=%d:%u num_bits=%u bitmap0=0x%08x count=%u preemptive=%u",
++        hb_writer, sourcePrefix, readerId,
++        static_cast<unsigned>(m_proxies.isEmpty()),
++        msg.readerSNState.base.high,
++        static_cast<unsigned>(msg.readerSNState.base.low),
++        static_cast<unsigned>(msg.readerSNState.numBits), bitmap0,
++        static_cast<unsigned>(msg.count.value), preemptive);
++  }
+   const bool service_request_writer =
+       std::strncmp(m_attributes.topicName, "rq/", 3) == 0;
+   ReaderProxy *reader = nullptr;
+@@ -514,6 +549,19 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+ 
+   if (reader == nullptr)
+   {
++    if (hb_writer != nullptr)
++    {
++      char sourcePrefix[25];
++      char readerId[16];
++      rtps::formatSedpRaceGuidPrefix(sourceGuidPrefix, sourcePrefix,
++                                     sizeof(sourcePrefix));
++      rtps::formatSedpRaceEntityId(msg.readerId, readerId, sizeof(readerId));
++      rtps::sedpHbTrace(
++          "acknack_drop",
++          "writer=%s reason=no_matching_reader_proxy source_prefix=%s reader_id=%s proxies_empty=%u",
++          hb_writer, sourcePrefix, readerId,
++          static_cast<unsigned>(m_proxies.isEmpty()));
++    }
+     if (service_request_writer)
+     {
+       printf("[RTPS TX] service ACKNACK ignored: no matching reader proxy: base=%d:%u count=%u\n",
+@@ -528,6 +576,15 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+     return;
+   }
+ 
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("acknack_proxy_matched",
++                      "writer=%s previous_count=%u incoming_count=%u",
++                      hb_writer,
++                      static_cast<unsigned>(reader->ackNackCount.value),
++                      static_cast<unsigned>(msg.count.value));
++  }
++
+   if (service_request_writer)
+   {
+     printf("[RTPS TX] service ACKNACK: base=%d:%u num_bits=%u bitmap=0x%08x count=%u previous_count=%u\n",
+@@ -553,7 +610,14 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+ 
+   if (msg.count.value <= reader->ackNackCount.value)
+   {
+-
++    if (hb_writer != nullptr)
++    {
++      rtps::sedpHbTrace("acknack_drop",
++                        "writer=%s reason=old_count previous=%u incoming=%u",
++                        hb_writer,
++                        static_cast<unsigned>(reader->ackNackCount.value),
++                        static_cast<unsigned>(msg.count.value));
++    }
+     SFW_LOG("Count too small. Dropping acknack.\n");
+ 
+     return;
+@@ -574,6 +638,12 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+     {
+       printf("[RTPS TX] service preemptive ACKNACK: send HEARTBEAT instead of replaying history\n");
+     }
++    if (hb_writer != nullptr)
++    {
++      rtps::sedpHbTrace("acknack_action",
++                        "writer=%s action=send_heartbeat reason=preemptive",
++                        hb_writer);
++    }
+     sendHeartBeat();
+     return;
+   }
+@@ -588,7 +658,13 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+     {
+ 
+       SFW_LOG("Send Packet on acknack.\n");
+-
++      if (hb_writer != nullptr)
++      {
++        rtps::sedpHbTrace("acknack_action",
++                          "writer=%s action=send_data sequence=%d:%u",
++                          hb_writer, nextSN.high,
++                          static_cast<unsigned>(nextSN.low));
++      }
+       sendData(*reader, nextSN);
+     }
+   }
+@@ -600,6 +676,13 @@ void StatefulWriterT<NetworkDriver>::onNewAckNack(
+   }
+   while (nextSN <= maxSN)
+   {
++    if (hb_writer != nullptr)
++    {
++      rtps::sedpHbTrace("acknack_action",
++                        "writer=%s action=send_data sequence=%d:%u",
++                        hb_writer, nextSN.high,
++                        static_cast<unsigned>(nextSN.low));
++    }
+     sendData(*reader, nextSN);
+     ++nextSN;
+   }
+@@ -609,6 +692,15 @@ template <class NetworkDriver>
+ bool StatefulWriterT<NetworkDriver>::sendData(
+     const ReaderProxy &reader, const SequenceNumber_t &snMissing)
+ {
++  const char *hb_writer =
++      rtps::sedpHbWriterName(m_attributes.endpointGuid.entityId);
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("sedp_senddata_enter",
++                      "writer=%s sequence=%d:%u",
++                      hb_writer, snMissing.high,
++                      static_cast<unsigned>(snMissing.low));
++  }
+   // TODO smarter packaging e.g. by creating MessageStruct and serialize after
+   // adjusting values Reusing the pbuf is not possible. See
+   // https://www.nongnu.org/lwip/2_0_x/raw_api.html (Zero-Copy MACs)
+@@ -632,7 +724,13 @@ bool StatefulWriterT<NetworkDriver>::sendData(
+     const CacheChange *next = m_history.getChangeBySN(snMissing);
+     if (next == nullptr)
+     {
+-
++      if (hb_writer != nullptr)
++      {
++        rtps::sedpHbTrace("sedp_senddata_skip",
++                          "writer=%s sequence=%d:%u reason=history_miss",
++                          hb_writer, snMissing.high,
++                          static_cast<unsigned>(snMissing.low));
++      }
+       SFW_LOG("Couldn't get a CacheChange with SN (%i,%u)\n", snMissing.high,
+               snMissing.low);
+ 
+@@ -671,7 +769,23 @@ bool StatefulWriterT<NetworkDriver>::sendData(
+            request_id, info.srcPort, info.destPort,
+            info.buffer.firstElement->tot_len);
+   }
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("sedp_senddata_transport_before",
++                      "writer=%s sequence=%d:%u dst_port=%u",
++                      hb_writer, snMissing.high,
++                      static_cast<unsigned>(snMissing.low),
++                      static_cast<unsigned>(info.destPort));
++  }
+   m_transport->sendPacket(info);
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("sedp_senddata_transport_after",
++                      "writer=%s sequence=%d:%u dst_port=%u",
++                      hb_writer, snMissing.high,
++                      static_cast<unsigned>(snMissing.low),
++                      static_cast<unsigned>(info.destPort));
++  }
+   return true;
+ }
+ 
+@@ -777,6 +891,15 @@ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::sendHeartBeatLoop()
+ {
+   m_thread_running = true;
++  const char *hb_writer =
++      rtps::sedpHbWriterName(m_attributes.endpointGuid.entityId);
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("heartbeat_loop_start",
++                      "writer=%s running=%u thread=%lu", hb_writer,
++                      static_cast<unsigned>(m_running),
++                      static_cast<unsigned long>(pthread_self()));
++  }
+   if (m_attributes.endpointGuid.entityId ==
+       ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
+   {
+@@ -787,54 +910,70 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeatLoop()
+   {
+     printf("[DISCOVERY_PROBE] event=heartbeat_loop_start writer=sedp_subscriptions\n");
+   }
+-  const bool probe_sedp_writer =
+-      m_attributes.endpointGuid.entityId ==
+-          ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER ||
+-      m_attributes.endpointGuid.entityId ==
+-          ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER;
+-  bool probe_first_delay = probe_sedp_writer;
++  uint32_t tick = 0;
++  bool saw_proxy = false;
+   while (m_running)
+   {
+-    sendHeartBeat();
+-#ifdef OS_IS_FREERTOS
+-    if (probe_sedp_writer)
+-    {
+-      const char *probe_writer =
+-          m_attributes.endpointGuid.entityId ==
+-                  ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER
+-              ? "sedp_publications"
+-              : "sedp_subscriptions";
+-      if (probe_first_delay)
+-      {
+-        printf("[DISCOVERY_PROBE] event=heartbeat_delay_enter writer=%s delay_ms=%u backend=nanosleep\n",
+-               probe_writer, (unsigned int)Config::SF_WRITER_HB_PERIOD_MS);
+-      }
+-      struct timespec req = {
+-          (time_t)(Config::SF_WRITER_HB_PERIOD_MS / 1000),
+-          (long)((Config::SF_WRITER_HB_PERIOD_MS % 1000) * 1000000L)};
+-      struct timespec rem = {};
+-      int delay_status;
+-      do
+-      {
+-        delay_status = nanosleep(&req, &rem);
+-        req = rem;
+-      } while (delay_status != 0 && errno == EINTR);
+-      if (probe_first_delay)
++    ++tick;
++    const bool proxies_empty = m_proxies.isEmpty();
++    const bool proxy_became_present = !saw_proxy && !proxies_empty;
++    if (!proxies_empty)
++    {
++      saw_proxy = true;
++    }
++    const bool sample_tick =
++        hb_writer != nullptr &&
++        (tick <= 8 || (tick % 100) == 0 || proxy_became_present);
++    if (sample_tick)
++    {
++      SequenceNumber_t historyMin;
++      SequenceNumber_t historyMax;
+       {
+-        printf("[DISCOVERY_PROBE] event=heartbeat_delay_return writer=%s status=%d backend=nanosleep\n",
+-               probe_writer, delay_status);
+-        probe_first_delay = false;
++        Lock lock(m_mutex);
++        historyMin = m_history.getSeqNumMin();
++        historyMax = m_history.getSeqNumMax();
+       }
++      rtps::sedpHbTrace(
++          "heartbeat_loop_tick",
++          "writer=%s tick=%u running=%u proxies_empty=%u history_min=%d:%u history_max=%d:%u",
++          hb_writer, static_cast<unsigned>(tick),
++          static_cast<unsigned>(m_running),
++          static_cast<unsigned>(proxies_empty), historyMin.high,
++          static_cast<unsigned>(historyMin.low), historyMax.high,
++          static_cast<unsigned>(historyMax.low));
+     }
+-    else
++    sendHeartBeat();
++#ifdef OS_IS_FREERTOS
++    if (sample_tick)
++    {
++      printf("[DISCOVERY_PROBE] event=heartbeat_delay_enter writer=%s tick=%u delay_ms=%u backend=vTaskDelay\n",
++             hb_writer, static_cast<unsigned>(tick),
++             (unsigned int)Config::SF_WRITER_HB_PERIOD_MS);
++      rtps::sedpHbTrace(
++          "heartbeat_delay_enter",
++          "writer=%s tick=%u delay_ms=%u backend=vTaskDelay",
++          hb_writer, static_cast<unsigned>(tick),
++          static_cast<unsigned>(Config::SF_WRITER_HB_PERIOD_MS));
++    }
++    vTaskDelay(pdMS_TO_TICKS(Config::SF_WRITER_HB_PERIOD_MS));
++    if (sample_tick)
+     {
+-      vTaskDelay(pdMS_TO_TICKS(Config::SF_WRITER_HB_PERIOD_MS));
++      printf("[DISCOVERY_PROBE] event=heartbeat_delay_return writer=%s tick=%u backend=vTaskDelay\n",
++             hb_writer, static_cast<unsigned>(tick));
++      rtps::sedpHbTrace("heartbeat_delay_return",
++                        "writer=%s tick=%u backend=vTaskDelay",
++                        hb_writer, static_cast<unsigned>(tick));
+     }
+ #else
+     sys_msleep(Config::SF_WRITER_HB_PERIOD_MS);
+-    probe_first_delay = false;
+ #endif
+   }
++  if (hb_writer != nullptr)
++  {
++    rtps::sedpHbTrace("heartbeat_loop_exit",
++                      "writer=%s running=%u", hb_writer,
++                      static_cast<unsigned>(m_running));
++  }
+   m_thread_running = false;
+ }
+ 
+@@ -852,14 +991,47 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+   {
+     probe_writer = "sedp_subscriptions";
+   }
++  unsigned call_index = 0;
+   if (probe_writer != nullptr)
+   {
++    static std::atomic<unsigned> publication_calls{0};
++    static std::atomic<unsigned> subscription_calls{0};
++    std::atomic<unsigned> &counter =
++        (m_attributes.endpointGuid.entityId ==
++         ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++            ? publication_calls
++            : subscription_calls;
++    call_index = ++counter;
++  }
++  const bool sample_state =
++      probe_writer != nullptr && (call_index <= 4 || (call_index % 200) == 0);
++  if (sample_state)
++  {
++    SequenceNumber_t historyMin;
++    SequenceNumber_t historyMax;
++    {
++      Lock lock(m_mutex);
++      historyMin = m_history.getSeqNumMin();
++      historyMax = m_history.getSeqNumMax();
++    }
+     printf("[DISCOVERY_PROBE] event=heartbeat_tick writer=%s proxies_empty=%u\n",
+            probe_writer, (unsigned int)m_proxies.isEmpty());
++    rtps::sedpHbTrace(
++        "heartbeat_enter",
++        "writer=%s call=%u proxies_empty=%u history_min=%d:%u history_max=%d:%u",
++        probe_writer, call_index,
++        static_cast<unsigned>(m_proxies.isEmpty()), historyMin.high,
++        static_cast<unsigned>(historyMin.low), historyMax.high,
++        static_cast<unsigned>(historyMax.low));
+   }
+   if (m_proxies.isEmpty())
+   {
+-
++    if (sample_state)
++    {
++      rtps::sedpHbTrace("heartbeat_skip",
++                        "writer=%s call=%u reason=no_proxies",
++                        probe_writer, call_index);
++    }
+     SFW_LOG("Skipping heartbeat. No proxies.\n");
+     return;
+   }
+@@ -880,7 +1052,14 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+     }
+     if (firstSN == SEQUENCENUMBER_UNKNOWN || lastSN == SEQUENCENUMBER_UNKNOWN)
+     {
+-
++      if (probe_writer != nullptr)
++      {
++        rtps::sedpHbTrace(
++            "heartbeat_skip",
++            "writer=%s reason=no_history first=%d:%u last=%d:%u",
++            probe_writer, firstSN.high, static_cast<unsigned>(firstSN.low),
++            lastSN.high, static_cast<unsigned>(lastSN.low));
++      }
+       if (strlen(&this->m_attributes.typeName[0]) != 0)
+       {
+         SFW_LOG("Skipping heartbeat. No data.\n");
+@@ -894,7 +1073,21 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+ 
+     info.destAddr = proxy.remoteLocator.getIp4Address();
+     info.destPort = proxy.remoteLocator.port;
++    unsigned send_index = 0;
++    bool log_send = false;
+     if (probe_writer != nullptr)
++    {
++      static std::atomic<unsigned> publication_sends{0};
++      static std::atomic<unsigned> subscription_sends{0};
++      std::atomic<unsigned> &send_counter =
++          (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++              ? publication_sends
++              : subscription_sends;
++      send_index = ++send_counter;
++      log_send = send_index <= 20 || (send_index % 100) == 0;
++    }
++    if (log_send)
+     {
+       printf("[DISCOVERY_PROBE] event=heartbeat_send writer=%s first=%d:%u last=%d:%u dst_port=%u\n",
+              probe_writer, firstSN.high, firstSN.low, lastSN.high, lastSN.low,
+@@ -906,7 +1099,29 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+              firstSN.high, firstSN.low, lastSN.high, lastSN.low,
+              m_hbCount.value, info.srcPort, info.destPort);
+     }
++    if (log_send)
++    {
++      rtps::sedpHbTrace(
++          "heartbeat_transport_before",
++          "writer=%s send=%u first=%d:%u last=%d:%u count=%u dst_port=%u",
++          probe_writer, send_index, firstSN.high,
++          static_cast<unsigned>(firstSN.low), lastSN.high,
++          static_cast<unsigned>(lastSN.low),
++          static_cast<unsigned>(m_hbCount.value),
++          static_cast<unsigned>(info.destPort));
++    }
+     m_transport->sendPacket(info);
++    if (log_send)
++    {
++      rtps::sedpHbTrace(
++          "heartbeat_transport_after",
++          "writer=%s send=%u first=%d:%u last=%d:%u count=%u dst_port=%u",
++          probe_writer, send_index, firstSN.high,
++          static_cast<unsigned>(firstSN.low), lastSN.high,
++          static_cast<unsigned>(lastSN.low),
++          static_cast<unsigned>(m_hbCount.value),
++          static_cast<unsigned>(info.destPort));
++    }
+   }
+   m_hbCount.value++;
+ }

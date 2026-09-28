@@ -1,0 +1,131 @@
+{
+  "complete_ids": [
+    6,
+    8,
+    11,
+    12,
+    17,
+    18,
+    22,
+    24,
+    27,
+    28
+  ],
+  "complete_roundtrips": 10,
+  "early_consumptions": [
+    {
+      "change_seq": "0:1",
+      "change_trace_seq": 2,
+      "consumed_without_proxy": true,
+      "next_after": "0:2",
+      "progress_trace_seq": 6,
+      "proxy_added_later": true,
+      "proxy_trace_seq": 9,
+      "role": "subscription",
+      "topic": "rt/to_stm"
+    }
+  ],
+  "incomplete_ids_and_stages": [
+    {
+      "id": 0,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 1,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 2,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 3,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 4,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 5,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 7,
+      "last_stage": "native_echo_publish_return"
+    },
+    {
+      "id": 9,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 10,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 13,
+      "last_stage": "native_echo_publish_return"
+    },
+    {
+      "id": 14,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 15,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 16,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 19,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 20,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 21,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 23,
+      "last_stage": "native_echo_publish_return"
+    },
+    {
+      "id": 25,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 26,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 29,
+      "last_stage": "native_echo_publish_return"
+    }
+  ],
+  "pre_gate": "pass",
+  "run": "run-33",
+  "trace_event_count": 12,
+  "trace_had_interleaved_prefix": true,
+  "wire_counts_in_pre_gate_window": {
+    "peer_to_wasm_sedp_data_frames": 2,
+    "peer_to_wasm_sedp_data_submessages": 2,
+    "peer_to_wasm_sedp_heartbeat_frames": 14,
+    "peer_to_wasm_user_data_frames": 26,
+    "peer_to_wasm_user_data_submessages": 26,
+    "rtps_frames_in_gate_window": 4385,
+    "wasm_to_peer_sedp_data_frames": 7,
+    "wasm_to_peer_sedp_data_submessages": 7,
+    "wasm_to_peer_sedp_heartbeat_frames": 2148,
+    "wasm_to_peer_user_data_frames": 26,
+    "wasm_to_peer_user_data_submessages": 26
+  },
+  "wire_window_utc": {
+    "finish": "2026-09-28T09:02:40.987000+00:00",
+    "start": "2026-09-28T09:02:11.452000+00:00"
+  }
+}

@@ -1,0 +1,26 @@
+2026-09-27T03:55:49.641258534Z [CR-RERUN-20260927] peer=ros-peer {"event": "peer_start", "pid": 1, "role": "ros2-echo-peer", "utc": "2026-09-27T03:55:49.641+00:00"}
+2026-09-27T03:55:50.642606307Z [CR-RERUN-20260927] peer=ros-peer {"event": "peer_stop", "pid": 1, "reason": "shutdown", "utc": "2026-09-27T03:55:50.642+00:00"}
+2026-09-27T03:55:50.644735199Z Traceback (most recent call last):
+2026-09-27T03:55:50.644755718Z   File "/experiment/echo_peer.py", line 115, in <module>
+2026-09-27T03:55:50.644812666Z     main()
+2026-09-27T03:55:50.644823346Z   File "/experiment/echo_peer.py", line 105, in main
+2026-09-27T03:55:50.644897185Z     rclpy.spin(node)
+2026-09-27T03:55:50.644909469Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+2026-09-27T03:55:50.645054112Z     executor.spin_once()
+2026-09-27T03:55:50.645065413Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+2026-09-27T03:55:50.645251425Z     self._spin_once_impl(timeout_sec)
+2026-09-27T03:55:50.645262756Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 805, in _spin_once_impl
+2026-09-27T03:55:50.645472893Z     raise handler.exception()
+2026-09-27T03:55:50.645484195Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 272, in _execute_coroutine_step
+2026-09-27T03:55:50.645528067Z     result = coro.send(None)
+2026-09-27T03:55:50.645538507Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 488, in handler
+2026-09-27T03:55:50.645690374Z     await call_coroutine(entity, arg)
+2026-09-27T03:55:50.645701655Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 396, in _execute_timer
+2026-09-27T03:55:50.645791024Z     await await_or_execute(tmr.callback)
+2026-09-27T03:55:50.645797727Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 110, in await_or_execute
+2026-09-27T03:55:50.645879912Z     return callback(*args)
+2026-09-27T03:55:50.645890652Z   File "/experiment/echo_peer.py", line 86, in log_graph
+2026-09-27T03:55:50.645987596Z     "/to_linux": self.topic_records("/to_linux"),
+2026-09-27T03:55:50.645994338Z   File "/experiment/echo_peer.py", line 76, in topic_records
+2026-09-27T03:55:50.646040045Z     "publisher_count": self.get_publisher_count(topic),
+2026-09-27T03:55:50.646137689Z AttributeError: 'EchoPeer' object has no attribute 'get_publisher_count'

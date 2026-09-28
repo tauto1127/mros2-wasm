@@ -1,0 +1,97 @@
+--- /dev/null	2026-09-01 14:36:27.742000106 +0900
++++ /tmp/mros2-wasm-sedp-race-20260928-run31/source/mros2/embeddedRTPS/include/rtps/utils/SEDPRaceTrace.h	2026-09-28 17:01:15.405949152 +0900
+@@ -0,0 +1,94 @@
++#pragma once
++
++#include "rtps/common/types.h"
++
++#include <cstddef>
++#include <cstdint>
++
++namespace rtps
++{
++
++void sedpRaceTrace(const char *event, const char *format, ...);
++
++inline void formatSedpRaceGuidPrefix(const GuidPrefix_t &prefix, char *output,
++                                     std::size_t capacity)
++{
++  static const char hex[] = "0123456789abcdef";
++  if (capacity == 0)
++  {
++    return;
++  }
++
++  std::size_t offset = 0;
++  for (const auto byte : prefix.id)
++  {
++    if (offset + 2 >= capacity)
++    {
++      break;
++    }
++    output[offset++] = hex[(byte >> 4) & 0x0f];
++    output[offset++] = hex[byte & 0x0f];
++  }
++  output[offset] = '\0';
++}
++
++inline void formatSedpRaceEntityId(const EntityId_t &entityId, char *output,
++                                   std::size_t capacity)
++{
++  static const char hex[] = "0123456789abcdef";
++  if (capacity == 0)
++  {
++    return;
++  }
++
++  std::size_t offset = 0;
++  for (const auto byte : entityId.entityKey)
++  {
++    if (offset + 2 >= capacity)
++    {
++      break;
++    }
++    output[offset++] = hex[(byte >> 4) & 0x0f];
++    output[offset++] = hex[byte & 0x0f];
++  }
++  if (offset + 3 < capacity)
++  {
++    output[offset++] = ':';
++    const auto kind = static_cast<std::uint8_t>(entityId.entityKind);
++    output[offset++] = hex[(kind >> 4) & 0x0f];
++    output[offset++] = hex[kind & 0x0f];
++  }
++  output[offset] = '\0';
++}
++
++inline void formatSedpRaceGuid(const Guid_t &guid, char *output,
++                               std::size_t capacity)
++{
++  if (capacity == 0)
++  {
++    return;
++  }
++
++  char prefix[25];
++  char entity[16];
++  formatSedpRaceGuidPrefix(guid.prefix, prefix, sizeof(prefix));
++  formatSedpRaceEntityId(guid.entityId, entity, sizeof(entity));
++  std::size_t offset = 0;
++  while (prefix[offset] != '\0' && offset + 1 < capacity)
++  {
++    output[offset] = prefix[offset];
++    ++offset;
++  }
++  if (offset + 1 < capacity)
++  {
++    output[offset++] = '.';
++  }
++  for (std::size_t index = 0; entity[index] != '\0' && offset + 1 < capacity;
++       ++index)
++  {
++    output[offset++] = entity[index];
++  }
++  output[offset] = '\0';
++}
++
++} // namespace rtps

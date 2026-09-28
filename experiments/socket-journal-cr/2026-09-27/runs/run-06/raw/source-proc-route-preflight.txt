@@ -1,0 +1,19 @@
+utc=2026-09-27T11:16:37.924+00:00
+container=mros2-cr-run06-source
+file=/proc/net/route
+returncode=0
+Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
+eth0	00000000	010012AC	0003	0	0	0	00000000	0	0	0                                                                               
+eth0	000012AC	00000000	0001	0	0	0	0000FFFF	0	0	0
+stderr=
+file=/proc/net/dev
+returncode=0
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+  eth0:    7957      50    0    0    0     0          0         0      126       3    0    0    0     0       0          0
+stderr=
+file=/sys/class/net/eth0/address
+returncode=0
+fa:94:d8:28:65:f2
+stderr=

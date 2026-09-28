@@ -1,0 +1,51 @@
+diff --git a/src/core/cmsis_wasm_thread_sync.c b/src/core/cmsis_wasm_thread_sync.c
+index bdc879a..6d6f9a6 100644
+--- a/src/core/cmsis_wasm_thread_sync.c
++++ b/src/core/cmsis_wasm_thread_sync.c
+@@ -2,8 +2,12 @@
+ #include "cmsis_wasm_time.h"
+ 
+ #include <errno.h>
++#include <stdio.h>
+ #include <time.h>
+ 
++static unsigned int sedp_hb_sleep_deadlines = 0;
++static unsigned int sedp_hb_sleep_returns = 0;
++
+ typedef struct {
+   CMSIS_IMPL_QUEUE	queue;
+   uint32_t			timeout;
+@@ -43,6 +47,7 @@ static void add_timespec(struct timespec* tmop, uint32_t timeout)
+ {
+   uint64_t timeout64 = timeout;
+   clock_gettime(CLOCK_REALTIME, tmop);
++  struct timespec clock_before = *tmop;
+   tmop->tv_nsec += (timeout64 * TIMESPEC_MSEC * TIMESPEC_MSEC);
+   if (tmop->tv_nsec >= TIMESPEC_NANOSEC) {
+     struct timespec over_tmo;
+@@ -51,6 +56,13 @@ static void add_timespec(struct timespec* tmop, uint32_t timeout)
+     tmop->tv_sec += over_tmo.tv_sec;
+     tmop->tv_nsec -= over_tmo.tv_nsec;
+   }
++  if (timeout == 4000 && sedp_hb_sleep_deadlines < 24) {
++    unsigned int idx = sedp_hb_sleep_deadlines++;
++    printf("[SEDP-HB] event=sleep_deadline idx=%u timeout_ms=%u clock_sec=%lld clock_nsec=%ld deadline_sec=%lld deadline_nsec=%ld\n",
++           idx, timeout, (long long)clock_before.tv_sec, clock_before.tv_nsec,
++           (long long)tmop->tv_sec, tmop->tv_nsec);
++    fflush(stdout);
++  }
+   return;
+   // uint64_t timeout64 = timeout;
+   // clock_gettime(CLOCK_REALTIME, tmop);
+@@ -82,6 +94,11 @@ osStatus_t WasmThreadSyncSleep(uint32_t timeout)
+     struct timespec tmo;
+     add_timespec(&tmo, timeout);
+     int err = pthread_cond_timedwait(&cond, &mutex, &tmo);
++    if (timeout == 4000 && sedp_hb_sleep_returns < 24) {
++      unsigned int idx = sedp_hb_sleep_returns++;
++      printf("[SEDP-HB] event=sleep_return idx=%u err=%d\n", idx, err);
++      fflush(stdout);
++    }
+     if (err != ETIMEDOUT) {
+       ret = (err == 0) ? osOK : osError;
+     }

@@ -1,0 +1,284 @@
+diff --git a/include/rtps/entities/StatefulWriter.tpp b/include/rtps/entities/StatefulWriter.tpp
+index 193e8d9..9440f4c 100644
+--- a/include/rtps/entities/StatefulWriter.tpp
++++ b/include/rtps/entities/StatefulWriter.tpp
+@@ -28,7 +28,9 @@ Author: i11 - Embedded Software, RWTH Aachen University
+ #include "rtps/utils/Log.h"
+ #include <algorithm>
+ #include <cstring>
++#include <errno.h>
+ #include <stdio.h>
++#include <time.h>
+ 
+ using rtps::StatefulWriterT;
+ 
+@@ -99,6 +101,18 @@ bool StatefulWriterT<NetworkDriver>::init(TopicData attributes,
+                                        Config::HEARTBEAT_STACKSIZE,
+                                        Config::THREAD_POOL_WRITER_PRIO);
+   }
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    printf("[DISCOVERY_PROBE] event=heartbeat_thread_create writer=sedp_publications created=%u\n",
++           (unsigned int)(m_heartbeatThread != NULL));
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    printf("[DISCOVERY_PROBE] event=heartbeat_thread_create writer=sedp_subscriptions created=%u\n",
++           (unsigned int)(m_heartbeatThread != NULL));
++  }
+ 
+   m_is_initialized_ = true;
+   return true;
+@@ -113,7 +127,46 @@ bool StatefulWriterT<NetworkDriver>::addNewMatchedReader(
+   printGuid(newProxy.remoteReaderGuid);
+ #endif
+ 
++  const char *probe_writer = nullptr;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    probe_writer = "sedp_publications";
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    probe_writer = "sedp_subscriptions";
++  }
++  if (probe_writer != nullptr)
++  {
++    SequenceNumber_t history_min;
++    SequenceNumber_t history_max;
++    SequenceNumber_t next_sn;
++    {
++      Lock lock(m_mutex);
++      history_min = m_history.getSeqNumMin();
++      history_max = m_history.getSeqNumMax();
++      next_sn = m_nextSequenceNumberToSend;
++    }
++    printf("[DISCOVERY_PROBE] event=add_reader_proxy_begin writer=%s proxies_empty=%u next=%d:%u history_min=%d:%u history_max=%d:%u remote_eid=%u.%u.%u:%u\n",
++           probe_writer, (unsigned int)m_proxies.isEmpty(), next_sn.high,
++           next_sn.low, history_min.high, history_min.low, history_max.high,
++           history_max.low,
++           (unsigned int)newProxy.remoteReaderGuid.entityId.entityKey[0],
++           (unsigned int)newProxy.remoteReaderGuid.entityId.entityKey[1],
++           (unsigned int)newProxy.remoteReaderGuid.entityId.entityKey[2],
++           (unsigned int)newProxy.remoteReaderGuid.entityId.entityKind);
++  }
++
+   bool success = m_proxies.add(newProxy);
++  if (probe_writer != nullptr)
++  {
++    printf("[DISCOVERY_PROBE] event=add_reader_proxy_end writer=%s success=%u proxies_empty=%u next=%d:%u\n",
++           probe_writer, (unsigned int)success,
++           (unsigned int)m_proxies.isEmpty(),
++           m_nextSequenceNumberToSend.high, m_nextSequenceNumberToSend.low);
++  }
+   if (!m_enforceUnicast)
+   {
+     manageSendOptions();
+@@ -321,6 +374,33 @@ const rtps::CacheChange *StatefulWriterT<NetworkDriver>::newChange(
+ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::progress()
+ {
++  const char *probe_writer = nullptr;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    probe_writer = "sedp_publications";
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    probe_writer = "sedp_subscriptions";
++  }
++  if (probe_writer != nullptr)
++  {
++    SequenceNumber_t history_min;
++    SequenceNumber_t history_max;
++    SequenceNumber_t next_sn;
++    {
++      Lock lock(m_mutex);
++      history_min = m_history.getSeqNumMin();
++      history_max = m_history.getSeqNumMax();
++      next_sn = m_nextSequenceNumberToSend;
++    }
++    printf("[DISCOVERY_PROBE] event=writer_progress_begin writer=%s proxies_empty=%u next=%d:%u history_min=%d:%u history_max=%d:%u\n",
++           probe_writer, (unsigned int)m_proxies.isEmpty(), next_sn.high,
++           next_sn.low, history_min.high, history_min.low, history_max.high,
++           history_max.low);
++  }
+ 
+   // newChangeIdentify() marks service traffic with this project-specific
+   // SampleIdentity high word.  A generated request is otherwise silently
+@@ -354,6 +434,12 @@ void StatefulWriterT<NetworkDriver>::progress()
+     }
+   }
+   ++m_nextSequenceNumberToSend;
++  if (probe_writer != nullptr)
++  {
++    printf("[DISCOVERY_PROBE] event=writer_progress_end writer=%s proxies_empty=%u next=%d:%u\n",
++           probe_writer, (unsigned int)m_proxies.isEmpty(),
++           m_nextSequenceNumberToSend.high, m_nextSequenceNumberToSend.low);
++  }
+ }
+ 
+ template <typename NetworkDriver>
+@@ -660,13 +746,62 @@ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::sendHeartBeatLoop()
+ {
+   m_thread_running = true;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    printf("[DISCOVERY_PROBE] event=heartbeat_loop_start writer=sedp_publications\n");
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    printf("[DISCOVERY_PROBE] event=heartbeat_loop_start writer=sedp_subscriptions\n");
++  }
++  const bool probe_sedp_writer =
++      m_attributes.endpointGuid.entityId ==
++          ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER ||
++      m_attributes.endpointGuid.entityId ==
++          ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER;
++  bool probe_first_delay = probe_sedp_writer;
+   while (m_running)
+   {
+     sendHeartBeat();
+ #ifdef OS_IS_FREERTOS
+-    vTaskDelay(pdMS_TO_TICKS(Config::SF_WRITER_HB_PERIOD_MS));
++    if (probe_sedp_writer)
++    {
++      const char *probe_writer =
++          m_attributes.endpointGuid.entityId ==
++                  ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER
++              ? "sedp_publications"
++              : "sedp_subscriptions";
++      if (probe_first_delay)
++      {
++        printf("[DISCOVERY_PROBE] event=heartbeat_delay_enter writer=%s delay_ms=%u backend=nanosleep\n",
++               probe_writer, (unsigned int)Config::SF_WRITER_HB_PERIOD_MS);
++      }
++      struct timespec req = {
++          (time_t)(Config::SF_WRITER_HB_PERIOD_MS / 1000),
++          (long)((Config::SF_WRITER_HB_PERIOD_MS % 1000) * 1000000L)};
++      struct timespec rem = {};
++      int delay_status;
++      do
++      {
++        delay_status = nanosleep(&req, &rem);
++        req = rem;
++      } while (delay_status != 0 && errno == EINTR);
++      if (probe_first_delay)
++      {
++        printf("[DISCOVERY_PROBE] event=heartbeat_delay_return writer=%s status=%d backend=nanosleep\n",
++               probe_writer, delay_status);
++        probe_first_delay = false;
++      }
++    }
++    else
++    {
++      vTaskDelay(pdMS_TO_TICKS(Config::SF_WRITER_HB_PERIOD_MS));
++    }
+ #else
+     sys_msleep(Config::SF_WRITER_HB_PERIOD_MS);
++    probe_first_delay = false;
+ #endif
+   }
+   m_thread_running = false;
+@@ -675,6 +810,22 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeatLoop()
+ template <class NetworkDriver>
+ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+ {
++  const char *probe_writer = nullptr;
++  if (m_attributes.endpointGuid.entityId ==
++      ENTITYID_SEDP_BUILTIN_PUBLICATIONS_WRITER)
++  {
++    probe_writer = "sedp_publications";
++  }
++  else if (m_attributes.endpointGuid.entityId ==
++           ENTITYID_SEDP_BUILTIN_SUBSCRIPTIONS_WRITER)
++  {
++    probe_writer = "sedp_subscriptions";
++  }
++  if (probe_writer != nullptr)
++  {
++    printf("[DISCOVERY_PROBE] event=heartbeat_tick writer=%s proxies_empty=%u\n",
++           probe_writer, (unsigned int)m_proxies.isEmpty());
++  }
+   if (m_proxies.isEmpty())
+   {
+ 
+@@ -712,6 +863,12 @@ void StatefulWriterT<NetworkDriver>::sendHeartBeat()
+ 
+     info.destAddr = proxy.remoteLocator.getIp4Address();
+     info.destPort = proxy.remoteLocator.port;
++    if (probe_writer != nullptr)
++    {
++      printf("[DISCOVERY_PROBE] event=heartbeat_send writer=%s first=%d:%u last=%d:%u dst_port=%u\n",
++             probe_writer, firstSN.high, firstSN.low, lastSN.high, lastSN.low,
++             info.destPort);
++    }
+     if (std::strncmp(m_attributes.topicName, "rq/", 3) == 0)
+     {
+       printf("[RTPS TX] service HEARTBEAT: first=%d:%u last=%d:%u count=%u src_port=%u dst_port=%u\n",
+diff --git a/src/discovery/SEDPAgent.cpp b/src/discovery/SEDPAgent.cpp
+index 36ecab5..9ff45fc 100644
+--- a/src/discovery/SEDPAgent.cpp
++++ b/src/discovery/SEDPAgent.cpp
+@@ -348,8 +348,15 @@ void SEDPAgent::addWriter(Writer &writer)
+                                rtps::SMElement::SCHEME_PL_CDR_LE.size());
+   ucdr_serialize_uint16_t(&microbuffer, zero_options);
+   writer.m_attributes.serializeIntoUcdrBuffer(microbuffer); // ここでEDPパケットに送るwriterの情報を書き込んでいる？
+-  m_endpoints.sedpPubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
+-                                       ucdr_buffer_length(&microbuffer));
++  auto *probe_change =
++      m_endpoints.sedpPubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
++                                           ucdr_buffer_length(&microbuffer));
++  if (probe_change != nullptr)
++  {
++    printf("[DISCOVERY_PROBE] event=sedp_change role=publication topic=%s sn=%d:%u\n",
++           writer.m_attributes.topicName, probe_change->sequenceNumber.high,
++           probe_change->sequenceNumber.low);
++  }
+ #if SEDP_VERBOSE
+   SEDP_LOG("Added new change to sedpPubWriter.\n");
+ #endif
+@@ -385,8 +392,15 @@ void SEDPAgent::addReader(Reader &reader)
+                                rtps::SMElement::SCHEME_PL_CDR_LE.size());
+   ucdr_serialize_uint16_t(&microbuffer, zero_options);
+   reader.m_attributes.serializeIntoUcdrBuffer(microbuffer); // ここでEDPパケットに送るreaderの情報を書き込んでいる？
+-  m_endpoints.sedpSubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
+-                                       ucdr_buffer_length(&microbuffer));
++  auto *probe_change =
++      m_endpoints.sedpSubWriter->newChange(ChangeKind_t::ALIVE, m_buffer,
++                                           ucdr_buffer_length(&microbuffer));
++  if (probe_change != nullptr)
++  {
++    printf("[DISCOVERY_PROBE] event=sedp_change role=subscription topic=%s sn=%d:%u\n",
++           reader.m_attributes.topicName, probe_change->sequenceNumber.high,
++           probe_change->sequenceNumber.low);
++  }
+ #if SEDP_VERBOSE
+   SEDP_LOG("Added new change to sedpSubWriter.\n");
+ #endif
+diff --git a/src/discovery/SPDPAgent.cpp b/src/discovery/SPDPAgent.cpp
+index f0f7e1f..999f089 100644
+--- a/src/discovery/SPDPAgent.cpp
++++ b/src/discovery/SPDPAgent.cpp
+@@ -308,6 +308,12 @@ bool SPDPAgent::addProxiesForBuiltInEndpoints()
+   ip4_addr_t ip4addr = locator->getIp4Address();
+   const char *addr = ip4addr_ntoa(&ip4addr);
+   SPDP_LOG("Adding IPv4 Locator %s\n", addr);
++  printf("[DISCOVERY_PROBE] event=spdp_builtin_capabilities remote_sum=%u locator=%s pub_writer=%u sub_writer=%u pub_reader=%u sub_reader=%u\n",
++         (unsigned int)Guid_t::sum(m_proxyDataBuffer.m_guid), addr,
++         (unsigned int)m_proxyDataBuffer.hasPublicationWriter(),
++         (unsigned int)m_proxyDataBuffer.hasSubscriptionWriter(),
++         (unsigned int)m_proxyDataBuffer.hasPublicationReader(),
++         (unsigned int)m_proxyDataBuffer.hasSubscriptionReader());
+ 
+   if (m_proxyDataBuffer.hasPublicationWriter())
+   {

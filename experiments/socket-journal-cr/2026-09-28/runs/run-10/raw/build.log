@@ -1,0 +1,510 @@
+[  2%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj
+[  4%] Building C object lwip-wasm/CMakeFiles/socket_wasi_ext.dir/__/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c.obj
+[  6%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj
+[  8%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj
+[ 10%] Linking C static library libsocket_wasi_ext.a
+[ 12%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_mutexes.c.obj
+[ 12%] Built target socket_wasi_ext
+[ 14%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/netif/netif_wasm.c.obj
+[ 16%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_semaphores.c.obj
+[ 18%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/lwip.c.obj
+[ 20%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_thread.c.obj
+[ 22%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/igmp.c.obj
+[ 24%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_memory.c.obj
+[ 26%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_message_queue.c.obj
+[ 28%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp.c.obj
+[ 30%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_queue.c.obj
+[ 32%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_thread_sync.c.obj
+[ 34%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/sys_utils.c.obj
+[ 36%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast.c.obj
+[ 38%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_time.c.obj
+[ 40%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/wasm.c.obj
+/home/osslab/mros2-wasm-service-communication-socket-journal/lwip-wasm/src/core/udp_multicast.c:89:53: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+   89 |   printf("set TTL: ttl=%d, optlen=%d\n", info->ttl, sizeof(info->ttl));
+      |                                   ~~                ^~~~~~~~~~~~~~~~~
+      |                                   %lu
+/home/osslab/mros2-wasm-service-communication-socket-journal/lwip-wasm/src/core/udp_multicast.c:68:13: warning: variable 'ipaddr' set but not used [-Wunused-but-set-variable]
+   68 |   in_addr_t ipaddr;
+      |             ^
+2 warnings generated.
+[ 42%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.obj
+[ 44%] Linking C static library libcmsis.a
+[ 44%] Built target cmsis
+[ 46%] Building C object lwip-wasm/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.obj
+[ 48%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.obj
+[ 50%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.obj
+[ 52%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/mem.c.obj
+[ 54%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/memp.c.obj
+[ 56%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/stats.c.obj
+[ 58%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/sys.c.obj
+[ 60%] Linking C static library liblwip.a
+[ 60%] Built target lwip
+[ 62%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/src/mros2.cpp.obj
+[ 64%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/workspace/echoback_string/app.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/app.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp28::
+1In file included from :
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.hIn file included from :/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h33::
+5In file included from :
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.hIn file included from :/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h71::
+28In file included from :
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tppIn file included from :/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h6::
+28/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:
+:In file included from 39/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h::933::
+ In file included from warning: /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]:
+71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp   :396 | :
+#/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.hd:e39f:i9n:e  warning: P'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]A
+RTIC   I39P | A#NdTe_fViEnReB OPSAER T1I
+C      I| P        ^A
+NT/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h_:V38E:R9B:O Snote: Eprevious definition is here 
+1
+         38|  |         ^#
+de/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.hf:i38n:e9 :P Anote: Rprevious definition is hereT
+IC   I38P | A#NdTe_fViEnReB OPSAER T0I
+C      I| P        ^A
+NT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/app.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }In file included from 
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp      :| 1  ^:
+
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:282:17: warning: anonymous non-C-compatible type given name for linkage purposes by typedef declaration; add a tag name here [-Wnon-c-typedef-for-linkage]
+  282 |   typedef struct
+      |                 ^
+      |                  SubscribeDataType
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:290:34: note: type is not C-compatible due to this default member initializer
+  290 |     bool service_response_only = false;
+      |                                  ^~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:292:5: note: type is given name 'SubscribeDataType' for linkage purposes by this typedef declaration
+  292 |   } SubscribeDataType;
+      |     ^
+2 warnings generated.
+[ 66%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/communication/UdpDriver.cpp.obj
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1017:95: warning: format specifies type 'unsigned long' but the argument has type 'int32_t' (aka 'int') [-Wformat]
+ 1017 |     MROS2_DEBUG("[MROS2LIB] message get [callback_handler] msg_sn_high: %lx msg_sn_low: %lx", cacheChange.sn.high, cacheChange.sn.low);
+      |                                                                         ~~~                   ^~~~~~~~~~~~~~~~~~~
+      |                                                                         %x
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2/logging.h:30:44: note: expanded from macro 'MROS2_DEBUG'
+   30 | #define MROS2_DEBUG(...)  CMSIS_IMPL_DEBUG(__VA_ARGS__)
+      |                                            ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:24:51: note: expanded from macro 'CMSIS_IMPL_DEBUG'
+   24 | #define CMSIS_IMPL_DEBUG(...)           syslog(LOG_DEBUG, __VA_ARGS__)
+      |                                                           ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:13:10: note: expanded from macro 'syslog'
+   13 |                 printf(__VA_ARGS__);    \
+      |                        ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/templates.hpp:11:34: note: in instantiation of function template specialization 'mros2::Subscriber::callback_handler<std_msgs::msg::String>' requested here
+   11 | template void mros2::Subscriber::callback_handler<std_msgs::msg::String>(void *callee, const rtps::ReaderCacheChange &cacheChange);
+      |                                  ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1017:116: warning: format specifies type 'unsigned long' but the argument has type 'uint32_t' (aka 'unsigned int') [-Wformat]
+ 1017 |     MROS2_DEBUG("[MROS2LIB] message get [callback_handler] msg_sn_high: %lx msg_sn_low: %lx", cacheChange.sn.high, cacheChange.sn.low);
+      |                                                                                         ~~~                        ^~~~~~~~~~~~~~~~~~
+      |                                                                                         %x
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2/logging.h:30:44: note: expanded from macro 'MROS2_DEBUG'
+   30 | #define MROS2_DEBUG(...)  CMSIS_IMPL_DEBUG(__VA_ARGS__)
+      |                                            ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:24:51: note: expanded from macro 'CMSIS_IMPL_DEBUG'
+   24 | #define CMSIS_IMPL_DEBUG(...)           syslog(LOG_DEBUG, __VA_ARGS__)
+      |                                                           ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:13:10: note: expanded from macro 'syslog'
+   13 |                 printf(__VA_ARGS__);    \
+      |                        ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1141:10: fatal error: 'templates-service.hpp' file not found
+ 1141 | #include "templates-service.hpp"
+      |          ^~~~~~~~~~~~~~~~~~~~~~~
+5 warnings and 1 error generated.
+gmake[2]: *** [CMakeFiles/MODULE_echoback_string.dir/build.make:90: CMakeFiles/MODULE_echoback_string.dir/mros2/src/mros2.cpp.obj] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/communication/UdpDriver.cpp:28:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+1 warning generated.
+gmake[1]: *** [CMakeFiles/Makefile2:155: CMakeFiles/MODULE_echoback_string.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+Consolidate compiler generated dependencies of target socket_wasi_ext
+Consolidate compiler generated dependencies of target cmsis
+[  2%] Building C object lwip-wasm/CMakeFiles/socket_wasi_ext.dir/__/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c.obj
+[  4%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj
+[  8%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj
+[  8%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj
+[ 10%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_mutexes.c.obj
+[ 12%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_semaphores.c.obj
+[ 14%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/api/cmsis_thread.c.obj
+[ 18%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_message_queue.c.obj
+[ 18%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_memory.c.obj
+[ 20%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_queue.c.obj
+[ 22%] Linking C static library libsocket_wasi_ext.a
+[ 24%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_thread_sync.c.obj
+[ 24%] Built target socket_wasi_ext
+[ 26%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/wasm.c.obj
+[ 28%] Building C object cmsis-wasm/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_time.c.obj
+Consolidate compiler generated dependencies of target lwip
+[ 30%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/netif/netif_wasm.c.obj
+[ 32%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/lwip.c.obj
+[ 34%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/igmp.c.obj
+[ 36%] Linking C static library libcmsis.a
+[ 36%] Built target cmsis
+[ 38%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/sys_utils.c.obj
+[ 40%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp.c.obj
+[ 42%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast.c.obj
+[ 44%] Building C object lwip-wasm/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.obj
+[ 46%] Building C object lwip-wasm/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.obj
+/home/osslab/mros2-wasm-service-communication-socket-journal/lwip-wasm/src/core/udp_multicast.c:89:53: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
+   89 |   printf("set TTL: ttl=%d, optlen=%d\n", info->ttl, sizeof(info->ttl));
+      |                                   ~~                ^~~~~~~~~~~~~~~~~
+      |                                   %lu
+/home/osslab/mros2-wasm-service-communication-socket-journal/lwip-wasm/src/core/udp_multicast.c:68:13: warning: variable 'ipaddr' set but not used [-Wunused-but-set-variable]
+   68 |   in_addr_t ipaddr;
+      |             ^
+2 warnings generated.
+[ 48%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.obj
+[ 50%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.obj
+[ 52%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/mem.c.obj
+[ 54%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/memp.c.obj
+[ 56%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/stats.c.obj
+[ 58%] Building C object lwip-wasm/CMakeFiles/lwip.dir/lwip/src/core/sys.c.obj
+[ 60%] Linking C static library liblwip.a
+[ 60%] Built target lwip
+Consolidate compiler generated dependencies of target MODULE_echoback_string
+[ 62%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/communication/UdpDriver.cpp.obj
+[ 64%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/src/mros2.cpp.obj
+[ 66%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/workspace/echoback_string/app.cpp.obj
+[ 68%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/messages/MessageTypes.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/communication/UdpDriver.cpp:28:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+[ 70%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/messages/MessageReceiver.cpp.obj
+1 warning generated.
+[ 72%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/discovery/TopicData.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/app.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/app.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2.h:5:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/rtps.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/TopicData.cpp:24:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/messages/MessageReceiver.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/messages/MessageReceiver.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/messages/MessageReceiver.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/messages/MessageReceiver.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+1 warning generated.
+[ 74%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/discovery/ParticipantProxyData.cpp.obj
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:282:17: warning: anonymous non-C-compatible type given name for linkage purposes by typedef declaration; add a tag name here [-Wnon-c-typedef-for-linkage]
+  282 |   typedef struct
+      |                 ^
+      |                  SubscribeDataType
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:290:34: note: type is not C-compatible due to this default member initializer
+  290 |     bool service_response_only = false;
+      |                                  ^~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:292:5: note: type is given name 'SubscribeDataType' for linkage purposes by this typedef declaration
+  292 |   } SubscribeDataType;
+      |     ^
+2 warnings generated.
+[ 76%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp.obj
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1017:95: warning: format specifies type 'unsigned long' but the argument has type 'int32_t' (aka 'int') [-Wformat]
+ 1017 |     MROS2_DEBUG("[MROS2LIB] message get [callback_handler] msg_sn_high: %lx msg_sn_low: %lx", cacheChange.sn.high, cacheChange.sn.low);
+      |                                                                         ~~~                   ^~~~~~~~~~~~~~~~~~~
+      |                                                                         %x
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2/logging.h:30:44: note: expanded from macro 'MROS2_DEBUG'
+   30 | #define MROS2_DEBUG(...)  CMSIS_IMPL_DEBUG(__VA_ARGS__)
+      |                                            ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:24:51: note: expanded from macro 'CMSIS_IMPL_DEBUG'
+   24 | #define CMSIS_IMPL_DEBUG(...)           syslog(LOG_DEBUG, __VA_ARGS__)
+      |                                                           ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:13:10: note: expanded from macro 'syslog'
+   13 |                 printf(__VA_ARGS__);    \
+      |                        ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/workspace/echoback_string/templates.hpp:11:34: note: in instantiation of function template specialization 'mros2::Subscriber::callback_handler<std_msgs::msg::String>' requested here
+   11 | template void mros2::Subscriber::callback_handler<std_msgs::msg::String>(void *callee, const rtps::ReaderCacheChange &cacheChange);
+      |                                  ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/src/mros2.cpp:1017:116: warning: format specifies type 'unsigned long' but the argument has type 'uint32_t' (aka 'unsigned int') [-Wformat]
+ 1017 |     MROS2_DEBUG("[MROS2LIB] message get [callback_handler] msg_sn_high: %lx msg_sn_low: %lx", cacheChange.sn.high, cacheChange.sn.low);
+      |                                                                                         ~~~                        ^~~~~~~~~~~~~~~~~~
+      |                                                                                         %x
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/include/mros2/logging.h:30:44: note: expanded from macro 'MROS2_DEBUG'
+   30 | #define MROS2_DEBUG(...)  CMSIS_IMPL_DEBUG(__VA_ARGS__)
+      |                                            ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:24:51: note: expanded from macro 'CMSIS_IMPL_DEBUG'
+   24 | #define CMSIS_IMPL_DEBUG(...)           syslog(LOG_DEBUG, __VA_ARGS__)
+      |                                                           ^~~~~~~~~~~
+/home/osslab/mros2-wasm-service-communication-socket-journal/cmsis-wasm/public/include/cmsis_impl_logger.h:13:10: note: expanded from macro 'syslog'
+   13 |                 printf(__VA_ARGS__);    \
+      |                        ^~~~~~~~~~~
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/ParticipantProxyData.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SPDPAgent.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/ParticipantProxyData.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SPDPAgent.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+2 warnings generated.
+[ 78%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp.obj
+5 warnings generated.
+[ 80%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/storages/PBufWrapper.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SPDPAgent.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+2 warnings generated.
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SPDPAgent.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/storages/PBufWrapper.cpp:26:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+[ 82%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/ThreadPool.cpp.obj
+1 warning generated.
+[ 84%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/entities/Participant.cpp.obj
+2 warnings generated.
+[ 86%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/entities/Domain.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/ThreadPool.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/ThreadPool.cpp:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:29:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/Participant.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/Participant.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+2 warnings generated.
+[ 88%] Building CXX object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/src/entities/StatelessReader.cpp.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/Domain.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/Domain.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+2 warnings generated.
+[ 90%] Building C object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/common.c.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/StatelessReader.cpp:25:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/StatelessReader.h:28:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/common/Locator.h:87:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   87 |   }
+      |   ^
+[ 92%] Building C object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/basic.c.obj
+In file included from /home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/src/entities/StatelessReader.cpp:27:
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/mros2-wasm-service-communication-socket-journal/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+2 warnings generated.
+[ 94%] Building C object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/string.c.obj
+[ 96%] Building C object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/sequence.c.obj
+2 warnings generated.
+[ 98%] Building C object CMakeFiles/MODULE_echoback_string.dir/mros2/embeddedRTPS/thirdparty/Micro-CDR/src/c/types/array.c.obj
+2 warnings generated.
+[100%] Linking CXX executable echoback_string.wasm
+[100%] Built target MODULE_echoback_string

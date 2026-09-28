@@ -1,0 +1,11 @@
+6946:2026-09-24T05:30:03.245864268Z SIGUSR2 called, 138453098554944
+6976:2026-09-24T05:30:03.447407916Z [DEBUG-CR-RX-20260924] WAMR sock_recv_from return wasi_fd=11 wasi_errno=27 bytes=0
+6984:2026-09-24T05:30:03.447449424Z [DEBUG-CR-RX-20260924] WAMR sock_recv_from return wasi_fd=5 wasi_errno=27 bytes=0
+6997:2026-09-24T05:30:03.447528424Z [DEBUG-CR-RX-20260924] WAMR sock_recv_from return wasi_fd=13 wasi_errno=27 bytes=0
+7005:2026-09-24T05:30:03.447563861Z [DEBUG-CR-RX-20260924] WAMR sock_recv_from return wasi_fd=3 wasi_errno=27 bytes=0
+9603:2026-09-24T05:30:04.257078827Z checkpoint done:0
+554:2026-09-24T05:30:57.946067160Z LOG_ERROR : 00000579.330 : LOG_ERROR : 00000579.330 : [DEBUG-CR-RX-20260924] udp.recvfrom failed: mcp=0xdbe108 sd=5 local_port=7411 rc=-1 errno=27[DEBUG-CR-RX-20260924] udp.recvfrom failed: mcp=0xdbe124 sd=11 local_port=7410 rc=-1 errno=27
+556:2026-09-24T05:30:57.946101494Z LOG_ERROR : 00000579.330 : LOG_NOTICE : 00000579.331 : LOG_NOTICE : 00000579.331 : [DEBUG-CR-RX-20260924] udp_mc_recover succeeded: old_sd=5 new_sd=30 local_port=7411[DEBUG-CR-RX-20260924] udp_mc_recover succeeded: old_sd=11 new_sd=12 local_port=7410
+558:2026-09-24T05:30:58.947978405Z [DEBUG-CR-RX-20260924] udp.recvfrom failed: mcp=0xdbe0ec sd=13 local_port=7400 rc=-1 errno=27LOG_ERROR : 00000579.330 : 
+559:2026-09-24T05:30:58.948013471Z [DEBUG-CR-RX-20260924] udp.recvfrom failed: mcp=0xdbe0d0 sd=3 local_port=7401 rc=-1 errno=27
+562:2026-09-24T05:30:58.948028460Z LOG_NOTICE : 00000579.332 : LOG_NOTICE : 00000579.332 : [DEBUG-CR-RX-20260924] udp_mc_recover succeeded: old_sd=13 new_sd=6 local_port=7400[DEBUG-CR-RX-20260924] udp_mc_recover succeeded: old_sd=3 new_sd=11 local_port=7401

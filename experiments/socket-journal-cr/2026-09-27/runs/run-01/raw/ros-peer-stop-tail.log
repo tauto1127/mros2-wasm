@@ -1,0 +1,20 @@
+2026-09-27T04:11:12.039066729Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+2026-09-27T04:11:12.039151559Z     return next(self._cb_iter)
+2026-09-27T04:11:12.039158973Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
+2026-09-27T04:11:12.039243012Z     raise ExternalShutdownException()
+2026-09-27T04:11:12.039250466Z rclpy.executors.ExternalShutdownException
+2026-09-27T04:11:12.039255606Z 
+2026-09-27T04:11:12.039259453Z During handling of the above exception, another exception occurred:
+2026-09-27T04:11:12.039263330Z 
+2026-09-27T04:11:12.039267398Z Traceback (most recent call last):
+2026-09-27T04:11:12.039272197Z   File "/experiment/echo_peer.py", line 115, in <module>
+2026-09-27T04:11:12.039279761Z     main()
+2026-09-27T04:11:12.039284671Z   File "/experiment/echo_peer.py", line 111, in main
+2026-09-27T04:11:12.039314807Z     rclpy.shutdown()
+2026-09-27T04:11:12.039322823Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+2026-09-27T04:11:12.039366505Z     _shutdown(context=context)
+2026-09-27T04:11:12.039373889Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+2026-09-27T04:11:12.039409627Z     return context.shutdown()
+2026-09-27T04:11:12.039416940Z   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+2026-09-27T04:11:12.039446446Z     self.__context.shutdown()
+2026-09-27T04:11:12.039453309Z rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241

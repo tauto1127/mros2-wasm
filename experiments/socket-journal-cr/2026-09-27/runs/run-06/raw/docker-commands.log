@@ -1,0 +1,17 @@
+run-06 local Docker commands
+[2026-09-27T11:14:44.705+00:00] create_source rc=0
+command=rtk proxy run --detach --name mros2-cr-run06-source --label io.mros2-cr.run=run-06 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal,dst=/repo,readonly --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-06,dst=/run --mount type=bind,src=/tmp/mros2-wasm-cr-rerun-20260927/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-rerun-20260927/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-run06/state,dst=/state --workdir /state ros:humble sleep infinity
+4a6061ac7851a9f77d2818e6472d0e02f890fdd105c55d30fecafd82e49c3544
+
+[2026-09-27T11:14:44.952+00:00] create_peer rc=0
+command=rtk proxy run --detach --name mros2-cr-run06-native-peer --label io.mros2-cr.run=run-06 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-06,dst=/run --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+72bd60b9d22ecd0a3a13a5b6b798aba62514fac87cf9b48011fe169513c0bfc3
+
+[2026-09-27T11:14:45.127+00:00] create_wiretap rc=0
+command=rtk proxy run --detach --name mros2-cr-run06-wiretap --label io.mros2-cr.run=run-06 --network container:mros2-cr-run06-native-peer --cap-add NET_RAW --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal,dst=/repo,readonly --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-06,dst=/run,readonly --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-06/raw,dst=/capture ros:humble python3 /run/run06_wiretap.py /capture/peer-wire.jsonl
+f4abe4abdbcac14e02874f6f9f93ebd0c3d51d0e3c6d0804ff45208166f94218
+
+[2026-09-27T11:19:22.915+00:00] create_destination rc=0
+command=rtk proxy run --detach --name mros2-cr-run06-destination --network mros2-cr-net --ip 172.18.0.6 --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal,dst=/repo,readonly --mount type=bind,src=/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-27/runs/run-06,dst=/run --mount type=bind,src=/tmp/mros2-wasm-cr-rerun-20260927/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-rerun-20260927/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-run06/state,dst=/state --workdir /state ros:humble sleep infinity
+81ef07a3accad969fd9c9b75f1bf1ef6926364187aca0a7ab34ff871f5b9cfe2
+

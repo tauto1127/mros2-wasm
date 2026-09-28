@@ -1,0 +1,3 @@
+rtk docker exec mros2-cr-run03-peer ip address -> exit 127 (ip: command not found)
+rtk docker exec mros2-cr-run03-peer ip route -> exit 127 (ip: command not found)
+Fallback evidence: Docker inspect records the peer IP, prefix length and gateway; /proc/net/route and /proc/net/dev are captured in separate files.

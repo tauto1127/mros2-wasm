@@ -1,0 +1,80 @@
+CMake Deprecation Warning at CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Deprecation Warning at /opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake:4 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+Call Stack (most recent call first):
+  /tmp/mros2-wasm-sedp-race-20260928-run31/build/CMakeFiles/3.31.10/CMakeSystem.cmake:6 (include)
+  CMakeLists.txt:16 (project)
+
+
+-- WAMR_ROOT=/tmp/mros2-wasm-sedp-race-20260928-run31/source/third_party/wamr
+-- CARTOGRAPHER_ROOT=/tmp/mros2-wasm-sedp-race-20260928-run31/source/third_party/cartographer
+-- CARTOGRAPHER_LIBRARY_ROOT=/tmp/mros2-wasm-sedp-race-20260928-run31/source/third_party/cartographer-library
+-- ZLIB_LIBRARY=/home/osslab/mros2-wasm-service-communication-socket-journal/cmake_build/zlib-wasi/libz.a
+-- CMAKE_APPNAME=echoback_string
+CMake Deprecation Warning at cmsis-wasm/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- BUILD_TYPE debug
+-- GCOV disabled
+CMake Deprecation Warning at cmsis-wasm/src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- cmsis_DIR=/tmp/mros2-wasm-sedp-race-20260928-run31/source/cmsis-wasm/public
+CMake Deprecation Warning at lwip-wasm/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- cmsis_DIR=/tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/../cmsis-wasm/public
+-- BUILD_TYPE debug
+-- LWIP_DIR /tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm
+-- LWIP_CORE_DIR /tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/lwip
+-- WAMR_SOCKET_CMAKE /tmp/mros2-wasm-sedp-race-20260928-run31/source/third_party/wamr/core/iwasm/libraries/lib-socket/lib_socket_wasi.cmake
+-- lwip_DIR=/tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/public
+-- mros2_DIR=/tmp/mros2-wasm-sedp-race-20260928-run31/source/mros2
+-- apl_SRCS is : /tmp/mros2-wasm-sedp-race-20260928-run31/source/workspace/echoback_string/app.cpp
+-- Configuring done (0.0s)
+CMake Error at lwip-wasm/CMakeLists.txt:62 (add_library):
+  Cannot find source file:
+
+    /tmp/mros2-wasm-sedp-race-20260928-run31/source/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .mpp .m .M .mm .ixx .cppm
+  .ccm .cxxm .c++m .h .hh .h++ .hm .hpp .hxx .in .txx .f .F .for .f77 .f90
+  .f95 .f03 .hip .ispc
+
+
+CMake Error at lwip-wasm/CMakeLists.txt:62 (add_library):
+  No SOURCES given to target: lwip
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

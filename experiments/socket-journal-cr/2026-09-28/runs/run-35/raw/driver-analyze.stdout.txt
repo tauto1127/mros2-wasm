@@ -1,0 +1,182 @@
+{
+  "complete_ids": [
+    7,
+    8,
+    13,
+    18,
+    23,
+    24,
+    29,
+    34,
+    35,
+    39
+  ],
+  "complete_roundtrips": 10,
+  "early_consumptions": [
+    {
+      "change_seq": "0:1",
+      "change_trace_seq": 1,
+      "consumed_without_proxy": true,
+      "next_after": "0:2",
+      "progress_trace_seq": 4,
+      "proxy_added_later": true,
+      "proxy_trace_seq": 8,
+      "role": "publication",
+      "topic": "rt/to_linux"
+    },
+    {
+      "change_seq": "0:1",
+      "change_trace_seq": 2,
+      "consumed_without_proxy": true,
+      "next_after": "0:2",
+      "progress_trace_seq": 6,
+      "proxy_added_later": true,
+      "proxy_trace_seq": 9,
+      "role": "subscription",
+      "topic": "rt/to_stm"
+    }
+  ],
+  "incomplete_ids_and_stages": [
+    {
+      "id": 0,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 1,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 2,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 3,
+      "last_stage": "wasm_publish"
+    },
+    {
+      "id": 4,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 5,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 6,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 9,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 10,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 12,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 14,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 15,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 16,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 19,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 20,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 21,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 22,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 25,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 26,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 27,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 28,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 30,
+      "last_stage": "native_echo_publish_return"
+    },
+    {
+      "id": 31,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 32,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 33,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 36,
+      "last_stage": "native_echo_publish_return"
+    },
+    {
+      "id": 37,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 38,
+      "last_stage": "wasm_callback"
+    },
+    {
+      "id": 40,
+      "last_stage": "native_echo_publish_return"
+    }
+  ],
+  "pre_gate": "pass",
+  "run": "run-35",
+  "trace_event_count": 13,
+  "trace_had_interleaved_prefix": true,
+  "wire_counts_in_pre_gate_window": {
+    "peer_to_wasm_sedp_data_frames": 2,
+    "peer_to_wasm_sedp_data_submessages": 2,
+    "peer_to_wasm_sedp_heartbeat_frames": 20,
+    "peer_to_wasm_user_data_frames": 37,
+    "peer_to_wasm_user_data_submessages": 37,
+    "rtps_frames_in_gate_window": 2421,
+    "wasm_to_peer_sedp_data_frames": 13,
+    "wasm_to_peer_sedp_data_submessages": 13,
+    "wasm_to_peer_sedp_heartbeat_frames": 1146,
+    "wasm_to_peer_user_data_frames": 37,
+    "wasm_to_peer_user_data_submessages": 37
+  },
+  "wire_window_utc": {
+    "finish": "2026-09-28T09:05:05.065000+00:00",
+    "start": "2026-09-28T09:04:24.598000+00:00"
+  }
+}
+
+--- stderr ---
+
+rc=0

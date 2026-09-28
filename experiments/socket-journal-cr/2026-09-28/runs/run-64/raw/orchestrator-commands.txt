@@ -1,0 +1,45 @@
+{"utc": "2026-09-28T11:11:30.764+00:00", "argv": ["rtk", "proxy", "docker", "image", "inspect", "ros:humble", "--format", "{{.Id}}"]}
+{"utc": "2026-09-28T11:11:30.818+00:00", "argv": ["rtk", "proxy", "docker", "network", "inspect", "mros2-cr-net"]}
+{"utc": "2026-09-28T11:11:30.848+00:00", "argv": ["rtk", "proxy", "docker", "ps", "-a", "--format", "{{.Names}}"]}
+{"utc": "2026-09-28T11:11:30.881+00:00", "argv": ["rtk", "proxy", "df", "-B1", "/tmp"]}
+{"utc": "2026-09-28T11:11:30.892+00:00", "argv": ["rtk", "proxy", "git", "rev-parse", "--abbrev-ref", "HEAD"]}
+{"utc": "2026-09-28T11:11:30.906+00:00", "argv": ["rtk", "proxy", "git", "rev-parse", "HEAD"]}
+{"utc": "2026-09-28T11:11:30.919+00:00", "argv": ["rtk", "proxy", "git", "status", "--short"]}
+{"utc": "2026-09-28T11:11:31.000+00:00", "argv": ["rtk", "proxy", "git", "diff", "--cached", "--name-only"]}
+{"utc": "2026-09-28T11:11:31.016+00:00", "argv": ["rtk", "proxy", "ip", "route"]}
+{"utc": "2026-09-28T11:11:31.030+00:00", "argv": ["rtk", "proxy", "git", "submodule", "status"]}
+{"utc": "2026-09-28T11:11:31.161+00:00", "argv": ["rtk", "proxy", "docker", "run", "-d", "--name", "mros2-cr-run64-native-peer", "--network", "mros2-cr-net", "--ip", "172.18.0.5", "-v", "/tmp/mros2-posix-run04-final-build/mros2-posix:/native-peer:ro", "ros:humble", "sleep", "infinity"]}
+{"utc": "2026-09-28T11:11:31.403+00:00", "argv": ["rtk", "proxy", "docker", "run", "-d", "--name", "mros2-cr-run64-wiretap", "--network", "container:mros2-cr-run64-native-peer", "--cap-add", "NET_RAW", "-v", "/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-64:/run", "-w", "/run", "ros:humble", "sleep", "infinity"]}
+{"utc": "2026-09-28T11:11:31.582+00:00", "argv": ["rtk", "proxy", "docker", "run", "-d", "--name", "mros2-cr-run64-wamr", "--network", "mros2-cr-net", "--ip", "172.18.0.3", "-v", "/tmp/mros2-wasm-cr-rerun-20260927/runtime:/runtime:ro", "-v", "/tmp/mros2-wasm-sedp-hb-20260928/app:/artifact:ro", "-v", "/home/osslab/mros2-wasm-service-communication-socket-journal/experiments/socket-journal-cr/2026-09-28/runs/run-64:/run", "-v", "/tmp/mros2-wasm-sedp-hb-20260928-run64/state:/state", "-w", "/state", "ros:humble", "sleep", "infinity"]}
+{"utc": "2026-09-28T11:11:31.826+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:31.853+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wiretap"]}
+{"utc": "2026-09-28T11:11:31.879+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:31.909+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "-f", "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:31.936+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "-f", "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:31.964+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "-f", "{{.Image}}", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:31.989+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "-f", "{{.Image}}", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:32.017+00:00", "argv": ["rtk", "proxy", "docker", "network", "inspect", "mros2-cr-net"]}
+{"utc": "2026-09-28T11:11:51.135+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:51.165+00:00", "argv": ["rtk", "proxy", "timeout", "8", "docker", "exec", "mros2-cr-run64-native-peer", "bash", "-lc", "source /opt/ros/humble/setup.bash; ROS_LOG_DIR=/tmp ROS_HOME=/tmp ros2 topic list --no-daemon"]}
+{"utc": "2026-09-28T11:11:52.284+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:52.314+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-native-peer", "ps", "-eo", "pid,args"]}
+{"utc": "2026-09-28T11:11:52.386+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wiretap"]}
+{"utc": "2026-09-28T11:11:52.417+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-wiretap", "ps", "-eo", "pid,args"]}
+{"utc": "2026-09-28T11:11:52.487+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:52.517+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-wamr", "ps", "-eo", "pid,args"]}
+{"utc": "2026-09-28T11:11:52.597+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:52.626+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-wamr", "kill", "-TERM", "14"]}
+{"utc": "2026-09-28T11:11:52.695+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:52.725+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-native-peer", "kill", "-TERM", "14"]}
+{"utc": "2026-09-28T11:11:52.788+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wiretap"]}
+{"utc": "2026-09-28T11:11:52.819+00:00", "argv": ["rtk", "proxy", "docker", "exec", "mros2-cr-run64-wiretap", "kill", "-TERM", "14"]}
+{"utc": "2026-09-28T11:11:52.898+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-native-peer"]}
+{"utc": "2026-09-28T11:11:52.928+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wiretap"]}
+{"utc": "2026-09-28T11:11:52.953+00:00", "argv": ["rtk", "proxy", "docker", "inspect", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:52.981+00:00", "argv": ["rtk", "proxy", "docker", "ps", "-a", "--filter", "name=mros2-cr-run64", "--format", "{{.Names}} {{.Status}}"]}
+{"utc": "2026-09-28T11:11:53.027+00:00", "argv": ["rtk", "proxy", "docker", "stop", "-t", "5", "mros2-cr-run64-native-peer", "mros2-cr-run64-wiretap", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:58.247+00:00", "argv": ["rtk", "proxy", "docker", "rm", "mros2-cr-run64-native-peer", "mros2-cr-run64-wiretap", "mros2-cr-run64-wamr"]}
+{"utc": "2026-09-28T11:11:58.328+00:00", "argv": ["rtk", "proxy", "docker", "ps", "-a", "--format", "{{.Names}}"]}
+{"utc": "2026-09-28T11:11:58.367+00:00", "argv": ["rtk", "proxy", "docker", "network", "inspect", "mros2-cr-net"]}
+{"utc": "2026-09-28T11:11:58.395+00:00", "argv": ["rtk", "proxy", "git", "status", "--short"]}
+{"utc": "2026-09-28T11:11:58.476+00:00", "argv": ["rtk", "proxy", "git", "diff", "--cached", "--name-only"]}
