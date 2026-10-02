@@ -1,0 +1,36 @@
+captured_utc=2026-10-02
+decision=bounded-stop-not-adopted
+final_child=708e8459-912f-48a4-a181-91ee0513fc7c
+workflow=c530d174-5359-450a-b482-cc3a525b63ac
+root_branch=fix/eintr-ip-refresh
+root_head=c88b569a567529c5c49cb64e698c8cbdea987206
+lwip_branch=fix/eintr-ip-refresh
+lwip_head=fbac6d22cd08d12fccfc27c4efa383a8be32335f
+mros2_branch=fix/eintr-ip-refresh
+mros2_head=912cfbdd1af9a28be685ab67803093d84bb31ed1
+embedded_branch=fix/eintr-ip-refresh
+embedded_head=81a6a4fe9309f3cb16f0f3b60c92ca89b8602182
+--- root status ---
+ m lwip-wasm
+ m mros2
+?? bootstrap/
+?? validation/
+--- embedded diff summary ---
+ include/rtps/common/Locator.h             | 29 ++++++++------
+ include/rtps/communication/UdpDriver.h    |  1 +
+ include/rtps/discovery/BuiltInEndpoints.h | 14 +++----
+ include/rtps/discovery/SEDPAgent.h        |  4 +-
+ include/rtps/discovery/SPDPAgent.h        |  4 +-
+ include/rtps/entities/Domain.h            |  2 +-
+ include/rtps/entities/Participant.h       |  4 +-
+ src/communication/UdpDriver.cpp           | 46 ++++++++++++++++++++-
+ src/discovery/SEDPAgent.cpp               | 19 +++++----
+ src/discovery/SPDPAgent.cpp               | 63 +++++++++++++++++++++--------
+ src/entities/Domain.cpp                   | 66 +++++++++++++++++++++++--------
+ src/entities/Participant.cpp              | 30 ++++++++++----
+ 12 files changed, 204 insertions(+), 78 deletions(-)
+--- stage ---
+--- diff hashes ---
+9e987c198687411bf6c79b5d1663028c27e5c63bd773253d987c51f157d4612e  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/before-followup-1.diff
+4e28e6381190db33050c8a75488fca608a57ab233aea1f21e802ac9ed8cccf4a  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/before-followup-2.diff
+acffe689756e1c01cf23128689aafa5ef06f7ca671211e60cafca0edfc8faeb4  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/final-delegated-diff.diff

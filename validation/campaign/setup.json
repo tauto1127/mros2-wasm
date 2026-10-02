@@ -1,0 +1,133 @@
+{
+  "status": "runner-implemented-safe-trace-derivative-setup-only-no-communication-pass",
+  "provenance": {
+    "copied_from": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/campaign/setup.json",
+    "source_sha256": "e9e4d782c26b0eafbe2916a67590805f3863d9e21d28558841dd0332ce341150",
+    "source_status": "setup-only-not-campaign-ready",
+    "source_preflight": {
+      "command": "df -B1 /home/osslab/20261001-mros2-wasm-eintr-ip-refresh; rtk proxy docker network inspect mros2-cr-net; rtk proxy docker ps -a --filter label=io.mros2-cr.trial; pgrep -af 'mros2-posix|iwasm'; sha256sum <normal-app> <runtime> <peer>",
+      "observed_free_bytes": 4290134016,
+      "minimum_free_bytes_per_checkpoint": 3221225472,
+      "existing_state_preserved": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/runtime-build/state/experimental-run-02 (1.1G; untouched)",
+      "checkpoint_runs_performed": 0
+    },
+    "source_artifacts": {
+      "normal_app": {
+        "path": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
+        "sha256": "b9b01ebf0523048e3af1ca07655c010a72ed364d7eacee05c61277058f09e9d9"
+      },
+      "runtime": {
+        "path": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm",
+        "sha256": "77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60"
+      },
+      "native_peer": {
+        "path": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+        "sha256": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "trace_overlay": {
+        "path": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
+        "sha256": "a6d974aa7d7f194c0b4c9d3cc023f46c34d24ed87ed93773b28f2080f24dc4a6",
+        "manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
+        "manifest_sha256": "8e7d01da6ce05525990952b471f71727858a455dd7cb4836c5abad9a718ce9d9"
+      }
+    },
+    "source_run_ownership": {
+      "label_key": "io.mros2-cr.trial",
+      "label_value_prefix": "phase0-",
+      "network": "mros2-cr-net",
+      "network_id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+      "subnet": "172.18.0.0/16",
+      "planned_addresses": {
+        "wasm_source": "172.18.0.3",
+        "continuous_native_peer": "172.18.0.5",
+        "changed_ip_destination": "172.18.0.6"
+      },
+      "baseline_inspection": "2026-10-02: network identity verified; no containers with io.mros2-cr.trial label listed; no native peer/iwasm process found (pgrep matched only inspection shell)",
+      "no_containers_or_processes_touched": true
+    }
+  },
+  "runner": {
+    "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/campaign/run.py",
+    "sha256": "0eee4fde5dca42ccaa806f0f196a6e88aba30cf47eeeff26af96f176788ec3e4",
+    "modes": [
+      "same",
+      "changed",
+      "repeated",
+      "no-cr"
+    ],
+    "default_artifacts": "T11 normal app/runtime/peer SHA256 pins",
+    "peer_policy": "one session-owned continuous native peer container; unique label and ownership file; never signals an unowned peer",
+    "raw_failure_policy": "unique run directory retained; failed checkpoint state never deleted",
+    "pass_cleanup_policy": "owned state only; regular non-symlink files only; exact 1GiB image + SHA manifest + guest-memory snapshots + complete pre/post ID/body roundtrip assertions checked before deletion",
+    "trace": {
+      "capture": "native runtime stdout RTPS_TRACE records with actual thread id and detail/aux (including EINTR fd) plus RTPS_TRACE_METRICS",
+      "manifest_required": true,
+      "schema": "traceoverlay_event-v2;seq:u32,kind:u16,result:u16,current_ip:u32,applied_ip:u32,detail:u32,aux:u32,thread_id:u64; metrics attempts,winners,busy,failed,outcomes,probe_completions,active,max_active,lost,lockfree",
+      "readiness": "nonzero lost, lockfree !=1, max_active >1, active !=0, counter mismatch, sequence gaps, or missing EINTR rejects readiness",
+      "kind_ids": {
+        "1": "EINTR",
+        "2": "TRYLOCK_ATTEMPT",
+        "3": "TRYLOCK_OUTCOME",
+        "4": "PROBE_ENTER",
+        "5": "PROBE_EXIT",
+        "6": "IP_CURRENT",
+        "7": "IP_APPLIED",
+        "8": "PREP_BEGIN",
+        "9": "PREP_FAIL",
+        "10": "PROJECTION_COMMIT",
+        "11": "APPLIED_LAST",
+        "12": "IP_EQUAL",
+        "13": "IP_RETRY"
+      },
+      "result_ids": {
+        "0": "UNAVAILABLE",
+        "1": "BUSY",
+        "2": "FAILED",
+        "3": "UNCHANGED",
+        "4": "CHANGED"
+      }
+    }
+  },
+  "setup_readiness": {
+    "app": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
+    "runtime": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm",
+    "peer": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+    "trace_app": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
+    "trace_manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
+    "commands": [
+      "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+      "python3 validation/campaign/run.py --mode changed --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+      "python3 validation/campaign/run.py --mode repeated --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+      "python3 validation/campaign/run.py --mode no-cr --trace-app <manifest-wasm> --trace-manifest <build-manifest>"
+    ],
+    "disk_requirement": ">=3221225472 free bytes before every checkpoint",
+    "readiness_status": "safe observer v2 derivative build and offline parser verified; runtime telemetry/campaign unobserved; NOT PASS",
+    "observed_available_bytes_at_report": 4200206336,
+    "observed_available_utc": "2026-10-02"
+  },
+  "validation": {
+    "commands": [
+      "python3 -m py_compile validation/campaign/run.py validation/campaign/build_traceoverlay.py validation/campaign/build_trace_app.py validation/campaign/test_trace_parser.py",
+      "python3 -m unittest validation/campaign/test_trace_parser.py",
+      "python3 validation/campaign/build_traceoverlay.py --out /tmp/mros2-traceoverlay-v2-final-t12-20261002",
+      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-build-evidence-20261002 --source-archive /tmp/locks-native-T11-20261002/build-echoback_string/lwip-wasm/liblwip.a --c-overlay-build /tmp/mros2-traceoverlay-v2-final-t12-20261002 --cpp-overlay /tmp/mros2-trace-cpp-overlay-v2-20261002 --tag trace-observer-v6",
+      "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest> --dry-run",
+      "python3 -m json.tool validation/campaign/setup.json",
+      "cc -std=c11 -Wall -Wextra -Ivalidation/campaign validation/campaign/traceoverlay_smoke.c validation/campaign/traceoverlay.c -o /tmp/traceoverlay-v2-smoke && /tmp/traceoverlay-v2-smoke",
+      "offline parse of /tmp/traceoverlay-v2-smoke.log asserted lost=44 and max_active=2 => NOT PASS"
+    ],
+    "docker_or_checkpoint_execution": false,
+    "application_communication_pass": false,
+    "runner_implemented": true,
+    "campaign_ready": false,
+    "trace_parser_checked": true,
+    "trace_manifest_validated": true,
+    "loss_overlap_parser_tests": true
+  },
+  "notes": [
+    "New v2 observer is an actual MODULE_echoback_string derivative, linked once; normal T11 app/runtime/peer hashes validated unchanged.",
+    "Offline observer smoke output had lost=44 and max_active=2; parser rejected it as NOT PASS.",
+    "No Docker/checkpoint/application communication run; runtime telemetry therefore remains unobserved and NOT T12 PASS.",
+    "A failed preliminary private build attempt using tag trace-observer-v3 is preserved under the mirror; no Docker or canonical artifacts were touched."
+  ]
+}

@@ -1,0 +1,467 @@
+{
+  "root": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl",
+  "scope": "bootstrap/build/**/*.o, *.obj, *.d only",
+  "candidate_count": 58,
+  "candidate_bytes": 877636,
+  "df_before": {
+    "filesystem": "/dev/nvme0n1p5",
+    "size_bytes": 225339990016,
+    "used_bytes": 211139985408,
+    "available_bytes": 2678775808,
+    "use_percent": "99%"
+  },
+  "protected_sha256_before": {
+    "bootstrap/build/cmsis/src/libcmsis.a": {
+      "bytes": 25758,
+      "sha256": "69e38a704dc15f3637d0d14b6b5f93ea6153a6698931be101073fcaa6b6eb4e8"
+    },
+    "bootstrap/build/lwip/liblwip.a": {
+      "bytes": 714944,
+      "sha256": "3df4295ba0edb17a06356e01ff0161f0f566de2d6c9e9d097e7bffd9ee9f580e"
+    },
+    "bootstrap/build/lwip/libsocket_wasi_ext.a": {
+      "bytes": 18392,
+      "sha256": "c963d5f5a8d96b96e53750379432bef4c330d42e51e4e8b4bc3b8dc4ea19f9cd"
+    },
+    "bootstrap/focused-lwip/focused_lwip_test.wasm": {
+      "bytes": 82226,
+      "sha256": "0e5a9b2e2501a4144dd08520dcd18534305fca6b219aa541b89f30c575412c84"
+    },
+    "bootstrap/build-artifacts.sha256": {
+      "bytes": 715,
+      "sha256": "a2b994b92d593a08a1bd8925fcf003a60697cc3847ea040d5873ad5865b46086"
+    },
+    "lwip-wasm/src/core/lwip.c": {
+      "bytes": 954,
+      "sha256": "4391ec0bcf388862aef70d25278f320c2052af6ceb0b6d89a807c8d0c3930e5b"
+    },
+    "lwip-wasm/src/core/udp.c": {
+      "bytes": 14199,
+      "sha256": "f8937ba44008c57045691a868454a7a7fe0e7ab6e2a3a18a918fd12d64ed33b2"
+    },
+    "lwip-wasm/src/include/lwipopts.h": {
+      "bytes": 11917,
+      "sha256": "45e138fcbee6e1c0f732bd40b2521ade02cc072f0efadb8a1cc80f98c1eb630f"
+    },
+    "lwip-wasm/src/include/netif_wasm_add.h": {
+      "bytes": 1134,
+      "sha256": "ac30876b88489498b2661da53ffe6c3cb464d5002f84985bfee3250e1c4862aa"
+    },
+    "lwip-wasm/src/netif/netif_wasm.c": {
+      "bytes": 4481,
+      "sha256": "4c401b1c1692aa53f5752c17c60753b531c80c086b2000a19d40eac27801aa4c"
+    }
+  },
+  "deletion_manifest": [
+    {
+      "path": "bootstrap/build/cmsis/CMakeFiles/3.31.10/CompilerIdC/CMakeCCompilerId.o",
+      "bytes": 1574,
+      "sha256": "a255ad99fb8923bf2eedd8ef8699874f426f49d82538a33705e41b9270380cea",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/CMakeFiles/3.31.10/CompilerIdCXX/CMakeCXXCompilerId.o",
+      "bytes": 1580,
+      "sha256": "a5870ed46f600f9b3018421aa7dd3efe9568a01e2dfff26322e97aebf997bbee",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj",
+      "bytes": 346,
+      "sha256": "9d0e3dca32adea9f4cd5f13fde7a020a6e6a269b378fc244db8b2017d2f45f7a",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_generic.c.obj.d",
+      "bytes": 3116,
+      "sha256": "073527996c15a3769f5e7ac5c89780d2895c39fffe56d2b1a7ac1e9f8f72f8ee",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj",
+      "bytes": 777,
+      "sha256": "cfa50beba4ad9dc85aab75e8b2879c6a5a436ba2055f08ae1b2a60f0356d4d00",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_kernel.c.obj.d",
+      "bytes": 3211,
+      "sha256": "a9e3baa8184ba0b2031f5d0b1743fa1f2135515d3386716d973b3f54a447c796",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj",
+      "bytes": 5736,
+      "sha256": "52dd26c6bb7d3c3414538f8a582b24baf3ffbb157a343f7bffaed2fac800aaac",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_message_queue.c.obj.d",
+      "bytes": 3234,
+      "sha256": "1f227634cbf714ff180ec6bfbe73058a9c4d283f9ec5f419b1e26e76dc67a160",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_mutexes.c.obj",
+      "bytes": 3986,
+      "sha256": "08a156e59e01aa826008e6d3b3a8e28e3b6dba841898b14099edd408b2ce90d4",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_mutexes.c.obj.d",
+      "bytes": 3320,
+      "sha256": "c8f8f2eb4901ae5a68891ca1cdcdf46c5dc5c12eae55a0b61c2d57af38d78f78",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_semaphores.c.obj",
+      "bytes": 3688,
+      "sha256": "808ff8fc7efbdaa42db6c777ff2ecc7c2b4f1dedecb50e7c387c21084868ed9b",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_semaphores.c.obj.d",
+      "bytes": 3326,
+      "sha256": "8d44b89619e27d9c8e40205e4b1383ae8979c8e31816eea8926ce7909c36b248",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_thread.c.obj",
+      "bytes": 2586,
+      "sha256": "a12686bf514069d31d17357ca76007db8cb9ef2d434dfa40de6ce694f0a8e498",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/api/cmsis_thread.c.obj.d",
+      "bytes": 3011,
+      "sha256": "32c36269cde07cd8b4f2be49d13eebeb2a2da87833cedd9bc54a4afee7199ea6",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_memory.c.obj",
+      "bytes": 404,
+      "sha256": "2172ccf09a0a2b1741d8444cef9266238fcd06aba5f10c9631a4c88fef68826d",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_memory.c.obj.d",
+      "bytes": 3023,
+      "sha256": "28d9aee22e0b35a7829d3ba3a13a373c856a0d2c4b3bef485e5b69502c525641",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_message_queue.c.obj",
+      "bytes": 2805,
+      "sha256": "8c37f1f722f1a0c242d34274be8f14d781e801477ab20f171f32fa1d40b48c69",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_message_queue.c.obj.d",
+      "bytes": 3345,
+      "sha256": "9e78367ad9a8a9377d1d956d55907dc8d78538ede1c482848b824d7ab03c56dd",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_queue.c.obj",
+      "bytes": 561,
+      "sha256": "67cfeb6b52fb8fcddc848440879e1be7de67c44766f0748952f865be7c30fa05",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_queue.c.obj.d",
+      "bytes": 3020,
+      "sha256": "3d67bf0dbfb4a44cc56d329aab96161789b352a1aec23cd27537d03e6e41f5b9",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_thread_sync.c.obj",
+      "bytes": 1791,
+      "sha256": "810670cd194f5aee9cb1761041c31e8f41dd559d8272421c93dc4e56937c521c",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_thread_sync.c.obj.d",
+      "bytes": 3233,
+      "sha256": "3bf5ab3f63dc5180cb42c3e85d4b93eab3f71f25454e295a591a682e1f95d471",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_time.c.obj",
+      "bytes": 671,
+      "sha256": "62455b163f945d5616122bfa6067bd7b24e44aee022f984f402dec8bd4bb0053",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/cmsis_wasm_time.c.obj.d",
+      "bytes": 3017,
+      "sha256": "b6c1b5424f6432355697661241086a80a8dd942d58630c47395bc296693a3cbf",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/wasm.c.obj",
+      "bytes": 230,
+      "sha256": "31153df749855658fdb825c0d104316a0082fc0bde23a271eb49e98566f061f0",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/cmsis/src/CMakeFiles/cmsis.dir/core/wasm.c.obj.d",
+      "bytes": 1621,
+      "sha256": "45dfc2b3e7c0958333a41e180c1a8c9214026902d0ae0ef8a3efa5991e14e880",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/3.31.10/CompilerIdC/CMakeCCompilerId.o",
+      "bytes": 1574,
+      "sha256": "a255ad99fb8923bf2eedd8ef8699874f426f49d82538a33705e41b9270380cea",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/3.31.10/CompilerIdCXX/CMakeCXXCompilerId.o",
+      "bytes": 1580,
+      "sha256": "a5870ed46f600f9b3018421aa7dd3efe9568a01e2dfff26322e97aebf997bbee",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.obj",
+      "bytes": 2696,
+      "sha256": "eb659894195d76b3551628cc3e1802f18ca1b79604ddc1b624aaab422fbb9212",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/OS/sys_arch.c.obj.d",
+      "bytes": 4588,
+      "sha256": "ed57ec63fe94e6e61a2ec245b7ac5563f0d840dbe6328a1ab0c9bf9d413af628",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.obj",
+      "bytes": 2437,
+      "sha256": "dee3ec6af5b237839fdba08edecb8fe5210e2ff836be4c9d968d89061c1b6e16",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/ipv4/ip4_addr.c.obj.d",
+      "bytes": 4031,
+      "sha256": "308a944431a42807e553f31778c0aa2ea6429b871ba81ec9eebbfeb6c326990b",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/mem.c.obj",
+      "bytes": 530186,
+      "sha256": "c69a895c4d259bb74a9f436fe08fa91fe7b91c835405b461079a90c2db3a9c02",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/mem.c.obj.d",
+      "bytes": 4690,
+      "sha256": "03f3ba3fd8c8075529020a0089202a843fce446a3dd8a51411fca3a2a946b1ba",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/memp.c.obj",
+      "bytes": 137952,
+      "sha256": "63fee03fa44cef80636448c938207e19c2468728db36ba77a9333d27feb9bb47",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/memp.c.obj.d",
+      "bytes": 8533,
+      "sha256": "8341a9a7f465f0cba14993b0f28b7b61b1446481631f28f029fdea5143a24af5",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.obj",
+      "bytes": 12059,
+      "sha256": "b7ac434985603e383b714a068bfa6b9777a50dc1d89710db139c77344b08ba1b",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/pbuf.c.obj.d",
+      "bytes": 5194,
+      "sha256": "4bb808989a06ac70c11bdd10846485c99c8e0e5a04fc3c42cd273c15d6899a2e",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/stats.c.obj",
+      "bytes": 6111,
+      "sha256": "875668d417946d76975daf406c6e578879187a8f788edad01d64edde22660e35",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/stats.c.obj.d",
+      "bytes": 3626,
+      "sha256": "f67856128a7069695d27be389e436c822d5716fb7fb63925c20c3f2f43d73bf3",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/sys.c.obj",
+      "bytes": 436,
+      "sha256": "18d23895e45c3dc1484f41fa045c53351b1bc0e4ec14b99a3cc93d6b9551c224",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/lwip/src/core/sys.c.obj.d",
+      "bytes": 3767,
+      "sha256": "e74ece79bf9a519da83ec7a207acb8db8f5d2b5498d48a195fcf91267623d786",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/igmp.c.obj",
+      "bytes": 1067,
+      "sha256": "14053db9f0cf97feb4cfad1de012f15e5a18b1f0ca7ee78d88a29e6206832605",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/igmp.c.obj.d",
+      "bytes": 6980,
+      "sha256": "cbb7e3cbc7680f2836132e4ba5f7bb6cf62f5395a62adb186eb8756c9580cfeb",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/lwip.c.obj",
+      "bytes": 837,
+      "sha256": "9a11e8709e62ab315409fe3ca1796998930ac25bbed6e4e4fb95e12c461746da",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/lwip.c.obj.d",
+      "bytes": 6305,
+      "sha256": "e232b3064444e6a812010ca38caa45dea47419dce1e450f75a6795371280ad3c",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/sys_utils.c.obj",
+      "bytes": 350,
+      "sha256": "aa7b7cc955a889a51983bd79a4106bc8c72d641816e3346ca060a959cd9a2654",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/sys_utils.c.obj.d",
+      "bytes": 2899,
+      "sha256": "4606f2ca1e4e235a6aa8a4563d6fa782e66fa74c577c7cc68b3febbca759ec78",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp.c.obj",
+      "bytes": 8026,
+      "sha256": "099695fac4fab9cadabe87bb660cfe91ae73c0c447d50aebabc577a94621499f",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp.c.obj.d",
+      "bytes": 7427,
+      "sha256": "d5f0c487977cd04db2b2ca769d4c137e310822fabb261489e26caa587d386dd2",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp_multicast.c.obj",
+      "bytes": 2130,
+      "sha256": "0f6f0bb0b95e50f79a6d582a6a7668fb261bd0475d910fef1315bf6eba0e9e19",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp_multicast.c.obj.d",
+      "bytes": 7151,
+      "sha256": "a62f2f8dad1f106e527ac99ee34a1cb89054028214ee5815d30e8c411af8eca7",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.obj",
+      "bytes": 3939,
+      "sha256": "25e9d272e0accc591844371e8cc3ef8d55d835f013b88bb1b80871dce0c2d43e",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/core/udp_multicast_manager.c.obj.d",
+      "bytes": 7179,
+      "sha256": "d6120e5331a2dfd3170f7138ca528aa0451b92d74ca7148457867d3086762db1",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/netif/netif_wasm.c.obj",
+      "bytes": 2850,
+      "sha256": "c14bf53235caa93f85d5455829c428ddf4e46d9bb0b46cf0a07de4ea36f0bd51",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/lwip.dir/src/netif/netif_wasm.c.obj.d",
+      "bytes": 6947,
+      "sha256": "d6ac51a5ecc13363f69409379ccf2e68b3b08740a312a57abdb87084b92564c8",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/socket_wasi_ext.dir/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c.obj",
+      "bytes": 17978,
+      "sha256": "dd02c5fcac26560e1f71ed94576d03b7c8d382d013abd6aa3466d8393037d59a",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    },
+    {
+      "path": "bootstrap/build/lwip/CMakeFiles/socket_wasi_ext.dir/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c.obj.d",
+      "bytes": 2899,
+      "sha256": "a5057c4e330b15b3348d7e4f2b41c531a953b23f2809358ed711209ac94ba00a",
+      "classification": "regenerable compiler object/dependency intermediate under owned bootstrap/build CMake trees"
+    }
+  ],
+  "df_after": {
+    "filesystem": "/dev/nvme0n1p5",
+    "size_bytes": 225339990016,
+    "used_bytes": 211139244032,
+    "available_bytes": 2679517184,
+    "use_percent": "99%"
+  },
+  "removed_count": 58,
+  "remaining_candidate_count": 0,
+  "protected_sha256_after": {
+    "bootstrap/build/cmsis/src/libcmsis.a": {
+      "bytes": 25758,
+      "sha256": "69e38a704dc15f3637d0d14b6b5f93ea6153a6698931be101073fcaa6b6eb4e8",
+      "matches_before": true
+    },
+    "bootstrap/build/lwip/liblwip.a": {
+      "bytes": 714944,
+      "sha256": "3df4295ba0edb17a06356e01ff0161f0f566de2d6c9e9d097e7bffd9ee9f580e",
+      "matches_before": true
+    },
+    "bootstrap/build/lwip/libsocket_wasi_ext.a": {
+      "bytes": 18392,
+      "sha256": "c963d5f5a8d96b96e53750379432bef4c330d42e51e4e8b4bc3b8dc4ea19f9cd",
+      "matches_before": true
+    },
+    "bootstrap/focused-lwip/focused_lwip_test.wasm": {
+      "bytes": 82226,
+      "sha256": "0e5a9b2e2501a4144dd08520dcd18534305fca6b219aa541b89f30c575412c84",
+      "matches_before": true
+    },
+    "bootstrap/build-artifacts.sha256": {
+      "bytes": 715,
+      "sha256": "a2b994b92d593a08a1bd8925fcf003a60697cc3847ea040d5873ad5865b46086",
+      "matches_before": true
+    },
+    "lwip-wasm/src/core/lwip.c": {
+      "bytes": 954,
+      "sha256": "4391ec0bcf388862aef70d25278f320c2052af6ceb0b6d89a807c8d0c3930e5b",
+      "matches_before": true
+    },
+    "lwip-wasm/src/core/udp.c": {
+      "bytes": 14199,
+      "sha256": "f8937ba44008c57045691a868454a7a7fe0e7ab6e2a3a18a918fd12d64ed33b2",
+      "matches_before": true
+    },
+    "lwip-wasm/src/include/lwipopts.h": {
+      "bytes": 11917,
+      "sha256": "45e138fcbee6e1c0f732bd40b2521ade02cc072f0efadb8a1cc80f98c1eb630f",
+      "matches_before": true
+    },
+    "lwip-wasm/src/include/netif_wasm_add.h": {
+      "bytes": 1134,
+      "sha256": "ac30876b88489498b2661da53ffe6c3cb464d5002f84985bfee3250e1c4862aa",
+      "matches_before": true
+    },
+    "lwip-wasm/src/netif/netif_wasm.c": {
+      "bytes": 4481,
+      "sha256": "4c401b1c1692aa53f5752c17c60753b531c80c086b2000a19d40eac27801aa4c",
+      "matches_before": true
+    }
+  },
+  "readonly_integrity_check": true
+}
