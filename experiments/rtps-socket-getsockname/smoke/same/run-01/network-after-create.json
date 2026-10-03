@@ -1,0 +1,63 @@
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {
+            "2af57313c148bcfd774dff5e793a75b5d3d52d2a9c355dfd4bafb9916ce5778c": {
+                "Name": "mros2-cr-1790938424-9041d1aab4-peer",
+                "EndpointID": "7701961e8a9744709e5d2c3b85c18a12a14a398250c260144930988017d5d4a2",
+                "MacAddress": "b6:fe:18:db:f5:e0",
+                "IPv4Address": "172.18.0.5/16",
+                "IPv6Address": ""
+            },
+            "56e4170470f42104bb2704fa8c843c03aeacca750d6feb1dad5993651f12553a": {
+                "Name": "mros2-cr-nurec-experimental-run-01-peer",
+                "EndpointID": "f2d3aa267cf391bddb035ac0267bd7e3db80c5053de0931ce5c28dd9d9671092",
+                "MacAddress": "96:89:eb:0a:65:b9",
+                "IPv4Address": "172.18.0.7/16",
+                "IPv6Address": ""
+            },
+            "a9c84b57624fefc99fd4ab1f1a257f840a3cc8d747e88211317ff24ad6b49d4f": {
+                "Name": "mros2-cr-nurec-experimental-run-01-wamr",
+                "EndpointID": "80fb54ee82df93f2eb9fa23d484f92ba3ef389c62f5d0a07b70da08a6dbe5deb",
+                "MacAddress": "06:47:0b:64:b1:2e",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 6,
+                        "DynamicIPsAvailable": 65530
+                    }
+                }
+            }
+        }
+    }
+]

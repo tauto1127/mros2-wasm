@@ -1,0 +1,8 @@
+[2026-10-03T06:43:01.441+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-rtps-getsockname-log-probe-wamr --label io.mros2-cr.trial=rtps-getsockname-log-probe --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/20261003-rtps-socket-getsockname/experiments/rtps-socket-getsockname/log-probe-ip7,dst=/run/raw --mount type=bind,src=/home/osslab/20261003-rtps-socket-getsockname/experiments/rtps-socket-getsockname/runtime-build/runtime,dst=/runtime,readonly --mount type=bind,src=/home/osslab/20261003-rtps-socket-getsockname/experiments/rtps-socket-getsockname/runtime-build/app,dst=/artifact,readonly --mount type=bind,src=/dev/shm/rtps-socket-getsockname-state/log-probe,dst=/state --workdir /state ros:humble sleep infinity
+caf644e835ac742d0762edbdef2e33a743c11606a4a6ec4ef400c9694d6c900d
+
+[2026-10-03T06:43:01.699+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-rtps-getsockname-log-probe-peer --label io.mros2-cr.trial=rtps-getsockname-log-probe --network mros2-cr-net --ip 172.18.0.7 --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+b7e339861c53ac1f1c1fa5c8581e366a549756d3d47809a468f506ca9872ab8a
+
