@@ -1,0 +1,75 @@
+{
+  "trial_id": "control-run-02",
+  "arm": "control",
+  "mode": "changed",
+  "verdict": "PASS",
+  "reason": "post window [17, 18, 19, 20, 21, 22, 23, 24, 25, 26]",
+  "checkpointed": true,
+  "N": 14,
+  "timings_ns": {
+    "checkpoint": 1097343628,
+    "checkpoint_signal_to_process_exit": 1097343628,
+    "state_hash": 633345238,
+    "tenth_callback_to_sigusr2": 99051642,
+    "restore_stage": 282670435,
+    "recovery_to_first_new_callback": 7016684726,
+    "restore_to_first_peer_receive": 2013960778,
+    "last_pre_callback_to_first_post_callback": 9856291857
+  },
+  "utc": {
+    "sigusr2": "2026-09-30T08:32:07.574+00:00",
+    "restore_stage_end_note": "estimated from last Finish to restore stack before application output",
+    "restore_command": "2026-09-30T08:32:10.315+00:00",
+    "first_new_callback": "2026-09-30T08:32:17.331+00:00"
+  },
+  "pre_complete_ids": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "extra_publishes_before_signal": [
+    14
+  ],
+  "pre_window": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "restore_stage": {
+    "status": "estimated",
+    "restore_stage_end_mono_ns": 2516149787916770,
+    "stack_restore_count": 12,
+    "first_app_mono_ns": 2516156521881648,
+    "elapsed_from_restore_command_ns": 282670435
+  },
+  "post_boundary": "id=29 reached=callback ids_seen=15..30 count=16",
+  "post_window": [
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "first_new_id": 17,
+  "first_peer_receive_id": 16
+}

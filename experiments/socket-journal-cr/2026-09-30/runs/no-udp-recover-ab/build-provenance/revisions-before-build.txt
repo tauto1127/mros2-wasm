@@ -1,0 +1,26 @@
+root 7b632868ed9859dc152bc87a23c98d4afff43837 experiment/20260930-no-udp-recover
+submodule cmsis-wasm 182dcaff50a0e9c626c84db365b1d762747a806b
+submodule lwip-wasm 78ef9fc33842bece9ad9a83c1cd0a448b779d64e
+submodule mros2 a8d4481c4531f77b143d5e78ac32b333c338b0a2
+submodule mros2/embeddedRTPS 81a6a4fe9309f3cb16f0f3b60c92ca89b8602182
+submodule third_party/wamr db2054224dcff9686f3f98850a29c554974096bc
+wasmig c5015ee06acd3992ce826655825e1911da8c5945
+migration.cmake diff against recorded WAMR commit:
+diff --git a/core/iwasm/migration/migration.cmake b/core/iwasm/migration/migration.cmake
+index e3b56188..42220eaf 100644
+--- a/core/iwasm/migration/migration.cmake
++++ b/core/iwasm/migration/migration.cmake
+@@ -17,7 +17,9 @@ if (NOT wasmig_POPULATED)
+     message ("-- Fetching wasmig ..")
+     FetchContent_Populate(wasmig)
+     include_directories("${wasmig_SOURCE_DIR}/include")
+-    add_subdirectory(${wasmig_SOURCE_DIR})
++    # Binary dir is required because FetchContent source is outside this source tree.
++    # This does not change checkpoint, restore, timeout, or communication behavior.
++    add_subdirectory(${wasmig_SOURCE_DIR} ${wasmig_BINARY_DIR})
+     file (GLOB_RECURSE c_source_wasmig ${wasmig_SOURCE_DIR}/src/*.c)
+ endif()
+ 
+cmsis thread sync blob:
+da3e2114dca93aa149b9f2014c55c98b7fe62987
+8885d9fd77aac9dc4f90b2d0c687cd9d21231cd7558606995b13fe4c693c5900  /home/osslab/20260930-mros2-wasm-no-udp-recover-experiment/cmsis-wasm/src/core/cmsis_wasm_thread_sync.c
