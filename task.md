@@ -6,9 +6,9 @@
 
 - T01–T10: DONE。最終 actual-source 全10-task suite `validation/rtps/runs/20261003T003252-all-2332558/coverage.manifest`。初期化6失敗を `completeInit()` まで延長、後段SEDP失敗／正常起動も実行。
 - T11: DONE。最終 startup source の通常3target clean build、template hash不変、observerなし。`validation/rtps/runs/20261003T-startup-repair2-T11-final/`。
-- T12: DONE（scope付き）。SAME/CHANGED/同一app successive2回のREPEATED、各前後10tuple/image/telemetry証拠保存。C/R binaryはround2 startup変更**前**。変更後の最終通常appは新no-C/R controlで10tuple確認。最終artifactのC/R済みとは言わない。
+- T12: historical instrumented SAME/CHANGED/REPEATED + final normal no-C/R done as recorded. At user's later request, exact final normal app `.3→.6` C/R attempted; **FAIL** post-restore application gate: 226 Wasm publishes,232 native receives/echo publish returns,0 Wasm callbacks. Logged current IP changed to `.6`; no end-to-end recovery. Full evidence and bounded disposition: `validation/final-normal-cr-20261003.md`. Do not continue SAME/REPEATED until this failure is understood and resources/authority are rechecked.
 - T13: DONE。final repair-review **2/2**、独立 **OK with notes**、P1二件閉鎖、P2 trace+normal flag併用の誤分類をreport-onlyで繰越。親がlive diff/new header、通常3artifact＋23pins、4image全file/selected bytesを照合し **明示採用**。`validation/final-adoption-20261003.md` が採用判断・ordered20項目・残余リスクの正本。
-- T14: DONE。採用後の依存順commit/push・root pinsを実行し全remote tip確認済み。製品とvalidationは `fix/eintr-ip-refresh`、working wiki単独ファイルはmain `a9ca3bd9fe73d07affd70c094e2172fbd0dcec32`。公開先は毎push直前確認したtauto1127のみ。`validation/publication-20261003.json` に実commit/URL/tip記録。画像・binary・generated build・未採用歴史diffはstage/削除しない。P2注意点のみreport-onlyで残る。
+- T14: dependency/source publication DONE to verified tauto1127 remotes. Wiki working note now records the exact final-artifact C/R failure (remote main `84397f4`, plus concurrent durable migration-page/log update from another session). Initial source adoption/push is historical and not retracted; exact final-artifact C/R recovery acceptance is **NOT MET**. `validation/final-normal-cr-20261003.md` records the retained failure; P2 also remains.
 - 間違った旧PASS、画像上書き／消失、未許可docker rmによるrootfs/object inspectability損失は撤回／開示したまま。最新helperはID固定stop/disconnectのみ、例外監査・unknown fail-closed。削除なし、連続`.5` peer不変。
 
 以下は2026-10-02時点の分解・失敗履歴／task contractを残したもの。旧PARTIAL/BLOCKED/repair-review0回の記述を最新状態として再利用しない。
