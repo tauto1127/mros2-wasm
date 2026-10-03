@@ -1,0 +1,8 @@
+[2026-09-30T08:08:26.092+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-nurec-experimental-run-01-wamr --label io.mros2-cr.trial=no-recover-experimental-run-01 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/20260930-mros2-wasm-no-udp-recover-experiment/experiments/socket-journal-cr/2026-09-30/runs/no-udp-recover-ab/experimental/run-01,dst=/run/raw --mount type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/state/experimental-run-01,dst=/state --workdir /state ros:humble sleep infinity
+e40b0854f70e27bfcbe6c6ef5ac2e7b1761337281918b0eabeee7a2792b4736c
+
+[2026-09-30T08:08:26.347+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-nurec-experimental-run-01-peer --label io.mros2-cr.trial=no-recover-experimental-run-01 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/20260930-mros2-wasm-no-udp-recover-experiment/experiments/socket-journal-cr/2026-09-30/runs/no-udp-recover-ab/experimental/run-01,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+31b3b02523732115a14073ba68c70d79bcec960fa578ba9cccf36e8d2d113476
+

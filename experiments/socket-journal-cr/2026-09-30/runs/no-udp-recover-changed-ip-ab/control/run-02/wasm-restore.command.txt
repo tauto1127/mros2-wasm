@@ -1,0 +1,1 @@
+rtk proxy docker exec mros2-cr-nurec-control-run-02-dst sh -c 'echo $$ > /run/raw/wasm-restore.pid; exec /runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 --restore /artifact/echoback_string.wasm'
