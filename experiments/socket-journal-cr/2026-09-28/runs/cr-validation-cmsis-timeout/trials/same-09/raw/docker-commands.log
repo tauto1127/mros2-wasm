@@ -1,0 +1,8 @@
+[2026-09-28T22:57:54.979+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-val-same-09-wamr --label io.mros2-cr.trial=val182-same-09 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/mros2-wasm-cr-validation-182dcaf/experiments/socket-journal-cr/2026-09-28/runs/cr-validation-cmsis-timeout/trials/same-09/raw,dst=/run/raw --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/state/same-09,dst=/state --workdir /state ros:humble sleep infinity
+a2e95260e894f486f72ba49f98d4c9f6ca887c53ca9143e88cbcb206f1622ad2
+
+[2026-09-28T22:57:55.243+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-val-same-09-peer --label io.mros2-cr.trial=val182-same-09 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/mros2-wasm-cr-validation-182dcaf/experiments/socket-journal-cr/2026-09-28/runs/cr-validation-cmsis-timeout/trials/same-09/raw,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+791e301ab2accb396fa4b7502953059b7f28db983ecca1136a231ea779f5d3ff
+

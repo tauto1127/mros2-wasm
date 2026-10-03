@@ -1,0 +1,12 @@
+[2026-09-28T23:06:08.914+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-val-changed-09-src --label io.mros2-cr.trial=val182-changed-09 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/mros2-wasm-cr-validation-182dcaf/experiments/socket-journal-cr/2026-09-28/runs/cr-validation-cmsis-timeout/trials/changed-09/raw,dst=/run/raw --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/state/changed-09,dst=/state --workdir /state ros:humble sleep infinity
+3437219c52352c133dc40421c94a51d207a0c718d38c4d1c6a278067d239870b
+
+[2026-09-28T23:06:09.195+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-val-changed-09-peer --label io.mros2-cr.trial=val182-changed-09 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/mros2-wasm-cr-validation-182dcaf/experiments/socket-journal-cr/2026-09-28/runs/cr-validation-cmsis-timeout/trials/changed-09/raw,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+d590e6e05ec6deb0f02421f998d7664187fdee38c0b324ae49ec5ad2ddb3252b
+
+[2026-09-28T23:06:27.826+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-val-changed-09-dst --label io.mros2-cr.trial=val182-changed-09 --network mros2-cr-net --ip 172.18.0.6 --mount type=bind,src=/home/osslab/mros2-wasm-cr-validation-182dcaf/experiments/socket-journal-cr/2026-09-28/runs/cr-validation-cmsis-timeout/trials/changed-09/raw,dst=/run/raw --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/runtime,dst=/runtime,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/app,dst=/artifact,readonly --mount type=bind,src=/tmp/mros2-wasm-cr-validation-182dcaf/state/changed-09,dst=/state --workdir /state ros:humble sleep infinity
+1424d858775bcf3076749e8de5fe2a33759dfa90dd60539753d422cca066f4eb
+

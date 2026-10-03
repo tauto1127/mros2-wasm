@@ -1,0 +1,56 @@
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {
+            "25b7e856c81a8d2b2fb09baf6da935d8e8d117f4ca299a743118eeac3ae36ac1": {
+                "Name": "mros2-cr-val-same-04-peer",
+                "EndpointID": "f6a387334a85a5a8e3182f6746954e2e188f4a44f7e054f871282cd8761f79d4",
+                "MacAddress": "16:e3:fc:61:c2:21",
+                "IPv4Address": "172.18.0.5/16",
+                "IPv6Address": ""
+            },
+            "87dcb95bf0dabe410f0846363fcece042b77a82bed8ab77bfc75b2f9fb3fdbf5": {
+                "Name": "mros2-cr-val-same-04-wamr",
+                "EndpointID": "f85c0eea6fdd3f1a8cbe04821e8b99a03621d761a0194dd3aada68a2960e56f9",
+                "MacAddress": "46:bc:19:4e:ae:e5",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 5,
+                        "DynamicIPsAvailable": 65531
+                    }
+                }
+            }
+        }
+    }
+]
