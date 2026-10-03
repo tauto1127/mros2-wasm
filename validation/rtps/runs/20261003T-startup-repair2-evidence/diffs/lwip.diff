@@ -1,0 +1,474 @@
+diff --git a/src/core/lwip.c b/src/core/lwip.c
+index 8a91b1e..517810a 100644
+--- a/src/core/lwip.c
++++ b/src/core/lwip.c
+@@ -9,8 +9,11 @@
+ #include "sys_utils.h"
+ #include <pthread.h>
+ 
+-// static pthread_mutex_t tcpip_core_mutex = PTHREAD_MUTEX_INITIALIZER;
+-static pthread_mutex_t tcpip_core_mutex;
++#ifndef LWIP_CORE_MUTEX_TRYLOCK
++#define LWIP_CORE_MUTEX_TRYLOCK pthread_mutex_trylock
++#endif
++
++static pthread_mutex_t tcpip_core_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+ void MX_LWIP_Init(void)
+ {
+@@ -19,19 +22,18 @@ void MX_LWIP_Init(void)
+   memp_init();
+   pbuf_init();
+   udp_init();
+-  pthread_mutex_init(&tcpip_core_mutex, NULL);
+   return;
+ }
+ 
+-u32_t lwip_htonl(u32_t val)
+-{
+-  return sys_htonl(val);
+-}
+-
+-u16_t lwip_htons(u16_t val)
+-{
+-  return sys_htons(val);
+-}
++u32_t lwip_htonl(u32_t val)
++{
++  return sys_htonl(val);
++}
++
++u16_t lwip_htons(u16_t val)
++{
++  return sys_htons(val);
++}
+ 
+ void sys_lock_tcpip_core(void)
+ {
+@@ -45,6 +47,11 @@ void sys_unlock_tcpip_core(void)
+   return;
+ }
+ 
++int sys_trylock_tcpip_core(void)
++{
++  return LWIP_CORE_MUTEX_TRYLOCK(&tcpip_core_mutex);
++}
++
+ uint32_t sys_now(void)
+ {
+   return osKernelGetTickCount();
+diff --git a/src/core/udp.c b/src/core/udp.c
+index 22c2c0d..eb43baa 100644
+--- a/src/core/udp.c
++++ b/src/core/udp.c
+@@ -2,28 +2,32 @@
+ #include "lwip/udp.h"
+ 
+ #include "netif_wasm_get.h"
++#include "netif_wasm_add.h"
+ #include "sys_utils.h"
+-#include "udp_multicast_manager.h"
+-
+-#include <stdlib.h>
+-#include <string.h>
+-#include <errno.h>
++#include "udp_multicast_manager.h"
++
++#include <stdlib.h>
++#include <string.h>
++#include <errno.h>
++#ifndef LWIP_UDP_RECVFROM
++#define LWIP_UDP_RECVFROM recvfrom
++#endif
+ 
+ struct udp_pcb* udp_pcbs;
+ static void thread_udp_recv(void* argument);
+ /*
+  * config
+  */
+-#define MAX_SEND_PACKET_SIZE    4096
+-/*
+- * Fast DDS may put a complete serialized sample in one UDP datagram.  A
+- * Cartographer SubmapQuery reply grows beyond 4096 bytes as the active submap
+- * fills, so the old limit made recvfrom() silently truncate the datagram and
+- * the RTPS parser never saw that reply.  65535 covers the largest IPv4 UDP
+- * datagram representable by lwIP's u16_t pbuf length (the practical UDP
+- * payload maximum is 65507 bytes).
+- */
+-#define MAX_RECV_PACKET_SIZE    65535
++#define MAX_SEND_PACKET_SIZE    4096
++/*
++ * Fast DDS may put a complete serialized sample in one UDP datagram.  A
++ * Cartographer SubmapQuery reply grows beyond 4096 bytes as the active submap
++ * fills, so the old limit made recvfrom() silently truncate the datagram and
++ * the RTPS parser never saw that reply.  65535 covers the largest IPv4 UDP
++ * datagram representable by lwIP's u16_t pbuf length (the practical UDP
++ * payload maximum is 65507 bytes).
++ */
++#define MAX_RECV_PACKET_SIZE    65535
+ //#define DEBUG_SEND_PACKET
+ //#define DEBUG_RECV_PACKET
+ 
+@@ -340,28 +344,28 @@ udp_new(void)
+ }
+ 
+ 
+-static void thread_udp_recv(void* argument)
+-{
+-  struct udp_pcb* pcb = (struct udp_pcb*)argument;
+-  UdpMcInfoType* mcp = udp_mc_info_get(pcb);
+-  /*
+-   * Each UDP PCB has its own receive thread.  This buffer used to be a
+-   * function-local static, so discovery, topic and service sockets wrote into
+-   * the same storage concurrently.  Allocate one buffer per receive thread;
+-   * keeping 64 KiB off the relatively small WASI thread stack is intentional.
+-   */
+-  char* recv_msg = (char*)malloc(MAX_RECV_PACKET_SIZE);
+-
+-  if (recv_msg == NULL) {
+-    CMSIS_IMPL_ERROR("thread_udp_recv: can not allocate receive buffer size=%d",
+-                     MAX_RECV_PACKET_SIZE);
+-    return;
+-  }
+-
+-  CMSIS_IMPL_INFO("thread_udp_recv:UP: mcp=%p", mcp);
+-
+-  while (true) {
+-    int recv_msglen = 0;
++static void thread_udp_recv(void* argument)
++{
++  struct udp_pcb* pcb = (struct udp_pcb*)argument;
++  UdpMcInfoType* mcp = udp_mc_info_get(pcb);
++  /*
++   * Each UDP PCB has its own receive thread.  This buffer used to be a
++   * function-local static, so discovery, topic and service sockets wrote into
++   * the same storage concurrently.  Allocate one buffer per receive thread;
++   * keeping 64 KiB off the relatively small WASI thread stack is intentional.
++   */
++  char* recv_msg = (char*)malloc(MAX_RECV_PACKET_SIZE);
++
++  if (recv_msg == NULL) {
++    CMSIS_IMPL_ERROR("thread_udp_recv: can not allocate receive buffer size=%d",
++                     MAX_RECV_PACKET_SIZE);
++    return;
++  }
++
++  CMSIS_IMPL_INFO("thread_udp_recv:UP: mcp=%p", mcp);
++
++  while (true) {
++    int recv_msglen = 0;
+     struct sockaddr_in remote_addr;
+     if (mcp->sd < 0) {
+       osDelay(1000);
+@@ -371,19 +375,21 @@ static void thread_udp_recv(void* argument)
+     //CMSIS_IMPL_INFO("thread_udp_recv:START: mcp=%p", mcp);
+     /* Receive a single datagram from the server */
+     socklen_t socklen = sizeof(remote_addr);
+-    recv_msglen = recvfrom(mcp->sd, recv_msg, MAX_RECV_PACKET_SIZE, 0, (struct sockaddr*)&remote_addr, &socklen);
+-    if (recv_msglen < 0) {
+-      int saved_errno = errno;
+-      if (saved_errno == EINTR) {
+-        CMSIS_IMPL_ERROR("UDP_RECV_RECOVERY action=skip reason=EINTR fd=%d",
+-                         mcp->sd);
+-        /* An interrupted receive does not mean the socket is broken. */
+-        continue;
+-      }
+-      CMSIS_IMPL_ERROR("thread_udp_recv: line:%d sd=%d recv=%d",
+-                       __LINE__, mcp->sd, recv_msglen);
+-      osDelay(1000);
+-      continue;
++    recv_msglen = LWIP_UDP_RECVFROM(mcp->sd, recv_msg, MAX_RECV_PACKET_SIZE, 0, (struct sockaddr*)&remote_addr, &socklen);
++    if (recv_msglen < 0) {
++      int saved_errno = errno;
++      if (saved_errno == EINTR) {
++        int refresh_status = netif_wasm_refresh();
++        CMSIS_IMPL_ERROR("UDP_RECV_RECOVERY action=refresh status=%d reason=EINTR fd=%d",
++                         refresh_status, mcp->sd);
++        /* Probe/logging may change errno; retain recvfrom's EINTR result. */
++        errno = saved_errno;
++        continue;
++      }
++      CMSIS_IMPL_ERROR("thread_udp_recv: line:%d sd=%d recv=%d",
++                       __LINE__, mcp->sd, recv_msglen);
++      osDelay(1000);
++      continue;
+     }
+     struct pbuf* p = pbuf_alloc(PBUF_RAW, recv_msglen, PBUF_RAM);
+     if (p == NULL) {
+@@ -401,6 +407,13 @@ static void thread_udp_recv(void* argument)
+   return;
+ }
+ 
++#ifdef LWIP_UDP_TEST
++void lwip_test_thread_udp_recv(void *argument)
++{
++  thread_udp_recv(argument);
++}
++#endif
++
+ #if ( (defined DEBUG_SEND_PACKET) || (defined DEBUG_RECV_PACKET))
+ static void udp_packet_debug_print(const char* buffer, int len)
+ {
+diff --git a/src/include/lwipopts.h b/src/include/lwipopts.h
+index eaa7049..39d221e 100644
+--- a/src/include/lwipopts.h
++++ b/src/include/lwipopts.h
+@@ -324,6 +324,7 @@ void sys_mark_tcpip_thread(void);
+ 
+ #if !defined(LWIP_TCPIP_CORE_LOCKING) || LWIP_TCPIP_CORE_LOCKING /* default is 1 */
+ void sys_lock_tcpip_core(void);
++int sys_trylock_tcpip_core(void);
+ #define LOCK_TCPIP_CORE()          sys_lock_tcpip_core()
+ void sys_unlock_tcpip_core(void);
+ #define UNLOCK_TCPIP_CORE()        sys_unlock_tcpip_core()
+diff --git a/src/include/netif_wasm_add.h b/src/include/netif_wasm_add.h
+index ee88d8c..94f6f36 100644
+--- a/src/include/netif_wasm_add.h
++++ b/src/include/netif_wasm_add.h
+@@ -1,20 +1,38 @@
+ #ifndef _NETIF_WASM_ADD_H_
+ #define _NETIF_WASM_ADD_H_
+ 
++#include <stdint.h>
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+ 
+-extern int netif_wasm_add(const char* ipaddr, const char* netmask);
+-
+-/* Re-probe the host-side local IPv4 address and update netif_default.
+- * Returns 1 when the address changed, 0 when it stayed the same, and -1 on
+- * failure. */
+-extern int netif_wasm_refresh(void);
+-extern int netif_wasm_take_ip_changed(void);
++extern int netif_wasm_add(const char* ipaddr, const char* netmask);
++
++/* Status values returned by the nonblocking current-IP coordinator. */
++#define NETIF_WASM_REFRESH_FAILED (-1)
++#define NETIF_WASM_REFRESH_UNCHANGED 0
++#define NETIF_WASM_REFRESH_CHANGED 1
++#define NETIF_WASM_REFRESH_BUSY 2
++
++/* Try the shared core guard before probing; BUSY never probes. */
++extern int netif_wasm_refresh(void);
++
++/* Snapshot values are in network byte order. The ordinary form briefly
++ * acquires the lwIP core mutex; the _core_locked form requires that mutex to
++ * already be held by the caller. `valid` is false until netif initialization. */
++typedef struct netif_wasm_ip_snapshot {
++  uint32_t ip_addr;
++  uint32_t netmask;
++  int valid;
++} netif_wasm_ip_snapshot_t;
++
++extern int netif_wasm_get_ip_snapshot(netif_wasm_ip_snapshot_t *snapshot);
++extern void netif_wasm_get_ip_snapshot_core_locked(
++    netif_wasm_ip_snapshot_t *snapshot);
+ 
+ #ifdef __cplusplus
+ }
+ #endif
+ 
+-#endif /* _NETIF_WASM_ADD_H_ */
++#endif /* _NETIF_WASM_ADD_H_ */
+diff --git a/src/netif/netif_wasm.c b/src/netif/netif_wasm.c
+index cbe4010..985f524 100644
+--- a/src/netif/netif_wasm.c
++++ b/src/netif/netif_wasm.c
+@@ -1,5 +1,6 @@
+ #include "netif_wasm_add.h"
+ #include "netif_wasm_get.h"
++#include "lwipopts.h"
+ #include <arpa/inet.h>
+ #include <errno.h>
+ #include <stdio.h>
+@@ -9,11 +10,15 @@
+ 
+ #define DISCOVERY_MULTICAST_IP "239.255.0.1"
+ #define DISCOVERY_MULTICAST_PORT 7400
+-#define DEFAULT_NETMASK "255.255.255.0"
++#ifndef LWIP_NETIF_SOCKET
++#define LWIP_NETIF_SOCKET socket
++#define LWIP_NETIF_CONNECT connect
++#define LWIP_NETIF_GETSOCKNAME getsockname
++#define LWIP_NETIF_CLOSE close
++#endif
+ 
+ static struct netif netif_wasm;
+ struct netif* netif_default = NULL;
+-static int ip_changed_pending = 0;
+ 
+ static int
+ probe_local_ip(in_addr_t *local_ip)
+@@ -22,8 +27,9 @@ probe_local_ip(in_addr_t *local_ip)
+   struct sockaddr_in discovery = {0};
+   struct sockaddr_in local = {0};
+   socklen_t local_length = sizeof(local);
++  int result = -1;
+ 
+-  socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
++  socket_fd = LWIP_NETIF_SOCKET(AF_INET, SOCK_DGRAM, 0);
+   if (socket_fd < 0) {
+     fprintf(stderr, "netif_wasm: socket() failed: errno=%d\n", errno);
+     return -1;
+@@ -33,29 +39,30 @@ probe_local_ip(in_addr_t *local_ip)
+   discovery.sin_port = htons(DISCOVERY_MULTICAST_PORT);
+   if (inet_pton(AF_INET, DISCOVERY_MULTICAST_IP, &discovery.sin_addr) != 1) {
+     fprintf(stderr, "netif_wasm: invalid discovery multicast address\n");
+-    close(socket_fd);
+-    return -1;
++    goto done;
+   }
+ 
+   /* UDP connect selects the outgoing route but does not send a packet. */
+-  if (connect(socket_fd, (const struct sockaddr *)&discovery,
+-              sizeof(discovery)) != 0) {
++  if (LWIP_NETIF_CONNECT(socket_fd, (const struct sockaddr *)&discovery,
++                         sizeof(discovery)) != 0) {
+     fprintf(stderr, "netif_wasm: connect() failed: errno=%d\n", errno);
+-    close(socket_fd);
+-    return -1;
++    goto done;
+   }
+ 
+-  if (getsockname(socket_fd, (struct sockaddr *)&local, &local_length) != 0 ||
++  if (LWIP_NETIF_GETSOCKNAME(socket_fd, (struct sockaddr *)&local,
++                             &local_length) != 0 ||
+       local.sin_family != AF_INET || local.sin_addr.s_addr == INADDR_ANY) {
+     fprintf(stderr,
+             "netif_wasm: getsockname() did not return a local IPv4 address\n");
+-    close(socket_fd);
+-    return -1;
++    goto done;
+   }
+ 
+   *local_ip = local.sin_addr.s_addr;
+-  close(socket_fd);
+-  return 0;
++  result = 0;
++
++done:
++  LWIP_NETIF_CLOSE(socket_fd);
++  return result;
+ }
+ 
+ int
+@@ -67,16 +74,19 @@ netif_wasm_add(const char* ipaddr, const char* netmask)
+ 
+   if (netmask == NULL || inet_pton(AF_INET, netmask, &mask) != 1) {
+     fprintf(stderr, "netif_wasm: invalid netmask\n");
+-    return -1;
++    return NETIF_WASM_REFRESH_FAILED;
+   }
++  /* The statically initialized core mutex is available before MX_LWIP_Init.
++   * Take it before the startup probe so all publication uses the same guard. */
++  sys_lock_tcpip_core();
+   if (probe_local_ip(&addr) != 0) {
+-    return -1;
++    sys_unlock_tcpip_core();
++    return NETIF_WASM_REFRESH_FAILED;
+   }
+-
+-  netif_wasm.ip_addr.addr = addr;
+   netif_wasm.netmask.addr = mask;
++  netif_wasm.ip_addr.addr = addr;
+   netif_default = &netif_wasm;
+-  ip_changed_pending = 0;
++  sys_unlock_tcpip_core();
+   printf("netif_wasm: dynamic ip=0x%08x mask=0x%08x\n", addr, mask);
+   return 0;
+ }
+@@ -85,46 +95,66 @@ int
+ netif_wasm_refresh(void)
+ {
+   in_addr_t addr;
+-  in_addr_t mask;
+-  int changed;
++  int lock_result = sys_trylock_tcpip_core();
+ 
+-  if (probe_local_ip(&addr) != 0) {
+-    return -1;
++  if (lock_result == EBUSY) {
++    return NETIF_WASM_REFRESH_BUSY;
++  }
++  if (lock_result != 0) {
++    return NETIF_WASM_REFRESH_FAILED;
+   }
+ 
+-  /* Native globals are recreated from scratch by WAMR restore. Recreate the
+-   * netif object before refreshing its address in that case. */
++  /* The existing default netif is the validity authority. Refresh before
++   * startup is not initialization: only netif_wasm_add publishes it. */
+   if (netif_default == NULL) {
+-    if (inet_pton(AF_INET, DEFAULT_NETMASK, &mask) != 1) {
+-      return -1;
+-    }
+-    netif_wasm.netmask.addr = mask;
+-    netif_wasm.ip_addr.addr = addr;
+-    netif_default = &netif_wasm;
+-    ip_changed_pending = 1;
+-    printf("netif_wasm: local ip initialized after restore to 0x%08x\n",
+-           addr);
+-    return 1;
++    sys_unlock_tcpip_core();
++    return NETIF_WASM_REFRESH_FAILED;
+   }
+ 
+-  changed = netif_wasm.ip_addr.addr != addr;
+-  netif_wasm.ip_addr.addr = addr;
+-  if (changed) {
+-    ip_changed_pending = 1;
+-    printf("netif_wasm: local ip changed to 0x%08x\n", addr);
++  /* Owning the shared core mutex before probing guarantees at most one active
++   * refresh probe and makes publication atomic with all selected core readers. */
++  if (probe_local_ip(&addr) != 0) {
++    sys_unlock_tcpip_core();
++    return NETIF_WASM_REFRESH_FAILED;
+   }
+-  return changed ? 1 : 0;
++
++  if (netif_default->ip_addr.addr == addr) {
++    sys_unlock_tcpip_core();
++    return NETIF_WASM_REFRESH_UNCHANGED;
++  }
++
++  netif_default->ip_addr.addr = addr;
++  sys_unlock_tcpip_core();
++  printf("netif_wasm: local ip changed to 0x%08x\n", addr);
++  return NETIF_WASM_REFRESH_CHANGED;
++}
++
++void
++netif_wasm_get_ip_snapshot_core_locked(netif_wasm_ip_snapshot_t *snapshot)
++{
++  if (snapshot == NULL) {
++    return;
++  }
++  snapshot->valid = netif_default != NULL;
++  snapshot->ip_addr = snapshot->valid ? netif_default->ip_addr.addr : 0;
++  snapshot->netmask = snapshot->valid ? netif_default->netmask.addr : 0;
+ }
+ 
+ int
+-netif_wasm_take_ip_changed(void)
++netif_wasm_get_ip_snapshot(netif_wasm_ip_snapshot_t *snapshot)
+ {
+-  int changed = ip_changed_pending;
+-  ip_changed_pending = 0;
+-  return changed;
++  if (snapshot == NULL) {
++    return -1;
++  }
++  sys_lock_tcpip_core();
++  netif_wasm_get_ip_snapshot_core_locked(snapshot);
++  sys_unlock_tcpip_core();
++  return 0;
+ }
+ 
+ struct netif* netif_wasm_get(uint32_t ipaddr)
+ {
++  (void)ipaddr;
++  /* Internal lwIP bind/IGMP callers must hold the core mutex. */
+   return netif_default;
+ }

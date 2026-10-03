@@ -1,0 +1,409 @@
+boot_start, 2746162522367006
+11 stderr
+22 stderr
+signal init: 127945851852352
+initします
+boot_end, 2746162598790287
+3 stderr
+initします
+boot_end, 2746162599912535
+LOG_NOTICE : 00000000.000 : osKernelStart
+netif_wasm: dynamic ip=0x0600000a mask=0x00ffffff
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.011 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.012 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.012 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.013 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.013 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.014 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.015 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.015 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000000.016 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.017 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.017 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.017 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.017 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.017 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.cinitします
+boot_end, 2746162618729370
+initします
+boot_end, 2746162619890692
+initします
+boot_end, 2746162620399512
+initします
+boot_end, 2746162621787632
+ udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SPDPWriter failed_mutex_call=1 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+LOG_DEBUG : 00000000.061 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.061 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.062 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.062 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.063 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.064 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.064 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.065 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.066 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.066 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.067 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.067 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.067 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.067 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000000.067 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.067 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.068 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.068 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.068 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.cinitします
+boot_end, 2746162669593591
+initします
+boot_end, 2746162670571737
+initします
+boot_end, 2746162671073945
+initします
+boot_end, 2746162672316781
+ udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.068 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SPDPReader failed_mutex_call=2 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.112 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.112 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.113 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.114 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.114 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.115 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.116 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.116 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000000.117 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.118 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.118 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.118 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.cinitします
+boot_end, 2746162719828123
+initします
+boot_end, 2746162720845063
+initします
+boot_end, 2746162721362620
+initします
+boot_end, 2746162722585768
+ udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.118 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.118 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SEDPPublicationsReader failed_mutex_call=3 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+LOG_DEBUG : 00000000.167 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.168 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.168 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.168 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.168 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.169 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.169 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.169 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.169 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.169 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.170 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.170 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.170 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.170 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.171 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.171 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.171 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.171 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.171 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.172 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.172 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.172 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.172 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.173 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.173 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.173 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.173 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.173 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.174 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.174 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.174 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.174 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.175 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.175 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.175 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.175 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.175 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.176 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.176 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.176 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000000.176 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.177 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.177 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.cinitします
+boot_end, 2746162779466985
+initします
+boot_end, 2746162780868751
+initします
+boot_end, 2746162781610361
+initします
+boot_end, 2746162782812670
+ udp_remove() 283: enter
+LOG_DEBUG : 00000000.177 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.177 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.177 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SEDPSubscriptionsReader failed_mutex_call=4 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+LOG_DEBUG : 00000000.232 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.232 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.233 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.233 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.233 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.233 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.234 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.234 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.234 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.235 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.235 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.235 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.235 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.236 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.236 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.236 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.237 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.237 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.237 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.237 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.238 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.238 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.238 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.238 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.239 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.239 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.239 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.240 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.240 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.240 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.241 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.241 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.241 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.241 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.242 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.242 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.242 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.242 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.243 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.243 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000000.243 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0initします
+boot_end, 2746162846372152
+initします
+boot_end, 2746162847382850
+initします
+boot_end, 2746162848124570
+initします
+boot_end, 2746162849365992
+
+LOG_ERROR : 00000000.243 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.244 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.244 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.244 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.244 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SEDPPublicationsWriter failed_mutex_call=5 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+LOG_DEBUG : 00000000.299 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.299 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.299 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.300 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.300 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000000.300 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.300 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.301 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.301 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.301 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.302 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.302 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.302 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.302 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.303 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.303 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000000.303 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.304 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.304 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.304 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.304 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.305 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.305 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000000.305 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000000.305 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.306 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.306 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.306 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.307 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000000.307 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.307 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.307 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.308 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.308 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.308 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000000.309 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000000.309 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000000.309 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000000.309 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000000.310 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=initします
+boot_end, 2746162913661654
+initします
+boot_end, 2746162914698180
+initします
+boot_end, 2746162915767489
+initします
+boot_end, 2746162917013420
+initします
+boot_end, 2746162917766491
+initします
+boot_end, 2746162919085060
+7410 enter
+LOG_DEBUG : 00000000.310 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000000.310 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000000.311 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000000.311 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000000.311 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000000.311 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_TYPED_INIT_FAILURE case=SEDPSubscriptionsWriter failed_mutex_call=6 complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1
+T10c_TYPED_INIT_FAILURES_PASS cases=6
+LOG_DEBUG : 00000004.372 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000004.372 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000004.373 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000004.373 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000004.373 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7401 enter
+LOG_DEBUG : 00000004.373 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000004.374 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000004.374 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000004.374 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000004.375 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000004.375 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000004.375 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000004.375 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000004.376 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000004.376 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000004.376 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7400 enter
+LOG_DEBUG : 00000004.376 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000004.377 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000004.377 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000004.377 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000004.378 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000004.378 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000004.378 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 78: enter ifaddr=0x600000a groupaddr=0x100ffef
+LOG_DEBUG : 00000004.378 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_joingroup() 93: exit
+LOG_DEBUG : 00000004.379 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000004.379 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000004.379 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000004.380 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 342: exit
+LOG_DEBUG : 00000004.380 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7411 enter
+LOG_DEBUG : 00000004.380 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000004.380 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000004.381 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000004.381 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000004.381 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000004.381 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+LOG_DEBUG : 00000004.382 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_new() 322: enter
+LOG_DEBUG : 00000004.382 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 24: enter
+LOG_DEBUG : 00000004.382 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_alloc() 42: mcp=0x6e73d0 exit
+LOG_DEBUG : 00000004.383 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_newinitします
+boot_end, 2746166986839641
+initします
+boot_end, 2746166988296882
+initします
+boot_end, 2746166989255461
+initします
+boot_end, 2746166990662947
+initします
+boot_end, 2746166991925931
+initします
+boot_end, 2746166993357172
+initします
+boot_end, 2746166994373360
+initします
+boot_end, 2746166995563847
+() 342: exit
+LOG_DEBUG : 00000004.383 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 156: ipaddr=0x0 port=7410 enter
+LOG_DEBUG : 00000004.383 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_bind() 169: mcp exist 0x6e73d0
+LOG_ERROR : 00000004.383 : udp_bind() bind() err=-13
+LOG_DEBUG : 00000004.384 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 283: enter
+LOG_DEBUG : 00000004.384 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 52: enter
+LOG_DEBUG : 00000004.384 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp_multicast_manager.c udp_mc_info_free() 62: exit
+LOG_DEBUG : 00000004.385 : /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/core/udp.c udp_remove() 303: exit
+T10c_LATE_AGENT_FAILURE_PASS spdp_initialized=1 sedp_mutex_failure=1 builtin_publication=0 direct_start_refused=1 complete_init_refused=1

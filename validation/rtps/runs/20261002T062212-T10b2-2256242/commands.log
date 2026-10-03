@@ -1,0 +1,19 @@
++ SDK=/opt/wasi-sdk-21
++ RUNTIME=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
++ EXPECTED=77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60
+++ sha256sum /tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
+++ cut '-d ' -f1
++ [[ 77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60 == \7\7\c\3\b\c\e\f\4\9\6\f\4\5\b\1\9\0\7\5\5\e\a\f\2\9\1\0\8\f\e\6\f\e\9\5\7\d\f\a\b\6\c\9\e\5\7\f\a\3\e\f\c\9\e\5\7\8\5\8\7\b\6\0 ]]
++ LW=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm
++ CMS=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/cmsis-wasm
++ RTPS=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS
++ FLAGS=(--target=wasm32-wasi-threads --sysroot=/home/osslab/wasi-sysroot -pthread -fno-exceptions -O0 -g -ffunction-sections -fdata-sections -I"$ROOT/include" -I"$ROOT/mros2/include" -I"$RTPS/include" -I"$RTPS/thirdparty/Micro-CDR/include" -I"$LW/public/include/lwip" -I"$LW/public/include/posix" -I"$LW/public/include/system" -I"$LW/src/include" -I"$CMS/public/include")
++ OBJECTS=()
++ [[ T10b2 == T01 ]]
++ TEST_FLAGS=(-DRTPS_T10_TEST_ACCESS)
++ SOURCES=("$ROOT/validation/rtps/projection-fixture.cpp" "$RTPS/src/communication/UdpDriver.cpp" "$RTPS/src/messages/MessageTypes.cpp" "$RTPS/src/messages/MessageReceiver.cpp" "$RTPS/src/discovery/TopicData.cpp" "$RTPS/src/discovery/ParticipantProxyData.cpp" "$RTPS/src/discovery/SEDPAgent.cpp" "$RTPS/src/discovery/SPDPAgent.cpp" "$RTPS/src/ThreadPool.cpp" "$RTPS/src/entities/Participant.cpp" "$RTPS/src/entities/Domain.cpp" "$RTPS/src/entities/StatelessReader.cpp")
++ for SOURCE in "${SOURCES[@]}"
+++ basename /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture
++ NAME=projection-fixture
++ OBJECT=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261002T062212-T10b2-2256242/projection-fixture.o
++ /opt/wasi-sdk-21/bin/clang++ --target=wasm32-wasi-threads --sysroot=/home/osslab/wasi-sysroot -pthread -fno-exceptions -O0 -g -ffunction-sections -fdata-sections -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/include -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/include -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/thirdparty/Micro-CDR/include -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/public/include/lwip -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/public/include/posix -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/public/include/system -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/include -I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/cmsis-wasm/public/include -DRTPS_T10_TEST_ACCESS -std=gnu++17 -c /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp -o /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261002T062212-T10b2-2256242/projection-fixture.o

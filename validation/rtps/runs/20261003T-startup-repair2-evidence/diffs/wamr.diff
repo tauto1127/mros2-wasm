@@ -1,0 +1,63 @@
+diff --git a/core/iwasm/interpreter/wasm_interp_classic.c b/core/iwasm/interpreter/wasm_interp_classic.c
+index 9b42865b..ae60a662 100644
+--- a/core/iwasm/interpreter/wasm_interp_classic.c
++++ b/core/iwasm/interpreter/wasm_interp_classic.c
+@@ -1454,7 +1454,12 @@ restore_sync_routine(void *arg)
+             continue;
+         }
+ 
+-        wasm_cluster_thread_continue(target_env);
++        /* The restore barrier means state is loaded, not that this child
++           has entered waiting_run yet. An early unconditional continue can
++           be overwritten by waiting_run's STOP and lose the wakeup. */
++        while (!wasm_cluster_thread_continue_if_stopped(target_env)) {
++            usleep(10);
++        }
+ 
+         /* wait until this thread has actually re-entered atomic.wait */
+         confirmed_waiters++;
+diff --git a/core/iwasm/libraries/thread-mgr/thread_manager.c b/core/iwasm/libraries/thread-mgr/thread_manager.c
+index d4a95099..db141fb3 100644
+--- a/core/iwasm/libraries/thread-mgr/thread_manager.c
++++ b/core/iwasm/libraries/thread-mgr/thread_manager.c
+@@ -1014,6 +1014,24 @@ wasm_cluster_thread_continue(WASMExecEnv *exec_env)
+     os_mutex_unlock(&exec_env->wait_lock);
+ }
+ 
++bool
++wasm_cluster_thread_continue_if_stopped(WASMExecEnv *exec_env)
++{
++    bool continued = false;
++
++    /* waiting_run sets STOP while holding this same lock. Acquiring it
++       after that transition guarantees its cond-wait can receive the wake. */
++    os_mutex_lock(&exec_env->wait_lock);
++    if (exec_env->current_status->running_status == STATUS_STOP) {
++        wasm_cluster_clear_thread_signal(exec_env);
++        exec_env->current_status->running_status = STATUS_RUNNING;
++        os_cond_signal(&exec_env->wait_cond);
++        continued = true;
++    }
++    os_mutex_unlock(&exec_env->wait_lock);
++    return continued;
++}
++
+ void
+ wasm_cluster_thread_step(WASMExecEnv *exec_env)
+ {
+diff --git a/core/iwasm/libraries/thread-mgr/thread_manager.h b/core/iwasm/libraries/thread-mgr/thread_manager.h
+index 127c030a..a751663f 100644
+--- a/core/iwasm/libraries/thread-mgr/thread_manager.h
++++ b/core/iwasm/libraries/thread-mgr/thread_manager.h
+@@ -237,6 +237,11 @@ wasm_cluster_thread_continue_all(WASMCluster *cluster);
+ void
+ wasm_cluster_thread_waiting_run(WASMExecEnv *exec_env);
+ 
++/* Resume a restored waiter only after it has parked. The STOP check and
++   wakeup are serialized with waiting_run by exec_env->wait_lock. */
++bool
++wasm_cluster_thread_continue_if_stopped(WASMExecEnv *exec_env);
++
+ struct AtomicCounter *
+ wasm_cluster_init_checkpointing_counter(WASMCluster *cluster, int count);
+ 

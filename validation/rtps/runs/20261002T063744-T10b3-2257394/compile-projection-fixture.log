@@ -1,0 +1,59 @@
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:13:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:13:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/Locator.h:85:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   85 |   }
+      |   ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:382:25: error: 'm_mutex' is a private member of 'rtps::Participant'
+  382 |   sys_mutex_lock(&part->m_mutex);
+      |                         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:130:23: note: declared private here
+  130 |   mutable sys_mutex_t m_mutex;
+      |                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:383:9: error: 'm_writers' is a private member of 'rtps::Participant'
+  383 |   part->m_writers[0] = w1; part->m_writers[1] = w1; part->m_writers[2] = w1;
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:125:61: note: declared private here
+  125 |   std::array<Writer *, Config::NUM_WRITERS_PER_PARTICIPANT> m_writers{};
+      |                                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:383:34: error: 'm_writers' is a private member of 'rtps::Participant'
+  383 |   part->m_writers[0] = w1; part->m_writers[1] = w1; part->m_writers[2] = w1;
+      |                                  ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:125:61: note: declared private here
+  125 |   std::array<Writer *, Config::NUM_WRITERS_PER_PARTICIPANT> m_writers{};
+      |                                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:383:59: error: 'm_writers' is a private member of 'rtps::Participant'
+  383 |   part->m_writers[0] = w1; part->m_writers[1] = w1; part->m_writers[2] = w1;
+      |                                                           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:125:61: note: declared private here
+  125 |   std::array<Writer *, Config::NUM_WRITERS_PER_PARTICIPANT> m_writers{};
+      |                                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:384:9: error: 'm_numWriters' is a private member of 'rtps::Participant'
+  384 |   part->m_numWriters = 3;
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:126:11: note: declared private here
+  126 |   uint8_t m_numWriters = 0;
+      |           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:385:27: error: 'm_mutex' is a private member of 'rtps::Participant'
+  385 |   sys_mutex_unlock(&part->m_mutex);
+      |                           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:130:23: note: declared private here
+  130 |   mutable sys_mutex_t m_mutex;
+      |                       ^
+2 warnings and 6 errors generated.

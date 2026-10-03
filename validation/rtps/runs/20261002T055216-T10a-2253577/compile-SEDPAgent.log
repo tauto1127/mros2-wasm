@@ -1,0 +1,38 @@
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:25:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/Locator.h:85:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   85 |   }
+      |   ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:25:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.h:31:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Writer.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:466:32: error: no member named 'HISTORY_SIZE_STATEFUL2' in namespace 'rtps::Config'; did you mean 'HISTORY_SIZE_STATEFUL'?
+  466 |     if (userWriters >= Config::HISTORY_SIZE_STATEFUL2) return false;
+      |                        ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+      |                                HISTORY_SIZE_STATEFUL
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/include/rtps/config.h:65:23: note: 'HISTORY_SIZE_STATEFUL' declared here
+   65 |         const uint8_t HISTORY_SIZE_STATEFUL = 2;
+      |                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp:511:32: error: no member named 'HISTORY_SIZE_STATEFUL2' in namespace 'rtps::Config'; did you mean 'HISTORY_SIZE_STATEFUL'?
+  511 |     if (userReaders >= Config::HISTORY_SIZE_STATEFUL2) return false;
+      |                        ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+      |                                HISTORY_SIZE_STATEFUL
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/include/rtps/config.h:65:23: note: 'HISTORY_SIZE_STATEFUL' declared here
+   65 |         const uint8_t HISTORY_SIZE_STATEFUL = 2;
+      |                       ^
+2 warnings and 2 errors generated.

@@ -1,0 +1,44 @@
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:16:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:16:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/Locator.h:85:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   85 |   }
+      |   ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:872:60: error: use of undeclared identifier 'ENTITYID_UNKNOWN'; did you mean 'rtps::ENTITYID_UNKNOWN'?
+  872 |   rtps::ParticipantProxyData live(rtps::Guid_t{livePrefix, ENTITYID_UNKNOWN});
+      |                                                            ^~~~~~~~~~~~~~~~
+      |                                                            rtps::ENTITYID_UNKNOWN
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/types.h:281:20: note: 'rtps::ENTITYID_UNKNOWN' declared here
+  281 |   const EntityId_t ENTITYID_UNKNOWN{};
+      |                    ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:873:68: error: use of undeclared identifier 'ENTITYID_UNKNOWN'; did you mean 'rtps::ENTITYID_UNKNOWN'?
+  873 |   rtps::ParticipantProxyData expiredA(rtps::Guid_t{expiredPrefixA, ENTITYID_UNKNOWN});
+      |                                                                    ^~~~~~~~~~~~~~~~
+      |                                                                    rtps::ENTITYID_UNKNOWN
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/types.h:281:20: note: 'rtps::ENTITYID_UNKNOWN' declared here
+  281 |   const EntityId_t ENTITYID_UNKNOWN{};
+      |                    ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:874:68: error: use of undeclared identifier 'ENTITYID_UNKNOWN'; did you mean 'rtps::ENTITYID_UNKNOWN'?
+  874 |   rtps::ParticipantProxyData expiredB(rtps::Guid_t{expiredPrefixB, ENTITYID_UNKNOWN});
+      |                                                                    ^~~~~~~~~~~~~~~~
+      |                                                                    rtps::ENTITYID_UNKNOWN
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/types.h:281:20: note: 'rtps::ENTITYID_UNKNOWN' declared here
+  281 |   const EntityId_t ENTITYID_UNKNOWN{};
+      |                    ^
+2 warnings and 3 errors generated.

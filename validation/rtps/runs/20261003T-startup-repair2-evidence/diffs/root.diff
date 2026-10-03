@@ -1,0 +1,2523 @@
+diff --git a/lwip-wasm b/lwip-wasm
+--- a/lwip-wasm
++++ b/lwip-wasm
+@@ -1 +1 @@
+-Subproject commit fbac6d22cd08d12fccfc27c4efa383a8be32335f
++Subproject commit fbac6d22cd08d12fccfc27c4efa383a8be32335f-dirty
+diff --git a/mros2 b/mros2
+--- a/mros2
++++ b/mros2
+@@ -1 +1 @@
+-Subproject commit 912cfbdd1af9a28be685ab67803093d84bb31ed1
++Subproject commit 912cfbdd1af9a28be685ab67803093d84bb31ed1-dirty
+diff --git a/third_party/wamr b/third_party/wamr
+--- a/third_party/wamr
++++ b/third_party/wamr
+@@ -1 +1 @@
+-Subproject commit db2054224dcff9686f3f98850a29c554974096bc
++Subproject commit db2054224dcff9686f3f98850a29c554974096bc-dirty
+diff --git a/validation/campaign/build_trace_app.py b/validation/campaign/build_trace_app.py
+index a7beeac4..e41ebca3 100644
+--- a/validation/campaign/build_trace_app.py
++++ b/validation/campaign/build_trace_app.py
+@@ -24,14 +24,112 @@ def call(cmd, *, cwd, log):
+     log.write_text("$ " + shlex.join(map(str, cmd)) + f"\n[exit {r.returncode}]\n" + r.stdout)
+     return r.returncode
+ 
++def instrument_cpp_guest_state(source: str) -> str:
++    """Add actual field-address/value observations to the private SEDP mirror."""
++    seam = """bool SEDPAgent::projectLocalIp(uint32_t networkOrderIp)
++{
++  if (networkOrderIp == 0 || m_part == nullptr) return false;
++"""
++    replacement = seam + '''  // Current-app-only observer: read under SEDP -> brief Participant snapshot,
++  // copy scalars/bytes, and print only after both guards have been released.
++  {
++    uint32_t appliedValue = 0, writerCount = 0, readerCount = 0;
++    uintptr_t appliedAddress = 0, guidAddress = 0;
++    std::array<uint8_t, 12> guidBytes{};
++    bool selected = false;
++    const char *role = "absent";
++    uintptr_t locatorKindAddress = 0, locatorPortAddress = 0, locatorAddressAddress = 0;
++    int32_t locatorKind = -1;
++    uint32_t locatorPort = 0;
++    std::array<uint8_t, 16> locatorAddress{};
++    uintptr_t endpointGuidAddress = 0;
++    std::array<uint8_t, 16> endpointGuid{};
++    {
++      Lock observerLock{m_mutex};
++      auto &spdp = m_part->m_spdpAgent;
++      appliedValue = spdp.m_lastAppliedIp;
++      appliedAddress = reinterpret_cast<uintptr_t>(&spdp.m_lastAppliedIp);
++      guidAddress = reinterpret_cast<uintptr_t>(m_part->m_guidPrefix.id.data());
++      guidBytes = m_part->m_guidPrefix.id;
++      const auto endpoints = m_part->snapshotEndpoints();
++      for (uint8_t i = 0; i < endpoints.numWriters; ++i) {
++        Writer *writer = endpoints.writers[i];
++        if (!writer || !writer->isInitialized()) continue;
++        const auto kind = writer->m_attributes.endpointGuid.entityId.entityKind;
++        if (kind != EntityKind_t::USER_DEFINED_WRITER_WITH_KEY &&
++            kind != EntityKind_t::USER_DEFINED_WRITER_WITHOUT_KEY) continue;
++        ++writerCount;
++        if (selected) continue;
++        selected = true; role = "writer";
++        auto &attr = writer->m_attributes;
++        locatorKindAddress = reinterpret_cast<uintptr_t>(&attr.unicastLocator.kind);
++        locatorPortAddress = reinterpret_cast<uintptr_t>(&attr.unicastLocator.port);
++        locatorAddressAddress = reinterpret_cast<uintptr_t>(attr.unicastLocator.address.data());
++        locatorKind = static_cast<int32_t>(attr.unicastLocator.kind);
++        locatorPort = attr.unicastLocator.port;
++        locatorAddress = attr.unicastLocator.address;
++        endpointGuidAddress = reinterpret_cast<uintptr_t>(&attr.endpointGuid);
++        for (size_t j = 0; j < 12; ++j) endpointGuid[j] = attr.endpointGuid.prefix.id[j];
++        for (size_t j = 0; j < 3; ++j) endpointGuid[12+j] = attr.endpointGuid.entityId.entityKey[j];
++        endpointGuid[15] = static_cast<uint8_t>(attr.endpointGuid.entityId.entityKind);
++      }
++      for (uint8_t i = 0; i < endpoints.numReaders; ++i) {
++        Reader *reader = endpoints.readers[i];
++        if (!reader || !reader->isInitialized()) continue;
++        const auto kind = reader->m_attributes.endpointGuid.entityId.entityKind;
++        if (kind != EntityKind_t::USER_DEFINED_READER_WITH_KEY &&
++            kind != EntityKind_t::USER_DEFINED_READER_WITHOUT_KEY) continue;
++        ++readerCount;
++        if (selected) continue;
++        selected = true; role = "reader";
++        auto &attr = reader->m_attributes;
++        locatorKindAddress = reinterpret_cast<uintptr_t>(&attr.unicastLocator.kind);
++        locatorPortAddress = reinterpret_cast<uintptr_t>(&attr.unicastLocator.port);
++        locatorAddressAddress = reinterpret_cast<uintptr_t>(attr.unicastLocator.address.data());
++        locatorKind = static_cast<int32_t>(attr.unicastLocator.kind);
++        locatorPort = attr.unicastLocator.port;
++        locatorAddress = attr.unicastLocator.address;
++        endpointGuidAddress = reinterpret_cast<uintptr_t>(&attr.endpointGuid);
++        for (size_t j = 0; j < 12; ++j) endpointGuid[j] = attr.endpointGuid.prefix.id[j];
++        for (size_t j = 0; j < 3; ++j) endpointGuid[12+j] = attr.endpointGuid.entityId.entityKey[j];
++        endpointGuid[15] = static_cast<uint8_t>(attr.endpointGuid.entityId.entityKind);
++      }
++    }
++    char guidHex[25], endpointHex[33], locatorHex[33];
++    for (size_t i=0; i<guidBytes.size(); ++i) std::snprintf(guidHex+2*i,3,"%02x",guidBytes[i]);
++    for (size_t i=0; i<endpointGuid.size(); ++i) std::snprintf(endpointHex+2*i,3,"%02x",endpointGuid[i]);
++    for (size_t i=0; i<locatorAddress.size(); ++i) std::snprintf(locatorHex+2*i,3,"%02x",locatorAddress[i]);
++    char locatorJson[512] = "null";
++    if (selected) std::snprintf(locatorJson,sizeof(locatorJson),
++      "{\\"role\\":\\"%s\\",\\"kind_field_addr\\":\\"0x%08x\\",\\"kind_value\\":%d,\\"port_field_addr\\":\\"0x%08x\\",\\"port_value\\":\\"0x%08x\\",\\"address_field_addr\\":\\"0x%08x\\",\\"address_bytes\\":\\"%s\\",\\"endpoint_guid_addr\\":\\"0x%08x\\",\\"endpoint_guid\\":\\"%s\\"}",
++      role,(unsigned)locatorKindAddress,locatorKind,(unsigned)locatorPortAddress,locatorPort,
++      (unsigned)locatorAddressAddress,locatorHex,(unsigned)endpointGuidAddress,endpointHex);
++    char guestStateRecord[1024];
++    const int guestStateLength = std::snprintf(guestStateRecord, sizeof(guestStateRecord),
++      "{\\"schema\\":\\"guest-state-v1;actual wasm32 addresses + copied values;raw memory little-endian;IPv4 semantic bytes network-order\\",\\"part\\":\\"cpp\\",\\"current_ip_value\\":\\"0x%08x\\",\\"applied_field_addr\\":\\"0x%08x\\",\\"applied_value\\":\\"0x%08x\\",\\"guid_prefix_addr\\":\\"0x%08x\\",\\"guid_prefix\\":\\"%s\\",\\"user_writer_count\\":%u,\\"user_reader_count\\":%u,\\"selection_absent\\":%s,\\"selected_locator\\":%s}\\n",
++      networkOrderIp, (unsigned)appliedAddress, appliedValue, (unsigned)guidAddress, guidHex,
++      writerCount, readerCount, selected ? "false" : "true", locatorJson);
++    if (guestStateLength > 0 && (size_t)guestStateLength < sizeof(guestStateRecord))
++      traceoverlay_write_record(guestStateRecord, (uint32_t)guestStateLength);
++  }
++'''
++    if source.count(seam) != 1:
++        raise SystemExit('unexpected live SEDP projectLocalIp observer seam')
++    source=source.replace(seam,replacement,1)
++    # The JSON record contains the copied selected-locator snapshot directly.
++    return source
++
++
+ def correct_trace_dump(source: str) -> str:
+-    """Keep one consuming/printing drain and initialize before recording."""
++    """Initialize before records and keep exactly one bounded consuming drain."""
+     init_seam = "  ~ProjectionTraceBatch() {\n"
+-    discard_seam = "    traceoverlay_event out[16]; uint32_t n=traceoverlay_drain(out,16);\n    traceoverlay_init();\n"
+-    if source.count(init_seam) != 1 or source.count(discard_seam) != 1:
+-        raise SystemExit('unexpected legacy ProjectionTraceBatch dump seam')
+-    source = source.replace(init_seam, init_seam + "    traceoverlay_init();\n", 1)
+-    source = source.replace(discard_seam, "", 1)
++    if source.count(init_seam) != 1:
++        raise SystemExit('unexpected ProjectionTraceBatch destructor seam')
++    destructor=source.index(init_seam)+len(init_seam)
++    close=source.index('\n  }',destructor)
++    body=source[destructor:close]
++    if 'traceoverlay_init();' not in body:
++        source=source[:destructor]+"    traceoverlay_init();\n"+source[destructor:]
+     if source.count('traceoverlay_drain(') != 1:
+         raise SystemExit('trace dump must have exactly one consuming loop')
+     return source
+@@ -82,28 +180,70 @@ def main():
+         raise SystemExit('unexpected mirror application target seam')
+     cm.write_text(text)
+     (mirror/'overlay').mkdir(exist_ok=True)
+-    for name in ('SPDPAgent.cpp','SEDPAgent.cpp','traceoverlay.c','traceoverlay.h'):
++    for name in ('SPDPAgent.cpp','SEDPAgent.cpp'):
+         dst=mirror/'overlay'/name
+         if cpp/name != dst.resolve(): shutil.copy2(cpp/name,dst)
++    shutil.copy2(cbuild/'overlay/traceoverlay.c',mirror/'overlay/traceoverlay.c')
++    shutil.copy2(ROOT/'validation/campaign/traceoverlay.h',mirror/'overlay/traceoverlay.h')
+     sedp=mirror/'overlay/SEDPAgent.cpp'
+-    st=sedp.read_text()
+-    st=st.replace('#include <cstdio>', '#include <cstdio>\\n#include <pthread.h>')
++    st=instrument_cpp_guest_state(sedp.read_text())
++    st=st.replace('#include <cstdio>', '#include <cstdio>\n#include <cstdint>\n#include <pthread.h>\n#include <atomic>')
+     st=st.replace('const uint64_t tid = 0;', 'const uint64_t tid = (uint64_t)(uintptr_t)pthread_self();')
+-    old='''for(uint32_t i=0;i<n;++i) std::printf("RTPS_TRACE seq=%u kind=%u result=%u current=%u applied=%u detail=%u aux=%u\\n",
++    old='''traceoverlay_event out[16]; uint32_t n=traceoverlay_drain(out,16);
++    for(uint32_t i=0;i<n;++i) std::printf("RTPS_TRACE seq=%u kind=%u result=%u current=%u applied=%u detail=%u aux=%u\\n",
+       out[i].sequence,out[i].kind,out[i].result,out[i].current_ip,out[i].applied_ip,out[i].detail,out[i].aux);'''
++    helpers='''static bool traceSnapshotEqual(const traceoverlay_counter_snapshot &a, const traceoverlay_counter_snapshot &b) {
++  return a.next_sequence==b.next_sequence && a.read_sequence==b.read_sequence && a.attempts==b.attempts &&
++    a.winners==b.winners && a.busy==b.busy && a.failed==b.failed && a.outcomes==b.outcomes &&
++    a.probe_completions==b.probe_completions && a.active_probes==b.active_probes &&
++    a.max_active_probes==b.max_active_probes && a.lost_events==b.lost_events &&
++    a.output_failures==b.output_failures && a.lockfree==b.lockfree;
++}
++static bool traceAppendSnapshot(char *buffer, size_t capacity, size_t *used,
++    uint32_t batch, const char *edge, uint32_t stable, const traceoverlay_counter_snapshot &s) {
++  int n=std::snprintf(buffer+*used,capacity-*used,
++    "RTPS_TRACE_METRICS batch=%u edge=%s stable=%u read=%u next=%u attempts=%u winners=%u busy=%u failed=%u outcomes=%u probe_completions=%u active=%u max_active=%u lost=%u output_failures=%u lockfree=%u addr_read=0x%08x addr_next=0x%08x addr_attempts=0x%08x addr_winners=0x%08x addr_busy=0x%08x addr_failed=0x%08x addr_outcomes=0x%08x addr_probe_completions=0x%08x addr_active=0x%08x addr_max_active=0x%08x addr_lost=0x%08x addr_output_failures=0x%08x addr_lockfree=0x%08x\\n",
++    batch,edge,stable,s.read_sequence,s.next_sequence,s.attempts,s.winners,s.busy,s.failed,s.outcomes,
++    s.probe_completions,s.active_probes,s.max_active_probes,s.lost_events,s.output_failures,s.lockfree,
++    s.read_sequence_address,s.next_sequence_address,s.attempts_address,s.winners_address,s.busy_address,
++    s.failed_address,s.outcomes_address,s.probe_completions_address,s.active_probes_address,
++    s.max_active_probes_address,s.lost_events_address,s.output_failures_address,s.lockfree_address);
++  if(n<=0 || (size_t)n>=capacity-*used) return false; *used+=(size_t)n; return true;
++}
++static bool traceAppendEvent(char *buffer, size_t capacity, size_t *used, const traceoverlay_event &e) {
++  int n=std::snprintf(buffer+*used,capacity-*used,
++    "RTPS_TRACE seq=%u kind=%u result=%u current=%u applied=%u detail=%u aux=%u thread=%llu\\n",
++    e.sequence,e.kind,e.result,e.current_ip,e.applied_ip,e.detail,e.aux,(unsigned long long)e.thread_id);
++  if(n<=0 || (size_t)n>=capacity-*used) return false; *used+=(size_t)n; return true;
++}
++'''
++    if st.count('struct ProjectionTraceBatch {')!=1: raise SystemExit('unexpected ProjectionTraceBatch definition')
++    st=st.replace('struct ProjectionTraceBatch {',helpers+'\nstruct ProjectionTraceBatch {',1)
+     new='''traceoverlay_init();
+-    for (uint32_t batch=0; batch<16; ++batch) {
+-      traceoverlay_event out[16];
+-      uint32_t n=traceoverlay_drain(out,16);
+-      if (n==0) break;
+-      for(uint32_t i=0;i<n;++i) std::printf("RTPS_TRACE seq=%u kind=%u result=%u current=%u applied=%u detail=%u aux=%u thread=%llu\\n",
+-        out[i].sequence,out[i].kind,out[i].result,out[i].current_ip,out[i].applied_ip,out[i].detail,out[i].aux,
+-        (unsigned long long)out[i].thread_id);
++    static std::atomic<uint32_t> batchCounter{0};
++    uint32_t batch=batchCounter.fetch_add(1,std::memory_order_relaxed)+1;
++    char output[8192]; size_t used=0;
++    if(traceoverlay_batch_begin()!=0) return;
++    traceoverlay_counter_snapshot before{},beforeCheck{},after{},afterCheck{};
++    traceoverlay_snapshot(&before); traceoverlay_snapshot(&beforeCheck);
++    uint32_t stableBefore=traceSnapshotEqual(before,beforeCheck); before=beforeCheck;
++    traceoverlay_event out[16]; uint32_t n=traceoverlay_drain(out,16);
++    int beginLength=std::snprintf(output,sizeof(output),"RTPS_TRACE_BATCH_BEGIN batch=%u read=%u next=%u\\n",batch,before.read_sequence,before.next_sequence);
++    bool complete=beginLength>0 && (size_t)beginLength<sizeof(output);
++    if(complete) used=(size_t)beginLength;
++    if(complete) complete=traceAppendSnapshot(output,sizeof(output),&used,batch,"before",stableBefore,before);
++    for(uint32_t i=0;complete && i<n;++i) complete=traceAppendEvent(output,sizeof(output),&used,out[i]);
++    traceoverlay_snapshot(&after); traceoverlay_snapshot(&afterCheck);
++    uint32_t stableAfter=traceSnapshotEqual(after,afterCheck); after=afterCheck;
++    if(complete) complete=traceAppendSnapshot(output,sizeof(output),&used,batch,"after",stableAfter,after);
++    if(complete) {
++      int endLength=std::snprintf(output+used,sizeof(output)-used,
++        "RTPS_TRACE_BATCH_END batch=%u events=%u first=%u last=%u read=%u next=%u\\n",
++        batch,n,n?out[0].sequence:0,n?out[n-1].sequence:0,after.read_sequence,after.next_sequence);
++      if(endLength>0 && (size_t)endLength<sizeof(output)-used) used+=(size_t)endLength; else complete=false;
+     }
+-    uint32_t attempts=0,winners=0,busy=0,failed=0,outcomes=0,completed=0,active=0,max_active=0;
+-    traceoverlay_metrics(&attempts,&winners,&busy,&failed,&outcomes,&completed,&active,&max_active);
+-    std::printf("RTPS_TRACE_METRICS attempts=%u winners=%u busy=%u failed=%u outcomes=%u probe_completions=%u active=%u max_active=%u lost=%u lockfree=%u\\n",
+-      attempts,winners,busy,failed,outcomes,completed,active,max_active,traceoverlay_lost(),traceoverlay_lockfree());'''
++    if(complete) traceoverlay_batch_end(output,(uint32_t)used);
++    else { traceoverlay_note_output_failure(); traceoverlay_batch_end(nullptr,0); }'''
+     if st.count(old)!=1: raise SystemExit('unexpected mirror SEDP trace dump seam')
+     st = correct_trace_dump(st.replace(old,new,1))
+     sedp.write_text(st)
+@@ -127,8 +267,18 @@ def main():
+       'archive_members':subprocess.run([str(sdk_ar),'t',str(private_archive)],check=True,text=True,stdout=subprocess.PIPE).stdout.splitlines(),
+       'cpp_overlay_sha256':{n:sha(mirror/'overlay'/n) for n in ('SPDPAgent.cpp','SEDPAgent.cpp','traceoverlay.c','traceoverlay.h')},
+       'trace_telemetry':{'schema':'traceoverlay_event-v2','thread_id_printed':True,
+-        'metrics_printed':['attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','lockfree'],
++        'metrics_printed':['attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','lockfree','output_failures','read','next'],
++        'output_channel':'/observer/trace-observer.log','stdout_fallback':False,
++        'batch_schema':'explicit begin/end; actual counter snapshots and addresses',
++        'counter_image_oracle':'guest-emitted WASM32 counter addresses and endianness; restore baseline read-only from exact checkpoint image',
+         'probe_boundaries':'actual probe_local_ip call entry/exit in C overlay'},
++      'guest_state_observer':{'schema':'guest-state-v1','source':'current C/C++ source copied into private derived overlay',
++        'C_fields':['&netif_default address/pointer value','actual ip_addr.addr address/network-order value','actual netmask.addr address/value'],
++        'CXX_fields':['actual m_lastAppliedIp address/value','immutable local Participant GUID prefix address/bytes',
++          'first initialized USER writer else USER reader selected under SEDP lock','actual selected locator kind/port/address field addresses/values','full selected endpoint GUID/key'],
++        'capture':'/observer/trace-observer.log shared output mutex; RTPS_TRACE events, RTPS_TRACE_METRICS and guest-state JSON emitted in bounded append writes after production guards release; descriptor identity revalidated and reopened after restore; write errors counted',
++        'checkpoint_freshness':'runner requires new complete observations after pre-roundtrip collector watermark; collector ordering only, not guest time',
++        'saved_image_oracle':'WASM32 address bounds and exact checkpoint bytes; raw u32 little-endian, IPv4 semantic bytes network order'},
+       'c_overlay_manifest_sha256':sha(cbuild/'manifest.json'),'configure_command':args,
+       'source_archive_unchanged':sha(source)==sha(source),'sysroot_mutated':False,'normal_artifacts_mutated':False}
+     if call(args,cwd=mirror,log=logs/'configure.log'):
+diff --git a/validation/campaign/build_traceoverlay.py b/validation/campaign/build_traceoverlay.py
+index c6ecd844..3f11924c 100644
+--- a/validation/campaign/build_traceoverlay.py
++++ b/validation/campaign/build_traceoverlay.py
+@@ -86,7 +86,7 @@ def overlay_udp(original: str) -> str:
+ def overlay_coordinator(original: str) -> str:
+     text = replace_once(original,
+         '#include "netif_wasm_add.h"',
+-        '#include "netif_wasm_add.h"\n#include "traceoverlay.h"\n#include <pthread.h>\n#include <stdint.h>',
++        '#include "netif_wasm_add.h"\n#include "traceoverlay.h"\n#include <pthread.h>\n#include <stdint.h>\n#include <stdio.h>',
+         "coordinator includes")
+     start = text.index("int\nnetif_wasm_refresh(void)\n{")
+     end = text.index("\nvoid\nnetif_wasm_get_ip_snapshot_core_locked", start)
+@@ -97,10 +97,18 @@ netif_wasm_refresh(void)
+   in_addr_t addr = 0;
+   uint32_t current_ip = 0;
+   int snapshot_valid = 0;
+-  int lock_result = sys_trylock_tcpip_core();
++  struct netif *default_ptr = NULL;
++  uintptr_t default_ptr_field_addr = (uintptr_t)&netif_default;
++  uintptr_t ip_field_addr = 0;
++  uintptr_t netmask_field_addr = 0;
++  uint32_t netmask_value = 0;
++  uint32_t observed_ip = 0;
+   int refresh_result = NETIF_WASM_REFRESH_FAILED;
+   uint64_t thread_id = (uint64_t)(uintptr_t)pthread_self();
+ 
++  /* Observer window reopen/snapshot is outside the core lock. */
++  traceoverlay_begin_process_window();
++  int lock_result = sys_trylock_tcpip_core();
+   if (lock_result == EBUSY) {
+     refresh_result = NETIF_WASM_REFRESH_BUSY;
+     goto publish_observer;
+@@ -114,7 +122,12 @@ netif_wasm_refresh(void)
+     goto publish_observer;
+   }
+   snapshot_valid = 1;
++  default_ptr = netif_default;
++  ip_field_addr = (uintptr_t)&netif_default->ip_addr.addr;
++  netmask_field_addr = (uintptr_t)&netif_default->netmask.addr;
+   current_ip = netif_default->ip_addr.addr;
++  observed_ip = current_ip;
++  netmask_value = netif_default->netmask.addr;
+   traceoverlay_record(TRACE_PROBE_ENTER, TRACE_RESULT_UNAVAILABLE,
+                       current_ip, 0, 0, 1u, thread_id);
+   int probe_status = probe_local_ip(&addr);
+@@ -129,6 +142,7 @@ netif_wasm_refresh(void)
+     refresh_result = NETIF_WASM_REFRESH_UNCHANGED;
+   } else {
+     netif_default->ip_addr.addr = addr;
++    observed_ip = addr;
+     refresh_result = NETIF_WASM_REFRESH_CHANGED;
+   }
+   sys_unlock_tcpip_core();
+@@ -150,6 +164,15 @@ publish_observer:
+                       thread_id);
+   if (refresh_result == NETIF_WASM_REFRESH_CHANGED)
+     printf("netif_wasm: local ip changed to 0x%08x\\n", addr);
++  if (snapshot_valid) {
++    char guest_state_record[512];
++    int guest_state_length = snprintf(guest_state_record, sizeof(guest_state_record),
++      "{\\\"schema\\\":\\\"guest-state-v1;actual wasm32 addresses + copied values;raw memory little-endian;IPv4 semantic bytes network-order\\\",\\\"part\\\":\\\"c\\\",\\\"default_ptr_field_addr\\\":\\\"0x%08x\\\",\\\"default_ptr\\\":\\\"0x%08x\\\",\\\"ip_field_addr\\\":\\\"0x%08x\\\",\\\"ip_value\\\":\\\"0x%08x\\\",\\\"netmask_field_addr\\\":\\\"0x%08x\\\",\\\"netmask_value\\\":\\\"0x%08x\\\"}\\n",
++      (unsigned)default_ptr_field_addr, (unsigned)(uintptr_t)default_ptr,
++      (unsigned)ip_field_addr, observed_ip, (unsigned)netmask_field_addr, netmask_value);
++    if (guest_state_length > 0 && (size_t)guest_state_length < sizeof(guest_state_record))
++      traceoverlay_write_record(guest_state_record, (uint32_t)guest_state_length);
++  }
+   return refresh_result;
+ }
+ '''
+@@ -198,8 +221,17 @@ def run(argv: list[str] | None = None) -> int:
+         (overlay_root / rel).write_bytes(rendered_outputs[rel])
+     header = ROOT / "validation/campaign/traceoverlay.h"
+     cfile = ROOT / "validation/campaign/traceoverlay.c"
++    observer_source = cfile.read_text(encoding="utf-8")
++    literal_window_newline = 'addr_lockfree=0x%08x\\\\n",'
++    actual_window_newline = 'addr_lockfree=0x%08x\\n",'
++    if observer_source.count(literal_window_newline) != 1:
++        raise RuntimeError("observer WINDOW_START newline emitter seam changed")
++    observer_source = observer_source.replace(literal_window_newline, actual_window_newline, 1)
++    if 'addr_lockfree=0x%08x\\\\n",' in observer_source:
++        raise RuntimeError("observer WINDOW_START still has a literal backslash-n ending")
++    observer_bytes = observer_source.encode("utf-8")
+     (overlay_root / "traceoverlay.h").write_bytes(header.read_bytes())
+-    (overlay_root / "traceoverlay.c").write_bytes(cfile.read_bytes())
++    (overlay_root / "traceoverlay.c").write_bytes(observer_bytes)
+ 
+     patch = []
+     for rel in outputs:
+@@ -241,13 +273,18 @@ def run(argv: list[str] | None = None) -> int:
+     for obj in objects[:2]:
+         symbols = subprocess.run([str(nm), "-u", str(obj)], check=True,
+                                  text=True, capture_output=True).stdout
+-        if "traceoverlay_record" not in symbols:
+-            raise SystemExit(f"instrumented unit {obj.name} does not reference traceoverlay ABI")
+-        undefined_hooks.append({"object": obj.name, "undefined_traceoverlay_record": True})
++        required = ["traceoverlay_record"]
++        if obj.name == "netif_wasm.o": required.append("traceoverlay_begin_process_window")
++        if not all(symbol in symbols for symbol in required):
++            raise SystemExit(f"instrumented unit {obj.name} does not reference required observer ABI: {required}")
++        undefined_hooks.append({"object": obj.name, "undefined_observer_abi": required})
+     observer_symbols = subprocess.run([str(nm), "--defined-only", str(objects[2])],
+                                       check=True, text=True, capture_output=True).stdout
+-    if "traceoverlay_record" not in observer_symbols:
+-        raise SystemExit("observer object does not define traceoverlay_record ABI")
++    defined_required = ("traceoverlay_record", "traceoverlay_snapshot", "traceoverlay_write_record",
++                        "traceoverlay_batch_begin", "traceoverlay_batch_end",
++                        "traceoverlay_begin_process_window", "traceoverlay_note_output_failure")
++    if not all(symbol in observer_symbols for symbol in defined_required):
++        raise SystemExit("observer object does not define complete window/channel observer ABI")
+     linker = a.sdk / "wasm-ld"
+     linked = out / "traceoverlay-lwip-hooks.wasm"
+     cmd = [str(linker), "--allow-undefined", "--no-entry", "-o", str(linked), *map(str, objects)]
+@@ -262,7 +299,7 @@ def run(argv: list[str] | None = None) -> int:
+         "status": "C-seam overlay compile/link passed; not an application or campaign artifact",
+         "source_diff_sha256": diff_hash, "input_sha256": input_hashes,
+         "observer_header_sha256": sha(header.read_bytes()),
+-        "observer_source_sha256": sha(cfile.read_bytes()),
++        "observer_source_sha256": sha(observer_bytes),
+         "current_headers_sha256": {str(h.relative_to(ROOT)): sha(h.read_bytes())
+                                     for h in HEADER_INPUTS},
+         "compiler": compiler_version,
+@@ -272,10 +309,10 @@ def run(argv: list[str] | None = None) -> int:
+         "objects": {obj.name: sha(obj.read_bytes()) for obj in objects},
+         "linked_hook_probe": str(linked), "linked_sha256": sha(linked.read_bytes()),
+         "abi_resolution": {"instrumented_references": undefined_hooks,
+-                           "observer_defines_record": True, "wasm_link_passed": True},
++                           "observer_defines_required_abi": list(defined_required), "wasm_link_passed": True},
+         "disk_bytes": sum(x.stat().st_size for x in out.rglob("*") if x.is_file()),
+-        "safety": "only textual draining/logging is post-unlock; record is bounded lockfree observer work at true probe boundaries while core is held; BUSY has no snapshot; ring reservation is one CAS attempt with explicit loss; no malloc/syscalls/logs/locks in observer",
+-        "trace_schema": "traceoverlay_event-v2 with thread_id; post-unlock dump includes counters/lost/lockfree",
++        "safety": "trace recording at production boundaries stays bounded/lockfree and changes no generation or wake behavior; all file output and observer mutex use occurs after core/SEDP/Participant guards release; batches are one bounded append write; failed/short writes and ring loss remain visible",
++        "trace_schema": "traceoverlay_event-v2; dedicated shared append channel has process-window/batch delimiters, event byte/sequence boundaries, actual counter snapshots and WASM addresses",
+         "probe_interval": "PROBE_ENTER/EXIT are emitted immediately around probe_local_ip while the winning core lock is held; BUSY emits neither and carries no snapshot",
+         "metrics": "lock-free observer counters; attempts/winners/busy/fail/outcomes/completions plus active/max-active probe interval; loss is explicit and nonzero rejects readiness",
+         "timestamp_policy": "guest observer has no timestamp; campaign collector may timestamp drained events",
+diff --git a/validation/campaign/run.py b/validation/campaign/run.py
+index 959f241b..571ccf2b 100755
+--- a/validation/campaign/run.py
++++ b/validation/campaign/run.py
+@@ -8,6 +8,7 @@ from __future__ import annotations
+ 
+ import argparse
+ import hashlib
++import ipaddress
+ import json
+ import os
+ import re
+@@ -24,11 +25,11 @@ from datetime import datetime, timezone
+ from pathlib import Path
+ 
+ APP_DEFAULT = Path('/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm')
+-RUNTIME_DEFAULT = Path('/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm')
++RUNTIME_DEFAULT = Path('/tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm')
+ PEER_DEFAULT = Path('/tmp/mros2-posix-run04-final-build/mros2-posix')
+ HASHES = {
+     'app': 'b9b01ebf0523048e3af1ca07655c010a72ed364d7eacee05c61277058f09e9d9',
+-    'runtime': '77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60',
++    'runtime': '70bfcdc4b109041deec3eef4677a605a3fb8d5e03cf16fb026ca4ca8a85938f3',
+     'peer': '8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1',
+ }
+ NETWORK = 'mros2-cr-net'
+@@ -47,12 +48,14 @@ CALL = re.compile(r"subscribed msg: 'Hello from mros2-posix onto Linux: (\d+)'")
+ RECV = re.compile(r"event=peer_receive topic=/to_linux id=(-?\d+) payload='([^']*)'")
+ ECHO = re.compile(r"event=peer_echo_publish_return topic=/to_stm id=(-?\d+) payload='([^']*)'")
+ TRACE = re.compile(r"RTPS_TRACE seq=(\d+) kind=(\d+) result=(\d+) current=(\d+) applied=(\d+) detail=(\d+) aux=(\d+) thread=(\d+)")
+-TRACE_METRICS = re.compile(r"RTPS_TRACE_METRICS attempts=(\d+) winners=(\d+) busy=(\d+) failed=(\d+) outcomes=(\d+) probe_completions=(\d+) active=(\d+) max_active=(\d+) lost=(\d+) lockfree=(\d+)")
++TRACE_METRICS = re.compile(r"RTPS_TRACE_METRICS (.*)")
+ TRACE_KINDS = {1:'eintr', 2:'trylock_attempt', 3:'trylock_outcome', 4:'probe_enter', 5:'probe_exit',
+                6:'current', 7:'applied', 8:'prepare_begin', 9:'prepare_fail', 10:'commit',
+                11:'applied_last', 12:'equal', 13:'retry'}
+ TRACE_RESULTS = {0:'unavailable', 1:'busy', 2:'failed', 3:'unchanged', 4:'changed'}
+-TRACE_SCHEMA = 'traceoverlay_event-v2;seq:u32,kind:u16,result:u16,current_ip:u32,applied_ip:u32,detail:u32,aux:u32,thread_id:u64;metrics include lost,lockfree,active,max_active'
++TRACE_SCHEMA = 'traceoverlay_event-v2;dedicated shared append observer;process windows, atomic batch delimiters, event sequence/byte boundaries, actual counter values/addresses, image-read baselines, explicit replay attribution'
++GUEST_STATE_SCHEMA = 'guest-state-v1;actual wasm32 addresses + copied values;raw memory little-endian;IPv4 semantic bytes network-order'
++GUEST_STATE_LINE = 'RTPS_GUEST_STATE '
+ 
+ 
+ def utc(): return datetime.now(timezone.utc).isoformat(timespec='milliseconds')
+@@ -69,18 +72,97 @@ def docker(args, timeout=60):
+ def sha_record(paths): return {key:{'path':str(p),'sha256':digest(p)} for key,p in paths.items()}
+ 
+ def parse_trace_line(line):
+-    event=TRACE.search(line)
++    event=TRACE.fullmatch(line.strip())
+     if event:
+         seq,kind,result,current,applied,detail,aux,thread=map(int,event.groups())
+         return ('trace',{'seq':seq,'kind':kind,'result':result,'current_ip':current,
+             'applied_ip':applied,'detail':detail,'aux':aux,'thread_id':thread})
+-    metrics=TRACE_METRICS.search(line)
++    metrics=TRACE_METRICS.fullmatch(line.strip())
+     if metrics:
+-        names=('attempts','winners','busy','failed','outcomes','probe_completions',
+-               'active','max_active','lost','lockfree')
+-        return ('trace_metrics',dict(zip(names,map(int,metrics.groups()))))
++        values={}
++        for token in metrics.group(1).split():
++            if '=' not in token: return None
++            key,value=token.split('=',1)
++            try: values[key]=int(value,16 if key.startswith('addr_') else 10)
++            except ValueError: values[key]=value
++        return ('trace_metrics',values)
++    for prefix,kind in (('RTPS_TRACE_WINDOW_START ','trace_window_start '),
++                        ('RTPS_TRACE_BATCH_BEGIN ','trace_batch_begin '),
++                        ('RTPS_TRACE_BATCH_END ','trace_batch_end ')):
++        if line.startswith(prefix):
++            values={}
++            for token in line[len(prefix):].split():
++                if '=' not in token: return None
++                key,value=token.split('=',1)
++                try: values[key]=int(value,16 if key.startswith('addr_') else 10)
++                except ValueError: values[key]=value
++            return (kind.strip(),values)
+     return None
+ 
++
++def parse_observer_channel(data):
++    records=[]; batches=[]; current=None; errors=[]
++    for line_number,line in enumerate(data.decode('utf-8',errors='replace').splitlines(),1):
++        if not line: errors.append(f'empty observer line {line_number}'); continue
++        if line.startswith('{'):
++            try: records.append(('guest_state',json.loads(line)))
++            except json.JSONDecodeError: errors.append(f'malformed JSON observer line {line_number}')
++            continue
++        parsed=parse_trace_line(line)
++        if parsed and parsed[0]=='trace':
++            if current is None: errors.append(f'trace event outside batch at line {line_number}')
++            else: current['events'].append(parsed[1])
++            continue
++        if parsed and parsed[0]=='trace_metrics':
++            if current is None: errors.append(f'metrics outside batch at line {line_number}')
++            else: current['metrics'].append(parsed[1])
++            continue
++        if parsed and parsed[0]=='trace_window_start':
++            if current is not None: errors.append(f'window start inside open batch at line {line_number}')
++            records.append(('window_start',parsed[1])); continue
++        if parsed and parsed[0]=='trace_batch_begin':
++            if current is not None: errors.append(f'nested trace batch at line {line_number}')
++            current={'begin':parsed[1],'events':[],'metrics':[],'line':line_number}; continue
++        if parsed and parsed[0]=='trace_batch_end':
++            if current is None: errors.append(f'batch end without start at line {line_number}'); continue
++            end=parsed[1]; current['end']=end
++            begin=current['begin']; events=current['events']; metrics=current['metrics']
++            if begin.get('batch')!=end.get('batch'): errors.append(f'batch id mismatch at line {line_number}')
++            if end.get('events')!=len(events): errors.append(f'batch event count mismatch at line {line_number}')
++            if len(metrics)!=2 or [m.get('edge') for m in metrics]!=['before','after']:
++                errors.append(f'batch counter snapshots incomplete at line {line_number}')
++            elif metrics[0].get('batch')!=begin.get('batch') or metrics[1].get('batch')!=end.get('batch'):
++                errors.append(f'batch metrics ID mismatch at line {line_number}')
++            if events and (end.get('first')!=events[0]['seq'] or end.get('last')!=events[-1]['seq']):
++                errors.append(f'batch event sequence boundary mismatch at line {line_number}')
++            if len(metrics)==2:
++                before,after=metrics
++                if before.get('stable') not in (0,1) or after.get('stable') not in (0,1):
++                    errors.append(f'batch lacks explicit stable/pending snapshot flags at line {line_number}')
++                if before.get('read')!=begin.get('read') or before.get('next')!=begin.get('next'):
++                    errors.append(f'batch start/counter sequence mismatch at line {line_number}')
++                if end.get('read')!=after.get('read') or end.get('next')!=after.get('next'):
++                    errors.append(f'batch end/counter sequence mismatch at line {line_number}')
++                if ((after.get('read',0)-before.get('read',0))&0xffffffff)!=len(events):
++                    errors.append(f'batch drained sequence count mismatch at line {line_number}')
++                if any(event['seq']!=((before.get('read',0)+i)&0xffffffff) for i,event in enumerate(events)):
++                    errors.append(f'batch interior sequence gap at line {line_number}')
++                kinds=defaultdict(int)
++                for event in events: kinds[event['kind']]+=1
++                expected={'attempts':kinds[2],'outcomes':kinds[3],
++                    'winners':sum(e['kind']==3 and e['result'] not in (1,2) for e in events),
++                    'busy':sum(e['kind']==3 and e['result']==1 for e in events),
++                    'failed':sum(e['kind']==3 and e['result']==2 for e in events),
++                    'probe_completions':kinds[5]}
++                stable=before.get('stable')==1 and after.get('stable')==1
++                matched=all(((after.get(k,0)-before.get(k,0))&0xffffffff)==v for k,v in expected.items())
++                current['counter_state']='closed' if stable and matched else 'pending'
++                current['pending_reason']=None if stable and matched else 'counter snapshots unstable or include concurrent/prior events'
++            batches.append(current); current=None; continue
++        errors.append(f'unrecognized observer record at line {line_number}: {line[:100]}')
++    if current is not None: errors.append('unterminated trace batch')
++    return {'records':records,'batches':batches,'errors':errors}
++
+ class Collector:
+     def __init__(self, path, source, events, lock):
+         self.path, self.source, self.events, self.lock = path, source, events, lock
+@@ -90,11 +172,7 @@ class Collector:
+                 now = time.monotonic_ns()
+                 rendered = f'host_utc={utc()} host_mono_ns={now} {line.rstrip()}\n'
+                 out.write(rendered); out.flush()
+-                parsed=parse_trace_line(line)
+-                if parsed:
+-                    kind, values=parsed
+-                    if kind=='trace': values.update(collector_mono_ns=now,source=self.source)
+-                    with self.lock: self.events.append((kind,values))
++                # Trace rows are intentionally accepted only from the separate observer append file.
+                 found = None
+                 for kind, rx in (('publish',PUB),('callback',CALL),('receive',RECV),('echo',ECHO)):
+                     m = rx.search(line)
+@@ -114,6 +192,10 @@ class Session:
+         self.root=Path(args.output).resolve()/self.sid; self.raw=self.root/'raw'; self.states=self.root/'state'
+         self.label='validation-'+self.sid; self.names=[]; self.peer_name=f'mros2-cr-{self.sid}-peer'
+         self.peer_pid=None; self.peer_collector=None; self.peer_thread=None
++        self.reused_peer=False; self.peer_session_record=None; self.tail_procs=[]
++        self.observer_windows=[]; self.observer_windows_by_proc={}; self.pass_states=[]
++        self.final_pass=False; self.pending_restore_baseline=None
++        self.checkpoint_archives=[]
+         self.current_name=None; self.current_ip=None; self.events=[]; self.lock=threading.Lock(); self.threads=[]
+         self.hashes={k:digest(v) for k,v in {'app':args.app,'runtime':args.runtime,'peer':args.peer}.items()}
+         self.owned_file=self.root/'ownership.json'
+@@ -129,23 +211,62 @@ class Session:
+         image=docker(['image','inspect',IMAGE])
+         if image.returncode or json.loads(image.stdout)[0]['Id']!=IMAGE_ID: raise RuntimeError('pinned image identity mismatch')
+         occupied={x.get('IPv4Address','').split('/')[0]:x.get('Name') for x in (nd.get('Containers') or {}).values() if x.get('IPv4Address')}
+-        planned={'172.18.0.5'} if not need_ip else {'172.18.0.3','172.18.0.5'}
+-        if self.args.mode in ('changed','repeated'): planned.add('172.18.0.6')
++        if self.args.mode=='no-cr':
++            planned={self.args.no_cr_ip,'172.18.0.5'}
++        else:
++            planned={'172.18.0.3','172.18.0.5'} if need_ip else {'172.18.0.5'}
++            if self.args.mode in ('changed','repeated'): planned.add('172.18.0.6')
+         conflicts=planned & occupied.keys()
+-        if '172.18.0.5' in conflicts and str(occupied['172.18.0.5']).lstrip('/')==self.peer_name and self.inspect_owned(self.peer_name):
++        reused_record=None; reused_name=None
++        if self.args.reuse_peer_session:
++            reused_record=json.loads(self.args.reuse_peer_session.read_text(encoding='utf-8'))
++            reused_name=reused_record.get('peer_container')
++            if not reused_name or not self.verify_reused_peer(reused_record):
++                raise RuntimeError('reuse manifest does not prove live owned peer identity/log mount')
++        if '172.18.0.5' in conflicts and str(occupied['172.18.0.5']).lstrip('/')==reused_name:
++            conflicts.remove('172.18.0.5')
++        elif '172.18.0.5' in conflicts and str(occupied['172.18.0.5']).lstrip('/')==self.peer_name and self.inspect_owned(self.peer_name):
+             conflicts.remove('172.18.0.5')
+         if conflicts: raise RuntimeError(f'planned addresses occupied: { {ip:occupied[ip] for ip in conflicts} }')
+-        if self.peer_name in containers.stdout.splitlines() and not self.inspect_owned(self.peer_name): raise RuntimeError('peer name exists but is not owned by this session')
++        if self.peer_name in containers.stdout.splitlines():
++            if not (reused_record and self.peer_name==reused_name) and not self.inspect_owned(self.peer_name):
++                raise RuntimeError('peer name exists but is not verified for this session')
+         if free < FREE_MIN: raise RuntimeError(f'free bytes {free} below 3 GiB reserve')
+         return {'utc':utc(),'free_bytes':free,'minimum_free_bytes':FREE_MIN,'network_id':nd['Id'],'subnet':SUBNET,'occupied_ips':occupied,'image_id':IMAGE_ID,'artifact_hashes':self.hashes}
+ 
+-    def inspect_owned(self,name):
++    def inspect_owned(self,name,expected_label=None):
+         r=docker(['inspect',name])
+         if r.returncode: return None
+         x=json.loads(r.stdout)[0]
+-        if x['Config']['Labels'].get(LABEL_KEY)!=self.label: raise RuntimeError(f'refusing non-owned container {name}')
++        if x['Config']['Labels'].get(LABEL_KEY)!=(expected_label or self.label): raise RuntimeError(f'refusing non-owned container {name}')
+         return x
+ 
++    def verify_reused_peer(self,record):
++        if record.get('peer_sha256')!=self.hashes['peer'] or record.get('network_id')!=NETWORK_ID:
++            raise RuntimeError('reused peer artifact/network hash mismatch')
++        x=self.inspect_owned(record.get('peer_container',''),record.get('label_value'))
++        if not x or x.get('Id')!=record.get('peer_container_id') or not x['State']['Running']:
++            raise RuntimeError('reused peer container ID/ownership/runtime mismatch')
++        network=x['NetworkSettings']['Networks'].get(NETWORK,{})
++        if network.get('NetworkID')!=NETWORK_ID or network.get('IPAddress')!='172.18.0.5':
++            raise RuntimeError('reused peer network address mismatch')
++        mounts=x.get('Mounts',[])
++        peer_mount=next((m for m in mounts if m['Destination']=='/native-peer' and not m['RW']),None)
++        log_mount=next((m for m in mounts if m['Destination']=='/run/raw'),None)
++        if not peer_mount or digest(peer_mount['Source'])!=self.hashes['peer']:
++            raise RuntimeError('reused peer binary bind/hash mismatch')
++        log=Path(record.get('peer_log','')).resolve()
++        if not log.is_file() or not log_mount or str(Path(log_mount['Source']).resolve())!=record.get('peer_mount_source') or log.parent.parent!=Path(log_mount['Source']).resolve():
++            raise RuntimeError('reused peer persistent log/mount mismatch')
++        identity=docker(['exec',record['peer_container'],'sh','-c',f"ps -p {int(record['peer_pid'])} -o args=; cat /proc/{int(record['peer_pid'])}/stat"])
++        lines=identity.stdout.splitlines()
++        if identity.returncode or len(lines)<2 or '/native-peer' not in lines[0]:
++            raise RuntimeError('reused peer process is not live')
++        stat_fields=lines[1].split()
++        if len(stat_fields)<22 or stat_fields[21]!=str(record.get('peer_start_ticks')):
++            raise RuntimeError('reused peer PID/start identity changed')
++        return True
++
+     def create(self,name,ip,mounts,command='sleep infinity'):
+         if docker(['inspect',name]).returncode==0: raise RuntimeError('refusing existing container name '+name)
+         argv=['run','-d','--name',name,'--label',f'{LABEL_KEY}={self.label}','--network',NETWORK,'--ip',ip]
+@@ -203,9 +324,34 @@ class Session:
+ 
+     def create_peer(self):
+         raw=self.raw/'peer'; raw.mkdir(parents=True,exist_ok=True)
+-        self.create(self.peer_name,'172.18.0.5',[(self.raw,'/run/raw',False),(self.args.peer,'/native-peer',True)],'sleep infinity')
++        if self.args.reuse_peer_session:
++            record_path=self.args.reuse_peer_session.resolve()
++            record=json.loads(record_path.read_text(encoding='utf-8'))
++            self.peer_name=record['peer_container']; self.peer_pid=int(record['peer_pid'])
++            self.verify_reused_peer(record)
++            if record.get('peer_sha256')!=self.hashes['peer'] or record.get('network_id')!=NETWORK_ID:
++                raise RuntimeError('reused peer artifact/network identity mismatch')
++            rec=self.inspect_owned(self.peer_name,record.get('label_value'))
++            if not rec or rec['NetworkSettings']['Networks'][NETWORK]['IPAddress']!='172.18.0.5':
++                raise RuntimeError('reused peer ownership/address mismatch')
++            if rec['Config']['Labels'].get(LABEL_KEY)!=record.get('label_value'):
++                raise RuntimeError('reused peer label does not match ownership record')
++            identity=docker(['exec',self.peer_name,'sh','-c',f'ps -p {self.peer_pid} -o args=; awk \'{{print $22}}\' /proc/{self.peer_pid}/stat'])
++            lines=identity.stdout.splitlines()
++            if identity.returncode or not lines or '/native-peer' not in lines[0] or len(lines)<2 or lines[1]!=str(record['peer_start_ticks']):
++                raise RuntimeError('reused peer PID/start identity is not continuous')
++            log=Path(record['peer_log']); offset=log.stat().st_size
++            tail=subprocess.Popen(['tail','-c',f'+{offset+1}','-F',str(log)],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',bufsize=1)
++            collector=Collector(self.raw/'peer/native-peer.log','peer',self.events,self.lock)
++            thread=threading.Thread(target=collector.consume,args=(tail,),daemon=True); thread.start()
++            self.threads.append((tail,thread)); self.tail_procs.append(tail); self.reused_peer=True; self.peer_session_record=record
++            self.peer_collector=record_path
++            write(self.owned_file,json.dumps({'session_id':self.sid,'reuses_session':record['session_id'],'label_key':LABEL_KEY,'label_value':record['label_value'],'peer_container':self.peer_name,'peer_pid':self.peer_pid,'peer_start_ticks':record['peer_start_ticks'],'peer_restarts':0},indent=2)+'\\n')
++            return
++        logfile=raw/'native-peer-live.log'
++        peer_rec=self.create(self.peer_name,'172.18.0.5',[(self.raw,'/run/raw',False),(self.args.peer,'/native-peer',True)],'sleep infinity')
+         pidfile=raw/'peer.pid'
+-        self.peer_proc=self.launch(self.peer_name,'echo $$ > /run/raw/peer/peer.pid; exec /native-peer',raw/'native-peer.log','peer')
++        self.peer_proc=self.launch(self.peer_name,'echo $$ > /run/raw/peer/peer.pid; exec /native-peer >> /run/raw/peer/native-peer-live.log 2>&1',raw/'native-peer-exec.log','peer')
+         deadline=time.monotonic()+20
+         while time.monotonic()<deadline:
+             if pidfile.exists() and pidfile.read_text().strip().isdigit():
+@@ -213,9 +359,18 @@ class Session:
+             if self.peer_proc.poll() is not None: break
+             time.sleep(.1)
+         if not self.peer_pid: raise RuntimeError('native peer PID unavailable')
+-        r=docker(['exec',self.peer_name,'sh','-c',f'ps -p {self.peer_pid} -o args='])
+-        if r.returncode or '/native-peer' not in r.stdout: raise RuntimeError('peer identity not verified')
+-        write(self.owned_file,json.dumps({'session_id':self.sid,'label_key':LABEL_KEY,'label_value':self.label,'peer_container':self.peer_name,'peer_pid':self.peer_pid,'peer_restarts':0},indent=2)+'\n')
++        identity=docker(['exec',self.peer_name,'sh','-c',f'ps -p {self.peer_pid} -o args=; awk \'{{print $22}}\' /proc/{self.peer_pid}/stat'])
++        lines=identity.stdout.splitlines()
++        if identity.returncode or not lines or '/native-peer' not in lines[0] or len(lines)<2: raise RuntimeError('peer identity not verified')
++        start_ticks=lines[1]
++        tail=subprocess.Popen(['tail','-F',str(logfile)],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,encoding='utf-8',errors='replace',bufsize=1)
++        collector=Collector(raw/'native-peer.log','peer',self.events,self.lock)
++        thread=threading.Thread(target=collector.consume,args=(tail,),daemon=True); thread.start()
++        self.threads.append((tail,thread)); self.tail_procs.append(tail)
++        record={'session_id':self.sid,'label_key':LABEL_KEY,'label_value':self.label,'peer_container':self.peer_name,'peer_container_id':peer_rec['Id'],'peer_pid':self.peer_pid,'peer_start_ticks':start_ticks,'peer_restarts':0,'peer_log':str(logfile.resolve()),'peer_mount_source':str(self.raw.resolve()),'peer_sha256':self.hashes['peer'],'network_id':NETWORK_ID}
++        write(self.owned_file,json.dumps(record,indent=2)+'\n')
++        if self.args.peer_session_file:
++            write(self.args.peer_session_file,json.dumps(record,indent=2)+'\n')
+ 
+     def create_app_container(self,ip,phase,state_override=None):
+         name=f'mros2-cr-{self.sid}-app-{phase}'
+@@ -223,27 +378,176 @@ class Session:
+         raw=self.raw/phase; raw.mkdir(parents=True,exist_ok=True)
+         state=Path(state_override) if state_override is not None else self.states/phase
+         state.mkdir(parents=True,exist_ok=True)
++        (self.raw/'observer').mkdir(parents=True,exist_ok=True)
+         mounts=[(self.raw,'/run/raw',False),(self.args.runtime.parent,'/runtime',True),(self.args.app.parent,'/artifact',True),(state,'/state',False)]
+         self.create(name,ip,mounts,'cd /state && sleep infinity')
+         return name,raw,state
+ 
++    @staticmethod
++    def _lifecycle_status(rec):
++        return dict(rec.get('State') or {})
++
++    @staticmethod
++    def _lifecycle_endpoint(rec):
++        networks=(rec.get('NetworkSettings') or {}).get('Networks') or {}
++        endpoint=networks.get(NETWORK)
++        if not endpoint: return None
++        keys=('NetworkID','EndpointID','IPAddress','IPPrefixLen','Gateway','MacAddress')
++        return {key:endpoint.get(key) for key in keys}
++
++    def _append_lifecycle_audit(self,record):
++        path=self.root/'container-lifecycle.jsonl'
++        path.parent.mkdir(parents=True,exist_ok=True)
++        with path.open('a',encoding='utf-8') as stream:
++            stream.write(json.dumps(record,sort_keys=True)+'\n')
++            stream.flush(); os.fsync(stream.fileno())
++
++    def _inspect_owned_container_id(self,container_id):
++        argv=['inspect',container_id]
++        result=docker(argv)
++        evidence={'argv':argv,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr}
++        if result.returncode: return None,evidence,'container ID inspect failed'
++        try: rec=json.loads(result.stdout)[0]
++        except (json.JSONDecodeError,IndexError,TypeError): return None,evidence,'container ID inspect returned malformed JSON'
++        if rec.get('Id')!=container_id: return rec,evidence,'container ID identity mismatch'
++        labels=(rec.get('Config') or {}).get('Labels') or {}
++        if labels.get(LABEL_KEY)!=self.label: return rec,evidence,'container ownership label mismatch'
++        return rec,evidence,None
++
++    def _audit_lifecycle_rejection(self,name,container_id,action,error,*,inspection=None,before=None,endpoint=None,observed_after=None,endpoint_after=None):
++        self._append_lifecycle_audit({'schema':'container-lifecycle-v1','utc':utc(),'action':action,
++            'requested_name':name,'container_id':container_id,'ownership_inspection':inspection,
++            'status_before':self._lifecycle_status(before) if before else None,
++            'status_after':self._lifecycle_status(observed_after) if observed_after else None,
++            'endpoint_before':endpoint,'endpoint_after':endpoint_after,
++            'command':None,'returncode':None,'stdout':'','stderr':'','error':str(error),'outcome':'rejected'})
++
+     def stop_owned(self,name):
+-        rec=self.inspect_owned(name)
+-        if not rec: return
+-        r=docker(['stop','--time','5',name],30)
+-        if r.returncode: raise RuntimeError(f'owned stop failed {name}: {r.stderr.strip()}')
+-        r=docker(['rm',name],30)
+-        if r.returncode: raise RuntimeError(f'owned rm failed {name}: {r.stderr.strip()}')
++        try:
++            rec=self.inspect_owned(name)
++        except Exception as exc:
++            self._audit_lifecycle_rejection(name,None,'stop',exc)
++            raise
++        if not rec:
++            self._audit_lifecycle_rejection(name,None,'stop','container not found or not owned')
++            return
++        container_id=rec.get('Id')
++        endpoint=self._lifecycle_endpoint(rec)
++        actual_name=str(rec.get('Name','')).lstrip('/')
++        if not container_id:
++            error='owned container immutable ID unavailable'
++            self._audit_lifecycle_rejection(name,None,'stop',error,before=rec,endpoint=endpoint)
++            raise RuntimeError(error)
++        if actual_name==getattr(self,'peer_name',None) or (endpoint and endpoint.get('IPAddress')=='172.18.0.5'):
++            error='refusing to retire the protected continuous .5 peer'
++            self._audit_lifecycle_rejection(name,container_id,'stop',error,before=rec,endpoint=endpoint)
++            raise RuntimeError(error)
++        if endpoint and endpoint.get('NetworkID')!=NETWORK_ID:
++            error='refusing container with unexpected campaign network identity'
++            self._audit_lifecycle_rejection(name,container_id,'stop',error,before=rec,endpoint=endpoint)
++            raise RuntimeError(error)
++
++        # Always target and re-inspect the immutable full ID; names are only used
++        # for initial ownership resolution and audit readability.
++        before,inspection,error=self._inspect_owned_container_id(container_id)
++        if error or not before or before.get('Id')!=container_id:
++            message=error or 'owned container identity disappeared before stop'
++            self._audit_lifecycle_rejection(name,container_id,'stop',message,inspection=inspection,before=rec,endpoint=endpoint)
++            raise RuntimeError(message)
++        fresh_endpoint=self._lifecycle_endpoint(before)
++        if fresh_endpoint!=endpoint:
++            message='owned container endpoint identity changed before stop'
++            self._audit_lifecycle_rejection(name,container_id,'stop',message,inspection=inspection,before=before,endpoint=fresh_endpoint)
++            raise RuntimeError(message)
++        argv=['stop','--time','5',container_id]
++        result=None; command_error=None
++        try: result=docker(argv,30)
++        except Exception as exc: command_error=f'{type(exc).__name__}: {exc}'
++        after,after_inspection,after_error=self._inspect_owned_container_id(container_id)
++        outcome='passed' if result and result.returncode==0 and not after_error and after and not self._lifecycle_status(after).get('Running',False) else 'failed'
++        error=command_error or (f'docker stop rc={result.returncode}' if result and result.returncode else None) or after_error
++        self._append_lifecycle_audit({'schema':'container-lifecycle-v1','utc':utc(),'action':'stop',
++            'requested_name':name,'container_id':container_id,'ownership_inspection':inspection,
++            'after_inspection':after_inspection,'endpoint_before':fresh_endpoint,
++            'endpoint_after':self._lifecycle_endpoint(after) if after else None,
++            'status_before':self._lifecycle_status(before),'status_after':self._lifecycle_status(after) if after else None,
++            'command':argv,'returncode':result.returncode if result else None,
++            'stdout':result.stdout if result else '','stderr':result.stderr if result else '',
++            'error':error,'outcome':outcome})
++        if outcome!='passed': raise RuntimeError(f'owned stop failed {name}: {error or (result.stderr.strip() if result else "unknown error")}')
++
++        before_disconnect,disconnect_inspection,disconnect_error=self._inspect_owned_container_id(container_id)
++        current_endpoint=self._lifecycle_endpoint(before_disconnect) if before_disconnect else None
++        if disconnect_error or not before_disconnect or current_endpoint!=fresh_endpoint:
++            message=disconnect_error or 'owned container identity/endpoint changed before disconnect'
++            self._audit_lifecycle_rejection(name,container_id,'disconnect',message,inspection=disconnect_inspection,
++                before=before,endpoint=fresh_endpoint,observed_after=before_disconnect,endpoint_after=current_endpoint)
++            raise RuntimeError(message)
++        if current_endpoint is None:
++            self._append_lifecycle_audit({'schema':'container-lifecycle-v1','utc':utc(),'action':'disconnect',
++                'requested_name':name,'container_id':container_id,'ownership_inspection':disconnect_inspection,
++                'endpoint_before':None,'endpoint_after':None,'status_before':self._lifecycle_status(before_disconnect),
++                'status_after':self._lifecycle_status(before_disconnect),'command':None,'returncode':None,
++                'stdout':'','stderr':'','error':None,'outcome':'already-detached'})
++            return
++        if current_endpoint.get('IPAddress')=='172.18.0.5' or current_endpoint.get('NetworkID')!=NETWORK_ID:
++            message='refusing disconnect of protected peer or unexpected network endpoint'
++            self._audit_lifecycle_rejection(name,container_id,'disconnect',message,inspection=disconnect_inspection,
++                before=before_disconnect,endpoint=current_endpoint)
++            raise RuntimeError(message)
++        network_id=current_endpoint['NetworkID']
++        argv=['network','disconnect',network_id,container_id]
++        result=None; command_error=None
++        try: result=docker(argv,30)
++        except Exception as exc: command_error=f'{type(exc).__name__}: {exc}'
++        after,after_inspection,after_error=self._inspect_owned_container_id(container_id)
++        after_endpoint=self._lifecycle_endpoint(after) if after else None
++        outcome='passed' if result and result.returncode==0 and not after_error and after and after_endpoint is None else 'failed'
++        error=command_error or (f'docker network disconnect rc={result.returncode}' if result and result.returncode else None) or after_error
++        if outcome=='failed' and not error: error='campaign network endpoint remains attached after disconnect'
++        self._append_lifecycle_audit({'schema':'container-lifecycle-v1','utc':utc(),'action':'disconnect',
++            'requested_name':name,'container_id':container_id,'ownership_inspection':disconnect_inspection,
++            'after_inspection':after_inspection,'endpoint_before':current_endpoint,'endpoint_after':after_endpoint,
++            'status_before':self._lifecycle_status(before_disconnect),'status_after':self._lifecycle_status(after) if after else None,
++            'command':argv,'returncode':result.returncode if result else None,
++            'stdout':result.stdout if result else '','stderr':result.stderr if result else '',
++            'error':error,'outcome':outcome})
++        if outcome!='passed': raise RuntimeError(f'owned network disconnect failed {name}: {error or (result.stderr.strip() if result else "unknown error")}')
+ 
+     def start_app(self,name,raw,restore):
+         pidfile='/run/raw/'+raw.name+('/restore.pid' if restore else '/checkpoint.pid')
+         log=raw/('restore.log' if restore else 'checkpoint.log')
+-        cmd=f"cd /state && echo $$ > {pidfile}; exec /runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 {'--restore ' if restore else ''}/artifact/{self.args.app.name}"
++        cmd=f"cd /state && echo $$ > {pidfile}; exec /runtime/iwasm --dir=/state --map-dir=/observer::/run/raw/observer --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 {'--restore ' if restore else ''}/artifact/{self.args.app.name}"
++        observer=self.raw/'observer'/'trace-observer.log'
++        offset=observer.stat().st_size if observer.exists() else 0
++        inode=observer.stat().st_ino if observer.exists() else None
+         proc=self.launch(name,cmd,log,'wasm')
+         pid,args=self.wait_pid(name,raw/('restore.pid' if restore else 'checkpoint.pid'),proc,restore)
+-        write(raw/('restore.identity.txt' if restore else 'checkpoint.identity.txt'),f'pid={pid}\nargs={args}\n')
++        identity=docker(['exec',name,'sh','-c',f'cat /proc/{pid}/stat'])
++        stat_tail=identity.stdout.rsplit(')',1)[-1].split()
++        if identity.returncode or len(stat_tail)<20: raise RuntimeError('runtime process start identity unavailable')
++        start_ticks=stat_tail[19]
++        window={'window_id':f'{"restore" if restore else "checkpoint"}-{len(self.observer_windows)+1}-pid{pid}',
++            'role':'restore' if restore else 'checkpoint','pid':pid,'pid_start_ticks':start_ticks,
++            'lineage_id':self.sid,'phase':raw.name,'container':name,'process_args':args,
++            'app_hash':self.hashes['app'],'file':str(observer.resolve()),
++            'inode_at_start':inode,'start_offset':offset,'start_utc':utc(),
++            'expected_image_baseline':self.pending_restore_baseline if restore else None}
++        self.pending_restore_baseline=None
++        self.observer_windows.append(window); self.observer_windows_by_proc[id(proc)]=window
++        write(self.raw/'observer-windows.json',json.dumps(self.observer_windows,indent=2)+'\\n')
++        write(raw/('restore.identity.txt' if restore else 'checkpoint.identity.txt'),f'pid={pid}\\nargs={args}\\nstart_ticks={start_ticks}\\n')
+         return proc,pid
+ 
++    def finish_app_window(self,proc):
++        window=self.observer_windows_by_proc.pop(id(proc),None)
++        if not window: return
++        observer=Path(window['file'])
++        window['end_offset']=observer.stat().st_size if observer.exists() else window['start_offset']
++        window['inode_at_end']=observer.stat().st_ino if observer.exists() else None
++        window['end_utc']=utc()
++        write(self.raw/'observer-windows.json',json.dumps(self.observer_windows,indent=2)+'\\n')
++
+     def stop_app_process(self,name,pid,restore):
+         r=docker(['exec',name,'sh','-c',f'ps -p {pid} -o args='])
+         args=r.stdout.strip()
+@@ -252,7 +556,142 @@ class Session:
+             raise RuntimeError('refusing to signal unexpected iwasm process')
+         docker(['exec',name,'kill','-TERM',str(pid)],15)
+ 
+-    def state_manifest(self,state,raw):
++    def persist_checkpoint_archive_record(self,record):
++        write(record['record_path'],json.dumps(record,indent=2)+'\n')
++
++    def archive_checkpoint_state(self,state,raw,phase):
++        source=Path(state).resolve()
++        archive_root=(self.root/'checkpoint-images').resolve()
++        archive_dir=archive_root/f'phase-{phase:02d}'
++        try:
++            source.relative_to(self.states.resolve())
++            archive_dir.relative_to(archive_root)
++        except ValueError as exc:
++            raise RuntimeError('checkpoint archive source/destination escaped session-owned roots') from exc
++        if archive_dir == source or source in archive_dir.parents or archive_dir in source.parents:
++            raise RuntimeError('checkpoint archive must be outside mutable working state')
++        if archive_dir.exists():
++            raise RuntimeError(f'checkpoint archive path already exists: {archive_dir}')
++        expected=[]
++        for path in sorted(source.rglob('*')):
++            if path.is_symlink():
++                raise RuntimeError(f'checkpoint archive refuses symlink: {path}')
++            if path.is_file():
++                stat=path.stat()
++                expected.append({'path':path.relative_to(source).as_posix(),'size':stat.st_size,
++                    'sha256':digest(path),'source_device':stat.st_dev,'source_inode':stat.st_ino})
++        record={'phase':phase,'source_dir':str(source),'archive_dir':str(archive_dir),
++            'expected_files':expected,'files':[],'complete':False,'state_manifest_path':None,
++            'state_manifest_sha256':None,'record_path':str((raw/'checkpoint-archive.json').resolve())}
++        self.checkpoint_archives.append(record)
++        self.persist_checkpoint_archive_record(record)
++        try:
++            archive_dir.mkdir(parents=True,exist_ok=False)
++            for item in expected:
++                source_file=source/item['path']; archive_file=archive_dir/item['path']
++                archive_file.parent.mkdir(parents=True,exist_ok=True)
++                shutil.copy2(source_file,archive_file)
++                archived=archive_file.stat()
++                if (archived.st_size!=item['size'] or digest(archive_file)!=item['sha256'] or
++                    (archived.st_dev==item['source_device'] and archived.st_ino==item['source_inode'])):
++                    raise RuntimeError(f'checkpoint archive copy verification failed: {item["path"]}')
++                if source_file.stat().st_size!=item['size'] or digest(source_file)!=item['sha256']:
++                    raise RuntimeError(f'mutable checkpoint source changed during archive copy: {item["path"]}')
++                record['files'].append({**item,'archive_device':archived.st_dev,'archive_inode':archived.st_ino})
++                self.persist_checkpoint_archive_record(record)
++            if len(record['files'])!=len(expected) or not expected:
++                raise RuntimeError('checkpoint archive copy incomplete')
++            record['complete']=True
++            self.persist_checkpoint_archive_record(record)
++            return record
++        except Exception as exc:
++            record['complete']=False; record['error']=f'{type(exc).__name__}: {exc}'
++            self.persist_checkpoint_archive_record(record)
++            raise RuntimeError(f'checkpoint archive failed; partial evidence retained: {exc}') from exc
++
++    def validate_checkpoint_archives(self,expected_count):
++        reasons=[]; snapshots=[]
++        if len(self.checkpoint_archives)!=expected_count:
++            reasons.append(f'expected {expected_count} checkpoint archives, found {len(self.checkpoint_archives)}')
++        for record in self.checkpoint_archives:
++            archive=Path(record['archive_dir']).resolve()
++            source=Path(record['source_dir']).resolve()
++            archive_root=(self.root/'checkpoint-images').resolve()
++            try: archive.relative_to(archive_root)
++            except ValueError: reasons.append(f'phase {record.get("phase")} archive escaped archive root')
++            if archive==source or source in archive.parents or archive in source.parents:
++                reasons.append(f'phase {record.get("phase")} archive overlaps mutable source')
++            if not record.get('complete'):
++                reasons.append(f'phase {record.get("phase")} archive copy incomplete')
++            try:
++                durable=json.loads(Path(record['record_path']).read_text())
++                if durable.get('complete')!=record.get('complete') or durable.get('files')!=record.get('files'):
++                    reasons.append(f'phase {record.get("phase")} archive record changed')
++            except Exception:
++                reasons.append(f'phase {record.get("phase")} archive record missing/malformed')
++            expected=record.get('expected_files',[]); copied=record.get('files',[])
++            if not expected or len(expected)!=len(copied) or {x.get('path') for x in expected}!={x.get('path') for x in copied}:
++                reasons.append(f'phase {record.get("phase")} archive file inventory incomplete')
++            verified=[]
++            for item in expected:
++                path=archive/item['path']
++                try:
++                    stat=path.stat()
++                    actual_hash=digest(path)
++                    ok=(path.is_file() and not path.is_symlink() and stat.st_size==item['size'] and
++                        actual_hash==item['sha256'])
++                except OSError:
++                    stat=None; actual_hash=None; ok=False
++                if not ok:
++                    reasons.append(f'phase {record.get("phase")} archived file missing/mutated: {item["path"]}')
++                archived=next((x for x in copied if x.get('path')==item['path']),None)
++                if (archived is None or (stat is not None and
++                    (stat.st_dev!=archived.get('archive_device') or stat.st_ino!=archived.get('archive_inode'))) or
++                    (archived is not None and item['source_device']==archived.get('archive_device') and
++                     item['source_inode']==archived.get('archive_inode'))):
++                    reasons.append(f'phase {record.get("phase")} archive is not an independent copied inode: {item["path"]}')
++                verified.append({'path':item['path'],'size':item['size'],'sha256':actual_hash,'valid':ok})
++            try:
++                actual_paths={p.relative_to(archive).as_posix() for p in archive.rglob('*') if p.is_file()}
++                expected_paths={x['path'] for x in expected}
++                if actual_paths!=expected_paths:
++                    reasons.append(f'phase {record.get("phase")} archived tree has missing or extra files')
++                if any(p.is_symlink() for p in archive.rglob('*')):
++                    reasons.append(f'phase {record.get("phase")} archived tree contains symlinks')
++            except OSError:
++                reasons.append(f'phase {record.get("phase")} archived tree unavailable')
++            manifest_path=Path(record.get('state_manifest_path') or '')
++            try:
++                manifest=json.loads(manifest_path.read_text())
++                manifest_hash=digest(manifest_path)
++            except Exception:
++                manifest={}; manifest_hash=None
++            if not manifest or manifest.get('state_dir')!=str(archive) or manifest_hash!=record.get('state_manifest_sha256'):
++                reasons.append(f'phase {record.get("phase")} state manifest missing/mutated or points outside archive')
++            else:
++                mfiles=manifest.get('files',[])
++                mf={x.get('path'):(x.get('size'),x.get('sha256')) for x in mfiles}
++                ef={x.get('path'):(x.get('size'),x.get('sha256')) for x in expected}
++                if mf!=ef: reasons.append(f'phase {record.get("phase")} state manifest/file inventory mismatch')
++                guest=manifest.get('guest_state',{})
++                counters=manifest.get('trace_counter_image_baseline',{})
++                if ('main-memory.img' in ef and (manifest.get('memory_size')!=MEMORY_BYTES or
++                    not manifest.get('socket_size') or guest.get('matches_checkpoint_image') is not True or
++                    counters.get('observed_snapshot_matches_image') is not True)):
++                    reasons.append(f'phase {record.get("phase")} fixed memory/socket or saved guest/counter byte assertions missing')
++            snapshots.append({'phase':record.get('phase'),'archive_dir':str(archive),
++                'state_manifest_path':str(manifest_path),'files':verified,'valid':not any(f'phase {record.get("phase")} ' in x for x in reasons)})
++        return {'valid':not reasons,'expected_checkpoint_count':expected_count,
++            'archive_count':len(self.checkpoint_archives),'reasons':reasons,'snapshots':snapshots}
++
++    def write_checkpoint_archive_integrity(self,raw,label,expected_count):
++        report=self.validate_checkpoint_archives(expected_count)
++        write(raw/f'checkpoint-archive-{label}.json',json.dumps(report,indent=2)+'\n')
++        if not report['valid']:
++            raise RuntimeError('checkpoint archive integrity failed before successor operation: '+report['reasons'][0])
++        return report
++
++    def state_manifest(self,state,raw,observation_log=None,archive_record=None,expected_ip=None):
+         memory=state/'main-memory.img'; sock=state/'main-socket.img'
+         if not memory.is_file() or memory.stat().st_size!=MEMORY_BYTES or not sock.is_file() or not sock.stat().st_size:
+             raise RuntimeError('checkpoint is not exact fixed 1 GiB memory plus nonempty socket image')
+@@ -262,36 +701,240 @@ class Session:
+             if p.is_file(): files.append({'path':p.relative_to(state).as_posix(),'size':p.stat().st_size,'sha256':digest(p)})
+         manifest={'state_dir':str(state.resolve()),'files':files,'memory_size':memory.stat().st_size,'socket_size':sock.stat().st_size}
+         write(raw/'state-manifest.json',json.dumps(manifest,indent=2)+'\n')
+-        snap=self.guest_state(raw)
++        snap=self.guest_state(raw,observation_log=observation_log,state=state,expected_ip=expected_ip)
+         manifest['guest_state']=snap
++        baseline=self.trace_counter_image_baseline(state)
++        manifest['trace_counter_image_baseline']=baseline
++        if self.observer_windows:
++            window=self.observer_windows[-1]
++            baseline['window_id']=window['window_id']
++            window['image_trace_baseline']=baseline
++            write(self.raw/'observer-windows.json',json.dumps(self.observer_windows,indent=2)+'\\n')
+         write(raw/'state-manifest.json',json.dumps(manifest,indent=2)+'\n')
++        if archive_record is not None:
++            archive_record['state_manifest_path']=str((raw/'state-manifest.json').resolve())
++            archive_record['state_manifest_sha256']=digest(raw/'state-manifest.json')
++            self.persist_checkpoint_archive_record(archive_record)
+         return manifest
+ 
+-    def guest_state(self,raw):
+-        log=raw/'checkpoint.log'; lines=log.read_text(errors='replace').splitlines() if log.exists() else []
+-        candidates=[]
++    def trace_counter_image_baseline(self,state):
++        log=self.raw/'observer'/'trace-observer.log'
++        if not log.is_file(): raise RuntimeError('trace observer channel missing at checkpoint image audit')
++        parsed=parse_observer_channel(log.read_bytes())
++        if parsed['errors']: raise RuntimeError('malformed trace observer channel: '+parsed['errors'][0])
++        candidates=[values for kind,values in parsed['records'] if kind=='window_start']
++        candidates.extend(metric for batch in parsed['batches'] for metric in batch['metrics'])
++        needed=('read','next','attempts','winners','busy','failed','outcomes','probe_completions',
++                'active','max_active','lost','output_failures','lockfree')
++        candidate=next((row for row in reversed(candidates)
++            if all(isinstance(row.get('addr_'+key),int) for key in needed)),None)
++        if candidate is None: raise RuntimeError('no actual observer counter addresses emitted before checkpoint')
++        memory=state/'main-memory.img'; image_size=memory.stat().st_size
++        values={}; addresses={}; image_bytes={}
++        with memory.open('rb') as stream:
++            for key in needed:
++                address=candidate['addr_'+key]
++                if address<0 or address+4>image_size: raise RuntimeError(f'trace observer {key} address outside saved WASM memory')
++                stream.seek(address); raw=stream.read(4)
++                if len(raw)!=4: raise RuntimeError(f'trace observer {key} image read incomplete')
++                values[key]=struct.unpack('<I',raw)[0]
++                addresses[key]=f'0x{address:08x}'; image_bytes[key]=raw.hex()
++        return {'schema':'trace-counter-image-v1','addresses':addresses,'values':values,
++            'image_bytes_le':image_bytes,'source_addresses_emitted_by_guest':True,
++            'observed_snapshot_values':{key:candidate.get(key) for key in needed},
++            'observed_snapshot_matches_image':all(candidate.get(key)==values[key] for key in needed),
++            'memory_image':str(memory.resolve()),'memory_size':image_size}
++
++    def guest_state(self,raw,observation_log=None,state=None,expected_ip=None):
++        log=self.raw/'observer'/'trace-observer.log'
++        lines=log.read_text(errors='replace').splitlines() if log.exists() else []
++        records=[]
+         for line in lines:
+-            if 'PHASE0 ' in line:
+-                fields=dict(re.findall(r'(\w+)=([^\s]+)',line.split('PHASE0 ',1)[1]))
+-                keys=('canary','default','ip','canary_addr','default_addr','ip_addr')
+-                if all(k in fields for k in keys): candidates.append(fields)
+-        if not candidates: raise RuntimeError('checkpoint log has no complete guest-state snapshot; state retained')
+-        fields=candidates[-1]
+-        required=('canary','default','ip','canary_addr','default_addr','ip_addr')
+-        if not all(re.fullmatch(r'0x[0-9a-fA-F]+',fields[k]) for k in required):
+-            raise RuntimeError('guest-state snapshot fields are not hexadecimal u32/addresses')
+-        memory=self.states/'phase-01'/'main-memory.img'
+-        image={}
++            if not line.startswith('{'): continue
++            try: record=json.loads(line)
++            except (json.JSONDecodeError, TypeError):
++                raise RuntimeError('malformed actual guest-state observer record; state retained')
++            records.append(record)
++        if not records:
++            raise RuntimeError('checkpoint log has no current guest-state observer records; state retained')
++        c_records=[r for r in records if r.get('part')=='c']
++        cpp_records=[r for r in records if r.get('part')=='cpp']
++        if not c_records or not cpp_records:
++            raise RuntimeError('checkpoint lacks actual C netif or C++ projection observer record; state retained')
++        c,cpp=c_records[-1],cpp_records[-1]
++        if c.get('schema')!=GUEST_STATE_SCHEMA or cpp.get('schema')!=GUEST_STATE_SCHEMA:
++            raise RuntimeError('guest-state observer schema/endianness mismatch; state retained')
++        memory=(state or self.states/'phase-01')/'main-memory.img'
++        if not memory.is_file() or memory.stat().st_size!=MEMORY_BYTES:
++            raise RuntimeError('guest-state image is not the exact 1 GiB checkpoint; state retained')
++        image_size=memory.stat().st_size
++        def address(value, name, width):
++            if not isinstance(value,str) or not re.fullmatch(r'0x[0-9a-fA-F]+',value):
++                raise RuntimeError(f'{name} is not an emitted hexadecimal guest address; state retained')
++            result=int(value,16)
++            if result<0 or result+width>image_size:
++                raise RuntimeError(f'{name} falls outside saved guest memory; state retained')
++            return result
++        def hex_value(value,name):
++            if not isinstance(value,str) or not re.fullmatch(r'0x[0-9a-fA-F]{1,8}',value):
++                raise RuntimeError(f'{name} is not an emitted u32 value; state retained')
++            return int(value,16)
++        fields=(('ip_field_addr','ip_value'),('netmask_field_addr','netmask_value'))
++        parsed={}
++        default_ptr=hex_value(c.get('default_ptr'),'default_ptr')
++        if default_ptr==0: raise RuntimeError('actual netif_default pointer is null; state retained')
++        default_ptr_addr=address(c.get('default_ptr_field_addr'),'default_ptr_field_addr',4)
+         with memory.open('rb') as stream:
+-            for key in ('canary','default','ip'):
+-                stream.seek(int(fields[key+'_addr'],16)); image[key]=struct.unpack('<I',stream.read(4))[0]
+-        expected={key:int(fields[key],16) for key in ('canary','default','ip')}
+-        if image!=expected: raise RuntimeError(f'guest memory state mismatch: expected={expected} image={image}')
+-        return {'source':'main-memory.img; wasm32 little-endian u32 at logged guest offsets','values':{k:fields[k] for k in ('canary','default','ip')},'addresses':{k:fields[k+'_addr'] for k in ('canary','default','ip')},'image_values':image,'matches_snapshot':True}
++            stream.seek(default_ptr_addr); pointer_image=stream.read(4)
++            if len(pointer_image)!=4 or struct.unpack('<I',pointer_image)[0]!=default_ptr:
++                raise RuntimeError('netif_default pointer value does not match checkpoint bytes; state retained')
++            for addr_key,value_key in fields:
++                offset=address(c.get(addr_key),addr_key,4)
++                expected=hex_value(c.get(value_key),value_key)
++                stream.seek(offset); saved=stream.read(4)
++                if len(saved)!=4 or struct.unpack('<I',saved)[0]!=expected:
++                    raise RuntimeError(f'{value_key} does not match checkpoint image little-endian bytes; state retained')
++                parsed[value_key]={'address':c[addr_key],'value':c[value_key],'image_bytes_le':saved.hex()}
++        applied_addr=address(cpp.get('applied_field_addr'),'applied_field_addr',4)
++        applied=hex_value(cpp.get('applied_value'),'applied_value')
++        with memory.open('rb') as stream:
++            stream.seek(applied_addr); saved=stream.read(4)
++        if len(saved)!=4 or struct.unpack('<I',saved)[0]!=applied:
++            raise RuntimeError('applied IP copied value does not match checkpoint bytes; state retained')
++        ip=hex_value(c.get('ip_value'),'ip_value')
++        if expected_ip is not None:
++            try: planned_ip=int.from_bytes(ipaddress.IPv4Address(expected_ip).packed,'little')
++            except (ValueError,TypeError): raise RuntimeError('planned phase IP is not a valid IPv4 address; state retained')
++            if ip!=planned_ip:
++                observed_ip=ipaddress.IPv4Address(ip.to_bytes(4,'little'))
++                raise RuntimeError(f'copied guest/image IPv4 {observed_ip} differs from planned phase IP {expected_ip}; state retained')
++        if applied!=ip or hex_value(cpp.get('current_ip_value'),'current_ip_value')!=ip:
++            raise RuntimeError('current/applied IP observations do not match actual netif IP; state retained')
++        guid_addr=address(cpp.get('guid_prefix_addr'),'guid_prefix_addr',12)
++        if not isinstance(cpp.get('guid_prefix'),str) or not re.fullmatch(r'[0-9a-fA-F]{24}',cpp['guid_prefix']):
++            raise RuntimeError('actual immutable participant GUID prefix bytes missing; state retained')
++        with memory.open('rb') as stream:
++            stream.seek(guid_addr); guid_bytes=stream.read(12)
++        if guid_bytes.hex()!=cpp['guid_prefix'].lower():
++            raise RuntimeError('participant GUID prefix does not match saved checkpoint bytes; state retained')
++        locator=cpp.get('selected_locator')
++        if cpp.get('selection_absent') is True:
++            if locator is not None: raise RuntimeError('absent endpoint selection also supplied a locator; state retained')
++            if int(cpp.get('user_writer_count',0))+int(cpp.get('user_reader_count',0))>0:
++                raise RuntimeError('user endpoints exist but observer selection is absent; state retained')
++            raise RuntimeError('echo app checkpoint lacks expected user endpoint locator; state retained')
++        else:
++            if not isinstance(locator,dict) or locator.get('role') not in ('writer','reader'):
++                raise RuntimeError('selected user endpoint locator observation missing; state retained')
++            loc_addr=address(locator.get('address_field_addr'),'locator.address_field_addr',16)
++            port_addr=address(locator.get('port_field_addr'),'locator.port_field_addr',4)
++            kind_addr=address(locator.get('kind_field_addr'),'locator.kind_field_addr',4)
++            endpoint_guid_addr=address(locator.get('endpoint_guid_addr'),'locator.endpoint_guid_addr',16)
++            if not isinstance(locator.get('address_bytes'),str) or not re.fullmatch(r'[0-9a-fA-F]{32}',locator['address_bytes']):
++                raise RuntimeError('selected locator actual address bytes missing; state retained')
++            if not isinstance(locator.get('endpoint_guid'),str) or not re.fullmatch(r'[0-9a-fA-F]{32}',locator['endpoint_guid']):
++                raise RuntimeError('selected user endpoint full GUID/key observation missing; state retained')
++            with memory.open('rb') as stream:
++                stream.seek(loc_addr); loc_image=stream.read(16)
++                stream.seek(port_addr); port_image=stream.read(4)
++                stream.seek(kind_addr); kind_image=stream.read(4)
++                stream.seek(endpoint_guid_addr); endpoint_guid_image=stream.read(16)
++            if (loc_image.hex()!=locator['address_bytes'].lower() or
++                struct.unpack('<I',port_image)[0]!=hex_value(locator.get('port_value'),'locator.port_value') or
++                struct.unpack('<i',kind_image)[0]!=locator.get('kind_value') or
++                endpoint_guid_image.hex()!=locator['endpoint_guid'].lower()):
++                raise RuntimeError('selected live locator/GUID copied values do not match checkpoint image; state retained')
++            if loc_image[12:16]!=struct.pack('<I',ip):
++                raise RuntimeError('selected locator IPv4 bytes do not match current network-order IP; state retained')
++        return {'schema':GUEST_STATE_SCHEMA,'source':'actual C/C++ observer addresses and copied values verified against main-memory.img',
++            'default_ptr':c['default_ptr'],'default_ptr_field_addr':c['default_ptr_field_addr'],'ip':parsed['ip_value'],
++            'netmask':parsed['netmask_value'],'applied_ip':{'address':cpp['applied_field_addr'],'value':cpp['applied_value'],'image_bytes_le':saved.hex()},
++            'participant_guid_prefix':{'address':cpp['guid_prefix_addr'],'bytes':cpp['guid_prefix'].lower()},
++            'selection_absent':cpp.get('selection_absent') is True,'selected_locator':locator,
++            'expected_phase_ip':expected_ip,'matches_checkpoint_image':True}
++
++    def wait_guest_state_observation(self, raw, roundtrip_ids, *, log_path=None, stage='pre-checkpoint', timeout=30, expected_ip=None):
++        """Require fresh post-gate C/C++ value observations before SIGUSR2.
++
++        Collector monotonic timestamps establish ordering only; they are not a
++        guest-clock or latency measurement. The checkpoint image remains the
++        value oracle.
++        """
++        log=self.raw/'observer'/'trace-observer.log'
++        gate_events=[]
++        wanted=set(roundtrip_ids)
++        with self.lock:
++            for event in self.events:
++                if len(event)>=4 and event[0]=='callback' and event[1] in wanted and event[3]=='wasm':
++                    gate_events.append((event[1],event[2]))
++        if {mid for mid,_ in gate_events}!=wanted:
++            raise RuntimeError('cannot establish guest-state collector gate from all pre-checkpoint callbacks')
++        gate_mono=max(t for _,t in gate_events)
++        watermark=log.stat().st_size if log.exists() else 0
++        watermark_inode=log.stat().st_ino if log.exists() else None
++        deadline=time.monotonic()+timeout
++        while time.monotonic()<deadline:
++            observations=[]
++            if log.exists():
++                if watermark_inode is not None and log.stat().st_ino!=watermark_inode:
++                    raise RuntimeError('dedicated observer file inode changed after roundtrip watermark')
++                with log.open('rb') as stream:
++                    stream.seek(watermark)
++                    while True:
++                        offset=stream.tell(); rawline=stream.readline()
++                        if not rawline: break
++                        line=rawline.decode('utf-8',errors='replace')
++                        if not line.startswith('{'): continue
++                        try: value=json.loads(line)
++                        except json.JSONDecodeError:
++                            raise RuntimeError('malformed dedicated guest-state observer record')
++                        observations.append({'offset':offset,'host_mono_ns':None,'record':value})
++            c=next((x for x in reversed(observations) if x['record'].get('part')=='c'),None)
++            cpp=next((x for x in reversed(observations) if x['record'].get('part')=='cpp'),None)
++            if c and cpp:
++                cv,sv=c['record'],cpp['record']
++                if cv.get('schema')!=GUEST_STATE_SCHEMA or sv.get('schema')!=GUEST_STATE_SCHEMA:
++                    raise RuntimeError('fresh guest-state observation has unsupported schema')
++                try:
++                    current=int(cv['ip_value'],16); applied=int(sv['applied_value'],16)
++                    cpp_current=int(sv['current_ip_value'],16)
++                    locator=sv['selected_locator']
++                    locator_bytes=bytes.fromhex(locator['address_bytes'])
++                    loc_ip=locator_bytes[12:16]
++                except (KeyError,TypeError,ValueError):
++                    raise RuntimeError('fresh guest-state observation is incomplete')
++                if current!=applied or current!=cpp_current or loc_ip!=struct.pack('<I',current):
++                    raise RuntimeError('fresh current/applied/selected-locator IP values disagree')
++                if expected_ip is not None:
++                    try: planned_ip=int.from_bytes(ipaddress.IPv4Address(expected_ip).packed,'little')
++                    except (ValueError,TypeError): raise RuntimeError('planned phase IP is not a valid IPv4 address')
++                    if current!=planned_ip:
++                        observed_ip=ipaddress.IPv4Address(current.to_bytes(4,'little'))
++                        raise RuntimeError(f'copied guest IPv4 {observed_ip} differs from planned phase IP {expected_ip}')
++                if sv.get('selection_absent') is True or int(sv.get('user_writer_count',0))+int(sv.get('user_reader_count',0))<1:
++                    raise RuntimeError('expected echo app user endpoint selection is absent')
++                report={'schema':GUEST_STATE_SCHEMA,'fresh_after_roundtrip_gate':True,'planned_ip':expected_ip,
++                    'precheckpoint_roundtrip_ids':list(roundtrip_ids),'collector_gate_mono_ns':gate_mono,
++                    'observer_file_path':str(log.resolve()),'observer_file_inode_before_gate':watermark_inode,
++                    'observer_file_inode_after_gate':log.stat().st_ino,'consumed_log_byte_watermark':watermark,
++                    'observer_file_end_offset':log.stat().st_size,'c_record_offset':c['offset'],'c_record_mono_ns':None,
++                    'cpp_record_offset':cpp['offset'],'cpp_record_mono_ns':None,
++                    'ordering_claim':'dedicated observer file-byte ordering only; not guest-clock precision',
++                    'current_ip_value':cv['ip_value'],'applied_ip_value':sv['applied_value'],
++                    'selected_locator_role':locator.get('role'),'user_writer_count':sv.get('user_writer_count'),
++                    'user_reader_count':sv.get('user_reader_count')}
++                write(raw/f'guest-state-{stage}.json',json.dumps(report,indent=2)+'\n')
++                return report
++            time.sleep(.05)
++        raise RuntimeError('no fresh complete C/C++ guest-state observer pair after pre-checkpoint roundtrip gate')
+ 
+     def verify_manifest(self,state,raw):
+         m=json.loads((raw/'state-manifest.json').read_text())
+-        if Path(m['state_dir']).resolve()!=state.resolve() or state.resolve().parent!=self.states.resolve(): raise RuntimeError('state ownership path assertion failed')
++        state=Path(state).resolve()
++        if Path(m['state_dir']).resolve()!=state: raise RuntimeError('state ownership path assertion failed')
++        allowed_roots=(self.states.resolve(),(self.root/'checkpoint-images').resolve())
++        if not any(state==root or root in state.parents for root in allowed_roots):
++            raise RuntimeError('state manifest path is outside mutable and immutable session-owned roots')
+         for item in m['files']:
+             rel=Path(item['path'])
+             if rel.is_absolute() or '..' in rel.parts: raise RuntimeError('unsafe state manifest path')
+@@ -300,20 +943,20 @@ class Session:
+         if not m.get('guest_state') or not all(m['guest_state'].get('values',{}).values()): raise RuntimeError('guest-state assertion missing')
+         return m
+ 
+-    def remove_pass_state(self,state,raw,preserve_directory=False):
+-        # This method is called only after successful restore and round-trip gates.
+-        m=self.verify_manifest(state,raw)
+-        if Path(m['state_dir']).resolve()!=state.resolve() or state.resolve().parent!=self.states.resolve(): raise RuntimeError('refusing state cleanup outside this run')
+-        for item in m['files']:
+-            p=state/item['path']
+-            if not p.is_file() or digest(p)!=item['sha256']: raise RuntimeError('state changed before cleanup')
+-        for item in m['files']:
+-            (state/item['path']).unlink()
+-        if not preserve_directory:
+-            for p in sorted(state.rglob('*'),reverse=True):
+-                if p.is_dir(): p.rmdir()
+-            state.rmdir()
+-        write(raw/'pass-state-cleanup.json',json.dumps({'state':str(state),'manifest_sha256':digest(raw/'state-manifest.json'),'assertions':'manifest hashes + guest snapshot + restore roundtrip gate passed'},indent=2)+'\n')
++    def persist_checkpoint_preflight(self, raw):
++        free=shutil.disk_usage(self.root.parent).free
++        # Reserve one GiB for the WAMR dump and one GiB for its independent archive,
++        # plus a MiB margin for socket/thread metadata, while retaining the 3-GiB floor.
++        dump_reserve=MEMORY_BYTES
++        archive_reserve=MEMORY_BYTES+1024**2
++        required=FREE_MIN+dump_reserve+archive_reserve
++        record={'utc':utc(),'free_bytes':free,'minimum_free_bytes':FREE_MIN,
++                'checkpoint_dump_reserve_bytes':dump_reserve,'archive_copy_reserve_bytes':archive_reserve,
++                'required_free_bytes':required,'ready':free>=required}
++        write(raw/'checkpoint-preflight.json',json.dumps(record,indent=2)+'\n')
++        if free<required:
++            raise RuntimeError(f'checkpoint preflight free {free} below dump+archive+3GiB reserve {required}')
++        return record
+ 
+     def phase(self,index,ip,after=None):
+         raw=self.raw/f'phase-{index:02d}'; raw.mkdir(parents=True,exist_ok=False)
+@@ -323,15 +966,20 @@ class Session:
+         proc,pid=self.start_app(name,state_raw,False)
+         pre=self.ready_roundtrips(after=after)
+         write(raw/'pre-roundtrips.json',json.dumps({'ids':pre,'fully_correlated':True,'body_match':True},indent=2)+'\n')
+-        free=shutil.disk_usage(self.root.parent).free
+-        if free<FREE_MIN: raise RuntimeError(f'checkpoint preflight free {free} below 3GiB')
++        guest_observation=self.wait_guest_state_observation(state_raw,pre,expected_ip=ip)
++        # Persist the exact dump+archive+3-GiB reserve immediately before the checkpoint signal.
++        self.persist_checkpoint_preflight(raw)
+         # Recheck app and container ownership immediately before SIGUSR2.
+         if not self.inspect_owned(name): raise RuntimeError('app container ownership vanished')
+         r=docker(['exec',name,'kill','-USR2',str(pid)],15)
+         if r.returncode: raise RuntimeError('SIGUSR2 checkpoint failed: '+r.stderr.strip())
+         proc.wait(timeout=600)
++        self.finish_app_window(proc)
+         if proc.returncode!=0: raise RuntimeError(f'checkpoint iwasm exit status {proc.returncode}; raw payload retained')
+-        manifest=self.state_manifest(state,state_raw)
++        archive_record=self.archive_checkpoint_state(state,state_raw,index)
++        archive_state=Path(archive_record['archive_dir'])
++        manifest=self.state_manifest(archive_state,state_raw,archive_record=archive_record,expected_ip=ip)
++        self.pending_restore_baseline=manifest['trace_counter_image_baseline']
+         boundary=max(pre)
+         # same restore address; changed/repeated alternate source and destination while peer remains untouched.
+         dest_ip=ip
+@@ -343,95 +991,179 @@ class Session:
+         restore_proc,restore_pid=self.start_app(name,restore_raw,True)
+         post=self.ready_roundtrips(after=boundary)
+         write(raw/'post-roundtrips.json',json.dumps({'ids':post,'fully_correlated':True,'body_match':True},indent=2)+'\n')
+-        self.verify_manifest(state,state_raw)
+-        write(raw/'assertions.json',json.dumps({'mode':self.args.mode,'phase':index,'same_lineage_state_restored':True,'pre_ids':pre,'post_ids':post,'unique_ids_after_checkpoint':min(post)>boundary,'guest_state_asserted':True,'checkpoint_memory_bytes':manifest['memory_size'],'application_hashes':self.hashes,'peer_container':self.peer_name,'peer_not_restarted':True},indent=2)+'\n')
+-        # On PASS, release the validated 1 GiB state before the next checkpoint.
+-        # The live restored process remains running; only its consumed dump files are removed.
+-        self.remove_pass_state(state,state_raw,preserve_directory=(self.args.mode=='repeated'))
++        post_guest_observation=self.wait_guest_state_observation(raw,post,log_path=restore_raw/'restore.log',stage='post-restore',expected_ip=dest_ip)
++        self.verify_manifest(archive_state,state_raw)
++        original_ip=guest_observation['current_ip_value']; restored_ip=post_guest_observation['current_ip_value']
++        same_ip=(dest_ip==ip and original_ip==restored_ip)
++        if self.args.mode=='same' and not same_ip:
++            raise RuntimeError(f'SAME case original/restored IP mismatch: {original_ip} != {restored_ip}; payload retained')
++        assertions={'mode':self.args.mode,'phase':index,'same_lineage_state_restored':True,'pre_ids':pre,'post_ids':post,'unique_ids_after_checkpoint':min(post)>boundary,'guest_state_asserted':True,'checkpoint_memory_bytes':manifest['memory_size'],'checkpoint_ip':original_ip,'restore_ip':restored_ip,'same_ip_asserted':same_ip,'application_hashes':self.hashes,'peer_container':self.peer_name,'peer_not_restarted':True}
++        write(raw/'assertions.json',json.dumps(assertions,indent=2)+'\n')
++        self.pass_states.append({'state':str(state.resolve()),'archive_state':str(archive_state.resolve()),
++            'raw':str(state_raw.resolve()),'manifest':str((state_raw/'state-manifest.json').resolve()),
++            'assertions':str((state_raw/'assertions.json').resolve()),'manifest_sha256':digest(state_raw/'state-manifest.json'),
++            'assertions_sha256':digest(state_raw/'assertions.json')})
+         return restore_proc,restore_pid,name,dest_ip,max(post)
+ 
+     def trace_report(self):
+-        with self.lock:
+-            records=[e[1] for e in self.events if e[0]=='trace']
+-            snapshots=[e[1] for e in self.events if e[0]=='trace_metrics']
++        observer=self.raw/'observer'/'trace-observer.log'
++        reasons=[]; windows=[]; all_events=[]; branch_events={}; replays=[]; seen={}
++        if not observer.is_file(): reasons.append('dedicated observer file missing')
++        for window in self.observer_windows:
++            if 'end_offset' not in window:
++                reasons.append(f"{window['window_id']} lacks closed process byte boundary"); continue
++            try:
++                with observer.open('rb') as stream:
++                    stream.seek(window['start_offset']); data=stream.read(window['end_offset']-window['start_offset'])
++            except OSError as exc:
++                reasons.append(f"{window['window_id']} observer read failed: {exc}"); continue
++            parsed=parse_observer_channel(data)
++            reasons.extend(f"{window['window_id']}: {error}" for error in parsed['errors'])
++            starts=[value for kind,value in parsed['records'] if kind=='window_start']
++            if len(starts)!=1: reasons.append(f"{window['window_id']} has {len(starts)} start snapshots")
++            start=starts[0] if starts else None
++            snapshot_keys=('read','next','attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','output_failures','lockfree')
++            if start and not all(isinstance(start.get('addr_'+key),int) for key in snapshot_keys): reasons.append(f"{window['window_id']} start counter addresses are incomplete")
++            if start and start.get('stable')!=1: reasons.append(f"{window['window_id']} start snapshot was unstable")
++            metrics=[row for batch in parsed['batches'] for row in batch['metrics']]
++            final_rows=[row for row in metrics if row.get('edge')=='after']
++            final=final_rows[-1] if final_rows else None
++            if final is None: reasons.append(f"{window['window_id']} lacks final metrics snapshot")
++            elif not all(isinstance(final.get('addr_'+key),int) for key in snapshot_keys): reasons.append(f"{window['window_id']} final counter addresses are incomplete")
++            elif final.get('stable')!=1 and not window.get('image_trace_baseline'):
++                reasons.append(f"{window['window_id']} final scalar snapshot was unstable")
++            expected=window.get('expected_image_baseline')
++            if expected and start:
++                for key,value in expected.get('values',{}).items():
++                    if start.get(key)!=value: reasons.append(f"{window['window_id']} restore baseline {key} differs from saved image")
++                for key,address in expected.get('addresses',{}).items():
++                    if start.get('addr_'+key)!=int(address,16): reasons.append(f"{window['window_id']} restore address {key} differs from saved image")
++            image=window.get('image_trace_baseline')
++            initial=(expected or {}).get('values') if expected else ({k:start.get(k) for k in ('read','next','attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','output_failures','lockfree')} if start else {})
++            terminal=image.get('values') if image else ({k:final.get(k) for k in ('read','next','attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','output_failures','lockfree')} if final else {})
++            if not start: reasons.append(f"{window['window_id']} lacks actual baseline")
++            events=[event for batch in parsed['batches'] for event in batch['events']]
++            all_events.extend(events); branch_events[window['window_id']]=[]
++            pending=set(); owner=(expected or {}).get('window_id')
++            if expected:
++                read=expected['values'].get('read',0); next_seq=expected['values'].get('next',0)
++                outstanding=(next_seq-read)&0xffffffff
++                if outstanding>256: reasons.append(f"{window['window_id']} restored queue length exceeds capacity")
++                else: pending={(read+i)&0xffffffff for i in range(outstanding)}
++            expected_seq=initial.get('next') if initial else None
++            local_replays=[]
++            for event in events:
++                signature=tuple(event[k] for k in ('seq','kind','result','current_ip','applied_ip','detail','aux','thread_id'))
++                prior=seen.get(event['seq'])
++                if event['seq'] in pending:
++                    if prior and prior!=signature: reasons.append(f"{window['window_id']} replay event {event['seq']} differs from prior bytes")
++                    if owner in branch_events: branch_events[owner].append(event)
++                    else: reasons.append(f"{window['window_id']} pending event {event['seq']} has no image owner")
++                    local_replays.append({'seq':event['seq'],'kind':'checkpoint-pending-tail','owner':owner}); replays.append(local_replays[-1]); continue
++                if prior is not None:
++                    if prior!=signature: reasons.append(f"{window['window_id']} duplicate seq {event['seq']} differs")
++                    else:
++                        local_replays.append({'seq':event['seq'],'kind':'exact-replay','owner':'prior-process-window'}); replays.append(local_replays[-1]); continue
++                if expected_seq is not None and event['seq']!=expected_seq:
++                    reasons.append(f"{window['window_id']} sequence gap: expected {expected_seq}, got {event['seq']}")
++                expected_seq=(event['seq']+1)&0xffffffff; seen[event['seq']]=signature
++                branch_events[window['window_id']].append(event)
++            if image:
++                read=image['values'].get('read',0); next_seq=image['values'].get('next',0)
++                outstanding=(next_seq-read)&0xffffffff
++                if outstanding>256: reasons.append(f"{window['window_id']} image ring queue exceeds capacity")
++                window_pending=[(read+i)&0xffffffff for i in range(min(outstanding,256))]
++            else:
++                outstanding=((terminal.get('next',0)-terminal.get('read',0))&0xffffffff) if terminal else 0
++                window_pending=[]
++                if outstanding: reasons.append(f"{window['window_id']} ended with {outstanding} undrained ring events")
++            deltas={k:((terminal[k]-initial[k])&0xffffffff) for k in ('attempts','winners','busy','failed','outcomes','probe_completions','lost','output_failures') if k in terminal and k in initial}
++            windows.append({'window_id':window['window_id'],'lineage_id':window.get('lineage_id'),'role':window['role'],
++                'phase':window.get('phase'),'container':window.get('container'),'app_hash':window.get('app_hash'),
++                'pid':window['pid'],'pid_start_ticks':window['pid_start_ticks'],
++                'process_args':window.get('process_args'),'byte_offsets':[window['start_offset'],window['end_offset']],
++                'initial_snapshot':initial,'final_snapshot':terminal,'counter_deltas':deltas,
++                'raw_events':len(events),'replays':local_replays,'pending_sequences':window_pending,
++                'pending_count':outstanding,'batches':len(parsed['batches']),
++                'initial_addresses':(expected or {}).get('addresses') or ({k:f"0x{start.get('addr_'+k,0):08x}" for k in ('read','next','attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','output_failures','lockfree')} if start else {}),
++                'final_addresses':(image or {}).get('addresses') or ({k:f"0x{final.get('addr_'+k,0):08x}" for k in ('read','next','attempts','winners','busy','failed','outcomes','probe_completions','active','max_active','lost','output_failures','lockfree')} if final else {}),
++                'pending_batch_ids':[b['begin'].get('batch') for b in parsed['batches'] if b.get('counter_state')=='pending'],
++                'pending_batch_resolution':'pending','image_baseline':image})
++        for window in windows:
++            events=branch_events.get(window['window_id'],[]); delta=window['counter_deltas']; final=window['final_snapshot']
++            kinds=defaultdict(int)
++            for event in events: kinds[event['kind']]+=1
++            checks={'attempts':kinds[2],'outcomes':kinds[3],
++                'winners':sum(e['kind']==3 and e['result'] not in (1,2) for e in events),
++                'busy':sum(e['kind']==3 and e['result']==1 for e in events),
++                'failed':sum(e['kind']==3 and e['result']==2 for e in events),
++                'probe_completions':kinds[5]}
++            consistent=True
++            for key,value in checks.items():
++                if delta.get(key)!=value:
++                    consistent=False; reasons.append(f"{window['window_id']} {key} counter delta {delta.get(key)} != attributed events {value}")
++            if consistent and window['pending_count']==0:
++                window['pending_batch_resolution']='closed by actual process/image initial/final scalar deltas'
++            elif consistent and window['image_baseline']:
++                window['pending_batch_resolution']='checkpoint counter delta exact; saved-image ring tail attributed on restore'
++            else: window['pending_batch_resolution']='unresolved; telemetry NOT PASS'
++            if kinds[4]!=kinds[5]: reasons.append(f"{window['window_id']} probe entry/exit imbalance")
++            if delta.get('outcomes')!=delta.get('winners',0)+delta.get('busy',0)+delta.get('failed',0): reasons.append(f"{window['window_id']} outcome counter partition mismatch")
++            if delta.get('lost',0)!=0 or delta.get('output_failures',0)!=0: reasons.append(f"{window['window_id']} loss or observer write failure")
++            if final.get('lockfree')!=1: reasons.append(f"{window['window_id']} atomics not lockfree")
++            if final.get('max_active',0)>1: reasons.append(f"{window['window_id']} measured overlap exceeds one")
++            if final.get('active')!=0: reasons.append(f"{window['window_id']} has active probe at end")
++        unique=[event for events in branch_events.values() for event in events]
+         counts=defaultdict(int)
+-        for e in records:
+-            counts[f"kind_{TRACE_KINDS.get(e['kind'],'unknown')}"]+=1
+-            counts[f"result_{TRACE_RESULTS.get(e['result'],'unknown')}"]+=1
+-        outcomes=[e for e in records if e['kind']==3]
+-        sequential_duplicates=sum(1 for a,b in zip(outcomes,outcomes[1:])
+-            if a['current_ip']==b['current_ip'] and a['applied_ip']==b['applied_ip'] and a['result']==b['result'])
+-        metrics=snapshots[-1] if snapshots else None
+-        seqs=[e['seq'] for e in records]
+-        sequence_gaps=bool(seqs and any(b != a+1 for a,b in zip(seqs,seqs[1:])))
+-        eintr=sum(e['kind']==1 for e in records)
+-        probe_in=sum(e['kind']==4 for e in records); probe_out=sum(e['kind']==5 for e in records)
+-        failed=any(e['kind']==9 or (e['kind']==3 and e['result']==2) for e in records)
+-        applied_events=[e for e in records if e['kind']==11]
+-        final_applied=applied_events[-1] if applied_events else None
+-        reasons=[]
+-        if not records or eintr==0: reasons.append('missing EINTR/event telemetry')
+-        if metrics is None: reasons.append('missing observer metrics/loss counters')
+-        elif metrics['lost'] != 0: reasons.append('observer loss/overflow nonzero')
+-        if metrics and metrics['lockfree'] != 1: reasons.append('observer atomics not lockfree')
+-        if metrics and metrics['max_active'] > 1: reasons.append('measured probe overlap max_active > 1')
+-        if metrics and metrics['active'] != 0: reasons.append('probe interval left active')
+-        if metrics and (metrics['attempts'] != metrics['outcomes'] or
+-                        metrics['outcomes'] != metrics['winners']+metrics['busy']+metrics['failed']):
+-            reasons.append('trylock counter inconsistency')
+-        if metrics and metrics['probe_completions'] != probe_out: reasons.append('probe completion counter mismatch')
+-        if probe_in != probe_out or (metrics and metrics['probe_completions'] != probe_in):
+-            reasons.append('probe boundary imbalance')
+-        if sequence_gaps: reasons.append('trace sequence gap')
+-        if failed: reasons.append('projection preparation/refresh failure observed')
+-        return {'schema':TRACE_SCHEMA,'event_count':len(records),'counts':dict(sorted(counts.items())),
+-            'eintr_count':eintr,'probe_attempts':sum(e['kind']==2 for e in records),
+-            'trylock_outcomes':len(outcomes),'busy':sum(e['kind']==3 and e['result']==1 for e in records),
+-            'failed':sum(e['kind']==3 and e['result']==2 for e in records),
+-            'unchanged':sum(e['kind']==3 and e['result']==3 for e in records),
+-            'changed':sum(e['kind']==3 and e['result']==4 for e in records),
+-            'probe_enter':probe_in,'probe_exit':probe_out,'probe_overlap_max_active':metrics['max_active'] if metrics else None,
+-            'probe_completions':metrics['probe_completions'] if metrics else None,
+-            'sequential_duplicate_outcomes':sequential_duplicates,
+-            'current_events':sum(e['kind']==6 for e in records),'applied_events':sum(e['kind']==7 for e in records),
+-            'current_applied_observations':[{'kind':TRACE_KINDS.get(e['kind']),'current_ip':e['current_ip'],
+-                'applied_ip':e['applied_ip'],'thread_id':e['thread_id']} for e in records if e['kind'] in (6,7,11,12)],
+-            'final_applied_convergence':None if final_applied is None else {
+-                'current_ip':final_applied['current_ip'],'applied_ip':final_applied['applied_ip'],
+-                'converged':final_applied['current_ip']==final_applied['applied_ip']},
+-            'prepare_begin':sum(e['kind']==8 for e in records),'prepare_fail':sum(e['kind']==9 for e in records),
+-            'commit':sum(e['kind']==10 for e in records),'applied_last':sum(e['kind']==11 for e in records),
+-            'retry':sum(e['kind']==13 for e in records),'observer_metrics':metrics,
+-            'overflow':None if metrics is None else metrics['lost'],'sequence_gap':sequence_gaps,
+-            'telemetry_status':'READY' if not reasons else 'NOT PASS','not_pass_reasons':reasons,
+-            'records':records}
++        for event in unique:
++            counts[f"kind_{TRACE_KINDS.get(event['kind'],'unknown')}"]+=1
++            counts[f"result_{TRACE_RESULTS.get(event['result'],'unknown')}"]+=1
++        eintr=sum(event['kind']==1 for event in unique)
++        if any(event['kind']==9 or (event['kind']==3 and event['result']==2) for event in unique):
++            reasons.append('projection preparation/refresh failure observed')
++        if eintr==0: reasons.append('missing EINTR event telemetry')
++        if len(unique)<10: reasons.append('trace event count below required smoke coverage')
++        if not windows: reasons.append('no complete process telemetry windows')
++        applied=next((event for event in reversed(unique) if event['kind']==11),None)
++        convergence=bool(applied and applied['current_ip']==applied['applied_ip'])
++        if not convergence: reasons.append('no final current/applied convergence event')
++        reasons=list(dict.fromkeys(reasons))
++        return {'schema':TRACE_SCHEMA,'observer_file':str(observer.resolve()),'output_channel':'validated append-only shared observer FD','stdout_trace_fallback':False,
++            'event_count':len(unique),'raw_event_count':len(all_events),'counts':dict(counts),'eintr_count':eintr,
++            'replay_count':len(replays),'replays':replays,'windows':windows,'sequence_gap':any('sequence gap' in r for r in reasons),
++            'overflow':sum(w['counter_deltas'].get('lost',0) for w in windows),
++            'guest_state_output_failures':sum(w['counter_deltas'].get('output_failures',0) for w in windows),
++            'final_applied_convergence':None if applied is None else {'current_ip':applied['current_ip'],'applied_ip':applied['applied_ip'],'converged':convergence},
++            'telemetry_status':'READY' if not reasons else 'NOT PASS','not_pass_reasons':reasons,'records':unique}
+ 
+     def persist_trace_report(self):
+         report=self.trace_report()
+-        write(self.root/'trace-report.json',json.dumps(report,indent=2)+'\\n')
++        write(self.root/'trace-report.json',json.dumps(report,indent=2)+'\n')
+         return report
+ 
+     def run(self):
+         self.root.mkdir(parents=True,exist_ok=False); self.raw.mkdir(); self.states.mkdir()
+-        write(self.root/'inputs.json',json.dumps({'session_id':self.sid,'mode':self.args.mode,'app':str(self.args.app),'runtime':str(self.args.runtime),'peer':str(self.args.peer),'hashes':self.hashes,'trace_app':str(self.args.trace_app.resolve()),'trace_manifest':str(self.args.trace_manifest.resolve()),'trace_schema':TRACE_SCHEMA,'telemetry_status':'awaiting runtime events and zero-loss/max_active readiness; NOT PASS'},indent=2)+'\n')
++        (self.raw/'observer').mkdir(parents=True,exist_ok=True)
++        write(self.root/'inputs.json',json.dumps({'session_id':self.sid,'mode':self.args.mode,'app':str(self.args.app),'runtime':str(self.args.runtime),'peer':str(self.args.peer),'hashes':self.hashes,'trace_app':str(self.args.trace_app.resolve()) if self.args.trace_app else None,'trace_manifest':str(self.args.trace_manifest.resolve()) if self.args.trace_manifest else None,'trace_schema':TRACE_SCHEMA if self.args.trace_app else None,'trace_observer_file':str((self.raw/'observer'/'trace-observer.log').resolve()) if self.args.trace_app else None,'telemetry_status':'awaiting runtime events and zero-loss/max_active readiness; NOT PASS' if self.args.trace_app else 'not instrumented; normal no-C/R control only'},indent=2)+'\n')
+         setup=self.preflight()
+         setup.update({'artifacts':{'app':str(self.args.app.resolve()),'runtime':str(self.args.runtime.resolve()),
+             'peer':str(self.args.peer.resolve()),'trace_manifest':str(self.args.trace_manifest.resolve()) if self.args.trace_manifest else None},
+             'artifact_hashes':self.hashes,'trace_schema':TRACE_SCHEMA,
+             'commands':{'runtime':['/runtime/iwasm','--addr-pool=0.0.0.0/0','--max-threads=32','-v=5'],
+-                'peer':['/native-peer'],'observer_dump':'RTPS_TRACE seq=... parsed from native runtime stdout'},
++                'peer':['/native-peer'],'observer_dump':'/observer/trace-observer.log validated shared append FD; stdout is never a telemetry source'},
+             'disk_readiness':{'free_bytes':setup['free_bytes'],'minimum_per_checkpoint_bytes':FREE_MIN,
+                 'ready':setup['free_bytes'] >= FREE_MIN}})
+         write(self.root/'setup.json',json.dumps(setup,indent=2)+'\n')
+         self.create_peer()
+         if self.args.mode=='no-cr':
+-            name,raw,_state=self.create_app_container('172.18.0.3','no-cr')
++            name,raw,_state=self.create_app_container(self.args.no_cr_ip,'no-cr')
+             proc,pid=self.start_app(name,raw,False)
+             ids=self.ready_roundtrips()
+             write(raw/'roundtrips.json',json.dumps({'ids':ids,'fully_correlated':True,'body_match':True},indent=2)+'\n')
+             self.stop_app_process(name,pid,False)
+-            trace_report=self.persist_trace_report()
+-            write(self.root/'result.json',json.dumps({'status':'NO-CR communication smoke only','checkpoint_count':0,'ids':ids,'telemetry':trace_report['telemetry_status']},indent=2)+'\n')
++            proc.wait(timeout=30); self.finish_app_window(proc)
++            trace_report=self.persist_trace_report() if self.args.trace_app else None
++            write(self.root/'result.json',json.dumps({'status':'NO-CR communication smoke only','checkpoint_count':0,'ids':ids,'fully_correlated':len(ids)>=10,'body_match':len(ids)>=10,'controlCasePassed':bool(self.args.normal_no_cr_control and len(ids)>=10),'actualCasePassed':False,'normal_app_control':bool(self.args.normal_no_cr_control),'telemetry':trace_report['telemetry_status'] if trace_report else 'not instrumented (normal control)'},indent=2)+'\n')
+             return
+         initial_ip='172.18.0.3'
+         proc,pid,app,ip,boundary=self.phase(1,initial_ip)
+@@ -442,36 +1174,135 @@ class Session:
+             # Continue the exact restored iwasm PID/container lineage, checkpoint it again.
+             raw=self.raw/f'phase-{count:02d}'; raw.mkdir(parents=True,exist_ok=False)
+             pre=self.ready_roundtrips(after=boundary)
+-            free=shutil.disk_usage(self.root.parent).free
+-            if free<FREE_MIN: raise RuntimeError(f'checkpoint preflight free {free} below 3GiB')
++            active_log=self.raw/'phase-01'/'restore.log'
++            self.wait_guest_state_observation(raw,pre,log_path=active_log,expected_ip=ip)
++            self.write_checkpoint_archive_integrity(raw,'before-successor-checkpoint',count-1)
++            self.persist_checkpoint_preflight(raw)
+             r=docker(['exec',app,'kill','-USR2',str(pid)],15)
+             if r.returncode: raise RuntimeError('repeat SIGUSR2 failed: '+r.stderr.strip())
+-            proc.wait(timeout=600)
+-            # Reuse the exact bind-mounted directory belonging to this restored app.
++            proc.wait(timeout=600); self.finish_app_window(proc)
++            # Keep the mutable /state mount for WAMR restore, but archive this dump
++            # outside it before any future checkpoint can overwrite those files.
+             state=self.states/'phase-01'; state_raw=raw
+-            # State directory mounted into app as /state only for first checkpoint; repeated dump writes there.
+-            # Record its complete exact-size image hashes and guest assertion before restore.
+-            manifest=self.state_manifest(state,raw)
++            archive_record=self.archive_checkpoint_state(state,raw,count)
++            archive_state=Path(archive_record['archive_dir'])
++            manifest=self.state_manifest(archive_state,raw,observation_log=active_log,archive_record=archive_record,expected_ip=ip)
++            self.pending_restore_baseline=manifest['trace_counter_image_baseline']
+             restore_proc,restore_pid=self.start_app(app,raw,True)
+             post=self.ready_roundtrips(after=max(pre))
+-            self.verify_manifest(state,raw)
+-            write(raw/'assertions.json',json.dumps({'same_restored_lineage':True,'phase':count,'pre_ids':pre,'post_ids':post,'guest_state_asserted':True,'peer_not_restarted':True},indent=2)+'\n')
+-            self.remove_pass_state(state,raw,preserve_directory=True)
++            self.wait_guest_state_observation(raw,post,log_path=active_log,stage='post-restore',expected_ip=ip)
++            self.verify_manifest(archive_state,raw)
++            self.write_checkpoint_archive_integrity(raw,'after-successor-restore',count)
++            assertions={'same_restored_lineage':True,'phase':count,'pre_ids':pre,'post_ids':post,'guest_state_asserted':True,'peer_not_restarted':True}
++            write(raw/'assertions.json',json.dumps(assertions,indent=2)+'\n')
++            self.pass_states.append({'state':str(state.resolve()),'archive_state':str(archive_state.resolve()),
++                'raw':str(raw.resolve()),'manifest':str((raw/'state-manifest.json').resolve()),
++                'assertions':str((raw/'assertions.json').resolve()),'manifest_sha256':digest(raw/'state-manifest.json'),
++                'assertions_sha256':digest(raw/'assertions.json')})
+             proc,pid=restore_proc,restore_pid; boundary=max(post)
+         # Retain a running restored app only until all assertions complete; terminate only owned process/container.
+         self.stop_app_process(app,pid,True)
++        proc.wait(timeout=30); self.finish_app_window(proc)
+         trace_report=self.persist_trace_report()
+-        campaign_status='T12 NOT PASS; '+trace_report['telemetry_status']
+-        write(self.root/'result.json',json.dumps({'status':campaign_status,'runner_assertions':'PASS; named mode only','mode':self.args.mode,'checkpoint_count':count,'peer_restarts':0,'telemetry':trace_report['telemetry_status'],'application_hashes':self.hashes},indent=2)+'\n')
++        expected_count=2 if self.args.mode=='repeated' else 1
++        assertions_persisted=(len(self.pass_states)>=expected_count and all(
++            Path(item['manifest']).is_file() and Path(item['assertions']).is_file() and
++            digest(Path(item['manifest']))==item['manifest_sha256'] and
++            digest(Path(item['assertions']))==item['assertions_sha256'] for item in self.pass_states[-expected_count:]))
++        same_ip_asserted=(self.args.mode!='same' or all(
++            json.loads(Path(item['assertions']).read_text()).get('same_ip_asserted') is True and
++            json.loads(Path(item['assertions']).read_text()).get('checkpoint_ip')==json.loads(Path(item['assertions']).read_text()).get('restore_ip')
++            for item in self.pass_states[-expected_count:]))
++        self.finalize_campaign_verdict(trace_report,count,expected_count,assertions_persisted,same_ip_asserted)
++
++    def finalize_campaign_verdict(self,trace_report,count,expected_count,assertions_persisted,same_ip_asserted):
++        retention=self.validate_checkpoint_archives(expected_count)
++        write(self.root/'checkpoint-retention.json',json.dumps(retention,indent=2)+'\n')
++        gates=(trace_report['telemetry_status']=='READY' and count==expected_count and assertions_persisted
++               and same_ip_asserted and retention['valid'])
++        self.final_pass=bool(gates)
++        reasons=list(retention['reasons'])
++        if trace_report['telemetry_status']!='READY': reasons.append('telemetry is not READY')
++        if count!=expected_count: reasons.append(f'checkpoint count {count} != required {expected_count}')
++        if not assertions_persisted: reasons.append('phase assertions/manifests are not persisted and hash-stable')
++        if not same_ip_asserted: reasons.append('same-IP invariant failed')
++        campaign_status='PASS' if self.final_pass else 'T12 NOT PASS; '+('; '.join(reasons) or trace_report['telemetry_status'])
++        mode=self.args.mode
++        result={'status':campaign_status,'runner_assertions':'PASS; named mode only',
++            'actualCasePassed':bool(mode in ('same','changed','repeated') and self.final_pass),
++            'controlCasePassed':False,'mode':mode,'checkpoint_count':count,'peer_restarts':0,
++            'telemetry':trace_report['telemetry_status'],'all_phase_assertions_persisted':assertions_persisted,
++            'checkpoint_retention':retention,'pass_states':self.pass_states,'application_hashes':self.hashes}
++        self.persist_campaign_verdict(result)
++        return result
++
++    def persist_campaign_verdict(self,result):
++        write(self.root/'result.json',json.dumps(result,indent=2)+'\n')
++        if not self.final_pass:
++            trace=json.loads((self.root/'trace-report.json').read_text()) if (self.root/'trace-report.json').is_file() else {}
++            write(self.root/'failure.json',json.dumps({'status':result.get('status'),'reason':'campaign verdict did not pass every gate',
++                'telemetry_status':trace.get('telemetry_status'),'telemetry_not_pass_reasons':trace.get('not_pass_reasons',[]),
++                'payloads_retained':True,'pass_assertions_so_far':self.pass_states},indent=2)+'\n')
++        self.cleanup_pass_state_files()
++
++    def cleanup_pass_state_files(self):
++        if not getattr(self.args,'cleanup_pass_state',False) or not self.final_pass: return
++        result_path=self.root/'result.json'; trace_path=self.root/'trace-report.json'
++        if not result_path.is_file() or not trace_path.is_file(): return
++        result=json.loads(result_path.read_text()); trace=json.loads(trace_path.read_text())
++        if result.get('status')!='PASS' or trace.get('telemetry_status')!='READY': return
++        items=[]
++        item_paths=set()
++        cleanup_dirs=set()
++        for item in self.pass_states:
++            state=Path(item['state']).resolve(); archive_value=item.get('archive_state')
++            archive=Path(archive_value if archive_value else state).resolve()
++            manifest=Path(item['manifest']).resolve(); assertions=Path(item['assertions']).resolve()
++            if state.parent!=self.states.resolve() or not state.is_dir(): raise RuntimeError('refusing cleanup outside session-owned state path')
++            archive_root=(self.root/'checkpoint-images').resolve()
++            if archive_value and (archive_root not in archive.parents or not archive.is_dir()):
++                raise RuntimeError('refusing cleanup outside immutable checkpoint archive root')
++            if not archive_value and archive!=state:
++                raise RuntimeError('legacy cleanup state/archive mismatch')
++            if digest(manifest)!=item['manifest_sha256'] or digest(assertions)!=item['assertions_sha256']:
++                raise RuntimeError('assertion/manifest changed before pass cleanup')
++            self.verify_manifest(archive,Path(item['raw']))
++            cleanup_dirs.update((state,archive))
++            for directory in (state,archive):
++                for path in sorted(directory.rglob('*')):
++                    if path.is_symlink(): raise RuntimeError('refusing cleanup of symlinked state path')
++                    resolved=str(path.resolve())
++                    if path.is_file() and resolved not in item_paths:
++                        items.append({'path':resolved,'sha256':digest(path),'size':path.stat().st_size})
++                        item_paths.add(resolved)
++        cleanup_manifest={'campaign_result_sha256':digest(result_path),'trace_report_sha256':digest(trace_path),
++            'assertions_and_manifests':[{'assertions':x['assertions'],'assertions_sha256':x['assertions_sha256'],
++                'manifest':x['manifest'],'manifest_sha256':x['manifest_sha256']} for x in self.pass_states],
++            'owned_paths':items}
++        manifest_path=self.root/'pass-cleanup-manifest.json'
++        write(manifest_path,json.dumps(cleanup_manifest,indent=2)+'\n')
++        for path in (result_path,trace_path):
++            if digest(path)!=cleanup_manifest['campaign_result_sha256' if path==result_path else 'trace_report_sha256']:
++                raise RuntimeError('verdict artifacts changed after cleanup manifest persistence')
++        for item in items:
++            path=Path(item['path'])
++            if not path.is_file() or digest(path)!=item['sha256']: raise RuntimeError('owned state changed before cleanup')
++        for item in items: Path(item['path']).unlink()
++        for state in sorted(cleanup_dirs,reverse=True):
++            if state.exists():
++                for directory in sorted((p for p in state.rglob('*') if p.is_dir()),reverse=True): directory.rmdir()
++                state.rmdir()
++        write(self.root/'pass-state-cleanup.json',json.dumps({'manifest':str(manifest_path),'manifest_sha256':digest(manifest_path),'removed_paths':items},indent=2)+'\n')
+ 
+     def cleanup(self,keep_state):
+-        # Failed payloads may have been written into an owned container working tree;
+-        # preserve all owned containers until their files are captured and audited.
+-        if keep_state:
+-            write(self.root/'state-kept.txt','Failure/interrupt payload retained; owned containers preserved for artifact capture.\n')
++        for proc in self.tail_procs:
++            if proc.poll() is None: proc.terminate()
++        if keep_state or not self.final_pass or not getattr(self.args,'cleanup_owned_containers',False):
++            if keep_state or not self.final_pass:
++                write(self.root/'state-kept.txt','NOT PASS or interrupted; checkpoint payloads and owned containers preserved for artifact capture.\n')
+             return
+-        # Container removal is limited to names created by this session and label-verified before action.
+         for name in reversed(self.names):
++            if self.args.keep_peer and name==self.peer_name: continue
+             try: self.stop_owned(name)
+             except Exception as e: write(self.root/'cleanup-error.txt',f'{name}: {e}\n')
+ 
+@@ -482,6 +1313,13 @@ def parse_args(argv=None):
+     p.add_argument('--mode',choices=('same','changed','repeated','no-cr'),default='same')
+     p.add_argument('--output',type=Path,default=Path(__file__).resolve().parent/'runs')
+     p.add_argument('--trace-app',type=Path); p.add_argument('--trace-manifest',type=Path)
++    p.add_argument('--normal-no-cr-control',action='store_true',help='allow an uninstrumented normal-app no-C/R control only')
++    p.add_argument('--no-cr-ip',choices=('172.18.0.3','172.18.0.6'),default='172.18.0.6',help='owned address for the no-C/R control; same/changed campaign addresses are fixed separately')
++    p.add_argument('--keep-peer',action='store_true',help='keep the owned native peer container and publish a reusable session record')
++    p.add_argument('--cleanup-pass-state',action='store_true',help='remove owned checkpoint files only after persisted full campaign PASS and assertion/path hash manifest')
++    p.add_argument('--cleanup-owned-containers',action='store_true',help='remove session-owned containers only after persisted full campaign PASS')
++    p.add_argument('--peer-session-file',type=Path,help='write reusable peer identity/log metadata at this path')
++    p.add_argument('--reuse-peer-session',type=Path,help='reuse a live peer from a prior --peer-session-file record')
+     p.add_argument('--dry-run',action='store_true',help='validate artifact identity and print exact campaign plan; no Docker calls')
+     return p.parse_args(argv)
+ 
+@@ -494,8 +1332,11 @@ def main(argv=None):
+     pinned={k:actual[k] for k in ('app','runtime','peer')}
+     wrong={k:(pinned[k],HASHES[k]) for k in pinned if pinned[k]!=HASHES[k]}
+     if wrong: raise SystemExit(f'artifact hash mismatch against T11 default pins: {wrong}')
+-    trace_status=''
+-    if not args.trace_app or not args.trace_manifest or not args.trace_app.is_file() or not args.trace_manifest.is_file():
++    normal_control=args.mode=='no-cr' and args.normal_no_cr_control
++    if args.normal_no_cr_control and args.mode!='no-cr':
++        raise SystemExit('--normal-no-cr-control is valid only with --mode no-cr')
++    trace_status='normal app, new runtime, no-C/R communication control; trace instrumentation not applicable' if normal_control else ''
++    if not normal_control and (not args.trace_app or not args.trace_manifest or not args.trace_app.is_file() or not args.trace_manifest.is_file()):
+         raise SystemExit('T12 execution requires --trace-app and --trace-manifest; uninstrumented fallback is forbidden')
+     if args.trace_app or args.trace_manifest:
+         try: tm=json.loads(args.trace_manifest.read_text())
+@@ -507,12 +1348,19 @@ def main(argv=None):
+         if tm.get('sysroot_mutated') is not False or tm.get('normal_artifacts_mutated') is not False:
+             raise SystemExit('trace derivative manifest does not attest read-only normal artifacts/sysroot')
+         telemetry=tm.get('trace_telemetry',{})
+-        if telemetry.get('schema')!='traceoverlay_event-v2' or telemetry.get('thread_id_printed') is not True or 'max_active' not in telemetry.get('metrics_printed',[]) or 'lost' not in telemetry.get('metrics_printed',[]):
+-            raise SystemExit('trace derivative does not attest full event/thread/loss/overlap telemetry')
++        if (telemetry.get('schema')!='traceoverlay_event-v2' or telemetry.get('thread_id_printed') is not True or
++            'max_active' not in telemetry.get('metrics_printed',[]) or 'lost' not in telemetry.get('metrics_printed',[]) or
++            telemetry.get('output_channel')!='/observer/trace-observer.log' or telemetry.get('stdout_fallback') is not False or
++            telemetry.get('batch_schema')!='explicit begin/end; actual counter snapshots and addresses'):
++            raise SystemExit('trace derivative does not attest bounded shared observer telemetry')
++        observer=tm.get('guest_state_observer',{})
++        if (observer.get('schema')!='guest-state-v1' or '/observer/trace-observer.log' not in observer.get('capture','') or
++            'shared output mutex' not in observer.get('capture','') or 'write errors counted' not in observer.get('capture','')):
++            raise SystemExit('trace derivative does not attest shared guest/trace observer output')
+         paths['app']=args.trace_app
+         args.app=args.trace_app
+         trace_status='private derivative manifest/path/hash validated; telemetry still must satisfy runtime readiness'
+-    plan={'mode':args.mode,'artifacts':sha_record(paths),'trace_status':trace_status,'checkpoint_count':0 if args.mode=='no-cr' else (2 if args.mode=='repeated' else 1),'peer_policy':'one owned peer container; no restart across campaign phases','disk_preflight':'>=3 GiB before every checkpoint','roundtrip_gate':'>=10 contiguous fully ID/body-correlated peer receive/echo + Wasm publish/callback tuples before and after each checkpoint','telemetry':'observer metrics/loss/overlap parser required; runtime telemetry unobserved; NOT T12 PASS'}
++    plan={'mode':args.mode,'no_cr_ip':args.no_cr_ip if args.mode=='no-cr' else None,'artifacts':sha_record(paths),'trace_status':trace_status,'checkpoint_count':0 if args.mode=='no-cr' else (2 if args.mode=='repeated' else 1),'peer_policy':'one owned peer container; no restart across campaign phases','disk_preflight':'>=3 GiB before every checkpoint','roundtrip_gate':'>=10 contiguous fully ID/body-correlated peer receive/echo + Wasm publish/callback tuples before and after each checkpoint','telemetry':'observer metrics/loss/overlap parser required; runtime telemetry unobserved; NOT T12 PASS'}
+     if args.dry_run:
+         print(json.dumps(plan,indent=2)); return 0
+     sess=Session(args); success=False
+diff --git a/validation/campaign/setup.json b/validation/campaign/setup.json
+index ab3d4933..7cff9818 100644
+--- a/validation/campaign/setup.json
++++ b/validation/campaign/setup.json
+@@ -1,5 +1,5 @@
+ {
+-  "status": "runner-implemented-safe-trace-derivative-setup-only-no-communication-pass",
++  "status": "trace-channel-v7 observer-newline fix built and real WASI output regression passed; prior v6 checkpoint campaign failed and remains preserved; no T12 PASS",
+   "provenance": {
+     "copied_from": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/campaign/setup.json",
+     "source_sha256": "e9e4d782c26b0eafbe2916a67590805f3863d9e21d28558841dd0332ce341150",
+@@ -25,10 +25,35 @@
+         "sha256": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+       },
+       "trace_overlay": {
++        "path": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm",
++        "sha256": "13662f7ac3ac13a62d09e1b75236fe4ea347712948884b08a59c89156088044a",
++        "manifest": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/guest-state-v1-logs/manifest.json",
++        "manifest_sha256": "533788061dbe3440b7a54d0f651098164cc5087573c38d76f83d8205195c245f",
++        "status": "actual MODULE_echoback_string build passed",
++        "tag": "guest-state-v1",
++        "link_map": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/MODULE_echoback_string.map",
++        "link_map_sha256": "aef0d302bdc4a6fc8391fcfe625f309d67ee34b40e5f7c17235ee535eaf8d6bf",
++        "observer_link_occurrences": 1
++      },
++      "prior_trace_overlay_evidence": {
+         "path": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
+         "sha256": "a6d974aa7d7f194c0b4c9d3cc023f46c34d24ed87ed93773b28f2080f24dc4a6",
+         "manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
+         "manifest_sha256": "8e7d01da6ce05525990952b471f71727858a455dd7cb4836c5abad9a718ce9d9"
++      },
++      "normal_three_apps": {
++        "echoback_string": {
++          "path": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
++          "sha256": "b9b01ebf0523048e3af1ca07655c010a72ed364d7eacee05c61277058f09e9d9"
++        },
++        "service_test_add_two_int": {
++          "path": "/tmp/locks-native-T11-20261002/build-service_test_add_two_int/service_test_add_two_int.wasm",
++          "sha256": "919f0a90d3efe8d6777c78cfec5e911ea244dc16e5e3ffcb02a622b4fa8e2d49"
++        },
++        "service_server_add_two_int": {
++          "path": "/tmp/locks-native-T11-20261002/build-service_server_add_two_int/service_server_add_two_int.wasm",
++          "sha256": "524f56383315e1b27cf5e3a2bbcaebd6124d33305ec50333fe90d0f392961bd2"
++        }
+       }
+     },
+     "source_run_ownership": {
+@@ -48,7 +73,7 @@
+   },
+   "runner": {
+     "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/campaign/run.py",
+-    "sha256": "0eee4fde5dca42ccaa806f0f196a6e88aba30cf47eeeff26af96f176788ec3e4",
++    "sha256": "13e166e6e36064e128e37151a062d7bc706dfb006e057137d795f44c29fe7e62",
+     "modes": [
+       "same",
+       "changed",
+@@ -58,12 +83,17 @@
+     "default_artifacts": "T11 normal app/runtime/peer SHA256 pins",
+     "peer_policy": "one session-owned continuous native peer container; unique label and ownership file; never signals an unowned peer",
+     "raw_failure_policy": "unique run directory retained; failed checkpoint state never deleted",
+-    "pass_cleanup_policy": "owned state only; regular non-symlink files only; exact 1GiB image + SHA manifest + guest-memory snapshots + complete pre/post ID/body roundtrip assertions checked before deletion",
++    "pass_cleanup_policy": "default disabled; explicit state/container cleanup requires full persisted PASS and hash manifest of assertions and exact owned paths",
+     "trace": {
+-      "capture": "native runtime stdout RTPS_TRACE records with actual thread id and detail/aux (including EINTR fd) plus RTPS_TRACE_METRICS",
++      "capture": "RTPS_TRACE and RTPS_TRACE_METRICS plus guest-state JSON share /observer/trace-observer.log, one validated append FD/output mutex; no stdout fallback",
+       "manifest_required": true,
+-      "schema": "traceoverlay_event-v2;seq:u32,kind:u16,result:u16,current_ip:u32,applied_ip:u32,detail:u32,aux:u32,thread_id:u64; metrics attempts,winners,busy,failed,outcomes,probe_completions,active,max_active,lost,lockfree",
+-      "readiness": "nonzero lost, lockfree !=1, max_active >1, active !=0, counter mismatch, sequence gaps, or missing EINTR rejects readiness",
++      "schema": "traceoverlay_event-v2; process-window/batch delimiters, event sequence/byte boundaries, actual stable counter snapshots and WASM32 addresses, counter-image baseline, explicit replay/pending-tail attribution",
++      "readiness": "counter/event deltas only reconcile from stable closed process/image windows; nonzero loss, non-lockfree atomics, overlap >1, unclosed pending events, counter mismatch, sequence gap, missing EINTR or convergence rejects readiness",
++      "output_channel": "/observer/trace-observer.log",
++      "stdout_fallback": false,
++      "window_identity": "collector process PID/start ticks, app hash, source role, exact observer byte offsets; guest observer process/window start stores actual values/addresses",
++      "counter_image_baseline": "read-only little-endian u32 values from addresses emitted by the guest and bounds-checked against exact checkpoint memory image",
++      "cleanup_default": "off; explicit opt-in only after persisted result/trace/assertions and exact owned-path hash manifest",
+       "kind_ids": {
+         "1": "EINTR",
+         "2": "TRYLOCK_ATTEMPT",
+@@ -85,25 +115,42 @@
+         "2": "FAILED",
+         "3": "UNCHANGED",
+         "4": "CHANGED"
+-      }
++      },
++      "batch_drain": "shared observer output mutex serializes bounded ring drain and its single append write; unstable/inconsistent snapshots remain pending until exact process/image deltas reconcile",
++      "failed_payload_policy": "failed state, logs, manifests and run directories remain untouched; no retro-certification"
+     }
+   },
+   "setup_readiness": {
+     "app": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
+-    "runtime": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm",
++    "runtime": "/tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm",
++    "runtime_sha256": "70bfcdc4b109041deec3eef4677a605a3fb8d5e03cf16fb026ca4ca8a85938f3",
++    "runtime_manifest": "/tmp/wamr-parent-restore-park-fix-20261002/manifest.json",
++    "runtime_manifest_sha256": "a29a99d8f9b32d565401fad0c682561b44eb3a4d5884d32c71a8a80102d6468f",
++    "preserved_old_runtime": {"path": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm", "sha256": "77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60"},
+     "peer": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+-    "trace_app": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
+-    "trace_manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
++    "trace_app": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v7/echoback_string.wasm",
++    "trace_manifest": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v7-logs/manifest.json",
+     "commands": [
+-      "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+-      "python3 validation/campaign/run.py --mode changed --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+-      "python3 validation/campaign/run.py --mode repeated --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
+-      "python3 validation/campaign/run.py --mode no-cr --trace-app <manifest-wasm> --trace-manifest <build-manifest>"
++      "python3 validation/campaign/run.py --mode same --runtime /tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v7/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v7-logs/manifest.json --reuse-peer-session <verified-session-manifest>",
++      "python3 validation/campaign/run.py --mode no-cr --normal-no-cr-control --no-cr-ip 172.18.0.6 --app /tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm --runtime /tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm --reuse-peer-session <verified-session-manifest>"
+     ],
+     "disk_requirement": ">=3221225472 free bytes before every checkpoint",
+-    "readiness_status": "safe observer v2 derivative build and offline parser verified; runtime telemetry/campaign unobserved; NOT PASS",
+-    "observed_available_bytes_at_report": 4200206336,
+-    "observed_available_utc": "2026-10-02"
++    "readiness_status": "fixed runtime/v7 provenance verified; SAME 1790956414-3b483123ab checkpoint, same-IP assertions and correlations completed but whole telemetry NOT PASS (2 lost; restore attempt/event delta mismatch); runner verdict finalization also hit literal\\\\n JSON suffix; no new-runtime normal no-C/R control; all failure payloads preserved",
++    "observed_available_bytes_at_report": 18117431296,
++    "observed_available_utc": "2026-10-02",
++    "trace_manifest_sha256": "679e742b107d3aeaf1d97570936b0689d98334adcde69ec5ba3c08c64ea907ed",
++    "trace_guest_state_schema": "guest-state-v1",
++    "build_tag": "trace-channel-v7",
++    "actual_build_manifest_status": "actual MODULE_echoback_string build passed",
++    "observer_link_occurrences": 1,
++    "single_printing_drain": true,
++    "normal_three_hashes_unchanged": true,
++    "core_rtps_diff_sha256": "acffe689756e1c01cf23128689aafa5ef06f7ca671211e60cafca0edfc8faeb4",
++    "core_copy_comparison": "the derivative embeddedRTPS tree matches current production tree except the existing trace-only SEDPAgent.cpp and SPDPAgent.cpp overlay additions; no core RTPS source diff change",
++    "observer_file": "/observer/trace-observer.log",
++    "observer_stdout_fallback": false,
++    "runner_sha256": "cb49ca85c08892797a84348376736bda5f9950a3b978375d820f1cbc8cb01047",
++    "observer_counter_manifest_sha256": "1bc90bb32cb0e697b4ce14f92ce36a262abb7df014c8f08f5d0038fa4a7cf82b"
+   },
+   "validation": {
+     "commands": [
+@@ -114,20 +161,52 @@
+       "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest> --dry-run",
+       "python3 -m json.tool validation/campaign/setup.json",
+       "cc -std=c11 -Wall -Wextra -Ivalidation/campaign validation/campaign/traceoverlay_smoke.c validation/campaign/traceoverlay.c -o /tmp/traceoverlay-v2-smoke && /tmp/traceoverlay-v2-smoke",
+-      "offline parse of /tmp/traceoverlay-v2-smoke.log asserted lost=44 and max_active=2 => NOT PASS"
++      "offline parse of /tmp/traceoverlay-v2-smoke.log asserted lost=44 and max_active=2 => NOT PASS",
++      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive bootstrap/build/lwip/liblwip.a --c-overlay-build /tmp/t12-gueststate-c --cpp-overlay /tmp/mros2-trace-mirror-T12a2b-20261002-retry1/overlay --tag guest-state-v1",
++      "python3 validation/campaign/run.py --mode same --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/guest-state-v1-logs/manifest.json --dry-run",
++      "strings /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm | grep -E \"RTPS_GUEST_STATE|RTPS_TRACE_METRICS|guest-state-v1\"",
++      "grep -c traceoverlay.c.obj /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/CMakeFiles/MODULE_echoback_string.dir/link.txt",
++      "python3 -m py_compile validation/campaign/run.py validation/campaign/build_traceoverlay.py validation/campaign/build_trace_app.py validation/campaign/test_trace_parser.py validation/campaign/test_guest_state_output.py",
++      "python3 -m unittest -v validation.campaign.test_trace_parser validation.campaign.test_guest_state_output",
++      "python3 validation/campaign/build_traceoverlay.py --out /tmp/t12-tracechannel-c4",
++      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive /tmp/locks-native-T11-20261002/build-echoback_string/lwip-wasm/liblwip.a --c-overlay-build /tmp/t12-tracechannel-c4 --cpp-overlay /tmp/mros2-trace-cpp-overlay-v2-final-source-20261002 --tag trace-channel-v6",
++      "python3 validation/campaign/run.py --mode same --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v6-logs/manifest.json --dry-run",
++      "cc -std=c11 -Wall -Wextra -pthread -Ivalidation/campaign validation/campaign/traceoverlay_smoke.c validation/campaign/traceoverlay.c -o /tmp/t12-traceoverlay-smoke-final && /tmp/t12-traceoverlay-smoke-final",
++      "python3 -m json.tool validation/campaign/setup.json",
++      "git diff --check",
++      "strings /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm | grep -E \"RTPS_TRACE_BATCH_BEGIN|RTPS_TRACE_WINDOW_START|RTPS_TRACE_METRICS|trace-observer.log\"",
++      "python3 validation/campaign/build_traceoverlay.py --out /tmp/t12-tracechannel-v7-c",
++      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive /tmp/locks-native-T11-20261002/build-echoback_string/lwip-wasm/liblwip.a --c-overlay-build /tmp/t12-tracechannel-v7-c --cpp-overlay /tmp/mros2-trace-cpp-overlay-v2-final-source-20261002 --tag trace-channel-v7",
++      "rtk proxy docker exec mros2-cr-1790945642-45a38c491e-app-phase-01 timeout -s TERM 35s /runtime/iwasm ... trace-channel-v7 output-only observer regression; no checkpoint",
++      "python3 validation/campaign/test_trace_channel_wasi_output.py /tmp/t12-same/runs/1790945642-45a38c491e/raw/sdk-regression/observer/trace-observer.log"
+     ],
+-    "docker_or_checkpoint_execution": false,
++    "docker_or_checkpoint_execution": true,
+     "application_communication_pass": false,
+     "runner_implemented": true,
+-    "campaign_ready": false,
++    "campaign_ready": true,
+     "trace_parser_checked": true,
+     "trace_manifest_validated": true,
+-    "loss_overlap_parser_tests": true
++    "loss_overlap_parser_tests": true,
++    "guest_state_contract_ready": true,
++    "tests_added_or_updated": [
++      "validation/campaign/test_trace_parser.py",
++      "validation/campaign/test_guest_state_output.py",
++      "validation/campaign/test_guest_state.py",
++      "validation/campaign/test_trace_channel_wasi_output.py"
++    ],
++    "test_count_passed": 15
+   },
+   "notes": [
+-    "New v2 observer is an actual MODULE_echoback_string derivative, linked once; normal T11 app/runtime/peer hashes validated unchanged.",
+-    "Offline observer smoke output had lost=44 and max_active=2; parser rejected it as NOT PASS.",
+-    "No Docker/checkpoint/application communication run; runtime telemetry therefore remains unobserved and NOT T12 PASS.",
+-    "A failed preliminary private build attempt using tag trace-observer-v3 is preserved under the mirror; no Docker or canonical artifacts were touched."
++    "Native guest-state-v1 actual MODULE_echoback_string derivative built and linked once; exact Wasm/map/manifest hashes recorded under setup_readiness.",
++    "Normal echoback_string/service_test_add_two_int/service_server_add_two_int hashes remain identical to T11 pins; runtime and peer pins unchanged.",
++    "The actual derivative tree preserves the current pinned core RTPS source diff; only private trace-observer overlays are added. No production/sysroot/normal artifact was changed.",
++    "Initial private build compile failure is retained in the first unique mirror; the successful derivative uses the current traceoverlay C ABI header and a fresh mirror/tag.",
++    "Preserved v6 actual SAME attempt /tmp/t12-same/runs/1790945642-45a38c491e: one 1GiB checkpoint and ten correlated pre-gate roundtrips completed, then failed before restore because WINDOW_START had literal backslash-n; this is NOT PASS and state/raw artifacts remain untouched.",
++    "No prior failed v6 image/app or source forest was overwritten or cleaned.",
++    "Fresh trace-channel-v6 build: /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm; SHA256 8119b6f81331f75225fb78e36e7d5b99e551b8cac9212b4f5450a3eecb3adc86; manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v6-logs/manifest.json; manifest SHA256 927acac5fec64579bc6ae69796bad80eec841007e306af877a7111ce515b3776. C overlay compile/link and MODULE_echoback_string build passed; observer linked once; source archive/sysroot/normal app/runtime/peer unchanged.",
++    "Repair-only phase intentionally ran no Docker campaign/checkpoint/restore and claims no T12 campaign pass. Existing successful-restore telemetry mismatch, missing prior payload images, and all failed artifacts remain unmodified.",
++    "Current campaign defaults keep all state/container files. Explicit cleanup flags require overall persisted PASS and create a hash manifest of assertion files and exact owned paths before deletion.",
++    "Earlier repair validation passed 15 offline/POSIX/WASI tests. After the v6 failure, fixed only the private generated traceoverlay WINDOW_START newline and ensured the application builder consumes that patched temporary overlay. New trace-channel-v7 artifact passed actual MODULE_echoback_string build/link and an SDK-built app run under the pinned runtime; the complete real mixed observer file passed the strict production parser regression (494 physical records: 1 window, 35 batches, 283 events, 70 metrics, 35 C and 35 C++ guest-state records; zero literal backslash-n). This output-only regression is not a campaign PASS and no new checkpoint ran.",
++    "Two earlier fresh private build attempts (trace-channel-v1/v2) failed at recognized source seams and remain preserved in the mirror. Successful actual private builds trace-channel-v3 through v7 remain alongside them; trace-channel-v7 is the current candidate, not T12 PASS. Regression output SHA256 a7568688a8334ccda40471fff86e319149b2906e04b7f93fa33f217f9dd972bf; Wasm SHA256 08ba7a1d34f4752c084074de7d2d6a26cca2ec76f3b07281c6da9c37675f6d7b."
+   ]
+ }
+diff --git a/validation/campaign/test_trace_parser.py b/validation/campaign/test_trace_parser.py
+index 9db7ee6c..1b1432a3 100644
+--- a/validation/campaign/test_trace_parser.py
++++ b/validation/campaign/test_trace_parser.py
+@@ -1,8 +1,10 @@
+ #!/usr/bin/env python3
+-"""Offline contract tests for the literal trace dump ABI consumed by run.py."""
++"""Boundary, replay, and cleanup regressions for the observer telemetry contract."""
+ import importlib.util
++import json
+ from pathlib import Path
+-import threading
++import tempfile
++import types
+ import unittest
+ 
+ RUNNER = Path(__file__).with_name('run.py')
+@@ -12,38 +14,157 @@ spec.loader.exec_module(runner)
+ 
+ 
+ class TraceParserTests(unittest.TestCase):
+-    def report(self, *, lost=0, max_active=1):
+-        lines = [
+-            'RTPS_TRACE seq=0 kind=1 result=4 current=0 applied=0 detail=4 aux=9 thread=1234',
+-            'RTPS_TRACE seq=1 kind=2 result=0 current=0 applied=0 detail=0 aux=0 thread=1234',
+-            'RTPS_TRACE seq=2 kind=3 result=4 current=0 applied=0 detail=0 aux=1 thread=1234',
+-            'RTPS_TRACE seq=3 kind=4 result=0 current=0 applied=0 detail=0 aux=1 thread=1234',
+-            'RTPS_TRACE seq=4 kind=5 result=0 current=0 applied=0 detail=0 aux=1 thread=1234',
+-            f'RTPS_TRACE_METRICS attempts=1 winners=1 busy=0 failed=0 outcomes=1 probe_completions=1 active=0 max_active={max_active} lost={lost} lockfree=1',
+-        ]
+-        session = runner.Session.__new__(runner.Session)
+-        session.events = []
+-        session.lock = threading.Lock()
+-        for line in lines:
+-            event = runner.parse_trace_line(line)
+-            self.assertIsNotNone(event)
+-            session.events.append(event)
++    keys = ('read','next','attempts','winners','busy','failed','outcomes','probe_completions',
++            'active','max_active','lost','output_failures','lockfree')
++    addresses = {key: 0x1000 + i * 4 for i, key in enumerate(keys)}
++
++    def state(self, **updates):
++        value = dict.fromkeys(self.keys, 0)
++        value.update(lockfree=1, max_active=1)
++        value.update(updates)
++        return value
++
++    def record(self, prefix, values, **other):
++        attrs = dict(values); attrs.update(other); attrs.setdefault('stable',1)
++        attrs.update({'addr_' + key: self.addresses[key] for key in self.keys})
++        return prefix + ' ' + ' '.join(f'{key}={value if not key.startswith("addr_") else f"0x{value:08x}"}' for key, value in attrs.items()) + '\n'
++
++    def batch(self, events, before, after, batch=1):
++        lines=[f'RTPS_TRACE_BATCH_BEGIN batch={batch} read={before["read"]} next={before["next"]}\n',
++               self.record('RTPS_TRACE_METRICS',before,batch=batch,edge='before')]
++        lines.extend(f"RTPS_TRACE seq={e['seq']} kind={e['kind']} result={e['result']} current={e['current']} applied={e['applied']} detail={e['detail']} aux={e['aux']} thread={e['thread']}\n" for e in events)
++        lines.append(self.record('RTPS_TRACE_METRICS',after,batch=batch,edge='after'))
++        lines.append(f'RTPS_TRACE_BATCH_END batch={batch} events={len(events)} first={events[0]["seq"] if events else 0} last={events[-1]["seq"] if events else 0} read={after["read"]} next={after["next"]}\n')
++        return ''.join(lines)
++
++    def event(self,seq,kind,result=0,current=0,applied=0):
++        return {'seq':seq,'kind':kind,'result':result,'current':current,'applied':applied,'detail':0,'aux':0,'thread':1234}
++
++    def run_report(self, contents, windows):
++        temp=tempfile.TemporaryDirectory(prefix='trace-window-test-')
++        self.addCleanup(temp.cleanup)
++        raw=Path(temp.name); observer=raw/'observer'/'trace-observer.log'; observer.parent.mkdir(); observer.write_bytes(contents)
++        session=runner.Session.__new__(runner.Session); session.raw=raw; session.observer_windows=windows
+         return session.trace_report()
+ 
+-    def test_actual_dump_schema_ready(self):
+-        report = self.report()
+-        self.assertEqual(report['telemetry_status'], 'READY', report['not_pass_reasons'])
+-        self.assertEqual(report['records'][0]['thread_id'], 1234)
++    def basic_window(self, *, lost=0, max_active=1):
++        start=self.state()
++        final=self.state(read=10,next=10,attempts=1,winners=1,outcomes=1,probe_completions=1,
++                         active=0,max_active=max_active,lost=lost)
++        events=[self.event(0,1,result=4),self.event(1,2),self.event(2,3,result=3),
++                self.event(3,4),self.event(4,5),self.event(5,6),self.event(6,7),
++                self.event(7,8),self.event(8,10),self.event(9,11,current=3,applied=3)]
++        start_line=self.record('RTPS_TRACE_WINDOW_START',start,stable=1)
++        before=dict(final,read=0,next=10)
++        data=(start_line+self.batch(events,before,final)).encode()
++        window={'window_id':'checkpoint-1-pid12','role':'checkpoint','pid':12,'pid_start_ticks':'99',
++                'start_offset':0,'end_offset':len(data),'expected_image_baseline':None,'image_trace_baseline':None}
++        return data,[window]
++
++    def test_closed_process_window_uses_shared_channel_and_actual_counter_delta(self):
++        data,windows=self.basic_window(); report=self.run_report(data,windows)
++        self.assertEqual(report['telemetry_status'],'READY',report['not_pass_reasons'])
++        self.assertEqual(report['windows'][0]['counter_deltas']['attempts'],1)
++        self.assertEqual(report['windows'][0]['pending_batch_resolution'],
++                         'closed by actual process/image initial/final scalar deltas')
++        self.assertEqual(report['output_channel'],'validated append-only shared observer FD')
++        self.assertFalse(report['stdout_trace_fallback'])
++
++    def test_stdout_interleaved_trace_text_is_not_a_telemetry_source(self):
++        self.assertIsNone(runner.parse_trace_line('host_utc=... RTPS_TRACE seq=120 kind=6 result=3 current=1 applied=1 detail=0 aux=0 thread=12'))
++
++    def test_nonzero_loss_and_overlap_are_not_waived(self):
++        for kwargs, phrase in (({'lost':1},'loss or observer write failure'),({'max_active':2},'measured overlap exceeds one')):
++            with self.subTest(kwargs=kwargs):
++                data,windows=self.basic_window(**kwargs); report=self.run_report(data,windows)
++                self.assertEqual(report['telemetry_status'],'NOT PASS')
++                self.assertTrue(any(phrase in reason for reason in report['not_pass_reasons']))
++
++    def test_restore_boundary_replay_is_attributed_to_saved_checkpoint_tail(self):
++        zero=self.state(); image=self.state(read=0,next=2,attempts=1,winners=1,outcomes=1)
++        checkpoint_start=self.record('RTPS_TRACE_WINDOW_START',zero,stable=1)
++        checkpoint_batch=self.batch([],zero,zero)
++        checkpoint_data=(checkpoint_start+checkpoint_batch).encode()
++        restore_start=self.record('RTPS_TRACE_WINDOW_START',image,stable=1)
++        final=self.state(read=10,next=10,attempts=1,winners=1,outcomes=1,probe_completions=1)
++        events=[self.event(0,2),self.event(1,3,result=3),self.event(2,4),self.event(3,5),
++                self.event(4,1,result=4),self.event(5,6),self.event(6,7),self.event(7,8),
++                self.event(8,10),self.event(9,11,current=3,applied=3)]
++        before=dict(final,read=0,next=10)
++        restore_data=(restore_start+self.batch(events,before,final,batch=2)).encode()
++        data=checkpoint_data+restore_data
++        image_baseline={'window_id':'checkpoint-1-pid12','values':image,
++                        'addresses':{key:f'0x{address:08x}' for key,address in self.addresses.items()}}
++        windows=[{'window_id':'checkpoint-1-pid12','role':'checkpoint','pid':12,'pid_start_ticks':'99',
++                  'start_offset':0,'end_offset':len(checkpoint_data),'expected_image_baseline':None,
++                  'image_trace_baseline':image_baseline},
++                 {'window_id':'restore-2-pid17','role':'restore','pid':17,'pid_start_ticks':'110',
++                  'start_offset':len(checkpoint_data),'end_offset':len(data),
++                  'expected_image_baseline':image_baseline,'image_trace_baseline':None}]
++        report=self.run_report(data,windows)
++        self.assertEqual(report['telemetry_status'],'READY',report['not_pass_reasons'])
++        self.assertEqual(report['replay_count'],2)
++        self.assertEqual(report['windows'][1]['replays'][0]['kind'],'checkpoint-pending-tail')
++        self.assertEqual(report['windows'][0]['counter_deltas']['attempts'],1)
++
++    def test_injected_telemetry_failure_persists_evidence_and_never_cleans_payload(self):
++        with tempfile.TemporaryDirectory(prefix='cleanup-failure-') as temp:
++            root=Path(temp); state=root/'states'/'phase-01'; state.mkdir(parents=True)
++            (state/'main-memory.img').write_bytes(b'preserved-payload')
++            raw=root/'phase-01'; raw.mkdir()
++            manifest=raw/'state-manifest.json'; manifest.write_text(json.dumps({'state_dir':str(state),'files':[]}))
++            assertions=raw/'assertions.json'; assertions.write_text(json.dumps({'roundtrip':'PASS','image':'PASS'}))
++            session=runner.Session.__new__(runner.Session); session.root=root; session.states=root/'states'
++            session.args=types.SimpleNamespace(cleanup_pass_state=True); session.final_pass=False
++            session.pass_states=[{'state':str(state),'raw':str(raw),'manifest':str(manifest),
++                'assertions':str(assertions),'manifest_sha256':runner.digest(manifest),
++                'assertions_sha256':runner.digest(assertions)}]
++            (root/'trace-report.json').write_text(json.dumps({'telemetry_status':'NOT PASS','not_pass_reasons':['injected sequence/counter failure']}))
++            session.persist_campaign_verdict({'status':'NOT PASS; telemetry injected failure','roundtrip':'PASS','image':'PASS'})
++            self.assertTrue((state/'main-memory.img').is_file())
++            self.assertTrue((root/'failure.json').is_file())
++            failure=json.loads((root/'failure.json').read_text())
++            self.assertIn('injected sequence/counter failure',failure['telemetry_not_pass_reasons'])
++            self.assertFalse((root/'pass-state-cleanup.json').exists())
+ 
+-    def test_nonzero_observer_loss_rejected(self):
+-        report = self.report(lost=1)
+-        self.assertEqual(report['telemetry_status'], 'NOT PASS')
+-        self.assertIn('observer loss/overflow nonzero', report['not_pass_reasons'])
++    def test_pass_cleanup_opt_in_writes_hash_manifest_before_removing_exact_owned_files(self):
++        with tempfile.TemporaryDirectory(prefix='cleanup-opt-in-pass-') as temp:
++            root=Path(temp); state=root/'states'/'phase-01'; state.mkdir(parents=True)
++            payload=state/'memory.img'; payload.write_bytes(b'owned-payload'); payload_sha=runner.digest(payload)
++            raw=root/'phase-01'; raw.mkdir()
++            manifest=raw/'state-manifest.json'; manifest.write_text(json.dumps({'state_dir':str(state),
++                'files':[{'path':'memory.img','size':payload.stat().st_size,'sha256':runner.digest(payload)}]}))
++            assertions=raw/'assertions.json'; assertions.write_text(json.dumps({'roundtrip':'PASS','image':'PASS'}))
++            session=runner.Session.__new__(runner.Session); session.root=root; session.states=root/'states'
++            session.args=types.SimpleNamespace(cleanup_pass_state=True); session.final_pass=True
++            session.pass_states=[{'state':str(state),'raw':str(raw),'manifest':str(manifest),
++                'assertions':str(assertions),'manifest_sha256':runner.digest(manifest),
++                'assertions_sha256':runner.digest(assertions)}]
++            (root/'trace-report.json').write_text(json.dumps({'telemetry_status':'READY'}))
++            session.verify_manifest=lambda owned, source: {'state_dir':str(owned)}
++            session.persist_campaign_verdict({'status':'PASS'})
++            cleanup=json.loads((root/'pass-cleanup-manifest.json').read_text())
++            self.assertEqual(cleanup['owned_paths'][0]['sha256'],payload_sha)
++            self.assertFalse(state.exists())
++            self.assertTrue((root/'pass-state-cleanup.json').is_file())
+ 
+-    def test_probe_overlap_violation_rejected(self):
+-        report = self.report(max_active=2)
+-        self.assertEqual(report['telemetry_status'], 'NOT PASS')
+-        self.assertIn('measured probe overlap max_active > 1', report['not_pass_reasons'])
++    def test_cleanup_requires_opt_in_even_after_persisted_pass(self):
++        with tempfile.TemporaryDirectory(prefix='cleanup-opt-in-') as temp:
++            root=Path(temp); state=root/'states'/'phase-01'; state.mkdir(parents=True)
++            payload=state/'memory.img'; payload.write_bytes(b'payload')
++            raw=root/'phase-01'; raw.mkdir()
++            manifest=raw/'state-manifest.json'; manifest.write_text('{}')
++            assertions=raw/'assertions.json'; assertions.write_text('{}')
++            session=runner.Session.__new__(runner.Session); session.root=root; session.states=root/'states'
++            session.args=types.SimpleNamespace(cleanup_pass_state=False); session.final_pass=True
++            session.pass_states=[{'state':str(state),'raw':str(raw),'manifest':str(manifest),
++                'assertions':str(assertions),'manifest_sha256':runner.digest(manifest),
++                'assertions_sha256':runner.digest(assertions)}]
++            (root/'result.json').write_text(json.dumps({'status':'PASS'}))
++            (root/'trace-report.json').write_text(json.dumps({'telemetry_status':'READY'}))
++            session.cleanup_pass_state_files()
++            self.assertEqual(payload.read_bytes(),b'payload')
++            self.assertFalse((root/'pass-state-cleanup.json').exists())
+ 
+ 
+ if __name__ == '__main__':
+diff --git a/validation/campaign/traceoverlay.c b/validation/campaign/traceoverlay.c
+index 636afbd0..29cea379 100644
+--- a/validation/campaign/traceoverlay.c
++++ b/validation/campaign/traceoverlay.c
+@@ -3,12 +3,18 @@
+ #include <stdatomic.h>
+ #include <stddef.h>
+ #include <errno.h>
++#include <fcntl.h>
++#include <pthread.h>
++#include <stdio.h>
++#include <sys/stat.h>
++#include <unistd.h>
+ 
+ _Static_assert(ATOMIC_INT_LOCK_FREE == 2,
+                "traceoverlay requires always-lock-free 32-bit atomics");
+ 
+ #define TRACE_CAPACITY 256u
+ #define TRACE_MASK (TRACE_CAPACITY - 1u)
++#define TRACE_RESERVATION_MAX_ATTEMPTS 8u
+ 
+ typedef struct trace_slot {
+   _Atomic uint32_t published;
+@@ -22,6 +28,157 @@ static _Atomic uint32_t read_sequence;
+ static _Atomic uint32_t atomics_ok = ATOMIC_VAR_INIT(1u);
+ static _Atomic uint32_t attempts, winners, busy_count, failed_count, outcomes;
+ static _Atomic uint32_t probe_completions, active_probes, max_active_probes;
++static _Atomic uint32_t observer_output_failures;
++static pthread_mutex_t observer_output_mutex = PTHREAD_MUTEX_INITIALIZER;
++static int observer_fd = -1;
++static const char observer_path[] = "/observer/trace-observer.log";
++
++#ifdef TRACEOVERLAY_TEST_RESERVATION_HOOK
++extern void traceoverlay_test_before_reservation_cas(void);
++#endif
++
++static int observer_ensure_fd_locked(int *opened)
++{
++  struct stat expected, actual;
++  int flags = observer_fd >= 0 ? fcntl(observer_fd, F_GETFL) : -1;
++  int valid_fd = observer_fd >= 0 && flags >= 0 &&
++      stat(observer_path, &expected) == 0 && fstat(observer_fd, &actual) == 0 &&
++      expected.st_dev == actual.st_dev && expected.st_ino == actual.st_ino &&
++      (flags & O_ACCMODE) == O_WRONLY && (flags & O_APPEND) != 0;
++  *opened = !valid_fd;
++  if (!valid_fd) observer_fd = open(observer_path, O_WRONLY | O_CREAT | O_APPEND, 0600);
++  return observer_fd >= 0 ? 0 : -1;
++}
++
++static int observer_write_locked(const char *record, uint32_t length)
++{
++  if (observer_fd < 0 || record == NULL || length == 0u) return -1;
++  ssize_t written = write(observer_fd, record, length);
++  return written == (ssize_t)length ? 0 : -1;
++}
++
++void traceoverlay_note_output_failure(void)
++{
++  atomic_fetch_add_explicit(&observer_output_failures, 1u, memory_order_relaxed);
++}
++
++int traceoverlay_write_record(const char *record, uint32_t length)
++{
++  int saved_errno = errno;
++  if (record == NULL || length == 0u || pthread_mutex_lock(&observer_output_mutex) != 0) {
++    traceoverlay_note_output_failure(); errno = saved_errno; return -1;
++  }
++  int opened = 0;
++  int result = observer_ensure_fd_locked(&opened);
++  if (result == 0) result = observer_write_locked(record, length);
++  pthread_mutex_unlock(&observer_output_mutex);
++  if (result != 0) traceoverlay_note_output_failure();
++  errno = saved_errno;
++  return result;
++}
++
++int traceoverlay_begin_process_window(void)
++{
++  int saved_errno = errno;
++  if (pthread_mutex_lock(&observer_output_mutex) != 0) {
++    traceoverlay_note_output_failure(); errno = saved_errno; return -1;
++  }
++  int opened = 0;
++  int result = observer_ensure_fd_locked(&opened);
++  if (result == 0 && opened) {
++    traceoverlay_counter_snapshot first, second;
++    traceoverlay_snapshot(&first); traceoverlay_snapshot(&second);
++    int stable = first.next_sequence == second.next_sequence && first.read_sequence == second.read_sequence &&
++      first.attempts == second.attempts && first.winners == second.winners && first.busy == second.busy &&
++      first.failed == second.failed && first.outcomes == second.outcomes &&
++      first.probe_completions == second.probe_completions && first.active_probes == second.active_probes &&
++      first.max_active_probes == second.max_active_probes && first.lost_events == second.lost_events &&
++      first.output_failures == second.output_failures && first.lockfree == second.lockfree;
++    char line[1200];
++    int n = snprintf(line, sizeof(line),
++      "RTPS_TRACE_WINDOW_START stable=%u next=%u read=%u attempts=%u winners=%u busy=%u failed=%u outcomes=%u probe_completions=%u active=%u max_active=%u lost=%u output_failures=%u lockfree=%u addr_next=0x%08x addr_read=0x%08x addr_attempts=0x%08x addr_winners=0x%08x addr_busy=0x%08x addr_failed=0x%08x addr_outcomes=0x%08x addr_probe_completions=0x%08x addr_active=0x%08x addr_max_active=0x%08x addr_lost=0x%08x addr_output_failures=0x%08x addr_lockfree=0x%08x\\n",
++      stable, second.next_sequence, second.read_sequence, second.attempts, second.winners, second.busy,
++      second.failed, second.outcomes, second.probe_completions, second.active_probes,
++      second.max_active_probes, second.lost_events, second.output_failures, second.lockfree,
++      second.next_sequence_address, second.read_sequence_address, second.attempts_address,
++      second.winners_address, second.busy_address, second.failed_address, second.outcomes_address,
++      second.probe_completions_address, second.active_probes_address, second.max_active_probes_address,
++      second.lost_events_address, second.output_failures_address, second.lockfree_address);
++    if (n <= 0 || (size_t)n >= sizeof(line) || observer_write_locked(line, (uint32_t)n) != 0)
++      result = -1;
++  }
++  pthread_mutex_unlock(&observer_output_mutex);
++  if (result != 0) traceoverlay_note_output_failure();
++  errno = saved_errno;
++  return result;
++}
++
++int traceoverlay_batch_begin(void)
++{
++  int saved_errno = errno;
++  if (pthread_mutex_lock(&observer_output_mutex) != 0) {
++    traceoverlay_note_output_failure(); errno = saved_errno; return -1;
++  }
++  int opened = 0;
++  if (observer_ensure_fd_locked(&opened) != 0) {
++    pthread_mutex_unlock(&observer_output_mutex);
++    traceoverlay_note_output_failure(); errno = saved_errno; return -1;
++  }
++  errno = saved_errno;
++  return 0;
++}
++
++int traceoverlay_batch_end(const char *record, uint32_t length)
++{
++  int saved_errno = errno;
++  int result = observer_write_locked(record, length);
++  pthread_mutex_unlock(&observer_output_mutex);
++  if (result != 0) traceoverlay_note_output_failure();
++  errno = saved_errno;
++  return result;
++}
++
++uint32_t traceoverlay_output_failures(void)
++{
++  int saved_errno = errno;
++  uint32_t value = atomic_load_explicit(&observer_output_failures, memory_order_relaxed);
++  errno = saved_errno;
++  return value;
++}
++
++void traceoverlay_snapshot(traceoverlay_counter_snapshot *out)
++{
++  int saved_errno = errno;
++  if (out != NULL) {
++    out->next_sequence = atomic_load_explicit(&next_sequence, memory_order_relaxed);
++    out->read_sequence = atomic_load_explicit(&read_sequence, memory_order_relaxed);
++    out->attempts = atomic_load_explicit(&attempts, memory_order_relaxed);
++    out->winners = atomic_load_explicit(&winners, memory_order_relaxed);
++    out->busy = atomic_load_explicit(&busy_count, memory_order_relaxed);
++    out->failed = atomic_load_explicit(&failed_count, memory_order_relaxed);
++    out->outcomes = atomic_load_explicit(&outcomes, memory_order_relaxed);
++    out->probe_completions = atomic_load_explicit(&probe_completions, memory_order_relaxed);
++    out->active_probes = atomic_load_explicit(&active_probes, memory_order_relaxed);
++    out->max_active_probes = atomic_load_explicit(&max_active_probes, memory_order_relaxed);
++    out->lost_events = atomic_load_explicit(&lost_events, memory_order_relaxed);
++    out->output_failures = atomic_load_explicit(&observer_output_failures, memory_order_relaxed);
++    out->lockfree = atomic_load_explicit(&atomics_ok, memory_order_relaxed);
++    out->next_sequence_address = (uint32_t)(uintptr_t)&next_sequence;
++    out->read_sequence_address = (uint32_t)(uintptr_t)&read_sequence;
++    out->attempts_address = (uint32_t)(uintptr_t)&attempts;
++    out->winners_address = (uint32_t)(uintptr_t)&winners;
++    out->busy_address = (uint32_t)(uintptr_t)&busy_count;
++    out->failed_address = (uint32_t)(uintptr_t)&failed_count;
++    out->outcomes_address = (uint32_t)(uintptr_t)&outcomes;
++    out->probe_completions_address = (uint32_t)(uintptr_t)&probe_completions;
++    out->active_probes_address = (uint32_t)(uintptr_t)&active_probes;
++    out->max_active_probes_address = (uint32_t)(uintptr_t)&max_active_probes;
++    out->lost_events_address = (uint32_t)(uintptr_t)&lost_events;
++    out->output_failures_address = (uint32_t)(uintptr_t)&observer_output_failures;
++    out->lockfree_address = (uint32_t)(uintptr_t)&atomics_ok;
++  }
++  errno = saved_errno;
++}
+ 
+ int traceoverlay_init(void)
+ {
+@@ -62,19 +219,32 @@ void traceoverlay_record(uint16_t kind, uint16_t result, uint32_t current_ip,
+     errno = saved_errno;
+     return;
+   }
+-  uint32_t sequence = atomic_load_explicit(&next_sequence, memory_order_relaxed);
+-  uint32_t consumed = atomic_load_explicit(&read_sequence, memory_order_acquire);
+-  if ((uint32_t)(sequence - consumed) >= TRACE_CAPACITY) {
+-    atomic_fetch_add_explicit(&lost_events, 1u, memory_order_relaxed);
+-    errno = saved_errno;
+-    return;
++  /* Retry only a small fixed number of times: this stays bounded inside
++   * instrumented sections while allowing concurrent producers to reserve
++   * distinct sequences. Exhaustion remains explicit observer loss. */
++  uint32_t sequence = 0u;
++  uint32_t reserved = 0u;
++  for (uint32_t retry = 0u; retry < TRACE_RESERVATION_MAX_ATTEMPTS; ++retry) {
++    sequence = atomic_load_explicit(&next_sequence, memory_order_relaxed);
++    uint32_t consumed = atomic_load_explicit(&read_sequence, memory_order_acquire);
++    if ((uint32_t)(sequence - consumed) >= TRACE_CAPACITY) {
++      atomic_fetch_add_explicit(&lost_events, 1u, memory_order_relaxed);
++      errno = saved_errno;
++      return;
++    }
++    uint32_t next = sequence + 1u;
++#ifdef TRACEOVERLAY_TEST_RESERVATION_HOOK
++    traceoverlay_test_before_reservation_cas();
++#endif
++    if (atomic_compare_exchange_strong_explicit(&next_sequence, &sequence, next,
++                                                 memory_order_relaxed,
++                                                 memory_order_relaxed)) {
++      reserved = 1u;
++      break;
++    }
+   }
+-  uint32_t next = sequence + 1u;
+-  /* One CAS attempt only: contention is recorded as loss, never retried while
+-   * a caller may be under a production lock. Failed CAS reserves no slot. */
+-  if (!atomic_compare_exchange_strong_explicit(&next_sequence, &sequence, next,
+-                                                memory_order_relaxed,
+-                                                memory_order_relaxed)) {
++  if (reserved == 0u) {
++    /* Bounded reservation contention remains explicit observer loss. */
+     atomic_fetch_add_explicit(&lost_events, 1u, memory_order_relaxed);
+     errno = saved_errno;
+     return;
+diff --git a/validation/campaign/traceoverlay.h b/validation/campaign/traceoverlay.h
+index c7782853..9dbb312c 100644
+--- a/validation/campaign/traceoverlay.h
++++ b/validation/campaign/traceoverlay.h
+@@ -45,9 +45,27 @@ typedef struct traceoverlay_event {
+   uint64_t thread_id;
+ } traceoverlay_event;
+ 
++typedef struct traceoverlay_counter_snapshot {
++  uint32_t next_sequence, read_sequence, attempts, winners, busy, failed, outcomes;
++  uint32_t probe_completions, active_probes, max_active_probes, lost_events;
++  uint32_t output_failures, lockfree;
++  uint32_t next_sequence_address, read_sequence_address, attempts_address, winners_address;
++  uint32_t busy_address, failed_address, outcomes_address, probe_completions_address;
++  uint32_t active_probes_address, max_active_probes_address, lost_events_address;
++  uint32_t output_failures_address, lockfree_address;
++} traceoverlay_counter_snapshot;
++
+ /* Calls are bounded, allocation-free, and safe inside instrumented sections.
+  * A successful drain is performed only outside production locks. */
+ int traceoverlay_init(void);
++/* Dedicated observer-only append file; call only after production guards release. */
++int traceoverlay_write_record(const char *record, uint32_t length);
++int traceoverlay_batch_begin(void);
++int traceoverlay_batch_end(const char *record, uint32_t length);
++int traceoverlay_begin_process_window(void);
++void traceoverlay_note_output_failure(void);
++uint32_t traceoverlay_output_failures(void);
++void traceoverlay_snapshot(traceoverlay_counter_snapshot *out);
+ void traceoverlay_record(uint16_t kind, uint16_t result, uint32_t current_ip,
+                          uint32_t applied_ip, uint32_t detail, uint32_t aux,
+                          uint64_t thread_id);
+diff --git a/validation/rtps/projection-fixture.cpp b/validation/rtps/projection-fixture.cpp
+index 78cd6e5b..b0d47bad 100644
+--- a/validation/rtps/projection-fixture.cpp
++++ b/validation/rtps/projection-fixture.cpp
+@@ -305,6 +305,7 @@ struct T10aHarness {
+   static sys_mutex_t &participantMutex(Participant &part) { return part.m_mutex; }
+   static bool hasBuiltin(const Participant &part) { return part.m_hasBuilInEndpoints; }
+   static bool spdpRunning(const Participant &part) { return part.m_spdpAgent.m_running; }
++  static bool spdpInitialized(const Participant &part) { return part.m_spdpAgent.initialized; }
+   static bool spdpWriterInitialized(Domain &d, size_t n) { return d.m_statelessWriters[n].isInitialized(); }
+   static bool spdpReaderInitialized(Domain &d, size_t n) { return d.m_statelessReaders[n].isInitialized(); }
+   static bool statefulReaderInitialized(Domain &d, size_t n) { return d.m_statefulReaders[n].isInitialized(); }
+@@ -810,6 +811,8 @@ static void test_t10c_typed_builtin_failures() {
+     CHECK(rtps::T10aHarness::writerCount(*slot) == 0);
+     CHECK(rtps::T10aHarness::readerCount(*slot) == 0);
+     CHECK(!rtps::T10aHarness::spdpRunning(*slot));
++    slot->getSPDPAgent().start();
++    CHECK(!rtps::T10aHarness::spdpRunning(*slot));
+     CHECK(rtps::T10aHarness::spdpWriterInitialized(domain, 0) == (failed > 1));
+     CHECK(rtps::T10aHarness::spdpReaderInitialized(domain, 0) == (failed > 2));
+     CHECK(rtps::T10aHarness::statefulReaderInitialized(domain, 0) == (failed > 3));
+@@ -825,9 +828,33 @@ static void test_t10c_typed_builtin_failures() {
+     // cannot be reinitialized, and its successful endpoint slots remain counted.
+     CHECK(domain.createParticipant() == nullptr);
+     CHECK(rtps::T10aHarness::nextParticipantId(domain) == 1);
+-    std::printf("T10c_TYPED_INIT_FAILURE case=%s failed_mutex_call=%d no_builtin_publication=1 spdp_not_started=1 retired_counts=1\n", names[failed - 1], failed);
++    CHECK(!domain.completeInit());
++    CHECK(!rtps::T10aHarness::hasBuiltin(*slot));
++    CHECK(!rtps::T10aHarness::spdpRunning(*slot));
++    std::printf("T10c_TYPED_INIT_FAILURE case=%s failed_mutex_call=%d complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1\n", names[failed - 1], failed);
+   }
+   std::puts("T10c_TYPED_INIT_FAILURES_PASS cases=6");
++
++  // SPDP itself can initialize before SEDP initialization fails. That partially
++  // initialized agent is still not a published builtin participant.
++  setFixtureIp(0x0a000003U);
++  rtps::Domain laterFailureDomain;
++  fail_sys_mutex_new_at = 8;
++  sys_mutex_new_calls = 0;
++  sys_mutex_failure_observed = false;
++  sys_mutex_injection_active = true;
++  CHECK(laterFailureDomain.createParticipant() == nullptr);
++  sys_mutex_injection_active = false;
++  CHECK(sys_mutex_failure_observed && sys_mutex_new_calls == 8);
++  auto *laterFailureSlot = rtps::T10aHarness::participantSlot(laterFailureDomain, 0);
++  CHECK(rtps::T10aHarness::spdpInitialized(*laterFailureSlot));
++  CHECK(!rtps::T10aHarness::hasBuiltin(*laterFailureSlot));
++  laterFailureSlot->getSPDPAgent().start();
++  CHECK(!rtps::T10aHarness::spdpRunning(*laterFailureSlot));
++  CHECK(!laterFailureDomain.completeInit());
++  CHECK(!rtps::T10aHarness::hasBuiltin(*laterFailureSlot));
++  CHECK(!rtps::T10aHarness::spdpRunning(*laterFailureSlot));
++  std::puts("T10c_LATE_AGENT_FAILURE_PASS spdp_initialized=1 sedp_mutex_failure=1 builtin_publication=0 direct_start_refused=1 complete_init_refused=1");
+ }
+ 
+ static void test_t10a_smoke() {
+@@ -853,7 +880,9 @@ static void test_t10a_smoke() {
+   CHECK(latest->sequenceNumber == rtps::T10aHarness::latestSpdpSequence(*part));
+   CHECK(rtps::T10aHarness::project(*part, target)); // equal-IP no-op
+   CHECK(rtps::T10aHarness::applied(*part) == target);
+-  std::puts("T10a_SMOKE_PASS real_participant=1 typed_builtins=1 zero_user_projection=1 real_spdp_history=1 applied_last=1");
++  CHECK(domain.completeInit());
++  CHECK(rtps::T10aHarness::spdpRunning(*part));
++  std::puts("T10a_SMOKE_PASS real_participant=1 typed_builtins=1 zero_user_projection=1 real_spdp_history=1 applied_last=1 healthy_start=1");
+ }
+ 
+ static void test_t10c2a_participant_locks() {
+diff --git a/validation/rtps/run-task.sh b/validation/rtps/run-task.sh
+index 7c490efc..6437d83f 100644
+--- a/validation/rtps/run-task.sh
++++ b/validation/rtps/run-task.sh
+@@ -41,8 +41,8 @@ if [[ "$TASK" == T10c2b ]]; then
+   exit
+ fi
+ SDK=/opt/wasi-sdk-21
+-RUNTIME=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
+-EXPECTED=77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60
++RUNTIME=${RTPS_RUNTIME:-/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm}
++EXPECTED=${RTPS_RUNTIME_SHA256:-77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60}
+ [[ $(sha256sum "$RUNTIME" | cut -d' ' -f1) == "$EXPECTED" ]]
+ LW="$ROOT/lwip-wasm"
+ CMS="$ROOT/cmsis-wasm"
+@@ -121,6 +121,7 @@ elif [[ "$TASK" == T10c1 ]]; then
+   grep -q 'T10c1_RUNTIME_BIRTH_FAILURES_PASS' "$OUT/run.log"
+ elif [[ "$TASK" == T10c6 ]]; then
+   grep -q 'T10c_TYPED_INIT_FAILURES_PASS cases=6' "$OUT/run.log"
++  grep -q 'T10c_LATE_AGENT_FAILURE_PASS' "$OUT/run.log"
+ elif [[ "$TASK" == T10c2a ]]; then
+   grep -q 'T10c2a_ACCESSOR_CONTENTION_PASS' "$OUT/run.log"
+   grep -q 'T10c2a_EXPIRED_PREFIX_PASS' "$OUT/run.log"

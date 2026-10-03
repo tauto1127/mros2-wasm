@@ -1,0 +1,90 @@
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:12:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/ThreadPool.h:33:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.h:71:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/storages/ThreadSafeCircularBuffer.tpp:6:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:39:9: warning: 'PARTICIPANT_VERBOSE' macro redefined [-Wmacro-redefined]
+   39 | #define PARTICIPANT_VERBOSE 1
+      |         ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/utils/Log.h:38:9: note: previous definition is here
+   38 | #define PARTICIPANT_VERBOSE 0
+      |         ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:12:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Domain.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Participant.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/SEDPAgent.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/BuiltInEndpoints.h:28:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h:31:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/entities/Reader.h:30:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/TopicData.h:34:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/common/Locator.h:85:3: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+   85 |   }
+      |   ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:56:1: error: expected unqualified-id
+   56 | UCDR_WRAP_BASIC(uint16_t, uint16_t, U16)
+      | ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:50:45: note: expanded from macro 'UCDR_WRAP_BASIC'
+   50 | #define UCDR_WRAP_BASIC(type, suffix, kind) \\
+      |                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:56:1: error: expected unqualified-id
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:51:71: note: expanded from macro 'UCDR_WRAP_BASIC'
+   51 |   extern "C" bool __real_ucdr_serialize_##suffix(ucdrBuffer *, type); \\
+      |                                                                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:57:1: error: expected unqualified-id
+   57 | UCDR_WRAP_BASIC(uint32_t, uint32_t, U32)
+      | ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:50:45: note: expanded from macro 'UCDR_WRAP_BASIC'
+   50 | #define UCDR_WRAP_BASIC(type, suffix, kind) \\
+      |                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:57:1: error: expected unqualified-id
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:51:71: note: expanded from macro 'UCDR_WRAP_BASIC'
+   51 |   extern "C" bool __real_ucdr_serialize_##suffix(ucdrBuffer *, type); \\
+      |                                                                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:58:1: error: expected unqualified-id
+   58 | UCDR_WRAP_BASIC(int32_t, int32_t, I32)
+      | ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:50:45: note: expanded from macro 'UCDR_WRAP_BASIC'
+   50 | #define UCDR_WRAP_BASIC(type, suffix, kind) \\
+      |                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:58:1: error: expected unqualified-id
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:51:71: note: expanded from macro 'UCDR_WRAP_BASIC'
+   51 |   extern "C" bool __real_ucdr_serialize_##suffix(ucdrBuffer *, type); \\
+      |                                                                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:59:1: error: expected unqualified-id
+   59 | UCDR_WRAP_BASIC(uint8_t, uint8_t, U8)
+      | ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:50:45: note: expanded from macro 'UCDR_WRAP_BASIC'
+   50 | #define UCDR_WRAP_BASIC(type, suffix, kind) \\
+      |                                             ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:59:1: error: expected unqualified-id
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:51:71: note: expanded from macro 'UCDR_WRAP_BASIC'
+   51 |   extern "C" bool __real_ucdr_serialize_##suffix(ucdrBuffer *, type); \\
+      |                                                                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:227:11: error: use of undeclared identifier 'sameSn'
+  227 |     CHECK(sameSn(spdp.min, baselineSpdp.min) && sameSn(spdp.max, baselineSpdp.max) && sameSn(spdp.cursor, baselineSpdp.cursor) && spdp.latest == baselineSpdp.latest && spdp.length == baselineSpdp.length);
+      |           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:227:49: error: use of undeclared identifier 'sameSn'
+  227 |     CHECK(sameSn(spdp.min, baselineSpdp.min) && sameSn(spdp.max, baselineSpdp.max) && sameSn(spdp.cursor, baselineSpdp.cursor) && spdp.latest == baselineSpdp.latest && spdp.length == baselineSpdp.length);
+      |                                                 ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:227:87: error: use of undeclared identifier 'sameSn'
+  227 |     CHECK(sameSn(spdp.min, baselineSpdp.min) && sameSn(spdp.max, baselineSpdp.max) && sameSn(spdp.cursor, baselineSpdp.cursor) && spdp.latest == baselineSpdp.latest && spdp.length == baselineSpdp.length);
+      |                                                                                       ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:228:11: error: use of undeclared identifier 'sameSn'
+  228 |     CHECK(sameSn(pub.min, baselinePub.min) && sameSn(pub.max, baselinePub.max) && sameSn(pub.cursor, baselinePub.cursor) && pub.latest == baselinePub.latest && pub.length == baselinePub.length);
+      |           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:228:47: error: use of undeclared identifier 'sameSn'
+  228 |     CHECK(sameSn(pub.min, baselinePub.min) && sameSn(pub.max, baselinePub.max) && sameSn(pub.cursor, baselinePub.cursor) && pub.latest == baselinePub.latest && pub.length == baselinePub.length);
+      |                                               ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:228:83: error: use of undeclared identifier 'sameSn'
+  228 |     CHECK(sameSn(pub.min, baselinePub.min) && sameSn(pub.max, baselinePub.max) && sameSn(pub.cursor, baselinePub.cursor) && pub.latest == baselinePub.latest && pub.length == baselinePub.length);
+      |                                                                                   ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:229:11: error: use of undeclared identifier 'sameSn'
+  229 |     CHECK(sameSn(sub.min, baselineSub.min) && sameSn(sub.max, baselineSub.max) && sameSn(sub.cursor, baselineSub.cursor) && sub.latest == baselineSub.latest && sub.length == baselineSub.length);
+      |           ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:229:47: error: use of undeclared identifier 'sameSn'
+  229 |     CHECK(sameSn(sub.min, baselineSub.min) && sameSn(sub.max, baselineSub.max) && sameSn(sub.cursor, baselineSub.cursor) && sub.latest == baselineSub.latest && sub.length == baselineSub.length);
+      |                                               ^
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp:229:83: error: use of undeclared identifier 'sameSn'
+  229 |     CHECK(sameSn(sub.min, baselineSub.min) && sameSn(sub.max, baselineSub.max) && sameSn(sub.cursor, baselineSub.cursor) && sub.latest == baselineSub.latest && sub.length == baselineSub.length);
+      |                                                                                   ^
+2 warnings and 17 errors generated.
