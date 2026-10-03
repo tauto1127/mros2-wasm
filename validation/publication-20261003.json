@@ -85,5 +85,25 @@
     "pushed": true
   },
   "publication_check_note": "Initial default whitespace check stopped before lwIP staging because CRLF was classified as trailing whitespace. Existing index mixed/worktree CRLF conventions confirmed; command-local cr-at-eol-aware check passed. No source bytes or repository/global config altered. First embeddedRTPS push preserved, continuation followed dependency order.",
-  "wiki_receipt_note": "Authorized single working-plan commit/push is verified separately on life-wiki main; its exact commit is reported at final wrap. This receipt covers production dependency publication, not a self-referential containing-commit hash."
+  "wiki_receipt_note": "Wiki main was first fast-forwarded through existing unrelated upstream commits (none touched this plan/AGENTS/routing/agent-memory); our commit changed exactly the authorized working plan only. Final containing root receipt/task-board commit is identified by Git history to avoid self-reference.",
+  "root_validation": {
+    "commit": "8eae8c824c5574b0ddb381f34625fbb81258a55d",
+    "verified_push_url": "git@github.com:tauto1127/mros2-wasm.git",
+    "branch": "fix/eintr-ip-refresh",
+    "remote_tip_at_push": "8eae8c824c5574b0ddb381f34625fbb81258a55d",
+    "pushed": true
+  },
+  "wiki": {
+    "commit": "a9ca3bd9fe73d07affd70c094e2172fbd0dcec32",
+    "verified_push_url": "https://github.com/tauto1127/life-wiki.git",
+    "branch": "main",
+    "remote_tip_at_push": "a9ca3bd9fe73d07affd70c094e2172fbd0dcec32",
+    "pushed": true,
+    "changed_paths": [
+      "llm-context/working/mros2-wasm-eintr-ip-refresh-plan.md"
+    ],
+    "memory_check": "PASS",
+    "staged_scope_check": "PASS exact one routine path",
+    "policies_authored_or_modified_in_commit": false
+  }
 }
