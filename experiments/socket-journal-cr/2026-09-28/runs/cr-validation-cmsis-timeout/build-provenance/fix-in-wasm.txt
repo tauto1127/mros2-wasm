@@ -1,0 +1,16 @@
+The final Wasm links cmsis-wasm/src/libcmsis.a from the isolated wasm-build.
+That archive contains cmsis_wasm_thread_sync.c.obj compiled from
+cmsis-wasm 182dcaff50a0e9c626c84db365b1d762747a806b
+blob da3e2114dca93aa149b9f2014c55c98b7fe62987.
+
+llvm-objdump of that object shows the fixed conversion, not the previous
+nanosecond multiply:
+
+  i64.const 1000 / i64.div_u
+  i64.const 1000 / i64.rem_u
+  i64.const 1000000
+  i32.const 1000000000 / i32.div_s
+  i32.const 1000000000 / i32.rem_s
+
+These are timeout/1000, timeout%1000, remainder*1000000, and the
+1000000000 nanosecond carry. The linked module is echoback_string.wasm.
