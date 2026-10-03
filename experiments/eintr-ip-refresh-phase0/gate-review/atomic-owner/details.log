@@ -1,0 +1,368 @@
+
+                        read_leb_uint32(frame_ip, frame_ip_end, tbl_idx);
+                        bh_assert(tbl_idx < module->table_count);
+
+                        tbl_inst = wasm_get_table_inst(module, tbl_idx);
+
+                        orig_tbl_sz = tbl_inst->cur_size;
+
+                        n = POP_I32();
+                        init_val = POP_I32();
+
+                        if (!wasm_enlarge_table(module, tbl_idx, n, init_val)) {
+                            PUSH_I32(-1);
+                        }
+                        else {
+                            PUSH_I32(orig_tbl_sz);
+                        }
+                        break;
+                    }
+                    case WASM_OP_TABLE_SIZE:
+                    {
+                        uint32 tbl_idx;
+                        WASMTableInstance *tbl_inst;
+
+                        read_leb_uint32(frame_ip, frame_ip_end, tbl_idx);
+                        bh_assert(tbl_idx < module->table_count);
+
+                        tbl_inst = wasm_get_table_inst(module, tbl_idx);
+
+                        PUSH_I32(tbl_inst->cur_size);
+                        break;
+                    }
+                    case WASM_OP_TABLE_FILL:
+                    {
+                        uint32 tbl_idx, n, fill_val;
+                        WASMTableInstance *tbl_inst;
+                    }
+
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG:
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG8_U:
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG16_U:
+                    {
+                        uint32 readv, sval, expect;
+
+                        sval = POP_I32();
+                        expect = POP_I32();
+                        addr = POP_I32();
+
+                        if (opcode == WASM_OP_ATOMIC_RMW_I32_CMPXCHG8_U) {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 1, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            expect = (uint8)expect;
+                            shared_memory_lock(memory);
+                            readv = (uint32)(*(uint8 *)maddr);
+                            if (readv == expect)
+                                *(uint8 *)maddr = (uint8)(sval);
+                            shared_memory_unlock(memory);
+                        }
+                        else if (opcode == WASM_OP_ATOMIC_RMW_I32_CMPXCHG16_U) {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 2, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            expect = (uint16)expect;
+                            shared_memory_lock(memory);
+                            readv = (uint32)LOAD_U16(maddr);
+                            if (readv == expect)
+                                STORE_U16(maddr, (uint16)(sval));
+                            shared_memory_unlock(memory);
+                        }
+                        else {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 4, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            shared_memory_lock(memory);
+                            readv = LOAD_I32(maddr);
+                            if (readv == expect)
+                                STORE_U32(maddr, sval);
+                            shared_memory_unlock(memory);
+                        }
+                        PUSH_I32(readv);
+                        break;
+                    }
+                        /* xchg, ignore the read value, and store the given
+                          value: readv * 0 + sval */
+                        DEF_ATOMIC_RMW_OPCODE(XCHG, *0 +);
+                }
+
+                HANDLE_OP_END();
+            }
+#endif
+
+            HANDLE_OP(WASM_OP_IMPDEP)
+            {
+                frame = prev_frame;
+                frame_ip = frame->ip;
+                frame_sp = frame->sp;
+                frame_csp = frame->csp;
+                goto call_func_from_entry;
+            }
+
+#if WASM_ENABLE_DEBUG_INTERP != 0
+            HANDLE_OP(DEBUG_OP_BREAK)
+            {
+                wasm_cluster_thread_send_signal(exec_env, WAMR_SIG_TRAP);
+                WASM_SUSPEND_FLAGS_FETCH_OR(exec_env->suspend_flags,
+                                            WASM_SUSPEND_FLAG_SUSPEND);
+                frame_ip--;
+                SYNC_ALL_TO_FRAME();
+                CHECK_SUSPEND_FLAGS();
+                HANDLE_OP_END();
+            }
+#endif
+#if WASM_ENABLE_LABELS_AS_VALUES == 0
+            default:
+                wasm_set_exception(module, "unsupported opcode");
+                goto got_exception;
+        }
+#endif
+
+#if WASM_ENABLE_LABELS_AS_VALUES != 0
+        HANDLE_OP(WASM_OP_UNUSED_0x06)
+        HANDLE_OP(WASM_OP_UNUSED_0x07)
+        HANDLE_OP(WASM_OP_UNUSED_0x08)
+        HANDLE_OP(WASM_OP_UNUSED_0x09)
+        HANDLE_OP(WASM_OP_UNUSED_0x0a)
+#if WASM_ENABLE_TAIL_CALL == 0
+        HANDLE_OP(WASM_OP_RETURN_CALL)
+        HANDLE_OP(WASM_OP_RETURN_CALL_INDIRECT)
+#endif
+#if WASM_ENABLE_SHARED_MEMORY == 0
+        HANDLE_OP(WASM_OP_ATOMIC_PREFIX)
+#endif
+#if WASM_ENABLE_REF_TYPES == 0
+        HANDLE_OP(WASM_OP_SELECT_T)
+        HANDLE_OP(WASM_OP_TABLE_GET)
+        HANDLE_OP(WASM_OP_TABLE_SET)
+        HANDLE_OP(WASM_OP_REF_NULL)
+        HANDLE_OP(WASM_OP_REF_IS_NULL)
+        HANDLE_OP(WASM_OP_REF_FUNC)
+#endif
+        HANDLE_OP(WASM_OP_UNUSED_0x14)
+        HANDLE_OP(WASM_OP_UNUSED_0x15)
+        HANDLE_OP(WASM_OP_UNUSED_0x16)
+
+        /* Copy original arguments */
+        bh_memcpy_s(argv1, (uint32)size, argv, sizeof(uint32) * argc);
+
+        /* Get the extra result value's address */
+        ext_rets =
+            argv1 + argc + sizeof(void *) / sizeof(uint32) * ext_ret_count;
+
+        /* Append each extra result value's address to original arguments */
+        for (i = 0; i < ext_ret_count; i++) {
+            *(uintptr_t *)(argv1 + argc + sizeof(void *) / sizeof(uint32) * i) =
+                (uintptr_t)(ext_rets + cell_num);
+            cell_num += wasm_value_type_cell_num(ext_ret_types[i]);
+        }
+
+        ret = wasm_runtime_invoke_native(
+            exec_env, module_inst->func_ptrs[func_idx], func_type, NULL, NULL,
+            argv1, argc, argv);
+        if (!ret) {
+            if (argv1 != argv1_buf)
+                wasm_runtime_free(argv1);
+            goto fail;
+        }
+
+        /* Get extra result values */
+        switch (func_type->types[func_type->param_count]) {
+            case VALUE_TYPE_I32:
+            case VALUE_TYPE_F32:
+#if WASM_ENABLE_REF_TYPES != 0
+            case VALUE_TYPE_FUNCREF:
+            case VALUE_TYPE_EXTERNREF:
+#endif
+                argv_ret++;
+                break;
+            case VALUE_TYPE_I64:
+            case VALUE_TYPE_F64:
+                argv_ret += 2;
+                break;
+#if WASM_ENABLE_SIMD != 0
+            case VALUE_TYPE_V128:
+                argv_ret += 4;
+                break;
+#endif
+            default:
+                bh_assert(0);
+                break;
+#ifndef _WASM_SOCKET_JOURNAL_H
+#define _WASM_SOCKET_JOURNAL_H
+
+#include "wasmtime_ssp.h"
+
+typedef enum {
+    SOCK_OP_OPEN = 1,
+    SOCK_OP_BIND,
+    SOCK_OP_SET_REUSE_ADDR,
+    SOCK_OP_SET_BROADCAST,
+    SOCK_OP_SET_IP_MULTICAST_LOOP,
+    SOCK_OP_SET_IP_MULTICAST_TTL,
+    SOCK_OP_SET_IP_TTL,
+    SOCK_OP_ADD_MEMBERSHIP,
+    SOCK_OP_DROP_MEMBERSHIP,
+    SOCK_OP_CLOSE
+} sock_op_kind;
+
+typedef struct {
+    uint8_t   kind;
+    int32_t   fd;                       /* OPEN=結果fd, 他=対象fd */
+    int32_t   af;
+    int32_t   socktype;                 /* OPEN */
+    __wasi_addr_t   addr;                 /* BIND */
+    __wasi_addr_ip_t multiaddr;
+    uint32_t  interface;                 /* ADD/DROP */
+    uint64_t  val;                      /* SET_* の bool/uint8, loop の場合は (ipv6 << 1) | is_enabled */
+} sock_op;
+
+void socket_journal_record(const sock_op *op);
+/* Returns true if the given fd is currently an open socket in the journal
+ * (an OPEN not yet cancelled by a later CLOSE of the same fd number). */
+bool socket_journal_has_open(int32_t fd);
+int  socket_journal_dump(const char *file_prefix);
+int  socket_journal_restore(wasm_exec_env_t exec_env, const char *file_prefix);
+
+#endif /* _WASM_SOCKET_JOURNAL_H */
+         (void *)&netif_wasm.ip_addr.addr);
+  if (length > 0 && (size_t)length < sizeof(line)) {
+    /* One bounded write avoids interleaving WAMR's character-wise printf. */
+    (void)write(STDERR_FILENO, line, (size_t)length);
+  }
+  errno = saved_errno;
+}
+
+static int
+probe_local_ip(in_addr_t *local_ip)
+{
+  int socket_fd = -1;
+  struct sockaddr_in discovery = {0};
+  struct sockaddr_in local = {0};
+  socklen_t local_length = sizeof(local);
+
+  socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+  if (socket_fd < 0) {
+    fprintf(stderr, "netif_wasm: socket() failed: errno=%d\n", errno);
+    return -1;
+  }
+
+  discovery.sin_family = AF_INET;
+  discovery.sin_port = htons(DISCOVERY_MULTICAST_PORT);
+  if (inet_pton(AF_INET, DISCOVERY_MULTICAST_IP, &discovery.sin_addr) != 1) {
+    fprintf(stderr, "netif_wasm: invalid discovery multicast address\n");
+    close(socket_fd);
+    return -1;
+  }
+
+  /* UDP connect selects the outgoing route but does not send a packet. */
+  if (connect(socket_fd, (const struct sockaddr *)&discovery,
+              sizeof(discovery)) != 0) {
+    fprintf(stderr, "netif_wasm: connect() failed: errno=%d\n", errno);
+    close(socket_fd);
+    return -1;
+  }
+
+  if (getsockname(socket_fd, (struct sockaddr *)&local, &local_length) != 0 ||
+      local.sin_family != AF_INET || local.sin_addr.s_addr == INADDR_ANY) {
+    fprintf(stderr,
+            "netif_wasm: getsockname() did not return a local IPv4 address\n");
+    close(socket_fd);
+    return -1;
+  }
+
+  *local_ip = local.sin_addr.s_addr;
+  close(socket_fd);
+  return 0;
+}
+
+int
+netif_wasm_add(const char* ipaddr, const char* netmask)
+{
+  in_addr_t addr;
+  in_addr_t mask;
+  (void)ipaddr; /* Kept only for compatibility with existing applications. */
+    while (exec_env) {
+        wasm_cluster_thread_send_signal(exec_env, signo);
+        exec_env = bh_list_elem_next(exec_env);
+    }
+}
+
+void
+wasm_cluster_wakeup_blocking_threads_for_checkpoint(WASMCluster *cluster)
+{
+    WASMExecEnv **targets;
+    uint32 n, count = 0, i;
+
+    if (!cluster)
+        return;
+
+    /* Snapshot the exec_envs currently blocked in a syscall (e.g.
+       sock_recv_from) under cluster->lock, then wake them outside the lock
+       since the wake loop sleeps. Waking them (WITHOUT terminating) makes the
+       blocking syscall return EINTR so they re-enter the interp loop and
+       observe the already-set WAMR_SIG_CHECKPOINT at CHECK_DUMP; otherwise
+       checkpoint_routine hangs waiting for them to checkpoint. */
+    os_mutex_lock(&cluster->lock);
+    n = cluster->exec_env_list.len;
+    targets = wasm_runtime_malloc(sizeof(WASMExecEnv *) * (n ? n : 1));
+    if (targets) {
+        WASMExecEnv *env = bh_list_first_elem(&cluster->exec_env_list);
+        while (env) {
+            if (WASM_SUSPEND_FLAGS_GET(env->suspend_flags)
+                & WASM_SUSPEND_FLAG_BLOCKING)
+                targets[count++] = env;
+            env = bh_list_elem_next(env);
+        }
+    }
+    os_mutex_unlock(&cluster->lock);
+
+    if (!targets)
+        return;
+    for (i = 0; i < count; i++)
+        wasm_runtime_wakeup_blocking_op_for_checkpoint(targets[i]);
+    wasm_runtime_free(targets);
+}
+
+void
+wasm_cluster_thread_exited(WASMExecEnv *exec_env)
+{
+    exec_env->current_status->running_status = STATUS_EXIT;
+    notify_debug_instance_exit(exec_env);
+}
+14:static korp_mutex journal_lock;
+19: * mutex from socket_journal_record(), which is called concurrently from
+24:    if (os_mutex_init(&journal_lock) == BHT_OK) {
+35:        os_mutex_lock(&journal_lock);
+43:        os_mutex_unlock(&journal_lock);
+192:     * open at checkpoint time, replaying OPEN for that number would wrongly
+199:            case SOCK_OP_OPEN: {
+206:            case SOCK_OP_BIND: {
+213:            case SOCK_OP_SET_REUSE_ADDR: {
+220:            case SOCK_OP_SET_BROADCAST: {
+227:            case SOCK_OP_SET_IP_MULTICAST_LOOP: {
+236:            case SOCK_OP_SET_IP_MULTICAST_TTL: {
+243:            case SOCK_OP_SET_IP_TTL: {
+250:            case SOCK_OP_ADD_MEMBERSHIP: {
+267:            case SOCK_OP_DROP_MEMBERSHIP: {
+274:            case SOCK_OP_CLOSE: {
+23: 00037c: fe 48 02 00                |       i32.atomic.rmw.cmpxchg 2 0
+71: 0003fd: fe 48 02 00                |     i32.atomic.rmw.cmpxchg 2 0
+617: 0008dc: fe 4a 00 b0 a2 80 80 00    |   i32.atomic.rmw8.cmpxchg_u 0 4400
+1165: 000ec2: fe 4a 00 b0 a2 80 80 00    |       i32.atomic.rmw8.cmpxchg_u 0 4400
+1243: 000f61: fe 43 00 bc a2 80 80 00    |       i32.atomic.rmw8.xchg_u 0 4412
+1309: 000fed: fe 48 02 c0 a2 80 80 00    |       i32.atomic.rmw.cmpxchg 2 4416
+1463: 001153: fe 43 00 b0 a2 80 80 00    |         i32.atomic.rmw8.xchg_u 0 4400
+1537: 0011f2: fe 41 02 c0 a2 80 80 00    |         i32.atomic.rmw.xchg 2 4416
+1763: 001412: fe 4a 00 b0 a2 80 80 00    | i32.atomic.rmw8.cmpxchg_u 0 4400
+1871: 001507: fe 4a 00 b0 a2 80 80 00    |     i32.atomic.rmw8.cmpxchg_u 0 4400
+1963: 0015de: fe 4a 00 b0 a2 80 80 00    |   i32.atomic.rmw8.cmpxchg_u 0 4400
+2604: 001bdb: fe 41 02 bc a6 80 80 00    |     i32.atomic.rmw.xchg 2 4924
+2616: 001bfd: fe 41 02 bc a6 80 80 00    |         i32.atomic.rmw.xchg 2 4924
+2674: 001ca0: fe 41 02 a0 a6 80 80 00    |   i32.atomic.rmw.xchg 2 4896
+2686: 001cc2: fe 41 02 a0 a6 80 80 00    |       i32.atomic.rmw.xchg 2 4896
+2727: 001d20: fe 41 02 bc a6 80 80 00    |                           i32.atomic.rmw.xchg 2 4924
+2739: 001d42: fe 41 02 bc a6 80 80 00    |                               i32.atomic.rmw.xchg 2 4924
+3691: 00256c: fe 41 02 bc a6 80 80 00    |                         i32.atomic.rmw.xchg 2 4924
+3703: 00258e: fe 41 02 bc a6 80 80 00    |                             i32.atomic.rmw.xchg 2 4924
+3854: 002705: fe 41 02 bc a6 80 80 00    |                       i32.atomic.rmw.xchg 2 4924

@@ -1,0 +1,26 @@
++ /opt/wasi-sdk-21/bin/clang --target=wasm32-wasi-threads --sysroot=/home/osslab/wasi-sysroot -pthread -std=c11 -O0 -g experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c -Wl,--import-memory,--export-memory,--shared-memory,--initial-memory=1073741824,--max-memory=1073741824,-zstack-size=6553600 -o experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.wasm
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:54:9: error: call to undeclared function 'socket'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   54 |  int fd=socket(AF_INET,SOCK_DGRAM,0); struct sockaddr_in a={.sin_family=AF_INET,.sin_port=htons(23456),.sin_addr.s_addr=0};
+      |         ^
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:55:11: error: call to undeclared function 'bind'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   55 |  if(fd<0||bind(fd,(void*)&a,sizeof a)<0)return 5;
+      |           ^
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:58:17: error: call to undeclared function 'recvfrom'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   58 |  char b; int rc=recvfrom(fd,&b,1,0,0,0); int saved=errno;
+      |                 ^
+3 errors generated.
++ /opt/wasi-sdk-21/bin/clang --target=wasm32-wasi-threads --sysroot=/home/osslab/wasi-sysroot -pthread -std=c11 -O0 -c experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c -o experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.o
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:54:9: error: call to undeclared function 'socket'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   54 |  int fd=socket(AF_INET,SOCK_DGRAM,0); struct sockaddr_in a={.sin_family=AF_INET,.sin_port=htons(23456),.sin_addr.s_addr=0};
+      |         ^
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:55:11: error: call to undeclared function 'bind'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   55 |  if(fd<0||bind(fd,(void*)&a,sizeof a)<0)return 5;
+      |           ^
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.c:58:17: error: call to undeclared function 'recvfrom'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   58 |  char b; int rc=recvfrom(fd,&b,1,0,0,0); int saved=errno;
+      |                 ^
+3 errors generated.
++ /opt/wasi-sdk-21/bin/llvm-nm -u experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.o
+/opt/wasi-sdk-21/bin/llvm-nm: error: experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.o: No such file or directory
++ wasm-objdump -x experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.wasm
+experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/probe.wasm: No such file or directory

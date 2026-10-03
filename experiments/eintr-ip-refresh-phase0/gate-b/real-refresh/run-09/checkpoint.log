@@ -1,0 +1,483 @@
+boot_start, 2664578273144950
+11 stderr
+22 stderr
+signal init: 139178469164608
+initします
+boot_end, 2664578284821062
+initします
+boot_end, 2664578285110899
+3 stderr
+event=REAL_SOCKET pthread=0x404 fd=5 errno=0
+event=REAL_CONNECT pthread=0x404 fd=5 rc=0 errno=0
+event=REAL_GETSOCKNAME pthread=0x404 fd=5 rc=0 errno=0 family=1 addr=0x030012ac
+event=REAL_CLOSE pthread=0x404 fd=5 rc=0 errno=0
+netif_wasm: dynamic ip=0x030012ac mask=0x00ffffff
+initします
+boot_end, 2664578286741981
+initします
+event=REAL_SOCKET pthread=0x404 fd=7 errno=0
+boot_end, 2664578287722464
+event=REAL_CONNECT pthread=0x404 fd=7 rc=0 errno=0
+event=CUT_AFTER_REAL_CONNECT_BEFORE_GETSOCKNAME pthread=0x404 core_mutex=0x15a4 size=24 post_stage=0x165c ack=0x1660 owner still holds shared core mutex
+SIGUSR2 called, 139178469164608
+=======スレッドの同時停止開始=========
+memory, 340
+global, 83348
+program counter, 56256
+[20:09:38:958 - 7E95033F5840]: Load type section success.
+
+[20:09:38:973 - 7E95033F5840]: Load import section success.
+
+[20:09:38:995 - 7E95033F5840]: Load function section success.
+
+[20:09:38:996 - 7E95033F5840]: Load table section success.
+
+[20:09:38:997 - 7E95033F5840]: Load global section success.
+
+[20:09:38:998 - 7E95033F5840]: Load export section success.
+
+[20:09:38:998 - 7E95033F5840]: Load start section success.
+
+[20:09:38:999 - 7E95033F5840]: Load table segment section success.
+
+[20:09:38:999 - 7E95033F5840]: Load datacount section success.
+
+[20:09:38:006 - 7E95033F5840]: Load code segment section success.
+
+[20:09:38:007 - 7E95033F5840]: Load data segment section success.
+
+[20:09:38:008 - 7E95033F5840]: Ignore custom section [.debug_abbrev].
+[20:09:38:008 - 7E95033F5840]: Ignore custom section [.debug_info].
+[20:09:38:009 - 7E95033F5840]: Ignore custom section [.debug_ranges].
+[20:09:38:009 - 7E95033F5840]: Ignore custom section [.debug_str].
+[20:09:38:010 - 7E95033F5840]: Ignore custom section [.debug_line].
+[20:09:38:010 - 7E95033F5840]: Ignore custom section [name].
+[20:09:38:011 - 7E95033F5840]: Ignore custom section [producers].
+[20:09:38:011 - 7E95033F5840]: Ignore custom section [target_features].
+[20:09:38:481 - 7E95033F5840]: Load module success.
+
+[20:09:38:484 - 7E95033F5840]: Memory instantiate:
+[20:09:38:484 - 7E95033F5840]:   page bytes: 65536, init pages: 16384, max pages: 16384
+[20:09:38:485 - 7E95033F5840]:   heap offset: 1073741824, heap size: 0
+
+[20:09:38:500 - 7E95033F5840]: Memory instantiate success.
+checkpoint
+do_checkpoint_1
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3
+do_checkpoint_2
+checkpoint
+do_checkpoint_1
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3
+do_checkpoint_2
+do_checkpoint_3
+do_checkpoint_3
+main-Thread checkpoint started
+1-Thread checkpoint started
+Stack: [ 0 ]
+Stack: [ 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=1, stack_size=1
+
+[2026-10-02 01:45:59.299] [info] local_count=0, local_size=0
+
+[2026-10-02 01:45:59.299] [info] locals: {count=0, size=0}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=1, size=1}
+
+Stack: [ 0 ]
+Stack: [ 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=1, stack_size=1
+
+[2026-10-02 01:45:59.299] [info] local_count=1, local_size=1
+
+[2026-10-02 01:45:59.299] [info] locals: {count=1, size=1}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=0, size=0}
+
+Stack: [ 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=35, stack_size=35
+
+[2026-10-02 01:45:59.299] [info] local_count=35, local_size=35
+
+[2026-10-02 01:45:59.299] [info] locals: {count=35, size=35}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=0, size=0}
+
+Stack: [ 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=39, stack_size=39
+
+[2026-10-02 01:45:59.299] [info] local_count=39, local_size=39
+
+[2026-10-02 01:45:59.299] [info] locals: {count=39, size=39}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=0, size=0}
+
+Stack: [ 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=8, stack_size=8
+
+[2026-10-02 01:45:59.299] [info] local_count=8, local_size=8
+
+[2026-10-02 01:45:59.299] [info] locals: {count=8, size=8}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=0, size=0}
+
+Stack: [ 1 0 ]
+Stack: [ 1 1 ]
+[2026-10-02 01:45:59.299] [info] stack_count=2, stack_size=2
+
+[2026-10-02 01:45:59.299] [info] local_count=2, local_size=2
+
+[2026-10-02 01:45:59.299] [info] locals: {count=2, size=2}
+
+[2026-10-02 01:45:59.299] [info] value_stack: {count=0, size=0}
+
+stack, 334632
+1-thread attrs, 28103
+call_stack size: 6
+CallStackEntry: fidx=129, offset=26
+pc: 
+  pc: (129, 26)
+locals: 
+  types: 1 1 
+  values: 1 13114572 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 57 
+    stack_pointers: 0 
+    cell_nums: 0 
+CallStackEntry: fidx=116, offset=31
+pc: 
+  pc: (116, 31)
+locals: 
+  types: 1 1 1 1 1 1 1 1 
+  values: 1 13114572 13114596 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 622 
+    stack_pointers: 0 
+    cell_nums: 0 
+CallStackEntry: fidx=29, offset=51
+pc: 
+  pc: (29, 51)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 0 13114560 128 13114432 5724 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 419 
+    stack_pointers: 0 
+    cell_nums: 1 
+CallStackEntry: fidx=31, offset=186
+pc: 
+  pc: (31, 186)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 5724 1 13114432 32 13114400 0 167255 100000000 167255 100000000 1 1 1 5724 0 0 1 0 1 0 1 0 0 167254 1 167255 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 4
+    begins: 0 54 56 58 
+    targets: 323 4294967295 4294967295 58 
+    stack_pointers: 0 0 0 0 
+    cell_nums: 1 0 0 0 
+CallStackEntry: fidx=43, offset=2
+pc: 
+  pc: (43, 2)
+locals: 
+  types: 1 
+  values: 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 2
+    begins: 0 2 
+    targets: 36 4294967295 
+    stack_pointers: 0 0 
+    cell_nums: 1 0 
+CallStackEntry: fidx=54, offset=0
+pc: 
+  pc: (54, 0)
+locals: 
+  types: 
+  values: 
+value_stack: 
+  types: 1 
+  values: 0 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 11 
+    stack_pointers: 0 
+    cell_nums: 1 
+[2026-10-02 01:45:59.300] [info] Success to dump frame stack
+
+memory, 783844458
+global, 45656
+[20:09:38:255 - 7E9503327640]: Success to dump img for wamr
+
+do_checkpoint_4
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3
+Stack: [ 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=7, stack_size=7
+
+[2026-10-02 01:46:00.083] [info] local_count=6, local_size=6
+
+[2026-10-02 01:46:00.083] [info] locals: {count=6, size=6}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=1, size=1}
+
+Stack: [ 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=5, stack_size=5
+
+[2026-10-02 01:46:00.083] [info] local_count=5, local_size=5
+
+[2026-10-02 01:46:00.083] [info] locals: {count=5, size=5}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+Stack: [ 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=7, stack_size=7
+
+[2026-10-02 01:46:00.083] [info] local_count=7, local_size=7
+
+[2026-10-02 01:46:00.083] [info] locals: {count=7, size=7}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+program counter, 31710
+Stack: [ 143 142 141 140 139 138 137 136 135 134 133 132 131 130 129 128 127 126 125 124 123 122 121 120 119 118 117 116 115 114 113 112 111 110 109 108 107 106 105 104 103 102 101 100 99 98 97 96 95 94 93 92 91 90 89 88 87 86 85 84 83 82 81 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=144, stack_size=144
+
+[2026-10-02 01:46:00.083] [info] local_count=143, local_size=143
+
+[2026-10-02 01:46:00.083] [info] locals: {count=143, size=143}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=1, size=1}
+
+Stack: [ 102 102 102 102 102 101 100 99 98 97 96 95 94 93 92 91 90 89 88 87 86 85 84 83 82 81 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 7 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=105, stack_size=107
+
+[2026-10-02 01:46:00.083] [info] local_count=100, local_size=102
+
+[2026-10-02 01:46:00.083] [info] locals: {count=100, size=102}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=5, size=5}
+
+Stack: [ 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=64, stack_size=64
+
+[2026-10-02 01:46:00.083] [info] local_count=64, local_size=64
+
+[2026-10-02 01:46:00.083] [info] locals: {count=64, size=64}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+Stack: [ 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=43, stack_size=43
+
+[2026-10-02 01:46:00.083] [info] local_count=43, local_size=43
+
+[2026-10-02 01:46:00.083] [info] locals: {count=43, size=43}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+Stack: [ 81 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 ]
+Stack: [ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=82, stack_size=82
+
+[2026-10-02 01:46:00.083] [info] local_count=82, local_size=82
+
+[2026-10-02 01:46:00.083] [info] locals: {count=82, size=82}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+Stack: [ 0 ]
+Stack: [ 1 ]
+[2026-10-02 01:46:00.083] [info] stack_count=1, stack_size=1
+
+[2026-10-02 01:46:00.083] [info] local_count=1, local_size=1
+
+[2026-10-02 01:46:00.083] [info] locals: {count=1, size=1}
+
+[2026-10-02 01:46:00.083] [info] value_stack: {count=0, size=0}
+
+stack, 391440
+main-thread attrs, 26941
+call_stack size: 9
+CallStackEntry: fidx=16, offset=39
+pc: 
+  pc: (16, 39)
+locals: 
+  types: 1 
+  values: 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 3
+    begins: 0 2 4 
+    targets: 71 4294967295 4294967295 
+    stack_pointers: 0 0 0 
+    cell_nums: 0 0 0 
+CallStackEntry: fidx=27, offset=281
+pc: 
+  pc: (27, 281)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 6560960 48 6560912 0 0 5392 0 0 5256 0 2473 2459 0 0 0 0 40 6560952 6560952 0 1 0 0 1 1 0 1604 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 2
+    begins: 0 126 
+    targets: 821 4294967295 
+    stack_pointers: 0 0 
+    cell_nums: 1 0 
+CallStackEntry: fidx=30, offset=110
+pc: 
+  pc: (30, 110)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 1604 6560912 144 6560768 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 2
+    begins: 0 62 
+    targets: 446 4294967295 
+    stack_pointers: 0 0 
+    cell_nums: 1 0 
+CallStackEntry: fidx=26, offset=44
+pc: 
+  pc: (26, 44)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 6560768 48 6560720 40 6560760 6560760 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 568 
+    stack_pointers: 0 
+    cell_nums: 1 
+CallStackEntry: fidx=21, offset=668
+pc: 
+  pc: (21, 668)
+locals: 
+  types: 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 6560760 6560720 80 6560640 4294967295 0 0 0 16 1 5 0 7 7 0 7 0 0 1 0 0 0 0 0 0 0 0 0 1 7400 65535 7400 59420 48 6560688 6560688 4 6560692 1 2447 1 1 1 1 0 1 0 0 0 0 0 0 0 7 48 6560688 6560688 16 0 0 0 0 0 0 0 0 0 0 0 0 7 32 6560672 6560672 28 6560668 6560668 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 1 1 1 1 1 
+  values: 7 7 7 7 7 
+label stack: 
+  size: 2
+    begins: 0 165 
+    targets: 899 4294967295 
+    stack_pointers: 0 0 
+    cell_nums: 1 0 
+CallStackEntry: fidx=25, offset=405
+pc: 
+  pc: (25, 405)
+locals: 
+  types: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+  values: 7 6560672 6560668 6560640 544 6560096 0 1 1 0 4294967295 1 1 0 0 0 0 0 0 0 4294967295 4294967295 4294967295 1 1 1 5728 5724 24 5540 1136 144 368 6560464 48 6560144 2340 368 6560464 7 0 1 367 6560463 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+value_stack: 
+  types: 1 
+  values: 7 
+label stack: 
+  size: 3
+    begins: 0 221 223 
+    targets: 1388 4294967295 4294967295 
+    stack_pointers: 0 0 0 
+    cell_nums: 1 0 0 
+CallStackEntry: fidx=36, offset=86
+pc: 
+  pc: (36, 86)
+locals: 
+  types: 1 1 1 1 1 1 1 
+  values: 7 6560463 1 0 0 0 6560048 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 3
+    begins: 0 40 74 
+    targets: 229 4294967295 4294967295 
+    stack_pointers: 0 0 0 
+    cell_nums: 1 0 0 
+CallStackEntry: fidx=44, offset=95
+pc: 
+  pc: (44, 95)
+locals: 
+  types: 1 1 1 1 1 
+  values: 7 6560463 1 0 6560032 
+value_stack: 
+  types: 
+  values: 
+label stack: 
+  size: 3
+    begins: 0 19 69 
+    targets: 152 4294967295 4294967295 
+    stack_pointers: 0 0 0 
+    cell_nums: 1 0 0 
+CallStackEntry: fidx=55, offset=12
+pc: 
+  pc: (55, 12)
+locals: 
+  types: 1 1 1 1 1 1 
+  values: 7 6560040 1 0 6560036 6560034 
+value_stack: 
+  types: 1 
+  values: 27 
+label stack: 
+  size: 1
+    begins: 0 
+    targets: 23 
+    stack_pointers: 0 
+    cell_nums: 1 
+[2026-10-02 01:46:00.083] [info] Success to dump frame stack
+
+checkpoint done:0
+main thread dump_thread_states
+thread id: 1
+待機中スレッド一覧の保存をdump_valueで行います．数；0
+[20:09:39:119 - 7E95033F5840]: Success to dump img for wamr
+
+do_checkpoint_4
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3

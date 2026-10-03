@@ -1,0 +1,247 @@
+[
+    {
+        "Id": "f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc",
+        "Created": "2026-10-01T12:08:55.569028745Z",
+        "Path": "/ros_entrypoint.sh",
+        "Args": [
+            "sleep",
+            "infinity"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 2216126,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-01T12:08:55.626861374Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+        "ResolvConfPath": "/var/lib/docker/containers/f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc/hostname",
+        "HostsPath": "/var/lib/docker/containers/f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc/hosts",
+        "LogPath": "/var/lib/docker/containers/f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc/f28fe85b2c9d31019652752c4a6033d8796253be9b4069ab98db118998f1fffc-json.log",
+        "Name": "/mros2-cr-phase0-experimental-run-02-peer",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "mros2-cr-net",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/smoke/same/run-02",
+                    "Target": "/run/raw"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+                    "Target": "/native-peer",
+                    "ReadOnly": true
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+                "Destination": "/native-peer",
+                "Mode": "",
+                "RW": false,
+                "Propagation": "rprivate"
+            },
+            {
+                "Type": "bind",
+                "Source": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/smoke/same/run-02",
+                "Destination": "/run/raw",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "f28fe85b2c9d",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8",
+                "ROS_DISTRO=humble"
+            ],
+            "Cmd": [
+                "sleep",
+                "infinity"
+            ],
+            "Image": "ros:humble",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/ros_entrypoint.sh"
+            ],
+            "Labels": {
+                "io.mros2-cr.trial": "phase0-experimental-run-02",
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "a093ef601dfb6047dbdd12023ca3f9fe621d753d9dac56e8ab1ce71fd791c570",
+            "SandboxKey": "/var/run/docker/netns/a093ef601dfb",
+            "Ports": {},
+            "Networks": {
+                "mros2-cr-net": {
+                    "IPAMConfig": {
+                        "IPv4Address": "172.18.0.5"
+                    },
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+                    "EndpointID": "0d44c1de224c2f39f14176060947c9cda3c008f976d73e771d931def8a770a5c",
+                    "Gateway": "172.18.0.1",
+                    "IPAddress": "172.18.0.5",
+                    "MacAddress": "ae:22:5a:dc:ad:6d",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "mros2-cr-phase0-experimental-run-02-peer",
+                        "f28fe85b2c9d"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:ba0391e31ffcfc5a1014578ecb0f4ca438be9d624b6375c85576ae16bc5232e6",
+            "size": 2909,
+            "annotations": {
+                "com.docker.official-images.bashbrew.arch": "amd64",
+                "org.opencontainers.image.base.digest": "sha256:00e8ee27be2e594747b6ba8c2791a2724e3a38a7fe66366bbd05e4e7da7ce55d",
+                "org.opencontainers.image.base.name": "ros:humble-ros-core-jammy",
+                "org.opencontainers.image.created": "2026-09-09T03:30:01Z",
+                "org.opencontainers.image.revision": "20e3ba685bb353a3c00be9ba01c1b7a6823c9472",
+                "org.opencontainers.image.source": "https://github.com/osrf/docker_images.git#20e3ba685bb353a3c00be9ba01c1b7a6823c9472:ros/humble/ubuntu/jammy/ros-base",
+                "org.opencontainers.image.url": "https://hub.docker.com/_/ros",
+                "org.opencontainers.image.version": "humble-ros-base"
+            },
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

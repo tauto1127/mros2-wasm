@@ -1,0 +1,308 @@
+rtk proxy docker ('image', 'inspect', 'ros:humble')
+[
+    {
+        "Id": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+        "RepoTags": [
+            "ros:humble"
+        ],
+        "RepoDigests": [
+            "ros@sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-09-09T03:31:03.310492734Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8",
+                "ROS_DISTRO=humble"
+            ],
+            "Entrypoint": [
+                "/ros_entrypoint.sh"
+            ],
+            "Cmd": [
+                "bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 272024399,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:ea16cace89338c84eb6bcb91a7efdfcae6838fff359efe951858227436486c34",
+                "sha256:63265b7e78e36a1e9836f4a0e00146268c519e2e8db4ecd6019cde39eb95a55b",
+                "sha256:476ff4cf6de5960b356e61e63a8e35c8d4b8c4ef1baa8e1878b5fbf129cd88a3",
+                "sha256:f9fe83a77a0faae9ce87a8e6a5d25b2d5bd46c7ebcded9152074b5765d6194c9",
+                "sha256:3fb7a7ff7fc99aba579d2e8ad33367ac804a9a991411cd3be7b8608cbd33711c",
+                "sha256:81cdef0d4542e5a4ba09548196e10ee3a5f7805f51eb30c3fb4f5be265d5f3bd",
+                "sha256:451cb5cb4668414777695e42df74e9edc5fe7b95f054c0441a2e674a59f495f4",
+                "sha256:0d3ae5096310864f49a1d8355f0c486b06e1b87b2f905e0842bc9b6541cf9807",
+                "sha256:7e6d5ae8fe4bcc53fd713b60b96e461d1268cbe35b854d72305cc680bb821ff6",
+                "sha256:fd0a6cd54a804f71c0e7c563eddf2e43d95b16aae6bc8de715a5b8f645b6afe2"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-09-17T13:13:43.036611474Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+            "size": 2695
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/library/ros"
+                }
+            ]
+        }
+    }
+]
+
+rc=0
+rtk proxy docker ('network', 'inspect', 'mros2-cr-net')
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {},
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 3,
+                        "DynamicIPsAvailable": 65533
+                    }
+                }
+            }
+        }
+    }
+]
+
+rc=0
+rtk proxy docker ('ps', '-a', '--format', '{{.Names}}')
+cartographer-e2e-arm64-builder
+
+rc=0
+rtk proxy docker ('run', '-d', '--name', 'mros2-atomic-owner-20261001', '--label', 'io.mros2-cr.atomic-owner=20261001', '--network', 'mros2-cr-net', '--ip', '172.18.0.3', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner,dst=/artifact,readonly', '--mount', 'type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime,dst=/runtime,readonly', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/success/state,dst=/state', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/success,dst=/raw', '--workdir', '/state', 'ros:humble', 'sleep', 'infinity')
+1d61f79834116e50d7cf5905ff7cae850e93a6353fb47799ecfd5b534e85ae4b
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'sh', '-c', 'ps -p 12 -o args=')
+/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/probe.wasm success
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'kill', '-USR2', '12')
+
+rc=0
+rtk proxy docker ('stop', '--time', '5', 'mros2-atomic-owner-20261001')
+Flag --time has been deprecated, use --timeout instead
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('rm', 'mros2-atomic-owner-20261001')
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('run', '-d', '--name', 'mros2-atomic-owner-20261001', '--label', 'io.mros2-cr.atomic-owner=20261001', '--network', 'mros2-cr-net', '--ip', '172.18.0.3', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner,dst=/artifact,readonly', '--mount', 'type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime,dst=/runtime,readonly', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/failure/state,dst=/state', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/failure,dst=/raw', '--workdir', '/state', 'ros:humble', 'sleep', 'infinity')
+d81c23c92300ea736282e20e5460c705d59fd4d4d01a481626be212e6b2d8623
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'sh', '-c', 'ps -p 12 -o args=')
+/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/probe.wasm failure
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'kill', '-USR2', '12')
+
+rc=0
+rtk proxy docker ('stop', '--time', '5', 'mros2-atomic-owner-20261001')
+Flag --time has been deprecated, use --timeout instead
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('rm', 'mros2-atomic-owner-20261001')
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('image', 'inspect', 'ros:humble')
+[
+    {
+        "Id": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+        "RepoTags": [
+            "ros:humble"
+        ],
+        "RepoDigests": [
+            "ros@sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-09-09T03:31:03.310492734Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8",
+                "ROS_DISTRO=humble"
+            ],
+            "Entrypoint": [
+                "/ros_entrypoint.sh"
+            ],
+            "Cmd": [
+                "bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 272024399,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:ea16cace89338c84eb6bcb91a7efdfcae6838fff359efe951858227436486c34",
+                "sha256:63265b7e78e36a1e9836f4a0e00146268c519e2e8db4ecd6019cde39eb95a55b",
+                "sha256:476ff4cf6de5960b356e61e63a8e35c8d4b8c4ef1baa8e1878b5fbf129cd88a3",
+                "sha256:f9fe83a77a0faae9ce87a8e6a5d25b2d5bd46c7ebcded9152074b5765d6194c9",
+                "sha256:3fb7a7ff7fc99aba579d2e8ad33367ac804a9a991411cd3be7b8608cbd33711c",
+                "sha256:81cdef0d4542e5a4ba09548196e10ee3a5f7805f51eb30c3fb4f5be265d5f3bd",
+                "sha256:451cb5cb4668414777695e42df74e9edc5fe7b95f054c0441a2e674a59f495f4",
+                "sha256:0d3ae5096310864f49a1d8355f0c486b06e1b87b2f905e0842bc9b6541cf9807",
+                "sha256:7e6d5ae8fe4bcc53fd713b60b96e461d1268cbe35b854d72305cc680bb821ff6",
+                "sha256:fd0a6cd54a804f71c0e7c563eddf2e43d95b16aae6bc8de715a5b8f645b6afe2"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-09-17T13:13:43.036611474Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+            "size": 2695
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/library/ros"
+                }
+            ]
+        }
+    }
+]
+
+rc=0
+rtk proxy docker ('network', 'inspect', 'mros2-cr-net')
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {},
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 3,
+                        "DynamicIPsAvailable": 65533
+                    }
+                }
+            }
+        }
+    }
+]
+
+rc=0
+rtk proxy docker ('ps', '-a', '--format', '{{.Names}}')
+cartographer-e2e-arm64-builder
+
+rc=0
+rtk proxy docker ('run', '-d', '--name', 'mros2-atomic-owner-20261001', '--label', 'io.mros2-cr.atomic-owner=20261001', '--network', 'mros2-cr-net', '--ip', '172.18.0.3', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner,dst=/artifact,readonly', '--mount', 'type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime,dst=/runtime,readonly', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/success-02/state,dst=/state', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/success-02,dst=/raw', '--workdir', '/state', 'ros:humble', 'sleep', 'infinity')
+65281691505a2278945f0d7d85b6e57c0e8d2b337724a877c2a6fef7af3786db
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'sh', '-c', 'ps -p 12 -o args=')
+/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/probe.wasm success
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'kill', '-USR2', '12')
+
+rc=0
+rtk proxy docker ('stop', '--time', '5', 'mros2-atomic-owner-20261001')
+Flag --time has been deprecated, use --timeout instead
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('rm', 'mros2-atomic-owner-20261001')
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('run', '-d', '--name', 'mros2-atomic-owner-20261001', '--label', 'io.mros2-cr.atomic-owner=20261001', '--network', 'mros2-cr-net', '--ip', '172.18.0.3', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner,dst=/artifact,readonly', '--mount', 'type=bind,src=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime,dst=/runtime,readonly', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/failure-02/state,dst=/state', '--mount', 'type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-review/atomic-owner/failure-02,dst=/raw', '--workdir', '/state', 'ros:humble', 'sleep', 'infinity')
+c585140d901c380b08078df311036f65ecdd860882a0df6957c83ee92cd74699
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'sh', '-c', 'ps -p 12 -o args=')
+/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/probe.wasm failure
+
+rc=0
+rtk proxy docker ('exec', 'mros2-atomic-owner-20261001', 'kill', '-USR2', '12')
+
+rc=0
+rtk proxy docker ('stop', '--time', '5', 'mros2-atomic-owner-20261001')
+Flag --time has been deprecated, use --timeout instead
+mros2-atomic-owner-20261001
+
+rc=0
+rtk proxy docker ('rm', 'mros2-atomic-owner-20261001')
+mros2-atomic-owner-20261001
+
+rc=0

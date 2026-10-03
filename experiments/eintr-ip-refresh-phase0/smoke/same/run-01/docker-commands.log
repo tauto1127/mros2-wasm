@@ -1,0 +1,8 @@
+[2026-10-01T12:06:33.463+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-phase0-experimental-run-01-wamr --label io.mros2-cr.trial=phase0-experimental-run-01 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/smoke/same/run-01,dst=/run/raw --mount type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/runtime-build/runtime,dst=/runtime,readonly --mount type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/runtime-build/app,dst=/artifact,readonly --mount type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/runtime-build/state/experimental-run-01,dst=/state --workdir /state ros:humble sleep infinity
+66a85866588242b5aa19e2bb9e88de9ba92791e77eba18fd9b25507378e7a5b1
+
+[2026-10-01T12:06:33.727+00:00] rc=0
+rtk proxy docker run --detach --name mros2-cr-phase0-experimental-run-01-peer --label io.mros2-cr.trial=phase0-experimental-run-01 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/smoke/same/run-01,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+5752cb7529845185a653586e393c123dec9bb9093329b4782b665a3ee36402b9
+

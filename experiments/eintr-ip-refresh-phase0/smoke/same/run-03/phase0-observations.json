@@ -1,0 +1,91 @@
+{
+  "mode": "same",
+  "evidence_directory": "smoke/same/run-03",
+  "application_gate": "PASS",
+  "pre_window": [
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+  ],
+  "N": 49,
+  "post_window": [
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72
+  ],
+  "first_new_id": 50,
+  "restore_command_to_first_complete_callback_s": 6.178545678,
+  "canary_initial": 0,
+  "canary_runtime_mutated": "0x5917d272",
+  "canary_guest_address": "0x9bf3c",
+  "netif_default_before_after": "0x9beb8",
+  "netif_object_before_after": "0x9beb8",
+  "ip_before_checkpoint": "0x030012ac",
+  "ip_at_restore_eintr": "0x030012ac",
+  "ip_after_periodic_refresh": "0x030012ac",
+  "checkpoint_image_crosscheck": {
+    "canary": true,
+    "default": true,
+    "ip": true
+  },
+  "eintr_total": 4,
+  "eintr_thread_count": 4,
+  "eintr_fd_count": 4,
+  "eintr_threads_fds": [
+    {
+      "thread": "0x209e7d4",
+      "fd": 14,
+      "count": 1,
+      "restore_log_line": 548
+    },
+    {
+      "thread": "0x1a4e434",
+      "fd": 7,
+      "count": 1,
+      "restore_log_line": 549
+    },
+    {
+      "thread": "0x26eea74",
+      "fd": 12,
+      "count": 1,
+      "restore_log_line": 550
+    },
+    {
+      "thread": "0x13fe194",
+      "fd": 4,
+      "count": 1,
+      "restore_log_line": 551
+    }
+  ],
+  "fallback_entries": 0,
+  "periodic_refresh_before_checkpoint": 49,
+  "periodic_refresh_after_restore_until_cleanup": 28,
+  "periodic_probe_results_after_restore": {
+    "same": 28
+  },
+  "periodic_refresh_thread": "0x4c7fd64",
+  "eintr_triggered_refresh": 0,
+  "overlap_guard_skips": null,
+  "restore_first_eintr_log_line": 548,
+  "restore_first_refresh_entry_log_line": 552,
+  "restore_first_refresh_exit_log_line": 553,
+  "hashes": {
+    "iwasm": "77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60",
+    "wasm": "c77a9ac9b0eb343e34669a4655888512981ec34e384ea277a02a53baf63911d5",
+    "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+  }
+}

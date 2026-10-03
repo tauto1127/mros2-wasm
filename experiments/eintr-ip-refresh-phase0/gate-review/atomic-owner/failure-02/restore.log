@@ -1,0 +1,102 @@
+boot_start, 2618243078133095
+11 stderr
+22 stderr
+signal init: 126368489420352
+initします
+boot_end, 2618243096410947
+3 stderr
+initします
+[07:17:23:352 - 72EE74F48840]: Load type section success.
+
+[07:17:23:371 - 72EE74F48840]: Load import section success.
+
+[07:17:23:416 - 72EE74F48840]: Load function section success.
+
+[07:17:23:418 - 72EE74F48840]: Load table section success.
+
+[07:17:23:419 - 72EE74F48840]: Load global section success.
+
+[07:17:23:421 - 72EE74F48840]: Load export section success.
+
+[07:17:23:422 - 72EE74F48840]: Load start section success.
+
+[07:17:23:423 - 72EE74F48840]: Load table segment section success.
+
+[07:17:23:423 - 72EE74F48840]: Load datacount section success.
+
+[07:17:23:425 - 72EE74F48840]: Load code segment section success.
+
+[07:17:23:426 - 72EE74F48840]: Load data segment section success.
+
+[07:17:23:426 - 72EE74F48840]: Ignore custom section [.debug_abbrev].
+[07:17:23:427 - 72EE74F48840]: Ignore custom section [.debug_info].
+[07:17:23:428 - 72EE74F48840]: Ignore custom section [.debug_ranges].
+[07:17:23:429 - 72EE74F48840]: Ignore custom section [.debug_str].
+[07:17:23:429 - 72EE74F48840]: Ignore custom section [.debug_line].
+[07:17:23:430 - 72EE74F48840]: Ignore custom section [name].
+[07:17:23:431 - 72EE74F48840]: Ignore custom section [producers].
+[07:17:23:432 - 72EE74F48840]: Ignore custom section [target_features].
+[07:17:23:982 - 72EE74F48840]: Load module success.
+
+[07:17:23:985 - 72EE74F48840]: Memory instantiate:
+[07:17:23:986 - 72EE74F48840]:   page bytes: 65536, init pages: 16384, max pages: 16384
+[07:17:23:987 - 72EE74F48840]:   heap offset: 1073741824, heap size: 0
+
+[07:17:23:007 - 72EE74F48840]: Memory instantiate success.
+Restoring wasm thread 4
+thread 4 restore
+[2026-10-01 12:53:43.906] [info] wasm_restore_stack
+
+boot_end, 2618243097457755
+stack, 584434
+stack, 124706
+global, 22082
+[2026-10-01 12:53:43.907] [info] wasm_restore_stack
+
+local_cell_num: 1
+locals.values.size: 1
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 3
+locals.values.size: 3
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 251
+locals.values.size: 251
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 7
+locals.values.size: 7
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 5
+locals.values.size: 5
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 2
+local_cell_num: 6
+locals.values.size: 6
+[2026-10-01 12:53:43.907] [info] restore label stack
+locals.values.size: 2
+[2026-10-01 12:53:43.907] [info] Finish to restore stack
+
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 8
+locals.values.size: 8
+[2026-10-01 12:53:43.907] [info] restore label stack
+local_cell_num: 70
+locals.values.size: 70
+[2026-10-01 12:53:43.907] [info] restore label stack
+[2026-10-01 12:53:43.907] [info] Finish to restore stack
+
+program counter, 14989
+memory, 764539221
+global, 7925
+program counter, 11562
+event=OWNER_CONTINUATION owner=1028 guard=1 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=27
+event=CONTINUATION_BUSY owner=13113348 guard=1 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=0
+event=PROBE_ERROR owner=1028 guard=1 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=27
+event=SUBSEQUENT_WIN owner=13113348 guard=1 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=0
+event=RELEASED owner=1028 guard=0 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=27
+event=PASS owner=1028 guard=0 canary=5917d272 guard_addr=4400 canary_addr=4404 errno=27
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3

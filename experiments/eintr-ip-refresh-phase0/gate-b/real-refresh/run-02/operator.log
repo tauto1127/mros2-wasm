@@ -1,0 +1,104 @@
+free=4751552512
+77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60  /tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
+f58339ea6c6e2635da91a03dc1ffa32f014e6eb5a2d3e50f9d7e0a90711b6d65  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture.wasm
+a4505d3cc3e597a43e319d68fa73d04d28b62f303484aec1268807514486bc08
+/runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 /artifact/fixture.wasm
+main-socket.img 76 bytes
+main-global.img 20 bytes
+main-mem_page_count.img 4 bytes
+main-call_stack.img 864 bytes
+main-thread_state.img 6 bytes
+main-program_counter.img 8 bytes
+main-memory.img 1073741824 bytes
+404caf9d80f6fc514732e461455902995922811bd4f01ba43567055b5610d407  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-call_stack.img
+9a809eb02a9205e2af51475c9651bfe04c907c138f62bbd99b9402b874390927  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-global.img
+d8fbb061097f307cff86fd7b8bde9dee99e176443fbd59006df50f36bee2693b  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-memory.img
+c9a41c78ed4170c1826be3b5da55e87f4ba32107a5595dd34baeb0cba2570eb1  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-mem_page_count.img
+82dc23866cdf30d9197ca1f0da669f03c04e68e7d35c5e304af1ce016f581b47  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-program_counter.img
+dbeadb756341a1f6e2ecf19853c0ffa1dd2c206e8262b0e52af6479965038d8e  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-socket.img
+36c159d76b52e03e496363607c5940227f62f4e048df344b050159bc97bba3d7  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/run-02/state/main-thread_state.img
+boot_start, 2661171635829750
+11 stderr
+22 stderr
+signal init: 134692285949504
+initします
+boot_end, 2661171652123902
+stack, 163108
+[19:12:51:156 - 7A807DE3F840]: Load type section success.
+
+[19:12:51:172 - 7A807DE3F840]: Load import section success.
+
+[19:12:51:205 - 7A807DE3F840]: Load function section success.
+
+[19:12:51:206 - 7A807DE3F840]: Load table section success.
+
+[19:12:51:207 - 7A807DE3F840]: Load global section success.
+
+[19:12:51:208 - 7A807DE3F840]: Load export section success.
+
+[19:12:51:209 - 7A807DE3F840]: Load start section success.
+
+[19:12:51:210 - 7A807DE3F840]: Load table segment section success.
+
+[19:12:51:211 - 7A807DE3F840]: Load datacount section success.
+
+[19:12:51:211 - 7A807DE3F840]: Load code segment section success.
+
+[19:12:51:212 - 7A807DE3F840]: Load data segment section success.
+
+[19:12:51:213 - 7A807DE3F840]: Ignore custom section [.debug_abbrev].
+[19:12:51:213 - 7A807DE3F840]: Ignore custom section [.debug_info].
+[19:12:51:214 - 7A807DE3F840]: Ignore custom section [.debug_ranges].
+[19:12:51:214 - 7A807DE3F840]: Ignore custom section [.debug_str].
+[19:12:51:215 - 7A807DE3F840]: Ignore custom section [.debug_line].
+[19:12:51:216 - 7A807DE3F840]: Ignore custom section [name].
+[19:12:51:216 - 7A807DE3F840]: Ignore custom section [producers].
+[19:12:51:217 - 7A807DE3F840]: Ignore custom section [target_features].
+[19:12:51:710 - 7A807DE3F840]: Load module success.
+
+[19:12:51:714 - 7A807DE3F840]: Memory instantiate:
+[19:12:51:715 - 7A807DE3F840]:   page bytes: 65536, init pages: 16384, max pages: 16384
+[19:12:51:716 - 7A807DE3F840]:   heap offset: 1073741824, heap size: 0
+
+[19:12:51:736 - 7A807DE3F840]: Memory instantiate success.
+[2026-10-02 00:49:12.462] [info] wasm_restore_stack
+
+3 stderr
+local_cell_num: 1
+locals.values.size: 1
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 28
+locals.values.size: 28
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 28
+locals.values.size: 28
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 108
+locals.values.size: 108
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 16
+locals.values.size: 16
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 7
+locals.values.size: 7
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 5
+locals.values.size: 5
+[2026-10-02 00:49:12.462] [info] restore label stack
+local_cell_num: 6
+locals.values.size: 6
+[2026-10-02 00:49:12.462] [info] restore label stack
+[2026-10-02 00:49:12.462] [info] Finish to restore stack
+
+memory, 1788232203
+global, 7855
+program counter, 10640
+event=PROBE_HOOK_CONTINUED stage=1
+event=PROBE_SUCCESS stage=1
+event=SUBSEQUENT_WIN stage=1
+event=RELEASED stage=1
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3
+77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60  /tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
+f58339ea6c6e2635da91a03dc1ffa32f014e6eb5a2d3e50f9d7e0a90711b6d65  /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture.wasm

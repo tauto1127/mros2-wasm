@@ -1,0 +1,107 @@
+2026-10-01T21:48:58+09:00
+77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60  /tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
+8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1  /tmp/mros2-posix-run04-final-build/mros2-posix
+[
+    {
+        "Id": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+        "RepoTags": [
+            "ros:humble"
+        ],
+        "RepoDigests": [
+            "ros@sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-09-09T03:31:03.310492734Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "LC_ALL=C.UTF-8",
+                "ROS_DISTRO=humble"
+            ],
+            "Entrypoint": [
+                "/ros_entrypoint.sh"
+            ],
+            "Cmd": [
+                "bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 272024399,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:ea16cace89338c84eb6bcb91a7efdfcae6838fff359efe951858227436486c34",
+                "sha256:63265b7e78e36a1e9836f4a0e00146268c519e2e8db4ecd6019cde39eb95a55b",
+                "sha256:476ff4cf6de5960b356e61e63a8e35c8d4b8c4ef1baa8e1878b5fbf129cd88a3",
+                "sha256:f9fe83a77a0faae9ce87a8e6a5d25b2d5bd46c7ebcded9152074b5765d6194c9",
+                "sha256:3fb7a7ff7fc99aba579d2e8ad33367ac804a9a991411cd3be7b8608cbd33711c",
+                "sha256:81cdef0d4542e5a4ba09548196e10ee3a5f7805f51eb30c3fb4f5be265d5f3bd",
+                "sha256:451cb5cb4668414777695e42df74e9edc5fe7b95f054c0441a2e674a59f495f4",
+                "sha256:0d3ae5096310864f49a1d8355f0c486b06e1b87b2f905e0842bc9b6541cf9807",
+                "sha256:7e6d5ae8fe4bcc53fd713b60b96e461d1268cbe35b854d72305cc680bb821ff6",
+                "sha256:fd0a6cd54a804f71c0e7c563eddf2e43d95b16aae6bc8de715a5b8f645b6afe2"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-09-17T13:13:43.036611474Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138",
+            "size": 2695
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/library/ros"
+                }
+            ]
+        }
+    }
+]
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {},
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 3,
+                        "DynamicIPsAvailable": 65533
+                    }
+                }
+            }
+        }
+    }
+]

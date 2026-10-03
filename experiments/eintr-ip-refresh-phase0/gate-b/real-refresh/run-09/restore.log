@@ -1,0 +1,127 @@
+boot_start, 2664580061846564
+11 stderr
+22 stderr
+signal init: 135917113689664
+initします
+boot_end, 2664580080206004
+3 stderr
+initします
+boot_end, 2664580080816007
+[20:09:40:576 - 7B9DAB501840]: Load type section success.
+
+[20:09:40:591 - 7B9DAB501840]: Load import section success.
+
+[20:09:40:624 - 7B9DAB501840]: Load function section success.
+
+[20:09:40:625 - 7B9DAB501840]: Load table section success.
+
+[20:09:40:626 - 7B9DAB501840]: Load global section success.
+
+[20:09:40:628 - 7B9DAB501840]: Load export section success.
+
+[20:09:40:628 - 7B9DAB501840]: Load start section success.
+
+[20:09:40:629 - 7B9DAB501840]: Load table segment section success.
+
+[20:09:40:630 - 7B9DAB501840]: Load datacount section success.
+
+[20:09:40:630 - 7B9DAB501840]: Load code segment section success.
+
+[20:09:40:631 - 7B9DAB501840]: Load data segment section success.
+
+[20:09:40:632 - 7B9DAB501840]: Ignore custom section [.debug_abbrev].
+[20:09:40:632 - 7B9DAB501840]: Ignore custom section [.debug_info].
+[20:09:40:633 - 7B9DAB501840]: Ignore custom section [.debug_ranges].
+[20:09:40:634 - 7B9DAB501840]: Ignore custom section [.debug_str].
+[20:09:40:634 - 7B9DAB501840]: Ignore custom section [.debug_line].
+[20:09:40:635 - 7B9DAB501840]: Ignore custom section [name].
+[20:09:40:635 - 7B9DAB501840]: Ignore custom section [producers].
+[20:09:40:636 - 7B9DAB501840]: Ignore custom section [target_features].
+[20:09:40:693 - 7B9DAB501840]: Load module success.
+
+[20:09:40:696 - 7B9DAB501840]: Memory instantiate:
+[20:09:40:697 - 7B9DAB501840]:   page bytes: 65536, init pages: 16384, max pages: 16384
+[20:09:40:698 - 7B9DAB501840]:   heap offset: 1073741824, heap size: 0
+
+[20:09:40:719 - 7B9DAB501840]: Memory instantiate success.
+Restoring wasm thread 1
+thread 1 restore
+[2026-10-02 01:46:00.890] [info] wasm_restore_stack
+
+[2026-10-02 01:46:00.890] [info] wasm_restore_stack
+
+stack, 119034
+global, 12444
+program counter, 9709
+stack, 390598
+local_cell_num: 2
+locals.values.size: 2
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 8
+locals.values.size: 8
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 39
+locals.values.size: 39
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 35
+locals.values.size: 35
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 1
+locals.values.size: 1
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 0
+locals.values.size: 0
+[2026-10-02 01:46:00.890] [info] restore label stack
+[2026-10-02 01:46:00.890] [info] Finish to restore stack
+
+local_cell_num: 1
+locals.values.size: 1
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 82
+locals.values.size: 82
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 43
+locals.values.size: 43
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 64
+locals.values.size: 64
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 102
+locals.values.size: 102
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 143
+locals.values.size: 143
+[2026-10-02 01:46:00.890] [info] restore label stack
+wasm_cluster_increase_checkpointing_counter called 1
+local_cell_num: 7
+wasm_cluster_increase_checkpointing_counter called 2
+locals.values.size: 7
+wasm_cluster_increase_checkpointing_counter called 3
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 5
+locals.values.size: 5
+[2026-10-02 01:46:00.890] [info] restore label stack
+local_cell_num: 6
+locals.values.size: 6
+[2026-10-02 01:46:00.890] [info] restore label stack
+[2026-10-02 01:46:00.890] [info] Finish to restore stack
+
+memory, 947527263
+global, 9277
+program counter, 11592
+event=RESTORED_OWNER_CONTINUATION pthread=0x404 recvfrom_rc=-1 errno=27
+event=CONTINUATION_BUSY pthread=0xc81ce4 first contender try after restored owner continuation; lost claim did not unlock
+event=REAL_GETSOCKNAME pthread=0x404 fd=7 rc=0 errno=27 family=1 addr=0x00000000
+netif_wasm: getsockname() did not return a local IPv4 address
+event=REAL_CLOSE pthread=0x404 fd=7 rc=0 errno=27
+event=OWNER_PROBE_ERROR pthread=0x404 baseline refresh returned failure while common core mutex remains owned
+event=COORDINATOR_RELEASED pthread=0x404 label=restored-owner-probe rc=0 errno=27
+event=REAL_SOCKET pthread=0x404 fd=7 errno=27
+event=REAL_CONNECT pthread=0x404 fd=7 rc=0 errno=27
+event=REAL_GETSOCKNAME pthread=0x404 fd=7 rc=0 errno=27 family=1 addr=0x030012ac
+event=REAL_CLOSE pthread=0x404 fd=7 rc=0 errno=27
+event=COORDINATOR_RELEASED pthread=0x404 label=subsequent-real-refresh rc=0 errno=27
+event=SUBSEQUENT_REAL_REFRESH_SUCCESS pthread=0x404 fresh socket/connect/getsockname/close completed
+wasm_cluster_increase_checkpointing_counter called 1
+wasm_cluster_increase_checkpointing_counter called 2
+wasm_cluster_increase_checkpointing_counter called 3

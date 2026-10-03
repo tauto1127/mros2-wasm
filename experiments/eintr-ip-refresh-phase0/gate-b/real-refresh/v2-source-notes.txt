@@ -1,0 +1,4 @@
+git -C lwip-wasm show fbac6d22cd08d12fccfc27c4efa383a8be32335f:src/netif/netif_wasm.c > pinned-v2/src/netif/netif_wasm.c
+git -C lwip-wasm show fbac6d22cd08d12fccfc27c4efa383a8be32335f:src/core/lwip.c > pinned-v2/src/core/lwip.c
+Only lwip-core-v2.c delta: change uninitialized static mutex to PTHREAD_MUTEX_INITIALIZER; remove MX_LWIP_Init pthread_mutex_init to avoid double-init; append sys_trylock_tcpip_core() using that same static mutex.
+netif_wasm.c included byte-for-byte and unchanged; fixture-v2.c preincludes its headers and macro-routes only socket/connect/getsockname through scratch shims.

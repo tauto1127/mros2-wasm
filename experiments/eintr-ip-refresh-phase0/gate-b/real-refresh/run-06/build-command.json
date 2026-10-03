@@ -1,0 +1,23 @@
+[
+  "/opt/wasi-sdk-21/bin/clang",
+  "--target=wasm32-wasi-threads",
+  "--sysroot=/home/osslab/wasi-sysroot",
+  "-pthread",
+  "-std=c11",
+  "-O0",
+  "-g",
+  "-ffunction-sections",
+  "-fdata-sections",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/include",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/core",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/netif",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/third_party/wamr/core/iwasm/libraries/lib-socket/inc",
+  "-I/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh",
+  "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture-v2.c",
+  "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/public/libsocket_wasi_ext.a",
+  "-Wl,--gc-sections,--import-memory,--export-memory,--shared-memory,--initial-memory=1073741824,--max-memory=1073741824,-zstack-size=6553600",
+  "-o",
+  "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture-v2.wasm"
+]

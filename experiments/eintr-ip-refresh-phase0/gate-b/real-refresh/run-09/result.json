@@ -1,0 +1,16 @@
+{
+  "verdict": "PASS",
+  "owner": "pinned netif_wasm_refresh under same-TU pthread_mutex_trylock common core mutex",
+  "checkpoint_cut": "after successful connect, before getsockname",
+  "restore_events": [
+    "event=RESTORED_OWNER_CONTINUATION",
+    "event=CONTINUATION_BUSY",
+    "event=REAL_GETSOCKNAME",
+    "event=REAL_CLOSE",
+    "event=OWNER_PROBE_ERROR",
+    "event=COORDINATOR_RELEASED",
+    "event=SUBSEQUENT_REAL_REFRESH_SUCCESS"
+  ],
+  "archive_and_state": "run-09 state retained; no payload deletion",
+  "injected_getname_error": false
+}

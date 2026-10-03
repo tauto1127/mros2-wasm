@@ -1,0 +1,32 @@
+{
+  "source": "main-memory.img; wasm32 little-endian u32 at logged guest offsets",
+  "snapshot": {
+    "event": "refresh-exit",
+    "thread": "0x4c7fd64",
+    "fd": "-1",
+    "eintr_count": "0",
+    "default": "0x9beb8",
+    "object": "0x9beb8",
+    "ip": "0x030012ac",
+    "canary": "0x5917d272",
+    "fallback_entries": "0",
+    "canary_addr": "0x9bf3c",
+    "default_addr": "0x9beb4",
+    "ip_addr": "0x9bebc"
+  },
+  "addresses": {
+    "canary": "0x9bf3c",
+    "default": "0x9beb4",
+    "ip": "0x9bebc"
+  },
+  "image_values": {
+    "canary": 1494733426,
+    "default": 638648,
+    "ip": 50336428
+  },
+  "matches_snapshot": {
+    "canary": true,
+    "default": true,
+    "ip": true
+  }
+}

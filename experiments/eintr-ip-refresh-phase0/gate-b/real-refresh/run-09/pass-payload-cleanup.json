@@ -1,0 +1,19 @@
+{
+  "scope": "ONLY own new GateD run09 PASS payload",
+  "originalManifest": "checkpoint-manifest.json",
+  "assertions": "checkpoint-state-assertions.json",
+  "removed": [
+    "1-call_stack.img",
+    "1-global.img",
+    "1-program_counter.img",
+    "1-thread_state.img",
+    "main-call_stack.img",
+    "main-global.img",
+    "main-mem_page_count.img",
+    "main-memory.img",
+    "main-program_counter.img",
+    "main-socket.img",
+    "main-thread_state.img"
+  ],
+  "failed_and_unrelated_payloads_untouched": true
+}

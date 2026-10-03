@@ -1,0 +1,690 @@
++ sed -n '1090,1205p;1618,1688p;1850,1970p;3900,3938p;4240,4298p' third_party/wamr/core/iwasm/interpreter/wasm_interp_classic.c
+            SUSPENSION_LOCK()                                         \
+            os_cond_wait(&exec_env->wait_cond, &exec_env->wait_lock); \
+            SUSPENSION_UNLOCK()                                       \
+        }                                                             \
+        WASM_SUSPEND_FLAGS_UNLOCK(exec_env->wait_lock);               \
+    } while (0)
+#endif /* WASM_ENABLE_DEBUG_INTERP */
+#endif /* WASM_ENABLE_THREAD_MGR */
+
+#if WASM_ENABLE_LABELS_AS_VALUES != 0
+
+#define HANDLE_OP(opcode) HANDLE_##opcode:
+
+#define INIT_THREAD_ID_CH()                                                  \
+    do {                                                                     \
+        ThreadStartArg *thread_arg = (ThreadStartArg *)exec_env->thread_arg; \
+        uint32 arg;                                                          \
+        if (exec_env->thread_arg != NULL) {                                  \
+            arg = thread_arg->arg;                                           \
+            int32 thread_id = thread_arg->thread_id;                         \
+            thread_id_ch = get_file_prefix(thread_id);                       \
+            printf("%sThread checkpoint started\n", thread_id_ch);           \
+        }                                                                    \
+        else {                                                               \
+            /* メインスレッド*/                                              \
+            thread_id_ch = get_file_prefix(-1);                              \
+            printf("%sThread checkpoint started\n", thread_id_ch);           \
+        }                                                                    \
+    } while (0)
+
+#if WASM_ENABLE_THREAD_MGR != 0
+#define END_CHECKPOINT()                                                \
+    do {                                                                \
+        wasm_cluster_increase_checkpointing_counter(exec_env->cluster); \
+        wasm_cluster_thread_send_signal(exec_env, WAMR_SIG_CHECKPOINT); \
+        wasm_cluster_thread_waiting_run(exec_env);                      \
+    } while (0)
+#else
+#define END_CHECKPOINT() \
+    do {                 \
+        exit(0);         \
+    } while (0)
+#endif
+
+#if WASM_ENABLE_THREAD_MGR != 0
+#define DO_CHECKPOINT() /*こっちがマルチスレッド，各スレッドの処理*/                          \
+    do {                                                                    \
+        printf("do_checkpoint_1\n");                                        \
+        int status =                                                        \
+            wasm_cluster_increase_checkpointing_counter(exec_env->cluster); \
+        if (status == -1) {                                                 \
+            perror("failed to increase checkpointing counter\n");           \
+            exit(1);                                                        \
+        }                                                                   \
+        printf("do_checkpoint_2\n");                                        \
+    /*ここで止まってる？*/\
+        wasm_cluster_thread_waiting_run(exec_env);                          \
+        printf("do_checkpoint_3\n");                                        \
+        char *thread_id_ch;                                                 \
+        INIT_THREAD_ID_CH();                                                \
+                                                                            \
+        SYNC_ALL_TO_FRAME();                                                \
+        uint8 *dummy_ip;                                                    \
+        uint32 *dummy_sp;                                                   \
+        dummy_ip = frame_ip;                                                \
+        dummy_sp = frame_sp;                                                \
+        int rc = wasm_dump_with_prefix(exec_env, module, memory, globals,   \
+                                       global_data, cur_func, frame,        \
+                                       dummy_ip, thread_id_ch);             \
+        printf("do_checkpoint_4\n");                                        \
+        if (rc < 0) {                                                       \
+            perror("failed to dump\n");                                     \
+            exit(1);                                                        \
+        }                                                                   \
+        END_CHECKPOINT();                                                   \
+    } while (0)
+#else
+#define DO_CHECKPOINT()                                                    \
+    do {                                                                   \
+        SYNC_ALL_TO_FRAME();                                               \
+        uint8 *dummy_ip;                                                   \
+        uint32 *dummy_sp;                                                  \
+        dummy_ip = frame_ip;                                               \
+        dummy_sp = frame_sp;                                               \
+        int rc = wasm_dump(exec_env, module, memory, globals, global_data, \
+                           cur_func, frame, dummy_ip);                     \
+        if (rc < 0) {                                                      \
+            perror("failed to dump\n");                                    \
+            exit(1);                                                       \
+        }                                                                  \
+        LOG_DEBUG("dispatch_count: %d\n", dispatch_count);                 \
+        exit(0);                                                           \
+    } while (0)
+#endif
+
+#if WASM_ENABLE_THREAD_MGR != 0
+#define CHECK_DUMP()                                                        \
+    if (IS_WAMR_CHECKPOINT_SIG(wasm_cluster_get_thread_signal(exec_env))) { \
+        printf("checkpoint\n");                                             \
+        DO_CHECKPOINT();                                                    \
+    }
+#else
+#define CHECK_DUMP()     \
+    if (sig_flag) {      \
+        DO_CHECKPOINT(); \
+    }
+#endif
+
+// #define FETCH_OPCODE_AND_DISPATCH() goto *handle_table[*frame_ip++]
+#define FETCH_OPCODE_AND_DISPATCH()      \
+    do {                                 \
+        CHECK_DUMP()                     \
+        goto *handle_table[*frame_ip++]; \
+    } while (0);
+
+#if WASM_ENABLE_THREAD_MGR != 0 && WASM_ENABLE_DEBUG_INTERP != 0
+        else {
+            // ===== child thread (or main re-entry): restore own state =====
+            int32 tid =
+                restore_thread_arg ? restore_thread_arg->thread_id : -1;
+            file_prefix = get_file_prefix(tid);
+        }
+
+        // NOTE: Can the wasm_restore_stack() include in wasm_restore()?
+        clock_gettime(CLOCK_MONOTONIC, &ts1);
+        wasm_restore_stack(&exec_env, file_prefix);
+        frame = wasm_exec_env_get_cur_frame(exec_env);
+        clock_gettime(CLOCK_MONOTONIC, &ts2);
+        fprintf(stderr, "stack, %lu\n", get_time(ts1, ts2));
+        if (frame == NULL) {
+            perror("Error:wasm_interp_func_bytecode:frame is NULL\n");
+            return;
+        }
+        // debug_wasm_interp_frame(frame, module->e->functions);
+
+        cur_func = frame->function;
+        prev_frame = frame->prev_frame;
+        if (cur_func == NULL) {
+            perror("Error:wasm_interp_func_bytecode:cur_func is null\n");
+            return;
+        }
+        if (prev_frame == NULL) {
+            perror("Error:wasm_interp_func_bytecode:prev_frame is null\n");
+            return;
+        }
+
+        uint8 *dummy_ip, *dummy_lp, *dummy_sp;
+        rc = wasm_restore(&module, &exec_env, &cur_func, &prev_frame, &memory,
+                          &globals, &global_data, &global_addr, &frame,
+                          &dummy_ip, &dummy_lp, &dummy_sp, &frame_csp,
+                          &frame_ip_end, &else_addr, &end_addr, &maddr,
+                          &done_flag, file_prefix);
+        if (rc < 0) {
+            // error
+            perror("failed to restore\n");
+            return;
+        }
+        frame_ip = dummy_ip;
+        frame_lp = dummy_lp;
+        frame_sp = dummy_sp;
+        frame->ip = frame_ip;
+        linear_mem_size = memory ? memory->memory_data_size : 0;
+
+        frame_lp = frame->lp;
+        UPDATE_ALL_FROM_FRAME();
+
+        // ===== post-restore barrier =====
+        // Wait until every thread has finished restoring before anyone resumes
+        // execution. Without this, threads race on the shared linear memory
+        // while restoring it concurrently, corrupting each other's state.
+        wasm_cluster_increase_checkpointing_counter(exec_env->cluster);
+        {
+            struct AtomicCounter *rc_counter =
+                exec_env->cluster->checkpoint_counter;
+            if (rc_counter != NULL) {
+                os_mutex_lock(&rc_counter->lock);
+                while (rc_counter->checkpoint_count < g_restore_total_threads) {
+                    os_cond_wait(&rc_counter->cond, &rc_counter->lock);
+                }
+                os_mutex_unlock(&rc_counter->lock);
+            }
+        }
+        set_restore_flag(false);
+
+        // ===== waiter-first resume (CR, ported from v1) =====
+        // The barrier above guarantees every thread has finished restoring.
+        // Now resume so that threads which were blocked in atomic.wait at
+                    end_addr = cache_items[0].end_addr;
+                }
+                else if (cache_items[1].start_addr == frame_ip) {
+                    else_addr = cache_items[1].else_addr;
+                    end_addr = cache_items[1].end_addr;
+                }
+                else if (!wasm_loader_find_block_addr(
+                             exec_env, (BlockAddr *)exec_env->block_addr_cache,
+                             frame_ip, (uint8 *)-1, LABEL_TYPE_IF, &else_addr,
+                             &end_addr)) {
+                    wasm_set_exception(module, "find block address failed");
+                    goto got_exception;
+                }
+
+                cond = (uint32)POP_I32();
+
+                if (cond) { /* if branch is met */
+                    PUSH_CSP(LABEL_TYPE_IF, param_cell_num, cell_num, end_addr);
+                }
+                else { /* if branch is not met */
+                    /* if there is no else branch, go to the end addr */
+                    if (else_addr == NULL) {
+                        frame_ip = end_addr + 1;
+                    }
+                    /* if there is an else branch, go to the else addr */
+                    else {
+                        PUSH_CSP(LABEL_TYPE_IF, param_cell_num, cell_num,
+                                 end_addr);
+                        frame_ip = else_addr + 1;
+                    }
+                }
+                HANDLE_OP_END();
+            }
+
+            HANDLE_OP(WASM_OP_ELSE)
+            {
+                /* comes from the if branch in WASM_OP_IF */
+                frame_ip = (frame_csp - 1)->target_addr;
+                HANDLE_OP_END();
+            }
+
+            HANDLE_OP(WASM_OP_END)
+            {
+                if (frame_csp > frame->csp_bottom + 1) {
+                    POP_CSP();
+                }
+                else { /* end of function, treat as WASM_OP_RETURN */
+                    frame_sp -= cur_func->ret_cell_num;
+                    for (i = 0; i < cur_func->ret_cell_num; i++) {
+                        *prev_frame->sp++ = frame_sp[i];
+                    }
+                    goto return_func;
+                }
+                HANDLE_OP_END();
+            }
+
+            HANDLE_OP(WASM_OP_BR)
+            {
+#if WASM_ENABLE_THREAD_MGR != 0
+                CHECK_SUSPEND_FLAGS();
+#endif
+                read_leb_uint32(frame_ip, frame_ip_end, depth);
+            label_pop_csp_n:
+                POP_CSP_N(depth);
+                if (!frame_ip) { /* must be label pushed by WASM_OP_BLOCK */
+                    if (!wasm_loader_find_block_addr(
+                            exec_env, (BlockAddr *)exec_env->block_addr_cache,
+                            (frame_csp - 1)->begin_addr, (uint8 *)-1,
+                            LABEL_TYPE_BLOCK, &else_addr, &end_addr)) {
+                        wasm_set_exception(module, "find block address failed");
+                        goto got_exception;
+                    }
+                    frame_ip = end_addr;
+                }
+                HANDLE_OP_END();
+            }
+
+            HANDLE_OP(WASM_OP_BR_IF)
+            {
+#if WASM_ENABLE_THREAD_MGR != 0
+                CHECK_SUSPEND_FLAGS();
+#endif
+                read_leb_uint32(frame_ip, frame_ip_end, depth);
+                cond = (uint32)POP_I32();
+                if (cond)
+                    goto label_pop_csp_n;
+                HANDLE_OP_END();
+            }
+
+            HANDLE_OP(WASM_OP_BR_TABLE)
+            {
+#if WASM_ENABLE_THREAD_MGR != 0
+                CHECK_SUSPEND_FLAGS();
+#endif
+                read_leb_uint32(frame_ip, frame_ip_end, count);
+                lidx = POP_I32();
+                if (lidx > count)
+                    lidx = count;
+                depth = frame_ip[lidx];
+                goto label_pop_csp_n;
+            }
+
+            HANDLE_OP(EXT_OP_BR_TABLE_CACHE)
+            {
+                BrTableCache *node_cache =
+                    bh_list_first_elem(module->module->br_table_cache_list);
+                BrTableCache *node_next;
+
+#if WASM_ENABLE_THREAD_MGR != 0
+                CHECK_SUSPEND_FLAGS();
+#endif
+                lidx = POP_I32();
+
+                while (node_cache) {
+                    node_next = bh_list_elem_next(node_cache);
+                    if (node_cache->br_table_op_addr == frame_ip - 1) {
+                        if (lidx > node_cache->br_count)
+                            lidx = node_cache->br_count;
+                        depth = node_cache->br_depths[lidx];
+                        goto label_pop_csp_n;
+                    }
+                        }
+
+                        /* if s >= d, copy from front to back */
+                        /* if s < d, copy from back to front */
+                        /* merge all together */
+                        bh_memmove_s((uint8 *)dst_tbl_inst
+                                         + offsetof(WASMTableInstance, elems)
+                                         + d * sizeof(uint32),
+                                     (uint32)((dst_tbl_inst->cur_size - d)
+                                              * sizeof(uint32)),
+                                     (uint8 *)src_tbl_inst
+                                         + offsetof(WASMTableInstance, elems)
+                                         + s * sizeof(uint32),
+                                     (uint32)(n * sizeof(uint32)));
+                        break;
+                    }
+                    case WASM_OP_TABLE_GROW:
+                    {
+                        uint32 tbl_idx, n, init_val, orig_tbl_sz;
+                        WASMTableInstance *tbl_inst;
+
+                        read_leb_uint32(frame_ip, frame_ip_end, tbl_idx);
+                        bh_assert(tbl_idx < module->table_count);
+
+                        tbl_inst = wasm_get_table_inst(module, tbl_idx);
+
+                        orig_tbl_sz = tbl_inst->cur_size;
+
+                        n = POP_I32();
+                        init_val = POP_I32();
+
+                        if (!wasm_enlarge_table(module, tbl_idx, n, init_val)) {
+                            PUSH_I32(-1);
+                        }
+                        else {
+                            PUSH_I32(orig_tbl_sz);
+                        }
+                        break;
+                    }
+                            shared_memory_unlock(memory);
+                        }
+                        else {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 8, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+                            shared_memory_lock(memory);
+                            PUT_I64_TO_ADDR((uint32 *)maddr, sval);
+                            shared_memory_unlock(memory);
+                        }
+                        break;
+                    }
+
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG:
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG8_U:
+                    case WASM_OP_ATOMIC_RMW_I32_CMPXCHG16_U:
+                    {
+                        uint32 readv, sval, expect;
+
+                        sval = POP_I32();
+                        expect = POP_I32();
+                        addr = POP_I32();
+
+                        if (opcode == WASM_OP_ATOMIC_RMW_I32_CMPXCHG8_U) {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 1, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            expect = (uint8)expect;
+                            shared_memory_lock(memory);
+                            readv = (uint32)(*(uint8 *)maddr);
+                            if (readv == expect)
+                                *(uint8 *)maddr = (uint8)(sval);
+                            shared_memory_unlock(memory);
+                        }
+                        else if (opcode == WASM_OP_ATOMIC_RMW_I32_CMPXCHG16_U) {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 2, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            expect = (uint16)expect;
+                            shared_memory_lock(memory);
+                            readv = (uint32)LOAD_U16(maddr);
+                            if (readv == expect)
+                                STORE_U16(maddr, (uint16)(sval));
+                            shared_memory_unlock(memory);
+                        }
+                        else {
+                            CHECK_BULK_MEMORY_OVERFLOW(addr + offset, 4, maddr);
+                            CHECK_ATOMIC_MEMORY_ACCESS();
+
+                            shared_memory_lock(memory);
+                            readv = LOAD_I32(maddr);
+                            if (readv == expect)
+                                STORE_U32(maddr, sval);
+                            shared_memory_unlock(memory);
+                        }
+                        PUSH_I32(readv);
+                        break;
+                    }
+                    case WASM_OP_ATOMIC_RMW_I64_CMPXCHG:
+                    case WASM_OP_ATOMIC_RMW_I64_CMPXCHG8_U:
++ sed -n 945,1010p third_party/wamr/core/iwasm/libraries/thread-mgr/thread_manager.c
+{
+    exec_env->current_status->running_status = STATUS_STOP;
+    notify_debug_instance(exec_env);
+
+    while (!wasm_cluster_thread_is_running(exec_env)) {
+        os_cond_wait(&exec_env->wait_cond, &exec_env->wait_lock);
+    }
+}
+
+void
+wasm_cluster_send_signal_all(WASMCluster *cluster, uint32 signo)
+{
+    WASMExecEnv *exec_env = bh_list_first_elem(&cluster->exec_env_list);
+    while (exec_env) {
+        wasm_cluster_thread_send_signal(exec_env, signo);
+        exec_env = bh_list_elem_next(exec_env);
+    }
+}
+
+void
+wasm_cluster_wakeup_blocking_threads_for_checkpoint(WASMCluster *cluster)
+{
+    WASMExecEnv **targets;
+    uint32 n, count = 0, i;
+
+    if (!cluster)
+        return;
+
+    /* Snapshot the exec_envs currently blocked in a syscall (e.g.
+       sock_recv_from) under cluster->lock, then wake them outside the lock
+       since the wake loop sleeps. Waking them (WITHOUT terminating) makes the
+       blocking syscall return EINTR so they re-enter the interp loop and
+       observe the already-set WAMR_SIG_CHECKPOINT at CHECK_DUMP; otherwise
+       checkpoint_routine hangs waiting for them to checkpoint. */
+    os_mutex_lock(&cluster->lock);
+    n = cluster->exec_env_list.len;
+    targets = wasm_runtime_malloc(sizeof(WASMExecEnv *) * (n ? n : 1));
+    if (targets) {
+        WASMExecEnv *env = bh_list_first_elem(&cluster->exec_env_list);
+        while (env) {
+            if (WASM_SUSPEND_FLAGS_GET(env->suspend_flags)
+                & WASM_SUSPEND_FLAG_BLOCKING)
+                targets[count++] = env;
+            env = bh_list_elem_next(env);
+        }
+    }
+    os_mutex_unlock(&cluster->lock);
+
+    if (!targets)
+        return;
+    for (i = 0; i < count; i++)
+        wasm_runtime_wakeup_blocking_op_for_checkpoint(targets[i]);
+    wasm_runtime_free(targets);
+}
+
+void
+wasm_cluster_thread_exited(WASMExecEnv *exec_env)
+{
+    exec_env->current_status->running_status = STATUS_EXIT;
+    notify_debug_instance_exit(exec_env);
+}
+
+void
+wasm_cluster_thread_continue(WASMExecEnv *exec_env)
+{
+    os_mutex_lock(&exec_env->wait_lock);
++ sed -n '330,355p;1160,1184p;1258,1278p;1637,1666p' third_party/wamr/core/iwasm/libraries/libc-wasi/libc_wasi_wrapper.c
+static wasi_errno_t
+wasi_fd_close(wasm_exec_env_t exec_env, wasi_fd_t fd)
+{
+    wasm_module_inst_t module_inst = get_module_inst(exec_env);
+    wasi_ctx_t wasi_ctx = get_wasi_ctx(module_inst);
+    struct fd_table *curfds = wasi_ctx_get_curfds(module_inst, wasi_ctx);
+    struct fd_prestats *prestats = wasi_ctx_get_prestats(module_inst, wasi_ctx);
+
+    wasi_errno_t ret;
+    if (!wasi_ctx)
+        return (wasi_errno_t)-1;
+
+    ret = wasmtime_ssp_fd_close(exec_env, curfds, prestats, fd);
+    /* Only journal the close of fds we actually opened as sockets, so file
+     * closes don't bloat the journal or shadow a reused fd number. */
+    if (ret == __WASI_ESUCCESS && socket_journal_has_open(fd)) {
+        sock_op op;
+        memset(&op, 0, sizeof(op));
+        op.kind = SOCK_OP_CLOSE;
+        op.fd = fd;
+        socket_journal_record(&op);
+    }
+    return ret;
+}
+
+static wasi_errno_t
+    return wasi_ssp_sock_accept(exec_env, curfds, fd, flags, fd_new);
+}
+
+static wasi_errno_t
+wasi_sock_addr_local(wasm_exec_env_t exec_env, wasi_fd_t fd,
+                     __wasi_addr_t *addr)
+{
+    wasm_module_inst_t module_inst = get_module_inst(exec_env);
+    wasi_ctx_t wasi_ctx = get_wasi_ctx(module_inst);
+    struct fd_table *curfds = NULL;
+
+    if (!wasi_ctx)
+        return __WASI_EACCES;
+
+    if (!validate_native_addr(addr, sizeof(__wasi_addr_t)))
+        return __WASI_EINVAL;
+
+    curfds = wasi_ctx_get_curfds(module_inst, wasi_ctx);
+
+    return wasi_ssp_sock_addr_local(exec_env, curfds, fd, addr);
+}
+
+static wasi_errno_t
+wasi_sock_addr_remote(wasm_exec_env_t exec_env, wasi_fd_t fd,
+                      __wasi_addr_t *addr)
+
+static wasi_errno_t
+wasi_sock_connect(wasm_exec_env_t exec_env, wasi_fd_t fd, wasi_addr_t *addr)
+{
+    wasm_module_inst_t module_inst = get_module_inst(exec_env);
+    wasi_ctx_t wasi_ctx = get_wasi_ctx(module_inst);
+    struct fd_table *curfds = NULL;
+    struct addr_pool *addr_pool = NULL;
+
+    if (!wasi_ctx)
+        return __WASI_EACCES;
+
+    curfds = wasi_ctx_get_curfds(module_inst, wasi_ctx);
+    addr_pool = wasi_ctx_get_addr_pool(module_inst, wasi_ctx);
+
+    return wasi_ssp_sock_connect(exec_env, curfds, addr_pool, fd, addr);
+}
+
+static wasi_errno_t
+wasi_sock_get_broadcast(wasm_exec_env_t exec_env, wasi_fd_t fd,
+                        bool *is_enabled)
+static wasi_errno_t
+wasi_sock_open(wasm_exec_env_t exec_env, wasi_fd_t poolfd,
+               wasi_address_family_t af, wasi_sock_type_t socktype,
+               wasi_fd_t *sockfd)
+{
+    wasm_module_inst_t module_inst = get_module_inst(exec_env);
+    wasi_ctx_t wasi_ctx = get_wasi_ctx(module_inst);
+    struct fd_table *curfds = NULL;
+
+    if (!wasi_ctx)
+        return __WASI_EACCES;
+
+    wasi_errno_t ret;
+    curfds = wasi_ctx_get_curfds(module_inst, wasi_ctx);
+
+    ret = wasi_ssp_sock_open(exec_env, curfds, poolfd, af, socktype, sockfd);
+    if (ret == __WASI_ESUCCESS) {
+        sock_op op;
+        memset(&op, 0, sizeof(op));
+        op.kind = SOCK_OP_OPEN;
+        op.fd = *sockfd;
+        op.af = af;
+        op.socktype = socktype;
+        socket_journal_record(&op);
+    }
+    return ret;
+}
+
+static wasi_errno_t
+wasi_sock_set_broadcast(wasm_exec_env_t exec_env, wasi_fd_t fd, bool is_enabled)
++ cat third_party/wamr/core/iwasm/migration/wasm_socket_journal.h
+#ifndef _WASM_SOCKET_JOURNAL_H
+#define _WASM_SOCKET_JOURNAL_H
+
+#include "wasmtime_ssp.h"
+
+typedef enum {
+    SOCK_OP_OPEN = 1,
+    SOCK_OP_BIND,
+    SOCK_OP_SET_REUSE_ADDR,
+    SOCK_OP_SET_BROADCAST,
+    SOCK_OP_SET_IP_MULTICAST_LOOP,
+    SOCK_OP_SET_IP_MULTICAST_TTL,
+    SOCK_OP_SET_IP_TTL,
+    SOCK_OP_ADD_MEMBERSHIP,
+    SOCK_OP_DROP_MEMBERSHIP,
+    SOCK_OP_CLOSE
+} sock_op_kind;
+
+typedef struct {
+    uint8_t   kind;
+    int32_t   fd;                       /* OPEN=結果fd, 他=対象fd */
+    int32_t   af;
+    int32_t   socktype;                 /* OPEN */
+    __wasi_addr_t   addr;                 /* BIND */
+    __wasi_addr_ip_t multiaddr;
+    uint32_t  interface;                 /* ADD/DROP */
+    uint64_t  val;                      /* SET_* の bool/uint8, loop の場合は (ipv6 << 1) | is_enabled */
+} sock_op;
+
+void socket_journal_record(const sock_op *op);
+/* Returns true if the given fd is currently an open socket in the journal
+ * (an OPEN not yet cancelled by a later CLOSE of the same fd number). */
+bool socket_journal_has_open(int32_t fd);
+int  socket_journal_dump(const char *file_prefix);
+int  socket_journal_restore(wasm_exec_env_t exec_env, const char *file_prefix);
+
+#endif /* _WASM_SOCKET_JOURNAL_H */
++ grep -n -E 'connect|CLOSE|OPEN|restore|replay' third_party/wamr/core/iwasm/migration/wasm_socket_journal.c
+57:                "restore will be incomplete.\n",
+70:        if (g_journal[i].kind == SOCK_OP_OPEN && g_journal[i].fd == fd) {
+73:        else if ((g_journal[i].kind == SOCK_OP_CLOSE) && g_journal[i].fd == fd) {
+102:                "is incomplete and restore will not fully rebuild sockets.\n");
+130:        if (g_journal[i].kind == SOCK_OP_OPEN && g_journal[i].fd == fd) {
+138:socket_journal_restore(wasm_exec_env_t exec_env, const char *file_prefix)
+156:        // If file doesn't exist, we don't have any socket journal to restore, which is fine
+187:    /* Replay runs on the main thread during restore, before any worker thread
+192:     * open at checkpoint time, replaying OPEN for that number would wrongly
+199:            case SOCK_OP_OPEN: {
+200:                err = wasi_ssp_sock_restore_open(exec_env, curfds, op->fd, op->af, op->socktype);
+202:                    fprintf(stderr, "Restore: failed to restore sock_open for fd %d, err %d\n", op->fd, err);
+209:                    fprintf(stderr, "Restore: failed to restore sock_bind for fd %d, err %d\n", op->fd, err);
+216:                    fprintf(stderr, "Restore: failed to restore set_reuse_addr for fd %d, err %d\n", op->fd, err);
+223:                    fprintf(stderr, "Restore: failed to restore set_broadcast for fd %d, err %d\n", op->fd, err);
+232:                    fprintf(stderr, "Restore: failed to restore set_ip_multicast_loop for fd %d, err %d\n", op->fd, err);
+239:                    fprintf(stderr, "Restore: failed to restore set_ip_multicast_ttl for fd %d, err %d\n", op->fd, err);
+246:                    fprintf(stderr, "Restore: failed to restore set_ip_ttl for fd %d, err %d\n", op->fd, err);
+263:                    fprintf(stderr, "Restore: failed to restore add_membership for fd %d, err %d\n", op->fd, err);
+270:                    fprintf(stderr, "Restore: failed to restore drop_membership for fd %d, err %d\n", op->fd, err);
+274:            case SOCK_OP_CLOSE: {
+278:                        fprintf(stderr, "Restore: failed to restore fd_close for fd %d, err %d\n", op->fd, err);
++ grep -n -E 'RESTORE|CHECKPOINT|SAFE_POINT|CHECK_SUSPEND|HANDLE_OP' third_party/wamr/core/iwasm/interpreter/wasm_interp_classic.c
++ head -50
+99:        CHECK_SUSPEND_FLAGS();                                    \
+1054:#define CHECK_SUSPEND_FLAGS()                                          \
+1078:#define CHECK_SUSPEND_FLAGS()                                         \
+1101:#define HANDLE_OP(opcode) HANDLE_##opcode:
+1121:#define END_CHECKPOINT()                                                \
+1124:        wasm_cluster_thread_send_signal(exec_env, WAMR_SIG_CHECKPOINT); \
+1128:#define END_CHECKPOINT() \
+1135:#define DO_CHECKPOINT() /*こっちがマルチスレッド，各スレッドの処理*/                          \
+1164:        END_CHECKPOINT();                                                   \
+1167:#define DO_CHECKPOINT()                                                    \
+1187:    if (IS_WAMR_CHECKPOINT_SIG(wasm_cluster_get_thread_signal(exec_env))) { \
+1189:        DO_CHECKPOINT();                                                    \
+1194:        DO_CHECKPOINT(); \
+1206:#define HANDLE_OP_END()                                                   \
+1223:#define HANDLE_OP_END() FETCH_OPCODE_AND_DISPATCH()
+1227:#define HANDLE_OP(opcode) case opcode:
+1229:#define HANDLE_OP_END()                                            \
+1240:#define HANDLE_OP_END() continue
+1291:#define INIT_CHECKPOINT()                   \
+1296:#define INIT_CHECKPOINT() /*こっちがマルチ*/             \
+1542:#define HANDLE_OPCODE(op) &&HANDLE_##op
+1544:#undef HANDLE_OPCODE
+1548:    INIT_CHECKPOINT();
+1572:            && wasm_cluster_get_thread_signal(exec_env) != WAMR_SIG_RESTORE) {
+1574:            wasm_cluster_thread_send_signal(exec_env, WAMR_SIG_RESTORE);
+1726:        char *is_checkpoint_after_restore = getenv("CHECKPOINT_AFTER_RESTORE");
+1759:            HANDLE_OP(WASM_OP_UNREACHABLE)
+1765:            HANDLE_OP(WASM_OP_NOP)
+1771:                HANDLE_OP_END();
+1774:            HANDLE_OP(EXT_OP_BLOCK)
+1782:            HANDLE_OP(WASM_OP_BLOCK)
+1810:                HANDLE_OP_END();
+1813:            HANDLE_OP(EXT_OP_LOOP)
+1821:            HANDLE_OP(WASM_OP_LOOP)
+1828:                HANDLE_OP_END();
+1831:            HANDLE_OP(EXT_OP_IF)
+1839:            HANDLE_OP(WASM_OP_IF)
+1881:                HANDLE_OP_END();
+1884:            HANDLE_OP(WASM_OP_ELSE)
+1888:                HANDLE_OP_END();
+1891:            HANDLE_OP(WASM_OP_END)
+1903:                HANDLE_OP_END();
+1906:            HANDLE_OP(WASM_OP_BR)
+1909:                CHECK_SUSPEND_FLAGS();
+1924:                HANDLE_OP_END();
+1927:            HANDLE_OP(WASM_OP_BR_IF)
+1930:                CHECK_SUSPEND_FLAGS();
+1936:                HANDLE_OP_END();
+1939:            HANDLE_OP(WASM_OP_BR_TABLE)
+1942:                CHECK_SUSPEND_FLAGS();

@@ -1,0 +1,9 @@
+In file included from experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture.c:6:
+/home/osslab/wasi-sysroot/include/signal.h:2:2: error: "wasm lacks signal support; to enable minimal signal emulation, compile with -D_WASI_EMULATED_SIGNAL and link with -lwasi-emulated-signal"
+    2 | #error "wasm lacks signal support; to enable minimal signal emulation, \
+      |  ^
+experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture.c:21:10: error: call to undeclared function 'nanosleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   21 |   while (nanosleep(&ts,&ts)<0 && errno==EINTR) { }
+      |          ^
+2 errors generated.
+rc=1

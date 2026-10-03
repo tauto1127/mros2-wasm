@@ -1,0 +1,29 @@
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture-v2.c:16:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/netif/netif_wasm_get.h:4:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_os.h:126:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl.h:4:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl_logger.h:4:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl_types.h:9:9: warning: 'false' macro redefined [-Wmacro-redefined]
+    9 | #define false 0U
+      |         ^
+/opt/wasi-sdk-21/lib/clang/17/include/stdbool.h:22:9: note: previous definition is here
+   22 | #define false 0
+      |         ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture-v2.c:16:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/netif/netif_wasm_get.h:4:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_os.h:126:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl.h:4:
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl_logger.h:4:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/cmsis-wasm/public/include/cmsis_impl_types.h:10:9: warning: 'true' macro redefined [-Wmacro-redefined]
+   10 | #define true (!false)
+      |         ^
+/opt/wasi-sdk-21/lib/clang/17/include/stdbool.h:21:9: note: previous definition is here
+   21 | #define true 1
+      |         ^
+In file included from /home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/gate-b/real-refresh/fixture-v2.c:16:
+/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/lwip-wasm/src/netif/netif_wasm_get.h:5:10: fatal error: 'lwip/ip4_addr.h' file not found
+    5 | #include "lwip/ip4_addr.h"
+      |          ^~~~~~~~~~~~~~~~~
+2 warnings and 1 error generated.
+
+rc=1
