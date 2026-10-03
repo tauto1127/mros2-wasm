@@ -1,0 +1,164 @@
+--- a/lwip-wasm/src/core/udp.c
++++ b/lwip-wasm/src/core/udp.c
+@@ -4,6 +4,8 @@
+ #include "netif_wasm_get.h"
+ #include "netif_wasm_add.h"
+ #include "sys_utils.h"
++#include "traceoverlay.h"
++#include <pthread.h>
+ #include "udp_multicast_manager.h"
+ 
+ #include <stdlib.h>
+@@ -375,14 +377,24 @@
+     //CMSIS_IMPL_INFO("thread_udp_recv:START: mcp=%p", mcp);
+     /* Receive a single datagram from the server */
+     socklen_t socklen = sizeof(remote_addr);
+-    recv_msglen = LWIP_UDP_RECVFROM(mcp->sd, recv_msg, MAX_RECV_PACKET_SIZE, 0, (struct sockaddr*)&remote_addr, &socklen);
++    int recv_fd = mcp->sd;
++    recv_msglen = LWIP_UDP_RECVFROM(recv_fd, recv_msg, MAX_RECV_PACKET_SIZE, 0, (struct sockaddr*)&remote_addr, &socklen);
+     if (recv_msglen < 0) {
+       int saved_errno = errno;
++      int saved_fd = recv_fd;
+       if (saved_errno == EINTR) {
+         int refresh_status = netif_wasm_refresh();
+         CMSIS_IMPL_ERROR("UDP_RECV_RECOVERY action=refresh status=%d reason=EINTR fd=%d",
+-                         refresh_status, mcp->sd);
+-        /* Probe/logging may change errno; retain recvfrom's EINTR result. */
++                         refresh_status, saved_fd);
++        /* Observer receives the true recv errno and descriptor; record() preserves errno. */
++        uint16_t observed_result = refresh_status == NETIF_WASM_REFRESH_BUSY
++            ? TRACE_RESULT_BUSY : refresh_status == NETIF_WASM_REFRESH_FAILED
++            ? TRACE_RESULT_FAILED : refresh_status == NETIF_WASM_REFRESH_CHANGED
++            ? TRACE_RESULT_CHANGED : TRACE_RESULT_UNCHANGED;
++        traceoverlay_record(TRACE_EINTR, observed_result, 0, 0,
++                            (uint32_t)saved_errno, (uint32_t)saved_fd,
++                            (uint64_t)(uintptr_t)pthread_self());
++        /* Probe, logger, and observer may alter errno; keep recvfrom's result. */
+         errno = saved_errno;
+         continue;
+       }
+--- a/lwip-wasm/src/netif/netif_wasm.c
++++ b/lwip-wasm/src/netif/netif_wasm.c
+@@ -1,4 +1,8 @@
+ #include "netif_wasm_add.h"
++#include "traceoverlay.h"
++#include <pthread.h>
++#include <stdint.h>
++#include <stdio.h>
+ #include "netif_wasm_get.h"
+ #include "lwipopts.h"
+ #include <arpa/inet.h>
+@@ -94,39 +98,86 @@
+ int
+ netif_wasm_refresh(void)
+ {
+-  in_addr_t addr;
++  in_addr_t addr = 0;
++  uint32_t current_ip = 0;
++  int snapshot_valid = 0;
++  struct netif *default_ptr = NULL;
++  uintptr_t default_ptr_field_addr = (uintptr_t)&netif_default;
++  uintptr_t ip_field_addr = 0;
++  uintptr_t netmask_field_addr = 0;
++  uint32_t netmask_value = 0;
++  uint32_t observed_ip = 0;
++  int refresh_result = NETIF_WASM_REFRESH_FAILED;
++  uint64_t thread_id = (uint64_t)(uintptr_t)pthread_self();
++
++  /* Observer window reopen/snapshot is outside the core lock. */
++  traceoverlay_begin_process_window();
+   int lock_result = sys_trylock_tcpip_core();
+-
+   if (lock_result == EBUSY) {
+-    return NETIF_WASM_REFRESH_BUSY;
+-  }
+-  if (lock_result != 0) {
+-    return NETIF_WASM_REFRESH_FAILED;
+-  }
+-
+-  /* The existing default netif is the validity authority. Refresh before
+-   * startup is not initialization: only netif_wasm_add publishes it. */
++    refresh_result = NETIF_WASM_REFRESH_BUSY;
++    goto publish_observer;
++  }
++  if (lock_result != 0) goto publish_observer;
++
++  /* No observer call occurs while the core mutex is owned. BUSY never reads
++   * netif state; this snapshot is captured only by the lock winner. */
+   if (netif_default == NULL) {
+     sys_unlock_tcpip_core();
+-    return NETIF_WASM_REFRESH_FAILED;
+-  }
+-
+-  /* Owning the shared core mutex before probing guarantees at most one active
+-   * refresh probe and makes publication atomic with all selected core readers. */
+-  if (probe_local_ip(&addr) != 0) {
++    goto publish_observer;
++  }
++  snapshot_valid = 1;
++  default_ptr = netif_default;
++  ip_field_addr = (uintptr_t)&netif_default->ip_addr.addr;
++  netmask_field_addr = (uintptr_t)&netif_default->netmask.addr;
++  current_ip = netif_default->ip_addr.addr;
++  observed_ip = current_ip;
++  netmask_value = netif_default->netmask.addr;
++  traceoverlay_record(TRACE_PROBE_ENTER, TRACE_RESULT_UNAVAILABLE,
++                      current_ip, 0, 0, 1u, thread_id);
++  int probe_status = probe_local_ip(&addr);
++  traceoverlay_record(TRACE_PROBE_EXIT,
++                      probe_status == 0 ? TRACE_RESULT_UNAVAILABLE : TRACE_RESULT_FAILED,
++                      current_ip, probe_status == 0 ? addr : 0, 0, 1u, thread_id);
++  if (probe_status != 0) {
+     sys_unlock_tcpip_core();
+-    return NETIF_WASM_REFRESH_FAILED;
+-  }
+-
+-  if (netif_default->ip_addr.addr == addr) {
+-    sys_unlock_tcpip_core();
+-    return NETIF_WASM_REFRESH_UNCHANGED;
+-  }
+-
+-  netif_default->ip_addr.addr = addr;
++    goto publish_observer;
++  }
++  if (current_ip == addr) {
++    refresh_result = NETIF_WASM_REFRESH_UNCHANGED;
++  } else {
++    netif_default->ip_addr.addr = addr;
++    observed_ip = addr;
++    refresh_result = NETIF_WASM_REFRESH_CHANGED;
++  }
+   sys_unlock_tcpip_core();
+-  printf("netif_wasm: local ip changed to 0x%08x\n", addr);
+-  return NETIF_WASM_REFRESH_CHANGED;
++
++publish_observer:
++  /* All record publication is after unlock (or after failed trylock). */
++  traceoverlay_record(TRACE_TRYLOCK_ATTEMPT, TRACE_RESULT_UNAVAILABLE,
++                      snapshot_valid ? current_ip : 0, 0, 0,
++                      (uint32_t)lock_result, thread_id);
++  uint16_t observed_result = refresh_result == NETIF_WASM_REFRESH_BUSY
++      ? TRACE_RESULT_BUSY : refresh_result == NETIF_WASM_REFRESH_FAILED
++      ? TRACE_RESULT_FAILED : refresh_result == NETIF_WASM_REFRESH_CHANGED
++      ? TRACE_RESULT_CHANGED : TRACE_RESULT_UNCHANGED;
++  traceoverlay_record(TRACE_TRYLOCK_OUTCOME, observed_result,
++                      snapshot_valid ? current_ip : 0,
++                      snapshot_valid && refresh_result == NETIF_WASM_REFRESH_CHANGED
++                          ? addr : (snapshot_valid ? current_ip : 0),
++                      (uint32_t)lock_result, snapshot_valid ? 1u : 0u,
++                      thread_id);
++  if (refresh_result == NETIF_WASM_REFRESH_CHANGED)
++    printf("netif_wasm: local ip changed to 0x%08x\n", addr);
++  if (snapshot_valid) {
++    char guest_state_record[512];
++    int guest_state_length = snprintf(guest_state_record, sizeof(guest_state_record),
++      "{\"schema\":\"guest-state-v1;actual wasm32 addresses + copied values;raw memory little-endian;IPv4 semantic bytes network-order\",\"part\":\"c\",\"default_ptr_field_addr\":\"0x%08x\",\"default_ptr\":\"0x%08x\",\"ip_field_addr\":\"0x%08x\",\"ip_value\":\"0x%08x\",\"netmask_field_addr\":\"0x%08x\",\"netmask_value\":\"0x%08x\"}\n",
++      (unsigned)default_ptr_field_addr, (unsigned)(uintptr_t)default_ptr,
++      (unsigned)ip_field_addr, observed_ip, (unsigned)netmask_field_addr, netmask_value);
++    if (guest_state_length > 0 && (size_t)guest_state_length < sizeof(guest_state_record))
++      traceoverlay_write_record(guest_state_record, (uint32_t)guest_state_length);
++  }
++  return refresh_result;
+ }
+ 
+ void

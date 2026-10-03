@@ -1,0 +1,133 @@
+{
+  "schema": "normal-wasm-build-provenance-v1",
+  "status": "clean normal build passed",
+  "build_directory": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string",
+  "configure_command": "cmake -S /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl -B /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string -DCMAKE_APPNAME=echoback_string -DWASI_SDK_PREFIX=/opt/wasi-sdk-21 -DCMAKE_TOOLCHAIN_FILE=/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake -DCMAKE_SYSROOT=/home/osslab/wasi-sysroot -DWAMR_ROOT=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/wamr -DCARTOGRAPHER_ROOT=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/cartographer -DCARTOGRAPHER_LIBRARY_ROOT=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/cartographer-library -DZLIB_LIBRARY=/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/cmake_build/zlib-wasi/libz.a",
+  "build_command": "cmake --build /home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string --target MODULE_echoback_string --parallel 4",
+  "artifacts": {
+    "app": {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/echoback_string.wasm",
+      "sha256": "b66ded95023a51022e4ebe19cca65663f83c173590dc9bef6d5cba5b27d326fc"
+    },
+    "runtime": {
+      "path": "/tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm",
+      "sha256": "70bfcdc4b109041deec3eef4677a605a3fb8d5e03cf16fb026ca4ca8a85938f3"
+    },
+    "peer": {
+      "path": "/tmp/mros2-posix-run04-final-build/mros2-posix",
+      "sha256": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+    }
+  },
+  "sources": [
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/entities/Domain.cpp",
+      "sha256": "bfbc20b235ed6dbcbec6ce91e838592abe91a64944e0278fbc46fa16bc60a5af",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/entities/Participant.cpp",
+      "sha256": "f56263ce2f4767c36bc7eb1ce6ac69b5be2b9d00ab8e2086be6f83599af44c66",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "sha256": "a5c55e91ca27987458390a8afdc84485adf1a104c130dc938bc0fd2e372e482c",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/projection-fixture.cpp",
+      "sha256": "24411222fefb32fadc36d43ed1b741228e7ebdce73b23bf9c0e50241b93147cd",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/run-task.sh",
+      "sha256": "901de16cab27d087db87f24ab1121f8435add402ecf9e52efd6ac759e2cf75af",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/include/rtps/config.h",
+      "sha256": "a303bc5e95b16f0bad0dc2d77b7e2eeb8b851b3ab24e3be621a06dc72fc7ddde",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/src/include/lwipopts.h",
+      "sha256": "45e138fcbee6e1c0f732bd40b2521ade02cc072f0efadb8a1cc80f98c1eb630f",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/CMakeLists.txt",
+      "sha256": "bfd989f314699d84a8fecf32bc36c019813667122f43083f8a79ee66fe225fe2",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/source-config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/CMakeCache.txt",
+      "sha256": "73a190fde985fd39c652de0ee09b4f471a3e7ba9c38e25184a16c94e97bacdd1",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-service_server_add_two_int/CMakeCache.txt",
+      "sha256": "8e86f848a9e65987bffae3a71301fec28bbe8d9d6438840fb95eb32344f5cd70",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-service_test_add_two_int/CMakeCache.txt",
+      "sha256": "16e5a02f44e5cfe2152735001df9534f409b8af8b01d2bac12877971ea41d4d4",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/config-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/public/liblwip.a",
+      "sha256": "3df4295ba0edb17a06356e01ff0161f0f566de2d6c9e9d097e7bffd9ee9f580e",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/dependency-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/cmsis-wasm/public/libcmsis.a",
+      "sha256": "69e38a704dc15f3637d0d14b6b5f93ea6153a6698931be101073fcaa6b6eb4e8",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/dependency-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/lwip-wasm/public/libsocket_wasi_ext.a",
+      "sha256": "c963d5f5a8d96b96e53750379432bef4c330d42e51e4e8b4bc3b8dc4ea19f9cd",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/dependency-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/third_party/wamr/core/iwasm/libraries/lib-socket/src/wasi/wasi_socket_ext.c",
+      "sha256": "66644c53dfd0b5f594b8428e9dbae8c4c747d9fcfb951d931aa6f7e004f9a78a",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/dependency-hashes.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/mros2/embeddedRTPS/include/rtps/discovery/PreparedDiscovery.h",
+      "sha256": "09811065af93c1d84ef24face33ac05f5fa2d3ceaa5ffedafdb5fdf723b4ffd7",
+      "evidence_manifest": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/new-header.sha256"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/CMakeCache.txt",
+      "sha256": "73a190fde985fd39c652de0ee09b4f471a3e7ba9c38e25184a16c94e97bacdd1"
+    },
+    {
+      "path": "/opt/wasi-sdk-21/bin/clang-17",
+      "sha256": "5aa2f1612ebc041f175cbf8cd666c9565364134d222b8170443399577548edac"
+    },
+    {
+      "path": "/opt/wasi-sdk-21/bin/clang-17",
+      "sha256": "5aa2f1612ebc041f175cbf8cd666c9565364134d222b8170443399577548edac"
+    },
+    {
+      "path": "/opt/wasi-sdk-21/share/cmake/wasi-sdk-pthread.cmake",
+      "sha256": "a575a7bf235b349309f098ff1fe9da1ee7648bb65dc2fcc438e2a117e34ac275"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/commands.txt",
+      "sha256": "b98209b78b3e9e87a525c6e9b18e72ec8ecbf92d3bc26f89f998abcedddd1f65"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/configure.log",
+      "sha256": "187e190227d668a5227df03e8766da66c05ef36cde9764d7fb8829146746688a"
+    },
+    {
+      "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/rtps/runs/20261003T-startup-repair2-T11-final/build-echoback_string/build.log",
+      "sha256": "3ee994cb407c0bfb64db53ed6e332e5e12523de0fc8587121f71b5ec2bbbe5ba"
+    }
+  ],
+  "normal_build": "SDK21 pthread normal echoback_string; no instrumentation/observer/C-R; clean build report validation/rtps/runs/20261003T-startup-repair2-T11-final",
+  "warnings": "28 warning lines retained in build.log; no build errors"
+}

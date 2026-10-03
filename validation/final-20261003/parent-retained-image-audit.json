@@ -1,0 +1,61 @@
+{
+  "timestamp": 1790990332.6078944,
+  "scope": "parent read-only retained file hashes and guest/counter bytes; not full source adoption",
+  "cases": [
+    {
+      "root": "/tmp/t12-v8-same/1790959475-de34d33dce",
+      "result_sha256": "3ae60e45aaf2287ba1f81d7ec89122ba95de2120cc78f00772098d8292abc78b",
+      "phases": [
+        {
+          "phase": 1,
+          "manifest_sha256": "a9a3bce57a12c97c07d43b9a6c7350b6574f759a5c244cd7962a85a1207c16c6",
+          "state_dir": "/tmp/t12-v8-same/1790959475-de34d33dce/state/phase-01",
+          "file_count": 51,
+          "ip": "0x030012ac",
+          "applied": "0x030012ac",
+          "all_retained_hashes_and_selected_guest_counter_bytes_match": true
+        }
+      ]
+    },
+    {
+      "root": "/tmp/t12-v8-changed/1790960246-9fd097fef6",
+      "result_sha256": "d0ed441940a69a44af849d13d4cbf20ad06e29129bca7fe68f40e092de3e6479",
+      "phases": [
+        {
+          "phase": 1,
+          "manifest_sha256": "bd6954f064db5287187cdac0105b3abb2f3cbef2857c5e6ef83a3457b5a0bb3c",
+          "state_dir": "/tmp/t12-v8-changed/1790960246-9fd097fef6/state/phase-01",
+          "file_count": 51,
+          "ip": "0x030012ac",
+          "applied": "0x030012ac",
+          "all_retained_hashes_and_selected_guest_counter_bytes_match": true
+        }
+      ]
+    },
+    {
+      "root": "/tmp/t12-v8-repeated-retained/1790962188-1214a3ccc6",
+      "result_sha256": "fb5ab81573c7ea7b1e5b3a2f231653aacb79b5f0040697b0cefceb04a37c0d8d",
+      "phases": [
+        {
+          "phase": 1,
+          "manifest_sha256": "ce0c0b54815eeba38cb540d3e7103f2df63adc04feef9a7cf1a54422b2b427b0",
+          "state_dir": "/tmp/t12-v8-repeated-retained/1790962188-1214a3ccc6/checkpoint-images/phase-01",
+          "file_count": 51,
+          "ip": "0x030012ac",
+          "applied": "0x030012ac",
+          "all_retained_hashes_and_selected_guest_counter_bytes_match": true
+        },
+        {
+          "phase": 2,
+          "manifest_sha256": "c9b50bb6bc7cd0b40a5988ff92992baadfae24297bbfca2ff38440335dc11b40",
+          "state_dir": "/tmp/t12-v8-repeated-retained/1790962188-1214a3ccc6/checkpoint-images/phase-02",
+          "file_count": 51,
+          "ip": "0x060012ac",
+          "applied": "0x060012ac",
+          "all_retained_hashes_and_selected_guest_counter_bytes_match": true
+        }
+      ]
+    }
+  ],
+  "control_fields_valid": true
+}

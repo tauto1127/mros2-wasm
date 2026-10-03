@@ -41,8 +41,8 @@ if [[ "$TASK" == T10c2b ]]; then
   exit
 fi
 SDK=/opt/wasi-sdk-21
-RUNTIME=/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm
-EXPECTED=77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60
+RUNTIME=${RTPS_RUNTIME:-/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm}
+EXPECTED=${RTPS_RUNTIME_SHA256:-77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60}
 [[ $(sha256sum "$RUNTIME" | cut -d' ' -f1) == "$EXPECTED" ]]
 LW="$ROOT/lwip-wasm"
 CMS="$ROOT/cmsis-wasm"
@@ -121,6 +121,7 @@ elif [[ "$TASK" == T10c1 ]]; then
   grep -q 'T10c1_RUNTIME_BIRTH_FAILURES_PASS' "$OUT/run.log"
 elif [[ "$TASK" == T10c6 ]]; then
   grep -q 'T10c_TYPED_INIT_FAILURES_PASS cases=6' "$OUT/run.log"
+  grep -q 'T10c_LATE_AGENT_FAILURE_PASS' "$OUT/run.log"
 elif [[ "$TASK" == T10c2a ]]; then
   grep -q 'T10c2a_ACCESSOR_CONTENTION_PASS' "$OUT/run.log"
   grep -q 'T10c2a_EXPIRED_PREFIX_PASS' "$OUT/run.log"

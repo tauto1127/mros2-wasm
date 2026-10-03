@@ -86,7 +86,7 @@ def overlay_udp(original: str) -> str:
 def overlay_coordinator(original: str) -> str:
     text = replace_once(original,
         '#include "netif_wasm_add.h"',
-        '#include "netif_wasm_add.h"\n#include "traceoverlay.h"\n#include <pthread.h>\n#include <stdint.h>',
+        '#include "netif_wasm_add.h"\n#include "traceoverlay.h"\n#include <pthread.h>\n#include <stdint.h>\n#include <stdio.h>',
         "coordinator includes")
     start = text.index("int\nnetif_wasm_refresh(void)\n{")
     end = text.index("\nvoid\nnetif_wasm_get_ip_snapshot_core_locked", start)
@@ -97,10 +97,18 @@ netif_wasm_refresh(void)
   in_addr_t addr = 0;
   uint32_t current_ip = 0;
   int snapshot_valid = 0;
-  int lock_result = sys_trylock_tcpip_core();
+  struct netif *default_ptr = NULL;
+  uintptr_t default_ptr_field_addr = (uintptr_t)&netif_default;
+  uintptr_t ip_field_addr = 0;
+  uintptr_t netmask_field_addr = 0;
+  uint32_t netmask_value = 0;
+  uint32_t observed_ip = 0;
   int refresh_result = NETIF_WASM_REFRESH_FAILED;
   uint64_t thread_id = (uint64_t)(uintptr_t)pthread_self();
 
+  /* Observer window reopen/snapshot is outside the core lock. */
+  traceoverlay_begin_process_window();
+  int lock_result = sys_trylock_tcpip_core();
   if (lock_result == EBUSY) {
     refresh_result = NETIF_WASM_REFRESH_BUSY;
     goto publish_observer;
@@ -114,7 +122,12 @@ netif_wasm_refresh(void)
     goto publish_observer;
   }
   snapshot_valid = 1;
+  default_ptr = netif_default;
+  ip_field_addr = (uintptr_t)&netif_default->ip_addr.addr;
+  netmask_field_addr = (uintptr_t)&netif_default->netmask.addr;
   current_ip = netif_default->ip_addr.addr;
+  observed_ip = current_ip;
+  netmask_value = netif_default->netmask.addr;
   traceoverlay_record(TRACE_PROBE_ENTER, TRACE_RESULT_UNAVAILABLE,
                       current_ip, 0, 0, 1u, thread_id);
   int probe_status = probe_local_ip(&addr);
@@ -129,6 +142,7 @@ netif_wasm_refresh(void)
     refresh_result = NETIF_WASM_REFRESH_UNCHANGED;
   } else {
     netif_default->ip_addr.addr = addr;
+    observed_ip = addr;
     refresh_result = NETIF_WASM_REFRESH_CHANGED;
   }
   sys_unlock_tcpip_core();
@@ -150,6 +164,15 @@ publish_observer:
                       thread_id);
   if (refresh_result == NETIF_WASM_REFRESH_CHANGED)
     printf("netif_wasm: local ip changed to 0x%08x\\n", addr);
+  if (snapshot_valid) {
+    char guest_state_record[512];
+    int guest_state_length = snprintf(guest_state_record, sizeof(guest_state_record),
+      "{\\\"schema\\\":\\\"guest-state-v1;actual wasm32 addresses + copied values;raw memory little-endian;IPv4 semantic bytes network-order\\\",\\\"part\\\":\\\"c\\\",\\\"default_ptr_field_addr\\\":\\\"0x%08x\\\",\\\"default_ptr\\\":\\\"0x%08x\\\",\\\"ip_field_addr\\\":\\\"0x%08x\\\",\\\"ip_value\\\":\\\"0x%08x\\\",\\\"netmask_field_addr\\\":\\\"0x%08x\\\",\\\"netmask_value\\\":\\\"0x%08x\\\"}\\n",
+      (unsigned)default_ptr_field_addr, (unsigned)(uintptr_t)default_ptr,
+      (unsigned)ip_field_addr, observed_ip, (unsigned)netmask_field_addr, netmask_value);
+    if (guest_state_length > 0 && (size_t)guest_state_length < sizeof(guest_state_record))
+      traceoverlay_write_record(guest_state_record, (uint32_t)guest_state_length);
+  }
   return refresh_result;
 }
 '''
@@ -198,8 +221,17 @@ def run(argv: list[str] | None = None) -> int:
         (overlay_root / rel).write_bytes(rendered_outputs[rel])
     header = ROOT / "validation/campaign/traceoverlay.h"
     cfile = ROOT / "validation/campaign/traceoverlay.c"
+    observer_source = cfile.read_text(encoding="utf-8")
+    literal_window_newline = 'addr_lockfree=0x%08x\\\\n",'
+    actual_window_newline = 'addr_lockfree=0x%08x\\n",'
+    if observer_source.count(literal_window_newline) != 1:
+        raise RuntimeError("observer WINDOW_START newline emitter seam changed")
+    observer_source = observer_source.replace(literal_window_newline, actual_window_newline, 1)
+    if 'addr_lockfree=0x%08x\\\\n",' in observer_source:
+        raise RuntimeError("observer WINDOW_START still has a literal backslash-n ending")
+    observer_bytes = observer_source.encode("utf-8")
     (overlay_root / "traceoverlay.h").write_bytes(header.read_bytes())
-    (overlay_root / "traceoverlay.c").write_bytes(cfile.read_bytes())
+    (overlay_root / "traceoverlay.c").write_bytes(observer_bytes)
 
     patch = []
     for rel in outputs:
@@ -241,13 +273,18 @@ def run(argv: list[str] | None = None) -> int:
     for obj in objects[:2]:
         symbols = subprocess.run([str(nm), "-u", str(obj)], check=True,
                                  text=True, capture_output=True).stdout
-        if "traceoverlay_record" not in symbols:
-            raise SystemExit(f"instrumented unit {obj.name} does not reference traceoverlay ABI")
-        undefined_hooks.append({"object": obj.name, "undefined_traceoverlay_record": True})
+        required = ["traceoverlay_record"]
+        if obj.name == "netif_wasm.o": required.append("traceoverlay_begin_process_window")
+        if not all(symbol in symbols for symbol in required):
+            raise SystemExit(f"instrumented unit {obj.name} does not reference required observer ABI: {required}")
+        undefined_hooks.append({"object": obj.name, "undefined_observer_abi": required})
     observer_symbols = subprocess.run([str(nm), "--defined-only", str(objects[2])],
                                       check=True, text=True, capture_output=True).stdout
-    if "traceoverlay_record" not in observer_symbols:
-        raise SystemExit("observer object does not define traceoverlay_record ABI")
+    defined_required = ("traceoverlay_record", "traceoverlay_snapshot", "traceoverlay_write_record",
+                        "traceoverlay_batch_begin", "traceoverlay_batch_end",
+                        "traceoverlay_begin_process_window", "traceoverlay_note_output_failure")
+    if not all(symbol in observer_symbols for symbol in defined_required):
+        raise SystemExit("observer object does not define complete window/channel observer ABI")
     linker = a.sdk / "wasm-ld"
     linked = out / "traceoverlay-lwip-hooks.wasm"
     cmd = [str(linker), "--allow-undefined", "--no-entry", "-o", str(linked), *map(str, objects)]
@@ -262,7 +299,7 @@ def run(argv: list[str] | None = None) -> int:
         "status": "C-seam overlay compile/link passed; not an application or campaign artifact",
         "source_diff_sha256": diff_hash, "input_sha256": input_hashes,
         "observer_header_sha256": sha(header.read_bytes()),
-        "observer_source_sha256": sha(cfile.read_bytes()),
+        "observer_source_sha256": sha(observer_bytes),
         "current_headers_sha256": {str(h.relative_to(ROOT)): sha(h.read_bytes())
                                     for h in HEADER_INPUTS},
         "compiler": compiler_version,
@@ -272,10 +309,10 @@ def run(argv: list[str] | None = None) -> int:
         "objects": {obj.name: sha(obj.read_bytes()) for obj in objects},
         "linked_hook_probe": str(linked), "linked_sha256": sha(linked.read_bytes()),
         "abi_resolution": {"instrumented_references": undefined_hooks,
-                           "observer_defines_record": True, "wasm_link_passed": True},
+                           "observer_defines_required_abi": list(defined_required), "wasm_link_passed": True},
         "disk_bytes": sum(x.stat().st_size for x in out.rglob("*") if x.is_file()),
-        "safety": "only textual draining/logging is post-unlock; record is bounded lockfree observer work at true probe boundaries while core is held; BUSY has no snapshot; ring reservation is one CAS attempt with explicit loss; no malloc/syscalls/logs/locks in observer",
-        "trace_schema": "traceoverlay_event-v2 with thread_id; post-unlock dump includes counters/lost/lockfree",
+        "safety": "trace recording at production boundaries stays bounded/lockfree and changes no generation or wake behavior; all file output and observer mutex use occurs after core/SEDP/Participant guards release; batches are one bounded append write; failed/short writes and ring loss remain visible",
+        "trace_schema": "traceoverlay_event-v2; dedicated shared append channel has process-window/batch delimiters, event byte/sequence boundaries, actual counter snapshots and WASM addresses",
         "probe_interval": "PROBE_ENTER/EXIT are emitted immediately around probe_local_ip while the winning core lock is held; BUSY emits neither and carries no snapshot",
         "metrics": "lock-free observer counters; attempts/winners/busy/fail/outcomes/completions plus active/max-active probe interval; loss is explicit and nonzero rejects readiness",
         "timestamp_policy": "guest observer has no timestamp; campaign collector may timestamp drained events",

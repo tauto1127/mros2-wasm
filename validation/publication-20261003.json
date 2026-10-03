@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-10-03T01:23:08.021638+00:00",
+  "scope": "Adopted production dependencies and root gitlinks; final validation/tooling/adoption records are in the containing root commit, not source dependencies.",
+  "entries": [
+    {
+      "repository": "mros2/embeddedRTPS",
+      "commit": "feb148aa9ffdd1bdd946c5651de4dc38e0c295fe",
+      "paths": [
+        "include/rtps/common/Locator.h",
+        "include/rtps/communication/UdpDriver.h",
+        "include/rtps/discovery/BuiltInEndpoints.h",
+        "include/rtps/discovery/SEDPAgent.h",
+        "include/rtps/discovery/SPDPAgent.h",
+        "include/rtps/entities/Domain.h",
+        "include/rtps/entities/Participant.h",
+        "include/rtps/entities/StatefulWriter.h",
+        "include/rtps/entities/StatefulWriter.tpp",
+        "include/rtps/entities/StatelessWriter.h",
+        "include/rtps/entities/StatelessWriter.tpp",
+        "include/rtps/storages/SimpleHistoryCache.h",
+        "src/communication/UdpDriver.cpp",
+        "src/discovery/ParticipantProxyData.cpp",
+        "src/discovery/SEDPAgent.cpp",
+        "src/discovery/SPDPAgent.cpp",
+        "src/discovery/TopicData.cpp",
+        "src/entities/Domain.cpp",
+        "src/entities/Participant.cpp",
+        "src/entities/StatelessReader.cpp",
+        "include/rtps/discovery/PreparedDiscovery.h"
+      ],
+      "branch": "fix/eintr-ip-refresh",
+      "pushed": true,
+      "verified_push_url": "git@github.com:tauto1127/embeddedRTPS.git",
+      "push_output": "",
+      "remote_tip": "feb148aa9ffdd1bdd946c5651de4dc38e0c295fe"
+    },
+    {
+      "repository": "lwip-wasm",
+      "commit": "14bfbc5c2dd4a3f06f4ec9bfeb743368d3c1d8e1",
+      "paths": [
+        "src/core/lwip.c",
+        "src/core/udp.c",
+        "src/include/lwipopts.h",
+        "src/include/netif_wasm_add.h",
+        "src/netif/netif_wasm.c"
+      ],
+      "branch": "fix/eintr-ip-refresh",
+      "pushed": true,
+      "verified_push_url": "git@github.com:tauto1127/lwip-wasm.git",
+      "push_output": "",
+      "remote_tip": "14bfbc5c2dd4a3f06f4ec9bfeb743368d3c1d8e1"
+    },
+    {
+      "repository": "mros2",
+      "commit": "00603ebe31bb1f6aab92c584dd5f7e95a9169a80",
+      "paths": [
+        "embeddedRTPS"
+      ],
+      "branch": "fix/eintr-ip-refresh",
+      "pushed": true,
+      "verified_push_url": "git@github.com:tauto1127/mros2.git",
+      "push_output": "",
+      "remote_tip": "00603ebe31bb1f6aab92c584dd5f7e95a9169a80"
+    },
+    {
+      "repository": "third_party/wamr",
+      "commit": "8a3c5a405e1e4e616893de896396eff6a7599ac6",
+      "paths": [
+        "core/iwasm/interpreter/wasm_interp_classic.c",
+        "core/iwasm/libraries/thread-mgr/thread_manager.c",
+        "core/iwasm/libraries/thread-mgr/thread_manager.h"
+      ],
+      "branch": "fix/eintr-ip-refresh",
+      "pushed": true,
+      "verified_push_url": "https://github.com/tauto1127/wasm-micro-runtime.git",
+      "push_output": "",
+      "remote_tip": "8a3c5a405e1e4e616893de896396eff6a7599ac6"
+    }
+  ],
+  "root_pins": {
+    "commit": "e2b4a6812cf9959e0da70f3c8953bd716bc7a109",
+    "verified_push_url": "git@github.com:tauto1127/mros2-wasm.git",
+    "branch": "fix/eintr-ip-refresh",
+    "remote_tip_at_push": "e2b4a6812cf9959e0da70f3c8953bd716bc7a109",
+    "pushed": true
+  },
+  "publication_check_note": "Initial default whitespace check stopped before lwIP staging because CRLF was classified as trailing whitespace. Existing index mixed/worktree CRLF conventions confirmed; command-local cr-at-eol-aware check passed. No source bytes or repository/global config altered. First embeddedRTPS push preserved, continuation followed dependency order.",
+  "wiki_receipt_note": "Authorized single working-plan commit/push is verified separately on life-wiki main; its exact commit is reported at final wrap. This receipt covers production dependency publication, not a self-referential containing-commit hash."
+}

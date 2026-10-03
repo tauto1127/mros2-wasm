@@ -1,5 +1,5 @@
 {
-  "status": "runner-implemented-safe-trace-derivative-setup-only-no-communication-pass",
+  "status": "trace-channel-v7 observer-newline fix built and real WASI output regression passed; prior v6 checkpoint campaign failed and remains preserved; no T12 PASS",
   "provenance": {
     "copied_from": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh/experiments/eintr-ip-refresh-phase0/campaign/setup.json",
     "source_sha256": "e9e4d782c26b0eafbe2916a67590805f3863d9e21d28558841dd0332ce341150",
@@ -25,10 +25,35 @@
         "sha256": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
       },
       "trace_overlay": {
+        "path": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm",
+        "sha256": "13662f7ac3ac13a62d09e1b75236fe4ea347712948884b08a59c89156088044a",
+        "manifest": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/guest-state-v1-logs/manifest.json",
+        "manifest_sha256": "533788061dbe3440b7a54d0f651098164cc5087573c38d76f83d8205195c245f",
+        "status": "actual MODULE_echoback_string build passed",
+        "tag": "guest-state-v1",
+        "link_map": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/MODULE_echoback_string.map",
+        "link_map_sha256": "aef0d302bdc4a6fc8391fcfe625f309d67ee34b40e5f7c17235ee535eaf8d6bf",
+        "observer_link_occurrences": 1
+      },
+      "prior_trace_overlay_evidence": {
         "path": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
         "sha256": "a6d974aa7d7f194c0b4c9d3cc023f46c34d24ed87ed93773b28f2080f24dc4a6",
         "manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
         "manifest_sha256": "8e7d01da6ce05525990952b471f71727858a455dd7cb4836c5abad9a718ce9d9"
+      },
+      "normal_three_apps": {
+        "echoback_string": {
+          "path": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
+          "sha256": "b9b01ebf0523048e3af1ca07655c010a72ed364d7eacee05c61277058f09e9d9"
+        },
+        "service_test_add_two_int": {
+          "path": "/tmp/locks-native-T11-20261002/build-service_test_add_two_int/service_test_add_two_int.wasm",
+          "sha256": "919f0a90d3efe8d6777c78cfec5e911ea244dc16e5e3ffcb02a622b4fa8e2d49"
+        },
+        "service_server_add_two_int": {
+          "path": "/tmp/locks-native-T11-20261002/build-service_server_add_two_int/service_server_add_two_int.wasm",
+          "sha256": "524f56383315e1b27cf5e3a2bbcaebd6124d33305ec50333fe90d0f392961bd2"
+        }
       }
     },
     "source_run_ownership": {
@@ -48,7 +73,7 @@
   },
   "runner": {
     "path": "/home/osslab/20261001-mros2-wasm-eintr-ip-refresh-impl/validation/campaign/run.py",
-    "sha256": "0eee4fde5dca42ccaa806f0f196a6e88aba30cf47eeeff26af96f176788ec3e4",
+    "sha256": "13e166e6e36064e128e37151a062d7bc706dfb006e057137d795f44c29fe7e62",
     "modes": [
       "same",
       "changed",
@@ -58,12 +83,17 @@
     "default_artifacts": "T11 normal app/runtime/peer SHA256 pins",
     "peer_policy": "one session-owned continuous native peer container; unique label and ownership file; never signals an unowned peer",
     "raw_failure_policy": "unique run directory retained; failed checkpoint state never deleted",
-    "pass_cleanup_policy": "owned state only; regular non-symlink files only; exact 1GiB image + SHA manifest + guest-memory snapshots + complete pre/post ID/body roundtrip assertions checked before deletion",
+    "pass_cleanup_policy": "default disabled; explicit state/container cleanup requires full persisted PASS and hash manifest of assertions and exact owned paths",
     "trace": {
-      "capture": "native runtime stdout RTPS_TRACE records with actual thread id and detail/aux (including EINTR fd) plus RTPS_TRACE_METRICS",
+      "capture": "RTPS_TRACE and RTPS_TRACE_METRICS plus guest-state JSON share /observer/trace-observer.log, one validated append FD/output mutex; no stdout fallback",
       "manifest_required": true,
-      "schema": "traceoverlay_event-v2;seq:u32,kind:u16,result:u16,current_ip:u32,applied_ip:u32,detail:u32,aux:u32,thread_id:u64; metrics attempts,winners,busy,failed,outcomes,probe_completions,active,max_active,lost,lockfree",
-      "readiness": "nonzero lost, lockfree !=1, max_active >1, active !=0, counter mismatch, sequence gaps, or missing EINTR rejects readiness",
+      "schema": "traceoverlay_event-v2; process-window/batch delimiters, event sequence/byte boundaries, actual stable counter snapshots and WASM32 addresses, counter-image baseline, explicit replay/pending-tail attribution",
+      "readiness": "counter/event deltas only reconcile from stable closed process/image windows; nonzero loss, non-lockfree atomics, overlap >1, unclosed pending events, counter mismatch, sequence gap, missing EINTR or convergence rejects readiness",
+      "output_channel": "/observer/trace-observer.log",
+      "stdout_fallback": false,
+      "window_identity": "collector process PID/start ticks, app hash, source role, exact observer byte offsets; guest observer process/window start stores actual values/addresses",
+      "counter_image_baseline": "read-only little-endian u32 values from addresses emitted by the guest and bounds-checked against exact checkpoint memory image",
+      "cleanup_default": "off; explicit opt-in only after persisted result/trace/assertions and exact owned-path hash manifest",
       "kind_ids": {
         "1": "EINTR",
         "2": "TRYLOCK_ATTEMPT",
@@ -85,25 +115,42 @@
         "2": "FAILED",
         "3": "UNCHANGED",
         "4": "CHANGED"
-      }
+      },
+      "batch_drain": "shared observer output mutex serializes bounded ring drain and its single append write; unstable/inconsistent snapshots remain pending until exact process/image deltas reconcile",
+      "failed_payload_policy": "failed state, logs, manifests and run directories remain untouched; no retro-certification"
     }
   },
   "setup_readiness": {
     "app": "/tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm",
-    "runtime": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm",
+    "runtime": "/tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm",
+    "runtime_sha256": "70bfcdc4b109041deec3eef4677a605a3fb8d5e03cf16fb026ca4ca8a85938f3",
+    "runtime_manifest": "/tmp/wamr-parent-restore-park-fix-20261002/manifest.json",
+    "runtime_manifest_sha256": "a29a99d8f9b32d565401fad0c682561b44eb3a4d5884d32c71a8a80102d6468f",
+    "preserved_old_runtime": {"path": "/tmp/mros2-wasm-no-udp-recover-experiment-build-03/runtime/iwasm", "sha256": "77c3bcef496f45b190755eaf29108fe6fe957dfab6c9e57fa3efc9e578587b60"},
     "peer": "/tmp/mros2-posix-run04-final-build/mros2-posix",
-    "trace_app": "/tmp/mros2-trace-build-evidence-20261002/build-trace-observer-v6/echoback_string.wasm",
-    "trace_manifest": "/tmp/mros2-trace-build-evidence-20261002/trace-observer-v6-logs/manifest.json",
+    "trace_app": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v7/echoback_string.wasm",
+    "trace_manifest": "/tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v7-logs/manifest.json",
     "commands": [
-      "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
-      "python3 validation/campaign/run.py --mode changed --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
-      "python3 validation/campaign/run.py --mode repeated --trace-app <manifest-wasm> --trace-manifest <build-manifest>",
-      "python3 validation/campaign/run.py --mode no-cr --trace-app <manifest-wasm> --trace-manifest <build-manifest>"
+      "python3 validation/campaign/run.py --mode same --runtime /tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v7/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v7-logs/manifest.json --reuse-peer-session <verified-session-manifest>",
+      "python3 validation/campaign/run.py --mode no-cr --normal-no-cr-control --no-cr-ip 172.18.0.6 --app /tmp/locks-native-T11-20261002/build-echoback_string/echoback_string.wasm --runtime /tmp/wamr-parent-restore-park-fix-20261002/build-fixed/iwasm --reuse-peer-session <verified-session-manifest>"
     ],
     "disk_requirement": ">=3221225472 free bytes before every checkpoint",
-    "readiness_status": "safe observer v2 derivative build and offline parser verified; runtime telemetry/campaign unobserved; NOT PASS",
-    "observed_available_bytes_at_report": 4200206336,
-    "observed_available_utc": "2026-10-02"
+    "readiness_status": "fixed runtime/v7 provenance verified; SAME 1790956414-3b483123ab checkpoint, same-IP assertions and correlations completed but whole telemetry NOT PASS (2 lost; restore attempt/event delta mismatch); runner verdict finalization also hit literal\\\\n JSON suffix; no new-runtime normal no-C/R control; all failure payloads preserved",
+    "observed_available_bytes_at_report": 18117431296,
+    "observed_available_utc": "2026-10-02",
+    "trace_manifest_sha256": "679e742b107d3aeaf1d97570936b0689d98334adcde69ec5ba3c08c64ea907ed",
+    "trace_guest_state_schema": "guest-state-v1",
+    "build_tag": "trace-channel-v7",
+    "actual_build_manifest_status": "actual MODULE_echoback_string build passed",
+    "observer_link_occurrences": 1,
+    "single_printing_drain": true,
+    "normal_three_hashes_unchanged": true,
+    "core_rtps_diff_sha256": "acffe689756e1c01cf23128689aafa5ef06f7ca671211e60cafca0edfc8faeb4",
+    "core_copy_comparison": "the derivative embeddedRTPS tree matches current production tree except the existing trace-only SEDPAgent.cpp and SPDPAgent.cpp overlay additions; no core RTPS source diff change",
+    "observer_file": "/observer/trace-observer.log",
+    "observer_stdout_fallback": false,
+    "runner_sha256": "cb49ca85c08892797a84348376736bda5f9950a3b978375d820f1cbc8cb01047",
+    "observer_counter_manifest_sha256": "1bc90bb32cb0e697b4ce14f92ce36a262abb7df014c8f08f5d0038fa4a7cf82b"
   },
   "validation": {
     "commands": [
@@ -114,20 +161,52 @@
       "python3 validation/campaign/run.py --mode same --trace-app <manifest-wasm> --trace-manifest <build-manifest> --dry-run",
       "python3 -m json.tool validation/campaign/setup.json",
       "cc -std=c11 -Wall -Wextra -Ivalidation/campaign validation/campaign/traceoverlay_smoke.c validation/campaign/traceoverlay.c -o /tmp/traceoverlay-v2-smoke && /tmp/traceoverlay-v2-smoke",
-      "offline parse of /tmp/traceoverlay-v2-smoke.log asserted lost=44 and max_active=2 => NOT PASS"
+      "offline parse of /tmp/traceoverlay-v2-smoke.log asserted lost=44 and max_active=2 => NOT PASS",
+      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive bootstrap/build/lwip/liblwip.a --c-overlay-build /tmp/t12-gueststate-c --cpp-overlay /tmp/mros2-trace-mirror-T12a2b-20261002-retry1/overlay --tag guest-state-v1",
+      "python3 validation/campaign/run.py --mode same --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/guest-state-v1-logs/manifest.json --dry-run",
+      "strings /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/echoback_string.wasm | grep -E \"RTPS_GUEST_STATE|RTPS_TRACE_METRICS|guest-state-v1\"",
+      "grep -c traceoverlay.c.obj /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-guest-state-v1/CMakeFiles/MODULE_echoback_string.dir/link.txt",
+      "python3 -m py_compile validation/campaign/run.py validation/campaign/build_traceoverlay.py validation/campaign/build_trace_app.py validation/campaign/test_trace_parser.py validation/campaign/test_guest_state_output.py",
+      "python3 -m unittest -v validation.campaign.test_trace_parser validation.campaign.test_guest_state_output",
+      "python3 validation/campaign/build_traceoverlay.py --out /tmp/t12-tracechannel-c4",
+      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive /tmp/locks-native-T11-20261002/build-echoback_string/lwip-wasm/liblwip.a --c-overlay-build /tmp/t12-tracechannel-c4 --cpp-overlay /tmp/mros2-trace-cpp-overlay-v2-final-source-20261002 --tag trace-channel-v6",
+      "python3 validation/campaign/run.py --mode same --trace-app /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm --trace-manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v6-logs/manifest.json --dry-run",
+      "cc -std=c11 -Wall -Wextra -pthread -Ivalidation/campaign validation/campaign/traceoverlay_smoke.c validation/campaign/traceoverlay.c -o /tmp/t12-traceoverlay-smoke-final && /tmp/t12-traceoverlay-smoke-final",
+      "python3 -m json.tool validation/campaign/setup.json",
+      "git diff --check",
+      "strings /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm | grep -E \"RTPS_TRACE_BATCH_BEGIN|RTPS_TRACE_WINDOW_START|RTPS_TRACE_METRICS|trace-observer.log\"",
+      "python3 validation/campaign/build_traceoverlay.py --out /tmp/t12-tracechannel-v7-c",
+      "python3 validation/campaign/build_trace_app.py --mirror /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002 --source-archive /tmp/locks-native-T11-20261002/build-echoback_string/lwip-wasm/liblwip.a --c-overlay-build /tmp/t12-tracechannel-v7-c --cpp-overlay /tmp/mros2-trace-cpp-overlay-v2-final-source-20261002 --tag trace-channel-v7",
+      "rtk proxy docker exec mros2-cr-1790945642-45a38c491e-app-phase-01 timeout -s TERM 35s /runtime/iwasm ... trace-channel-v7 output-only observer regression; no checkpoint",
+      "python3 validation/campaign/test_trace_channel_wasi_output.py /tmp/t12-same/runs/1790945642-45a38c491e/raw/sdk-regression/observer/trace-observer.log"
     ],
-    "docker_or_checkpoint_execution": false,
+    "docker_or_checkpoint_execution": true,
     "application_communication_pass": false,
     "runner_implemented": true,
-    "campaign_ready": false,
+    "campaign_ready": true,
     "trace_parser_checked": true,
     "trace_manifest_validated": true,
-    "loss_overlap_parser_tests": true
+    "loss_overlap_parser_tests": true,
+    "guest_state_contract_ready": true,
+    "tests_added_or_updated": [
+      "validation/campaign/test_trace_parser.py",
+      "validation/campaign/test_guest_state_output.py",
+      "validation/campaign/test_guest_state.py",
+      "validation/campaign/test_trace_channel_wasi_output.py"
+    ],
+    "test_count_passed": 15
   },
   "notes": [
-    "New v2 observer is an actual MODULE_echoback_string derivative, linked once; normal T11 app/runtime/peer hashes validated unchanged.",
-    "Offline observer smoke output had lost=44 and max_active=2; parser rejected it as NOT PASS.",
-    "No Docker/checkpoint/application communication run; runtime telemetry therefore remains unobserved and NOT T12 PASS.",
-    "A failed preliminary private build attempt using tag trace-observer-v3 is preserved under the mirror; no Docker or canonical artifacts were touched."
+    "Native guest-state-v1 actual MODULE_echoback_string derivative built and linked once; exact Wasm/map/manifest hashes recorded under setup_readiness.",
+    "Normal echoback_string/service_test_add_two_int/service_server_add_two_int hashes remain identical to T11 pins; runtime and peer pins unchanged.",
+    "The actual derivative tree preserves the current pinned core RTPS source diff; only private trace-observer overlays are added. No production/sysroot/normal artifact was changed.",
+    "Initial private build compile failure is retained in the first unique mirror; the successful derivative uses the current traceoverlay C ABI header and a fresh mirror/tag.",
+    "Preserved v6 actual SAME attempt /tmp/t12-same/runs/1790945642-45a38c491e: one 1GiB checkpoint and ten correlated pre-gate roundtrips completed, then failed before restore because WINDOW_START had literal backslash-n; this is NOT PASS and state/raw artifacts remain untouched.",
+    "No prior failed v6 image/app or source forest was overwritten or cleaned.",
+    "Fresh trace-channel-v6 build: /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/build-trace-channel-v6/echoback_string.wasm; SHA256 8119b6f81331f75225fb78e36e7d5b99e551b8cac9212b4f5450a3eecb3adc86; manifest /tmp/mros2-trace-mirror-guest-state-v1-r2-20261002/trace-channel-v6-logs/manifest.json; manifest SHA256 927acac5fec64579bc6ae69796bad80eec841007e306af877a7111ce515b3776. C overlay compile/link and MODULE_echoback_string build passed; observer linked once; source archive/sysroot/normal app/runtime/peer unchanged.",
+    "Repair-only phase intentionally ran no Docker campaign/checkpoint/restore and claims no T12 campaign pass. Existing successful-restore telemetry mismatch, missing prior payload images, and all failed artifacts remain unmodified.",
+    "Current campaign defaults keep all state/container files. Explicit cleanup flags require overall persisted PASS and create a hash manifest of assertion files and exact owned paths before deletion.",
+    "Earlier repair validation passed 15 offline/POSIX/WASI tests. After the v6 failure, fixed only the private generated traceoverlay WINDOW_START newline and ensured the application builder consumes that patched temporary overlay. New trace-channel-v7 artifact passed actual MODULE_echoback_string build/link and an SDK-built app run under the pinned runtime; the complete real mixed observer file passed the strict production parser regression (494 physical records: 1 window, 35 batches, 283 events, 70 metrics, 35 C and 35 C++ guest-state records; zero literal backslash-n). This output-only regression is not a campaign PASS and no new checkpoint ran.",
+    "Two earlier fresh private build attempts (trace-channel-v1/v2) failed at recognized source seams and remain preserved in the mirror. Successful actual private builds trace-channel-v3 through v7 remain alongside them; trace-channel-v7 is the current candidate, not T12 PASS. Regression output SHA256 a7568688a8334ccda40471fff86e319149b2906e04b7f93fa33f217f9dd972bf; Wasm SHA256 08ba7a1d34f4752c084074de7d2d6a26cca2ec76f3b07281c6da9c37675f6d7b."
   ]
 }

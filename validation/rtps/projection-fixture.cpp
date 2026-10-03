@@ -305,6 +305,7 @@ struct T10aHarness {
   static sys_mutex_t &participantMutex(Participant &part) { return part.m_mutex; }
   static bool hasBuiltin(const Participant &part) { return part.m_hasBuilInEndpoints; }
   static bool spdpRunning(const Participant &part) { return part.m_spdpAgent.m_running; }
+  static bool spdpInitialized(const Participant &part) { return part.m_spdpAgent.initialized; }
   static bool spdpWriterInitialized(Domain &d, size_t n) { return d.m_statelessWriters[n].isInitialized(); }
   static bool spdpReaderInitialized(Domain &d, size_t n) { return d.m_statelessReaders[n].isInitialized(); }
   static bool statefulReaderInitialized(Domain &d, size_t n) { return d.m_statefulReaders[n].isInitialized(); }
@@ -810,6 +811,8 @@ static void test_t10c_typed_builtin_failures() {
     CHECK(rtps::T10aHarness::writerCount(*slot) == 0);
     CHECK(rtps::T10aHarness::readerCount(*slot) == 0);
     CHECK(!rtps::T10aHarness::spdpRunning(*slot));
+    slot->getSPDPAgent().start();
+    CHECK(!rtps::T10aHarness::spdpRunning(*slot));
     CHECK(rtps::T10aHarness::spdpWriterInitialized(domain, 0) == (failed > 1));
     CHECK(rtps::T10aHarness::spdpReaderInitialized(domain, 0) == (failed > 2));
     CHECK(rtps::T10aHarness::statefulReaderInitialized(domain, 0) == (failed > 3));
@@ -825,9 +828,33 @@ static void test_t10c_typed_builtin_failures() {
     // cannot be reinitialized, and its successful endpoint slots remain counted.
     CHECK(domain.createParticipant() == nullptr);
     CHECK(rtps::T10aHarness::nextParticipantId(domain) == 1);
-    std::printf("T10c_TYPED_INIT_FAILURE case=%s failed_mutex_call=%d no_builtin_publication=1 spdp_not_started=1 retired_counts=1\n", names[failed - 1], failed);
+    CHECK(!domain.completeInit());
+    CHECK(!rtps::T10aHarness::hasBuiltin(*slot));
+    CHECK(!rtps::T10aHarness::spdpRunning(*slot));
+    std::printf("T10c_TYPED_INIT_FAILURE case=%s failed_mutex_call=%d complete_init=1 no_builtin_publication=1 spdp_not_started=1 retired_counts=1\n", names[failed - 1], failed);
   }
   std::puts("T10c_TYPED_INIT_FAILURES_PASS cases=6");
+
+  // SPDP itself can initialize before SEDP initialization fails. That partially
+  // initialized agent is still not a published builtin participant.
+  setFixtureIp(0x0a000003U);
+  rtps::Domain laterFailureDomain;
+  fail_sys_mutex_new_at = 8;
+  sys_mutex_new_calls = 0;
+  sys_mutex_failure_observed = false;
+  sys_mutex_injection_active = true;
+  CHECK(laterFailureDomain.createParticipant() == nullptr);
+  sys_mutex_injection_active = false;
+  CHECK(sys_mutex_failure_observed && sys_mutex_new_calls == 8);
+  auto *laterFailureSlot = rtps::T10aHarness::participantSlot(laterFailureDomain, 0);
+  CHECK(rtps::T10aHarness::spdpInitialized(*laterFailureSlot));
+  CHECK(!rtps::T10aHarness::hasBuiltin(*laterFailureSlot));
+  laterFailureSlot->getSPDPAgent().start();
+  CHECK(!rtps::T10aHarness::spdpRunning(*laterFailureSlot));
+  CHECK(!laterFailureDomain.completeInit());
+  CHECK(!rtps::T10aHarness::hasBuiltin(*laterFailureSlot));
+  CHECK(!rtps::T10aHarness::spdpRunning(*laterFailureSlot));
+  std::puts("T10c_LATE_AGENT_FAILURE_PASS spdp_initialized=1 sedp_mutex_failure=1 builtin_publication=0 direct_start_refused=1 complete_init_refused=1");
 }
 
 static void test_t10a_smoke() {
@@ -853,7 +880,9 @@ static void test_t10a_smoke() {
   CHECK(latest->sequenceNumber == rtps::T10aHarness::latestSpdpSequence(*part));
   CHECK(rtps::T10aHarness::project(*part, target)); // equal-IP no-op
   CHECK(rtps::T10aHarness::applied(*part) == target);
-  std::puts("T10a_SMOKE_PASS real_participant=1 typed_builtins=1 zero_user_projection=1 real_spdp_history=1 applied_last=1");
+  CHECK(domain.completeInit());
+  CHECK(rtps::T10aHarness::spdpRunning(*part));
+  std::puts("T10a_SMOKE_PASS real_participant=1 typed_builtins=1 zero_user_projection=1 real_spdp_history=1 applied_last=1 healthy_start=1");
 }
 
 static void test_t10c2a_participant_locks() {

@@ -45,9 +45,27 @@ typedef struct traceoverlay_event {
   uint64_t thread_id;
 } traceoverlay_event;
 
+typedef struct traceoverlay_counter_snapshot {
+  uint32_t next_sequence, read_sequence, attempts, winners, busy, failed, outcomes;
+  uint32_t probe_completions, active_probes, max_active_probes, lost_events;
+  uint32_t output_failures, lockfree;
+  uint32_t next_sequence_address, read_sequence_address, attempts_address, winners_address;
+  uint32_t busy_address, failed_address, outcomes_address, probe_completions_address;
+  uint32_t active_probes_address, max_active_probes_address, lost_events_address;
+  uint32_t output_failures_address, lockfree_address;
+} traceoverlay_counter_snapshot;
+
 /* Calls are bounded, allocation-free, and safe inside instrumented sections.
  * A successful drain is performed only outside production locks. */
 int traceoverlay_init(void);
+/* Dedicated observer-only append file; call only after production guards release. */
+int traceoverlay_write_record(const char *record, uint32_t length);
+int traceoverlay_batch_begin(void);
+int traceoverlay_batch_end(const char *record, uint32_t length);
+int traceoverlay_begin_process_window(void);
+void traceoverlay_note_output_failure(void);
+uint32_t traceoverlay_output_failures(void);
+void traceoverlay_snapshot(traceoverlay_counter_snapshot *out);
 void traceoverlay_record(uint16_t kind, uint16_t result, uint32_t current_ip,
                          uint32_t applied_ip, uint32_t detail, uint32_t aux,
                          uint64_t thread_id);
