@@ -1,6 +1,6 @@
 # WAMR C/R State Boundary Verification
 
-## Question
+## Research question
 
 This experiment separates three claims about the current WAMR checkpoint/restore path:
 
@@ -9,6 +9,14 @@ This experiment separates three claims about the current WAMR checkpoint/restore
 3. On changed-IP restore, `netif_wasm_refresh()` updates an already-restored source-side `netif_wasm` object rather than normally reconstructing `netif_default` from NULL.
 
 The conclusion below is limited to the tested WAMR implementation and the same-host Docker topology used here.
+
+## Hypotheses
+
+1. The guest sentinel and lwIP C globals compiled into the Wasm module remain at their checkpoint values on the first restored observation.
+2. The host-native shared-library sentinel starts at its zero-initialized value in the fresh restore process.
+3. On changed-IP restore, the first pre-mutation refresh sees a non-NULL restored netif object with stored source IP `.3` and probed destination IP `.6`, then updates the stored IP.
+
+These are evaluated against the recorded observations; no implementation was changed to force a hypothesis to pass.
 
 ## Experimental design
 
@@ -48,6 +56,10 @@ Built artifact hashes:
 The saved compile command shows `netif_wasm.c` compiled with `--target=wasm32-wasi-threads`. `llvm-nm` on the generated object shows symbols for `netif_default`, `netif_wasm`, and `ip_changed_pending`. `wasm-objdump` shows `cr_host_probe_get` and `cr_host_probe_set` imported from module `env`. `nm -D` on the native probe shows `get_native_lib`.
 
 Exact configure/build commands, compiler database, hashes, and runtime build logs are under `experiments/cr-state-boundary/build-provenance/`.
+
+## Static/build classification
+
+`netif_wasm.c`, `netif_default`, `netif_wasm`, and `ip_changed_pending` are Wasm-side C state: the compile command targets `wasm32-wasi-threads`, and the object symbols are recorded in build provenance. The guest imports the two probe functions from `env`. `host_probe` is a zero-initialized static global inside the host-native shared library; `nm -D` confirms the WAMR `get_native_lib` registration entry point. Task 5's corrected fresh build and its differences from the original trial artifact are documented below.
 
 ## No-C/R control
 
@@ -145,6 +157,13 @@ The combined runtime and build evidence supports this interpretation for the tes
 
 This wording is intentionally narrower than saying all native globals are recreated by WAMR restore. The experiment directly tests a host-native global in a WAMR native library, not every possible WAMR-core native variable.
 
+## Failed and ambiguous observations
+
+- `smoke/control/run-01` stopped during preflight because an older peer occupied an address. It was not counted as the no-C/R control; `run-02` is the accepted control.
+- Changed-IP `run-01` preserves the original harness `FAIL`. The later-IP predicate in that runner did not match the plan's required later `netif_refresh` observation. The separate reanalysis checks the same unchanged logs against the planned criterion and finds the required `.6` state and application gate. The result was not rewritten.
+- No accepted runtime trial has an ambiguous first guest/native or first pre-mutation refresh marker under the Task 6 parser. The parser now reports missing values as unknown and rejects tied first timestamps.
+- Exact build-time source revisions remain partial because the build-time dirty tree was not captured; see the evidence integrity review.
+
 ## Unverified / out of scope
 
 The following remain unverified:
@@ -156,3 +175,35 @@ The following remain unverified:
 - Any claim that the fallback `netif_default == NULL` path can never be needed in other startup or failure modes.
 
 No production comment was changed as part of this experiment. Any production wording change should be a separate reviewed implementation task.
+
+## Evidence integrity review
+
+The Task 10 manifest is `experiments/cr-state-boundary/results/manifest.json`. It points to the original raw records under `smoke/`, records hashes for each source/restore artifact pair, and includes checksums for the principal raw logs and result files. The original failed preflight control (`control/run-01`) is retained and excluded; `control/run-02` is the accepted no-C/R control.
+
+The raw log reanalysis confirms the application gate independently of the result summaries: the control and each same-IP trial have ten consecutive pre/post round trips; each changed-IP trial has ten consecutive pre/post round trips. Changed-IP run 01 keeps its original `result.json` verdict of `FAIL`. Its separate `result-reanalysis.json` and the Task 10 parser check show the planned later `netif_refresh` stored-IP observation at `.6`; this is recorded as a pass by raw-evidence reanalysis, not as an overwritten original result.
+
+The artifact hash checks pass within all six C/R trials: each preflight hash set matches the saved expected set, and each restore hash set matches its preflight set. The unique trial directories and source history show no application or lwIP source commit between the recorded runs. No raw logs were replaced during this audit.
+
+The source revision portion of the integrity gate is **partial**. `build-provenance/revisions-before-build.txt` records root `b000f219...` and lwip-wasm `160d01d...`, while the plan-aligned application and lwIP instrumentation were still working-tree changes later committed as `1b0b2b6e` and `50a6e414`. A matching build-time dirty-status snapshot was not preserved, so exact per-trial source revisions cannot now be reconstructed from commit IDs alone. The runtime observations remain directly verifiable from their raw logs, and static compilation/import evidence is available, but this provenance gap limits the strength of the combined causal claim.
+
+## Fresh build verification
+
+Task 5 found that the original recorded runtime configure command enabled `WAMR_BUILD_FAST_INTERP`, contrary to the plan's classic-interpreter configuration, and that its external WASMIG cache path no longer existed. A separate build used the pinned in-tree WASMIG source and the required feature family. The exact commands, compile database, compiler and SDK information, symbols, imports, logs, and hashes are in `build-provenance/verified-20261004/`.
+
+The fresh `iwasm`, native probe, and native peer hashes match the original trial artifacts. The fresh Wasm file has a different whole-file hash because its `.debug_str` custom section differs; `wasm-objdump -h` shows the same offsets and sizes for the executable Code and Data sections. The fresh module was not substituted into any existing trial, and this size/layout check is not treated as proof of whole-file equivalence.
+
+## Reproducibility commands
+
+From the experiment worktree, the static parser checks and a separate fresh build can be repeated with:
+
+```bash
+rtk proxy python3 experiments/cr-state-boundary/test_campaign_parser.py
+rtk proxy env \
+  CR_STATE_BOUNDARY_BUILD_ROOT=/tmp/mros2-wasm-cr-state-boundary-build-20261004-verified \
+  CR_STATE_BOUNDARY_RUNTIME_BUILD=/home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary-verified-20261004 \
+  CR_STATE_BOUNDARY_RUN_DIR=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build-verified-20261004 \
+  CR_STATE_BOUNDARY_PROV_DIR=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/verified-20261004 \
+  bash experiments/cr-state-boundary/build.sh
+```
+
+The campaign runner refuses to reuse existing smoke trial directories. For a new campaign, use a fresh experiment worktree and fresh Docker network/container names with the source/restore artifact hashes verified before signaling. Existing runs are not repeated by this audit; their exact logs and checkpoint boundaries remain under `smoke/` and are indexed in the manifest.

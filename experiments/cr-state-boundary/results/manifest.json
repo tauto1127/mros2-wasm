@@ -1,0 +1,577 @@
+{
+  "created": "2026-10-04",
+  "experiment": "WAMR C/R state-boundary",
+  "evidence_layout": "Raw logs and original result files remain in smoke/. Paths below refer to those files; changed-ip-01 retains its original FAIL and separate reanalysis.",
+  "runtime_evidence_gate": "PASS",
+  "source_revision_integrity": "PARTIAL",
+  "source_revision_integrity_note": "The saved pre-build revision file reports root b000f2194c63b2c2c93cc089661be1c1adccf302 and lwip-wasm 160d01d0a088fad9b20ce334bad1e3a110576500, while the plan-aligned app/lwIP instrumentation was committed afterward. Build-time dirty status was not saved, so exact per-trial source revisions cannot be mechanically reconstructed. All trial artifact preflight/restore hashes match, and the common recorded trial artifact hashes are listed per run.",
+  "shared_build_provenance": "../build-provenance/ (original artifacts) and ../build-provenance/verified-20261004/ (fresh verified rebuild)",
+  "expected_trial_artifact_hashes": {
+    "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+    "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+    "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+    "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+  },
+  "trials": [
+    {
+      "trial_id": "control-01",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/control/run-02",
+      "evidence_status": "PASS",
+      "initial_guest_native_zero": true,
+      "roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "continuity_observations": 14,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_campaign_hashes": true,
+      "raw_evidence_sha256": {
+        "result.json": "c3df70f1c746457924a1596d5be062fd389e15613d53bc4f945f5e1c1d2be649",
+        "preflight.json": "c0e0a59062632c79fba4b276c0893083f96730e11f40796d7cafcb19b8765da6",
+        "peer-native.log": "bf90f3e92d1b7bab3bd460f7239e5f70aa87fcdd61a8881169ec30328e456734",
+        "wasm-checkpoint.log": "a5c2ed22d6201899e9288ee5bc4a49a76ffc7a628a27f336411a84eee2db0f15",
+        "probe-timeline.json": "76d07380ecd10a8bc8e5c09af691bdf937195ff2880e66014e60a74d4864a2c6"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "same-ip-01",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/same/run-01",
+      "original_verdict": "PASS",
+      "evidence_status": "PASS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2843903810988676,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2843903810906411,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 50336428,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.3"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": null,
+      "raw_evidence_sha256": {
+        "result.json": "f788e82bf3e8d10033d19abce0c841545ee802dcc4c6699d724b9a18abbd8659",
+        "preflight.json": "6571c256e77478d9e7970de28cf52bf207db244de6057e5384ca7d627265d01c",
+        "peer-native.log": "014e3ae62c9b79ea48ead24cf2696f5c33ed7412212ad418508dd51d6aa76408",
+        "wasm-checkpoint.log": "a2ca697d24e1a88f4ffcfef2af23dc56d24c8d4c9657e75debe579bf29d2fdad",
+        "wasm-restore.log": "e00a95ef933f47623134bb72668828a2673f738294e636ccf2ef353d5cdec77c",
+        "checkpoint-boundary.json": "c3355001e1df685ba0756a845ec45c2b9324a7ee2da519649df539c1254059d2",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "same-ip-02",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/same/run-02",
+      "original_verdict": "PASS",
+      "evidence_status": "PASS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2843952643657370,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2843952643573842,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 50336428,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.3"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": null,
+      "raw_evidence_sha256": {
+        "result.json": "559dedfb7f3d40c7fff4ff1da12159b725219ef4cf64b9340974ecfbef9518ed",
+        "preflight.json": "4215863af3144b44dee4ccdd17f24adaf5f730fe7aa42131002a4a9d848e4fbc",
+        "peer-native.log": "a02bf684106b1440c0df5e8340f405f3636e79c4f88926354272ec06f304978a",
+        "wasm-checkpoint.log": "8aab5e04d3cbc4a14e49feb4ba78816105291ea1e12144c5f378a18373f9c70b",
+        "wasm-restore.log": "a1e43869aa881b2a602df0f7a29730e0527d6dea31dc654c63c7fd0444b20736",
+        "checkpoint-boundary.json": "9ff041330ebacd78aa173c8fe6bb80ac02fc7a866f066aecdda2e481b1f6db7e",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "same-ip-03",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/same/run-03",
+      "original_verdict": "PASS",
+      "evidence_status": "PASS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2844000138041315,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2844000137908824,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 50336428,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.3"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": null,
+      "raw_evidence_sha256": {
+        "result.json": "9a27241b0c29cef55b5b069fbd0e6be3ddddfc9323e389b4b6d38d2aa6599d14",
+        "preflight.json": "6cf176005e14293c1dc8ef8b53906cbc2320b5d13884ea4f4ac2d79da5a5ca02",
+        "peer-native.log": "e11924b097f069d10d3e549ba2ff9c5a5f1611ad8d0ea53ade6f1dabd3170a75",
+        "wasm-checkpoint.log": "d03828634e41a6dd7e015021d84f42be99b0779f64cb5baf268d62dbebeaa583",
+        "wasm-restore.log": "7a69a8f4e7cc8452bcbdd25d11ff1c04f0824d79032b719f8ebb6a74e71bd370",
+        "checkpoint-boundary.json": "a8d5bd63ff1efad4e54e9466836cdf105f707e5cffe6daf85cf3e7ce04e6ce5a",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "changed-ip-01",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/changed/run-01",
+      "original_verdict": "FAIL",
+      "evidence_status": "PASS_BY_RAW_EVIDENCE_REANALYSIS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2844047693618346,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2844047693576347,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 100668076,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.6"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": "experiments/cr-state-boundary/smoke/changed/run-01/result-reanalysis.json",
+      "raw_evidence_sha256": {
+        "result.json": "cf7a7aeb6f5f7b57e15d21b17aca55765613d6b460afa15db2e3f215d2735cfa",
+        "preflight.json": "f602b429fcba126790ec659e95438748559af966dc9a25da46ea089f54da3b41",
+        "peer-native.log": "e712fdf0e5fdb2bb84c6f42e955ef21d716b51e47c1b56d4f85781c82abd496d",
+        "wasm-checkpoint.log": "6fe7fafb406ac1912f64b6b0c3de33bf60b3d25a1c786e757b848d2bbc3085b3",
+        "wasm-restore.log": "c3275bc69f680576ee0f372d0d6cb740924f81992ec9403c90aad7120f319001",
+        "checkpoint-boundary.json": "db868afb35a20c17127754d6aac24d2f066728db2a2bc93199b48e5677644848",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e",
+        "result-reanalysis.json": "d4297e8a74711f49e271dd5b9045998dee3be69afa3f8612a21c97e4cf24a7f1"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "changed-ip-02",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/changed/run-02",
+      "original_verdict": "PASS",
+      "evidence_status": "PASS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2844136530344220,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2844136530212020,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 100668076,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.6"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": null,
+      "raw_evidence_sha256": {
+        "result.json": "0de65112b493fb9f6181a1688708559d807dc8690eb5fb475987094db3f02aea",
+        "preflight.json": "22b92f6cb47395163b8a54bd86ea9990e667bc20b3a8b2e07bf826a04338e4cd",
+        "peer-native.log": "d677328c7e62af864eb19ca2eb080838b1cb69ed61eb52a31736bcda6bf7e190",
+        "wasm-checkpoint.log": "0768679bd3fc03e4bd9c2f4e99090a14f314caa8171ba3625f3f37d1f035ca22",
+        "wasm-restore.log": "6c5abbae0136720c236250e62ebd51d7cebee26d767d313750f2c1233ad16c04",
+        "checkpoint-boundary.json": "bca8db386cc61da6c389d196bf10ed8cf55a24514c6198af48b0992482fda2a4",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    },
+    {
+      "trial_id": "changed-ip-03",
+      "raw_evidence": "experiments/cr-state-boundary/smoke/changed/run-03",
+      "original_verdict": "PASS",
+      "evidence_status": "PASS",
+      "saved_sentinel": 2768240654,
+      "checkpoint_armed_id": 14,
+      "first_post_restore_loop": {
+        "mono": 2844192867233283,
+        "id": 15,
+        "guest": 2768240654,
+        "host": 0
+      },
+      "first_post_restore_netif_refresh": {
+        "mono": 2844192867158712,
+        "default": "0x9bf18",
+        "self": "0x9bf18",
+        "same": 1,
+        "stored": 50336428,
+        "probed": 100668076,
+        "pending": 0,
+        "stored_ip": "172.18.0.3",
+        "probed_ip": "172.18.0.6"
+      },
+      "pre_roundtrip_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "post_roundtrip_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "application_roundtrip_pass": true,
+      "startup_reran": false,
+      "later_destination_ip_observed": true,
+      "artifact_hashes": {
+        "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+        "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+        "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+        "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+      },
+      "artifact_hashes_match_preflight": true,
+      "result_reanalysis": null,
+      "raw_evidence_sha256": {
+        "result.json": "dc75bbc83dc3396ac3d4cd518af17f9bfa8dd4909878505d34ad2e4fd0933bde",
+        "preflight.json": "0d3eb041d3e02616fee703a7ff4b04cce842a4a46fee112410dc547831e868d6",
+        "peer-native.log": "bfa73ed3aa7c04b68163665cb96144251fcd0dc03ac82a4679010a4f172bfd18",
+        "wasm-checkpoint.log": "373038f51e32725a65b0a0351eabeaa487d04cfcb22c1290dd1eab466658ef4a",
+        "wasm-restore.log": "be073a7d16764337776eb0a214ce5062b334aa9b93a9f2601701c289d3ac197c",
+        "checkpoint-boundary.json": "804d4ce7f828dcc6f3d2d8314515cfdd8a7321874c936d6a9e35a495f53c1850",
+        "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e"
+      },
+      "build_commands": {
+        "original_recorded": [
+          "../build-provenance/configure-command.txt",
+          "../build-provenance/build-command.txt",
+          "../build-provenance/runtime-configure-command.txt"
+        ],
+        "verified_rebuild": [
+          "../build-provenance/verified-20261004/configure-command.txt",
+          "../build-provenance/verified-20261004/build-command.txt",
+          "../build-provenance/verified-20261004/runtime-configure-command.txt",
+          "../build-provenance/verified-20261004/runtime-build-command.txt"
+        ],
+        "note": "Verified rebuild occurred after the smoke campaign and was not substituted into these trials."
+      },
+      "source_revision_record": "../build-provenance/revisions-before-build.txt (shared record; stale/incomplete dirty-state capture described at manifest level)"
+    }
+  ],
+  "cross_trial_checks": {
+    "artifact_hashes_equal_within_each_checkpoint_restore": true,
+    "trial_directories_unique": true,
+    "no_source_or_runtime_rebuild_between_smoke_trials": "No intervening application/lwIP source commit appears in the recorded experiment history; per-trial dirty-tree snapshots were not captured.",
+    "stale_log_reuse": "No duplicate trial directories; campaign refuses existing trial paths and each trial has distinct raw logs.",
+    "raw_log_checksums": "Recorded for the principal logs and result files in each trial entry."
+  }
+}
