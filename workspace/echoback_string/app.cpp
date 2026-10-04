@@ -5,8 +5,14 @@
 #include "netif.h"
 #include "netif_wasm_add.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+
+extern "C" uint32_t cr_host_probe_get(void);
+extern "C" void cr_host_probe_set(uint32_t value);
+
+static volatile uint32_t cr_guest_probe = 0;
 
 
 void userCallback(std_msgs::msg::String *msg)
@@ -34,10 +40,21 @@ int main(int argc, char* argv[])
 
   auto count = 0;
   while (1) {
+    const auto id = count;
+    const uint32_t guest_before = cr_guest_probe;
+    const uint32_t host_before = cr_host_probe_get();
+    printf("[CR-STATE] loop id=%d guest_before=0x%08x host_before=0x%08x\r\n",
+           id, guest_before, host_before);
+
+    const uint32_t sentinel = 0xA5000000u | (static_cast<uint32_t>(id) & 0xffffu);
+    cr_guest_probe = sentinel;
+    cr_host_probe_set(sentinel);
+
     auto msg = std_msgs::msg::String();
     msg.data = "Hello from mros2-posix onto Linux: " + std::to_string(count++);
     printf("publishing msg: '%s'\r\n", msg.data.c_str());
     pub.publish(msg);
+    printf("[CR-STATE] armed id=%d value=0x%08x\r\n", id, sentinel);
     osDelay(1000);
   }
 
