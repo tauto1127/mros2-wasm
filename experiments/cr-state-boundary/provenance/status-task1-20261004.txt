@@ -1,0 +1,18 @@
+timestamp=2026-10-04 Asia/Tokyo
+
+integration_root_status:
+* integration/network-migration...origin/integration/network-migration
+?? experiments/
+
+experiment_root_status:
+* experiment/cr-state-boundary
+ M third_party/cartographer-library/wasi/boost
+ M third_party/wamr
+?? experiments/cr-state-boundary/__pycache__/
+?? experiments/cr-state-boundary/build/
+?? experiments/cr-state-boundary/plan.md
+?? experiments/cr-state-boundary/provenance/audit-current-state.md
+?? experiments/cr-state-boundary/runtime-build/
+?? experiments/cr-state-boundary/state_probe.py
+
+The integration worktree remains unchanged. Its pre-existing untracked `experiments/` directory is retained. The experiment worktree contains the pre-existing Boost and WAMR submodule dirty state plus generated/build artifacts and the untracked plan/helper noted by the Task 0 audit.
