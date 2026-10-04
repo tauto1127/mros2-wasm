@@ -124,6 +124,61 @@ def ip_text(raw):
     return socket.inet_ntoa(struct.pack("=I", raw))
 
 
+def unique_first_marker(items):
+    """Return a uniquely timestamped first marker, or None if missing/ambiguous."""
+    if not items or any(item.get("mono") is None for item in items):
+        return None
+    first_mono = min(item["mono"] for item in items)
+    first = [item for item in items if item["mono"] == first_mono]
+    return first[0] if len(first) == 1 else None
+
+
+def unique_latest_armed(items, *, at_or_before=None):
+    """Return the unique latest complete armed marker within the boundary."""
+    eligible = [
+        item for item in items
+        if item.get("mono") is not None
+        and (at_or_before is None or item["mono"] <= at_or_before)
+    ]
+    if not eligible:
+        return None
+    latest_mono = max(item["mono"] for item in eligible)
+    latest = [item for item in eligible if item["mono"] == latest_mono]
+    return latest[0] if len(latest) == 1 else None
+
+
+def evaluate_state_observations(saved_sentinel, mode, loops, refreshes, *, startup_reran=False):
+    """Evaluate first post-restore markers while preserving missing values as unknown."""
+    first_loop = unique_first_marker(loops)
+    first_refresh = unique_first_marker(refreshes)
+    expected_probe_ip = "172.18.0.3" if mode == "same" else "172.18.0.6"
+    default = None if first_refresh is None else first_refresh["default"]
+    result = {
+        "first_post_restore_loop": first_loop,
+        "first_post_restore_netif_refresh": first_refresh,
+        "observations_valid": first_loop is not None and first_refresh is not None,
+        "guest_state_preserved": None if first_loop is None else first_loop["guest"] == saved_sentinel,
+        "native_state_reset": None if first_loop is None else first_loop["host"] == 0,
+        "netif_default_restored_nonnull": None if first_refresh is None else default not in ("(nil)", "0x0", "0", "NULL", "null"),
+        "netif_points_to_restored_object": None if first_refresh is None else first_refresh["same"] == 1,
+        "stored_ip_before_refresh": None if first_refresh is None else ip_text(first_refresh["stored"]),
+        "probed_ip_before_refresh": None if first_refresh is None else ip_text(first_refresh["probed"]),
+        "startup_reran": startup_reran,
+    }
+    result["state_gate_pass"] = result["observations_valid"] and all(
+        (
+            result["guest_state_preserved"],
+            result["native_state_reset"],
+            result["netif_default_restored_nonnull"],
+            result["netif_points_to_restored_object"],
+            result["stored_ip_before_refresh"] == "172.18.0.3",
+            result["probed_ip_before_refresh"] == expected_probe_ip,
+            not startup_reran,
+        )
+    )
+    return result
+
+
 def load_expected_hashes():
     text = (RUN_DIR / "build-provenance" / "artifact-sha256.txt").read_text()
     found = {}
@@ -775,7 +830,10 @@ def run_trial(mode, index, expected, arm):
         if not state_markers["armed"]:
             result["reason"] = "10-roundtrip gate passed without an armed sentinel marker"
             return result
-        armed = state_markers["armed"][-1]
+        armed = unique_latest_armed(state_markers["armed"])
+        if armed is None:
+            result["reason"] = "armed marker is missing or ambiguous"
+            return result
         result["saved_sentinel"] = armed["value"]
         result["checkpoint_armed_id"] = armed["id"]
         write_text(
@@ -856,12 +914,14 @@ def run_trial(mode, index, expected, arm):
         result["pre_complete_ids"] = sorted(pre_done)
         boundary_n = max(obs.mid for obs in publishes)
         signal_markers = parse_state_log(raw / "wasm-checkpoint.log")
-        armed_at_signal = [
-            item
-            for item in signal_markers["armed"]
-            if item["mono"] is not None and item["mono"] <= signal_done_mono
-        ]
-        if not armed_at_signal or armed_at_signal[-1]["id"] != armed["id"]:
+        armed_at_signal = unique_latest_armed(
+            signal_markers["armed"], at_or_before=signal_done_mono
+        )
+        if (
+            armed_at_signal is None
+            or armed_at_signal["id"] != armed["id"]
+            or armed_at_signal["value"] != armed["value"]
+        ):
             result["verdict"] = "FAIL"
             result["reason"] = "armed sentinel advanced between boundary capture and SIGUSR2"
             return result
@@ -953,45 +1013,25 @@ def run_trial(mode, index, expected, arm):
             result["timings_ns"]["restore_stage"] = None
 
         restore_markers = parse_state_log(raw / "wasm-restore.log")
-        first_loop = restore_markers["loops"][0] if restore_markers["loops"] else None
-        first_refresh = restore_markers["refresh"][0] if restore_markers["refresh"] else None
+        startup_reran = bool(restore_markers["init"]) or any(
+            "mros2-posix start!" in line
+            for line in (raw / "wasm-restore.log").read_text(
+                encoding="utf-8", errors="replace"
+            ).splitlines()
+        )
         expected_probe_ip = "172.18.0.3" if mode == "same" else "172.18.0.6"
-        result["guest_state_preserved"] = bool(
-            first_loop and first_loop["guest"] == result["saved_sentinel"]
+        state_observations = evaluate_state_observations(
+            result["saved_sentinel"], mode, restore_markers["loops"],
+            restore_markers["refresh"], startup_reran=startup_reran,
         )
-        result["native_state_reset"] = bool(first_loop and first_loop["host"] == 0)
-        result["netif_default_restored_nonnull"] = bool(
-            first_refresh
-            and first_refresh["default"] not in ("(nil)", "0x0", "0", "NULL", "null")
-        )
-        result["netif_points_to_restored_object"] = bool(
-            first_refresh and first_refresh["same"] == 1
-        )
-        result["stored_ip_before_refresh"] = (
-            None if first_refresh is None else ip_text(first_refresh["stored"])
-        )
-        result["probed_ip_before_refresh"] = (
-            None if first_refresh is None else ip_text(first_refresh["probed"])
-        )
-        result["startup_reran"] = bool(restore_markers["init"])
-        result["first_post_restore_guest_native"] = first_loop
-        result["first_post_restore_netif_refresh"] = first_refresh
+        result.update(state_observations)
         result["application_roundtrip_pass"] = post_status == "pass"
         result["destination_ip_observed_after_refresh"] = any(
-            item["mono"] > first_refresh["mono"] and ip_text(item["stored"]) == expected_probe_ip
+            item["mono"] > state_observations["first_post_restore_netif_refresh"]["mono"]
+            and ip_text(item["stored"]) == expected_probe_ip
             for item in restore_markers["refresh"]
-        ) if first_refresh is not None else False
-        state_gate_pass = all(
-            (
-                result["guest_state_preserved"],
-                result["native_state_reset"],
-                result["netif_default_restored_nonnull"],
-                result["netif_points_to_restored_object"],
-                result["stored_ip_before_refresh"] == "172.18.0.3",
-                result["probed_ip_before_refresh"] == expected_probe_ip,
-                not result["startup_reran"],
-            )
-        )
+        ) if state_observations["first_post_restore_netif_refresh"] is not None else False
+        state_gate_pass = state_observations["state_gate_pass"]
         if mode == "changed":
             state_gate_pass = state_gate_pass and result["destination_ip_observed_after_refresh"]
 
