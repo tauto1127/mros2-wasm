@@ -17,7 +17,7 @@
 
 ## Unrelated worktree contents
 
-- `experiments/cr-ros2-interoperability/results/` is a separate, untracked experiment output. A `fastrtps` control campaign was running there during cleanup preflight, so it was left running. Its output is being copied outside this worktree and will be compared before this worktree is removed. It will not be included in the C/R evidence commit.
+- `experiments/cr-ros2-interoperability/results/` is a separate, untracked experiment output. Its `fastrtps` control campaign was left running until it completed with the recorded `UNRESOLVED` pre-checkpoint gate stall. All 69 files (about 1.1 MB) were copied to `/home/osslab/20261004-cr-ros2-interoperability-results-preserved/`; `diff -qr` confirmed an exact match. It is not included in the C/R evidence commit.
 - The branch already contains commit `3d5507cf937aaccdfcb515b12c8326de8281eaa8` (`test: start the ROS 2 peer with bash`), which modifies the separate ROS 2 interoperability campaign. It is already committed and will not be rewritten or reverted; the authorized branch push will include existing branch history.
 - Boost remains dirty: the parent submodule reports modified pointers for `libs/iostreams` and `libs/test`; `libs/iostreams` has 700 status entries and `libs/test` has 126. No submodule content or pointer will be committed or changed by this cleanup.
 - WAMR remains dirty only through untracked generated directories: `product-mini/platforms/linux/build-cr-state-boundary-classic/`, `build-cr-state-boundary-verified-20261004/`, and `build-cr-state-boundary/`. None is part of the fresh evidence commit.
