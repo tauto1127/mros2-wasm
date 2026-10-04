@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config">
+  <Domain id="any">
+    <General>
+      <NetworkInterfaceAddress>172.18.0.5</NetworkInterfaceAddress>
+      <AllowMulticast>true</AllowMulticast>
+    </General>
+    <Tracing>
+      <Verbosity>fine</Verbosity>
+      <OutputFile>/run/raw/cyclonedds-trace.log</OutputFile>
+    </Tracing>
+  </Domain>
+</CycloneDDS>
