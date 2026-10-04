@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
-BUILD_ROOT=/tmp/mros2-wasm-cr-state-boundary-build
+BUILD_ROOT=${CR_STATE_BOUNDARY_BUILD_ROOT:-/tmp/mros2-wasm-cr-state-boundary-build}
 WASM_BUILD="$BUILD_ROOT/wasm-build"
-RUNTIME_BUILD="$ROOT/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary-repro"
-WASMIG_CACHE=/tmp/mros2-wasm-cr-rerun-20260927/wasmig-src
-WASMIG_SOURCE="$RUNTIME_BUILD/wasmig-src-local"
+RUNTIME_BUILD=${CR_STATE_BOUNDARY_RUNTIME_BUILD:-$ROOT/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary-repro}
+WASMIG_CACHE="$ROOT/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary/_deps/wasmig-src"
+WASMIG_SOURCE="$WASMIG_CACHE"
 INCLUDE_DIR="$WASM_BUILD/experiment-includes"
-RUN="$ROOT/experiments/cr-state-boundary/runtime-build"
-PROV="$ROOT/experiments/cr-state-boundary/build-provenance"
+RUN=${CR_STATE_BOUNDARY_RUN_DIR:-$ROOT/experiments/cr-state-boundary/runtime-build}
+PROV=${CR_STATE_BOUNDARY_PROV_DIR:-$ROOT/experiments/cr-state-boundary/build-provenance}
 CMAKE_BIN=/home/osslab/.local/bin/cmake
 WASI_SDK=/opt/wasi-sdk-21
 SYSROOT=/home/osslab/wasi-sysroot
 ZLIB_LIBRARY=/tmp/mros2-wasm-eintr-integration-build/zlib-wasi/libz.a
+PEER=/tmp/mros2-posix-run04-final-build/mros2-posix
 
 if [[ -e "$BUILD_ROOT" ]]; then
   echo "refusing to reuse build root: $BUILD_ROOT" >&2
@@ -24,6 +25,8 @@ if [[ -e "$RUNTIME_BUILD" ]]; then
 fi
 mkdir -p "$BUILD_ROOT" "$INCLUDE_DIR" "$RUN/app" "$RUN/runtime" "$PROV"
 printf "%s\n" "// Intentionally empty: echoback_string defines no service endpoints." > "$INCLUDE_DIR/templates-service.hpp"
+"$WASI_SDK/bin/clang" --version > "$PROV/compiler-version.txt"
+printf 'wasi_sdk=%s\n' "$(basename "$WASI_SDK")" > "$PROV/wasi-sdk-version.txt"
 
 {
   echo "root $(git -C "$ROOT" rev-parse HEAD)"
@@ -74,7 +77,6 @@ cp "$ROOT/experiments/cr-state-boundary/build/libcr_state_probe.so" "$RUN/runtim
 
 test "$(git -C "$WASMIG_CACHE" rev-parse HEAD)" = "c5015ee06acd3992ce826655825e1911da8c5945"
 mkdir -p "$RUNTIME_BUILD"
-cp -a "$WASMIG_CACHE" "$WASMIG_SOURCE"
 {
   echo "wasmig_source=$WASMIG_CACHE"
   echo "wasmig_commit=$(git -C "$WASMIG_CACHE" rev-parse HEAD)"
@@ -103,6 +105,6 @@ PATH=/home/osslab/.cargo/bin:/home/osslab/.local/bin:$PATH "$CMAKE_BIN" "${RUNTI
 printf "%s --build %q --parallel 8\n" "$CMAKE_BIN" "$RUNTIME_BUILD" > "$PROV/runtime-build-command.txt"
 PATH=/home/osslab/.cargo/bin:/home/osslab/.local/bin:$PATH "$CMAKE_BIN" --build "$RUNTIME_BUILD" --parallel 8 2>&1 | tee "$PROV/runtime-build.log"
 cp "$RUNTIME_BUILD/iwasm" "$RUN/runtime/iwasm"
-sha256sum "$RUN/runtime/iwasm" "$RUN/runtime/libcr_state_probe.so" "$RUN/app/echoback_string.wasm" > "$PROV/artifact-sha256.txt"
+sha256sum "$RUN/runtime/iwasm" "$RUN/runtime/libcr_state_probe.so" "$RUN/app/echoback_string.wasm" "$PEER" > "$PROV/artifact-sha256.txt"
 "$RUN/runtime/iwasm" --version > "$PROV/iwasm-version.txt" 2>&1 || true
 cat "$PROV/artifact-sha256.txt"
