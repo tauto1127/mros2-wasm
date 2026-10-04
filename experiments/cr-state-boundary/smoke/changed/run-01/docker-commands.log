@@ -1,0 +1,12 @@
+[2026-10-04T03:36:47.409+00:00] rc=0
+/home/osslab/.local/bin/rtk proxy docker run --detach --name mros2-cr-nurec-experimental-changed-run-01-src --label io.mros2-cr.trial=no-recover-experimental-changed-run-01 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/changed/run-01,dst=/run/raw --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/runtime,dst=/runtime,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/app,dst=/artifact,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/state/experimental-changed-run-01,dst=/state --workdir /state ros:humble sleep infinity
+3d022303cc73be58c2ad87b9254e10780cfd8e89620440d4419215e68533647d
+
+[2026-10-04T03:36:47.676+00:00] rc=0
+/home/osslab/.local/bin/rtk proxy docker run --detach --name mros2-cr-nurec-experimental-changed-run-01-peer --label io.mros2-cr.trial=no-recover-experimental-changed-run-01 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/changed/run-01,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+4eb0d045d3ffed008678c520ecd1f8db8c9a643afbd6235ed65d62393f1f4b21
+
+[2026-10-04T03:37:05.333+00:00] rc=0
+/home/osslab/.local/bin/rtk proxy docker run --detach --name mros2-cr-nurec-experimental-changed-run-01-dst --label io.mros2-cr.trial=no-recover-experimental-changed-run-01 --network mros2-cr-net --ip 172.18.0.6 --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/changed/run-01,dst=/run/raw --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/runtime,dst=/runtime,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/app,dst=/artifact,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/state/experimental-changed-run-01,dst=/state --workdir /state ros:humble sleep infinity
+ab564bf9a6d5ed6242d1422d8e63a27755b0e8976229cb44ee0ea37c1282870a
+

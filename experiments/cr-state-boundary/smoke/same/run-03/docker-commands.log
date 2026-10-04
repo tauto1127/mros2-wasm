@@ -1,0 +1,8 @@
+[2026-10-04T03:36:00.607+00:00] rc=0
+/home/osslab/.local/bin/rtk proxy docker run --detach --name mros2-cr-nurec-experimental-same-run-03-wamr --label io.mros2-cr.trial=no-recover-experimental-same-run-03 --network mros2-cr-net --ip 172.18.0.3 --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/same/run-03,dst=/run/raw --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/runtime,dst=/runtime,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/app,dst=/artifact,readonly --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/runtime-build/state/experimental-same-run-03,dst=/state --workdir /state ros:humble sleep infinity
+79555c80e51ec968d3809648ddadc27804982590facd89b5751cdff27acc514f
+
+[2026-10-04T03:36:00.872+00:00] rc=0
+/home/osslab/.local/bin/rtk proxy docker run --detach --name mros2-cr-nurec-experimental-same-run-03-peer --label io.mros2-cr.trial=no-recover-experimental-same-run-03 --network mros2-cr-net --ip 172.18.0.5 --mount type=bind,src=/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/same/run-03,dst=/run/raw --mount type=bind,src=/tmp/mros2-posix-run04-final-build/mros2-posix,dst=/native-peer,readonly ros:humble sleep infinity
+617ccf62a6d12b9ca9be2083c3fc13dd45a03d814eb72024f184bea1d7072143
+

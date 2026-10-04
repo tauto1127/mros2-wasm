@@ -1,0 +1,50 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Fetching wasmig ..
+CMake Error at /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/core/iwasm/migration/migration.cmake:20 (add_subdirectory):
+  add_subdirectory not given a binary directory but the given source
+  directory
+  "/tmp/mros2-wasm-cr-state-boundary-build/wamr-build/_deps/wasmig-src" is
+  not a subdirectory of
+  "/home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux".
+  When specifying an out-of-tree source a binary directory must be explicitly
+  specified.
+Call Stack (most recent call first):
+  /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/build-scripts/runtime_lib.cmake:138 (include)
+  CMakeLists.txt:123 (include)
+
+
+-- Build Configurations:
+     Build as target X86_64
+     CMAKE_BUILD_TYPE Release
+     WAMR Interpreter enabled
+     WAMR AOT disabled
+     WAMR Fast JIT disabled
+     WAMR LLVM ORC JIT disabled
+     Libc builtin enabled
+     Libc WASI enabled
+     Fast interpreter enabled
+     Multiple modules disabled
+     Bulk memory feature enabled
+     Shared memory enabled
+     Thread manager enabled
+     Lib wasi-threads enabled
+     Wakeup of blocking operations enabled
+     SIMD enabled
+     Reference types disabled
+     Module instance context enabled
+     Quick AOT/JIT entries enabled
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Configuring incomplete, errors occurred!
+See also "/tmp/mros2-wasm-cr-state-boundary-build/wamr-build/CMakeFiles/CMakeOutput.log".

@@ -1,0 +1,21 @@
+{
+  "original_result_file": "result.json",
+  "original_verdict": "FAIL",
+  "original_reason": "application gate passed but one or more state-boundary gates failed",
+  "harness_discrepancy": "original campaign checked dynamic-ip markers instead of the plan-required later netif_refresh stored-IP observation",
+  "first_post_restore_netif_refresh": {
+    "default": "0x9bf18",
+    "self": "0x9bf18",
+    "same": 1,
+    "stored": "172.18.0.3",
+    "probed": "172.18.0.6",
+    "pending": 0
+  },
+  "later_destination_stored_ip_observed": true,
+  "guest_state_preserved": true,
+  "native_state_reset": true,
+  "netif_default_restored_nonnull": true,
+  "netif_points_to_restored_object": true,
+  "application_roundtrip_pass": true,
+  "reanalyzed_against_plan": true
+}

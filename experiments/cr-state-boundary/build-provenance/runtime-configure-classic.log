@@ -1,0 +1,72 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Fetching wasmig ..
+CMake Warning (dev) at /home/osslab/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.31/Modules/FetchContent.cmake:1953 (message):
+  Calling FetchContent_Populate(wasmig) is deprecated, call
+  FetchContent_MakeAvailable(wasmig) instead.  Policy CMP0169 can be set to
+  OLD to allow FetchContent_Populate(wasmig) to be called directly for now,
+  but the ability to call it with declared details will be removed completely
+  in a future version.
+Call Stack (most recent call first):
+  /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/core/iwasm/migration/migration.cmake:18 (FetchContent_Populate)
+  /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/build-scripts/runtime_lib.cmake:138 (include)
+  CMakeLists.txt:123 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Deprecation Warning at build-cr-state-boundary/_deps/wasmig-src/third_party/msgpack-c/CMakeLists.txt:2 (CMAKE_MINIMUM_REQUIRED):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- Dynamically linking with Boost
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Build spdlog: 1.15.2
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Build type: Release
+-- Looking for fwrite_unlocked
+-- Looking for fwrite_unlocked - found
+-- Found GTest: /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake (found version "1.11.0")
+-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
+-- PROTO_DIR: /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary/_deps/wasmig-src/proto
+-- PROTO_OUT_DIR: /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary/_deps/wasmig-src/proto/include/proto
+-- Build Configurations:
+     Build as target X86_64
+     CMAKE_BUILD_TYPE Release
+     WAMR Interpreter enabled
+     WAMR AOT disabled
+     WAMR Fast JIT disabled
+     WAMR LLVM ORC JIT disabled
+     Libc builtin enabled
+     Libc WASI enabled
+     Fast interpreter disabled
+     Multiple modules disabled
+     Bulk memory feature enabled
+     Shared memory enabled
+     Thread manager enabled
+     Lib wasi-threads enabled
+     Wakeup of blocking operations enabled
+     SIMD enabled
+     Reference types disabled
+     Module instance context enabled
+     Quick AOT/JIT entries enabled
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/cc
+-- Configuring done (1.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary-classic

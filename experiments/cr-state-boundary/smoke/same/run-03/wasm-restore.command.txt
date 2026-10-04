@@ -1,0 +1,1 @@
+/home/osslab/.local/bin/rtk proxy docker exec mros2-cr-nurec-experimental-same-run-03-wamr sh -c 'echo $$ > /run/raw/wasm-restore.pid; exec /runtime/iwasm --addr-pool=0.0.0.0/0 --max-threads=32 -v=5 --native-lib=/runtime/libcr_state_probe.so --restore /artifact/echoback_string.wasm'

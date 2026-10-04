@@ -1,0 +1,100 @@
+{
+  "trial_id": "experimental-same-run-03",
+  "arm": "experimental",
+  "mode": "same",
+  "verdict": "PASS",
+  "reason": "post window [15, 16, 17, 18, 19, 20, 21, 22, 23, 24]",
+  "checkpointed": true,
+  "N": 14,
+  "timings_ns": {
+    "checkpoint": 1082426963,
+    "checkpoint_signal_to_process_exit": 1082426963,
+    "state_hash": 631192570,
+    "tenth_callback_to_sigusr2": 87921773,
+    "restore_stage": 281100250,
+    "recovery_to_first_new_callback": 3189204839,
+    "restore_to_first_peer_receive": 2188955016,
+    "last_pre_callback_to_first_post_callback": 5204641732
+  },
+  "utc": {
+    "sigusr2": "2026-10-04T03:36:15.831+00:00",
+    "restore_stage_end_note": "estimated from last Finish to restore stack before application output",
+    "restore_command": "2026-10-04T03:36:17.758+00:00",
+    "first_new_callback": "2026-10-04T03:36:20.948+00:00"
+  },
+  "guest_state_preserved": true,
+  "native_state_reset": true,
+  "netif_default_restored_nonnull": true,
+  "netif_points_to_restored_object": true,
+  "stored_ip_before_refresh": "172.18.0.3",
+  "probed_ip_before_refresh": "172.18.0.3",
+  "application_roundtrip_pass": true,
+  "saved_sentinel": 2768240654,
+  "checkpoint_armed_id": 14,
+  "pre_complete_ids": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "extra_publishes_before_signal": [
+    14
+  ],
+  "pre_window": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "restore_stage": {
+    "status": "estimated",
+    "restore_stage_end_mono_ns": 2843997230128838,
+    "stack_restore_count": 12,
+    "first_app_mono_ns": 2844000138126666,
+    "elapsed_from_restore_command_ns": 281100250
+  },
+  "post_boundary": "id=24 reached=callback ids_seen=15..25 count=11",
+  "startup_reran": false,
+  "first_post_restore_guest_native": {
+    "mono": 2844000138041315,
+    "id": 15,
+    "guest": 2768240654,
+    "host": 0
+  },
+  "first_post_restore_netif_refresh": {
+    "mono": 2844000137908824,
+    "default": "0x9bf18",
+    "self": "0x9bf18",
+    "same": 1,
+    "stored": 50336428,
+    "probed": 50336428,
+    "pending": 0
+  },
+  "destination_ip_observed_after_refresh": false,
+  "post_window": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "first_new_id": 15,
+  "first_peer_receive_id": 15
+}

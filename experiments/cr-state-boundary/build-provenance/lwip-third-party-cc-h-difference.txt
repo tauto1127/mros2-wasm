@@ -1,0 +1,15 @@
+validated_source=/home/osslab/20260930-mros2-wasm-eintr-no-udp-recover-integration/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+fresh_source=/home/osslab/20261004-mros2-wasm-cr-state-boundary/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+19cdff5f6ff4732605481fa4e88426b8207bf2dc17c0de981f3f0beac487b0ec  /home/osslab/20260930-mros2-wasm-eintr-no-udp-recover-integration/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+e81cbb731e6aa4a32781a4dca3b64fc27418c973c2b67fe6909cb37e893e1e32  /home/osslab/20261004-mros2-wasm-cr-state-boundary/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h
+--- /home/osslab/20260930-mros2-wasm-eintr-no-udp-recover-integration/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h	2026-10-01 11:29:12.274183049 +0900
++++ /home/osslab/20261004-mros2-wasm-cr-state-boundary/lwip-wasm/Third_Party/STM32CubeF7/Middlewares/Third_Party/LwIP/system/arch/cc.h	2026-10-04 12:05:02.876739526 +0900
+@@ -38,7 +38,7 @@
+ 
+ typedef int sys_prot_t;
+ 
+-/* #define LWIP_PROVIDE_ERRNO */
++#define LWIP_PROVIDE_ERRNO
+ 
+ #if defined (__GNUC__) & !defined (__CC_ARM)
+ 
