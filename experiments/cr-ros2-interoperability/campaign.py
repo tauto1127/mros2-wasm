@@ -604,7 +604,8 @@ def peer_command(rmw_key):
     else:
         lines.append("export FASTRTPS_DEFAULT_PROFILES_FILE=/opt/experiment/fastrtps.xml")
     lines.append("exec python3 -u /opt/experiment/echo_peer.py")
-    return "; ".join(lines)
+    # ros setup.bash requires bash; the outer docker exec shell is dash.
+    return "exec bash -lc " + shlex.quote("; ".join(lines))
 
 
 def iwasm_command(pid_name, restore):
@@ -1059,6 +1060,16 @@ def earlier_passed(rmw_key, mode, index):
     return json.loads(path.read_text(encoding="utf-8")).get("verdict") == "PASS"
 
 
+def control_passed(rmw_key):
+    root = RUN_DIR / "results" / rmw_key / "control"
+    if not root.exists():
+        return False
+    for path in sorted(root.glob("run-*/result.json")):
+        if json.loads(path.read_text(encoding="utf-8")).get("verdict") == "PASS":
+            return True
+    return False
+
+
 def main():
     import sys
     usage = "usage: campaign.py run <control|same|changed> <cyclonedds|fastrtps> <1-3>"
@@ -1074,7 +1085,7 @@ def main():
         raise SystemExit(usage) from error
     if index not in (1, 2, 3):
         raise SystemExit(usage)
-    if mode in ("same", "changed") and not earlier_passed(rmw_key, "control", 1):
+    if mode in ("same", "changed") and not control_passed(rmw_key):
         raise SystemExit(f"{rmw_key} no-C/R control must PASS before C/R")
     if mode == "changed":
         for same_index in (1, 2, 3):
