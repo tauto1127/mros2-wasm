@@ -1,0 +1,98 @@
+{
+  "captured_local_time": "2026-10-04T13:18:28+09:00",
+  "requested_baseline_commit": "11e78503586aae6d728d35bf2b875917583aaa3a",
+  "actual_root_head": "11e78503586aae6d728d35bf2b875917583aaa3a",
+  "branch": "experiment/cr-state-boundary",
+  "modules": {
+    ".": {
+      "head": "11e78503586aae6d728d35bf2b875917583aaa3a",
+      "status": "## experiment/cr-state-boundary\n m third_party/cartographer-library/wasi/boost\n ? third_party/wamr\n?? experiments/cr-state-boundary/__pycache__/\n?? experiments/cr-state-boundary/build/\n?? experiments/cr-state-boundary/plan.md\n?? experiments/cr-state-boundary/results/fresh-20261004-01/\n?? experiments/cr-state-boundary/runtime-build-verified-20261004/\n?? experiments/cr-state-boundary/runtime-build/\n?? experiments/cr-state-boundary/state_probe.py"
+    },
+    "cmsis-wasm": {
+      "head": "182dcaff50a0e9c626c84db365b1d762747a806b",
+      "status": "## HEAD (no branch)"
+    },
+    "lwip-wasm": {
+      "head": "50a6e414aa7c5863e634603102640741ea7c3dd1",
+      "status": "## experiment/cr-state-boundary-lwip"
+    },
+    "mros2": {
+      "head": "912cfbdd1af9a28be685ab67803093d84bb31ed1",
+      "status": "## HEAD (no branch)"
+    },
+    "mros2/embeddedRTPS": {
+      "head": "81a6a4fe9309f3cb16f0f3b60c92ca89b8602182",
+      "status": "## HEAD (no branch)"
+    },
+    "third_party/wamr": {
+      "head": "db2054224dcff9686f3f98850a29c554974096bc",
+      "status": "## HEAD (no branch)\n?? product-mini/platforms/linux/build-cr-state-boundary-classic/\n?? product-mini/platforms/linux/build-cr-state-boundary-verified-20261004/\n?? product-mini/platforms/linux/build-cr-state-boundary/"
+    }
+  },
+  "files_sha256": {
+    "campaign.py": "978ec604a4db5cca76d995c370263aa1d1c9e1e0bee8ad235620219cb505707b",
+    "workspace/echoback_string/app.cpp": "a74ee3a4ee70a85a4b2ac40081d5fde255ae79587314af7d96cb5f0ba86bd570",
+    "lwip-wasm/src/netif/netif_wasm.c": "68f590bbc28a8f847a4c87df026e47cc27308de2caa007c907dfb92027b51034",
+    "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+    "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+    "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+    "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1",
+    "build_helper": "379c858387235c1a63e6668226f14a99280222f9ae670d4084939bbf04c45831"
+  },
+  "original_trial_artifact_hashes": {
+    "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+    "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+    "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+    "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+  },
+  "runtime_build_configuration": "/home/osslab/.local/bin/cmake -S /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux -B /home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary-verified-20261004 -DCMAKE_BUILD_TYPE=Release -DFETCHCONTENT_SOURCE_DIR_WASMIG=/home/osslab/20261004-mros2-wasm-cr-state-boundary/third_party/wamr/product-mini/platforms/linux/build-cr-state-boundary/_deps/wasmig-src -DWAMR_BUILD_INTERP=1 -DWAMR_BUILD_FAST_INTERP=0 -DWAMR_BUILD_AOT=0 -DWAMR_BUILD_JIT=0 -DWAMR_BUILD_FAST_JIT=0 -DWAMR_BUILD_LIBC_WASI=1 -DWAMR_BUILD_LIB_WASI_THREADS=1 -DWAMR_BUILD_LIB_PTHREAD=0 -DWAMR_BUILD_THREAD_MGR=1 -DWAMR_BUILD_SHARED_MEMORY=1",
+  "compiler_version": "clang version 17.0.6\nTarget: wasm32-unknown-wasi\nThread model: posix\nInstalledDir: /opt/wasi-sdk-21/bin",
+  "wasi_sdk_version": "wasi_sdk=wasi-sdk-21",
+  "build_provenance_files": {
+    "configure": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/configure-command.txt",
+    "wasm_build": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/build-command.txt",
+    "runtime_configure": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/verified-20261004/runtime-configure-command.txt",
+    "runtime_build": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/verified-20261004/runtime-build-command.txt",
+    "static_compile_commands": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/build-provenance/verified-20261004/compile_commands.json"
+  },
+  "host": "Linux osslab-autoware 6.8.0-138-generic #138~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:43:15 UTC  x86_64 x86_64 x86_64 GNU/Linux",
+  "docker_server_version": "29.4.1",
+  "docker_image": {
+    "name": "ros:humble",
+    "id": "sha256:1813d3c85d7f96ff7d3012d865204583255740182db5d0065f8f8cd029a83138"
+  },
+  "docker_network": {
+    "name": "mros2-cr-net",
+    "id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+    "subnet": "172.18.0.0/16",
+    "occupied_ips_before_run": {}
+  },
+  "runner_isolation": "campaign.py is a byte-identical copy under this new output root because the unchanged runner writes relative to its own directory; app/runtime are symlinked to the hashed original trial artifacts. No experiment source or runner code was edited.",
+  "changed_ip_cli_gate_inputs": [
+    {
+      "mode": "control",
+      "trial": 2,
+      "source_result": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/control/run-02/result.json",
+      "copied_result_sha256": "c3df70f1c746457924a1596d5be062fd389e15613d53bc4f945f5e1c1d2be649",
+      "verdict": "PASS"
+    },
+    {
+      "mode": "same",
+      "trial": 1,
+      "source_result": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/same/run-01/result.json",
+      "copied_result_sha256": "f788e82bf3e8d10033d19abce0c841545ee802dcc4c6699d724b9a18abbd8659",
+      "verdict": "PASS"
+    },
+    {
+      "mode": "same",
+      "trial": 2,
+      "source_result": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/smoke/same/run-02/result.json",
+      "copied_result_sha256": "559dedfb7f3d40c7fff4ff1da12159b725219ef4cf64b9340974ecfbef9518ed",
+      "verdict": "PASS"
+    }
+  ],
+  "trial_sequence": [
+    "same-IP fresh run: campaign.py run same experimental 3",
+    "if and only if it passes: changed-IP fresh run: campaign.py run changed experimental 1"
+  ]
+}

@@ -1,0 +1,56 @@
+[
+    {
+        "Name": "mros2-cr-net",
+        "Id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+        "Created": "2026-09-17T22:17:05.917007055+09:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv4": true,
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Options": {},
+        "Labels": {},
+        "Containers": {
+            "41d8a5759069e2e19ab0b8a1526ad665365749b5bac7420f6a45e27fdb25b771": {
+                "Name": "mros2-cr-nurec-experimental-changed-run-01-src",
+                "EndpointID": "86ffec33783b713e0478ed16a0d4b0ec24711f28de377bffbb400332d98fad85",
+                "MacAddress": "a6:86:db:24:72:49",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            },
+            "948a57bfbf62540df391b1d523a98d462745651a165f02f9dd0c48845d6dd5a2": {
+                "Name": "mros2-cr-nurec-experimental-changed-run-01-peer",
+                "EndpointID": "7c2d9b11f53d2def47fc68d8b9325f5a24c7df7110658240ac7867340b940667",
+                "MacAddress": "b6:ae:07:77:c2:1e",
+                "IPv4Address": "172.18.0.5/16",
+                "IPv6Address": ""
+            }
+        },
+        "Status": {
+            "IPAM": {
+                "Subnets": {
+                    "172.18.0.0/16": {
+                        "IPsInUse": 5,
+                        "DynamicIPsAvailable": 65531
+                    }
+                }
+            }
+        }
+    }
+]

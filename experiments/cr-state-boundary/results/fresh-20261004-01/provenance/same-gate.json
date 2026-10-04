@@ -1,0 +1,65 @@
+{
+  "same_ip_fresh_trial": "experimental-same-run-03",
+  "verdict": "PASS",
+  "saved_sentinel": 2768240654,
+  "first_post_restore_loop": {
+    "mono": 2846557711118619,
+    "id": 15,
+    "guest": 2768240654,
+    "host": 0
+  },
+  "first_post_restore_netif_refresh": {
+    "mono": 2846557711035703,
+    "default": "0x9bf18",
+    "self": "0x9bf18",
+    "same": 1,
+    "stored": 50336428,
+    "probed": 50336428,
+    "pending": 0
+  },
+  "pre_window": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "post_window": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "preflight_equals_restore_hashes": true,
+  "old_same_ip_gate_trials": [
+    {
+      "trial": "same-run-01",
+      "result_sha256": "f788e82bf3e8d10033d19abce0c841545ee802dcc4c6699d724b9a18abbd8659",
+      "source": "pre-existing same-IP evidence"
+    },
+    {
+      "trial": "same-run-02",
+      "result_sha256": "559dedfb7f3d40c7fff4ff1da12159b725219ef4cf64b9340974ecfbef9518ed",
+      "source": "pre-existing same-IP evidence"
+    }
+  ],
+  "fresh_same_ip_trial": {
+    "trial": "same-run-03",
+    "result_sha256": "bc49200c09168535df318a4633dc9e97575ec243bf84efedc43038c877e55b6e",
+    "source": "fresh trial"
+  },
+  "cleanup_no_labeled_containers": true,
+  "network_empty_after_cleanup": true,
+  "changed_ip_gate": "all three result.json files PASS; runner CLI precondition satisfied"
+}

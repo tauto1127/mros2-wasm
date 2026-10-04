@@ -1,0 +1,106 @@
+{
+  "same_ip_existing_trials": [
+    {
+      "verdict_original": "PASS",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.3",
+      "pre_count": 10,
+      "post_count": 10,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    },
+    {
+      "verdict_original": "PASS",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.3",
+      "pre_count": 10,
+      "post_count": 10,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    },
+    {
+      "verdict_original": "PASS",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.3",
+      "pre_count": 10,
+      "post_count": 10,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    }
+  ],
+  "same_ip_fresh_trial": {
+    "verdict_original": "PASS",
+    "state_gate": true,
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.3",
+    "pre_count": 10,
+    "post_count": 10,
+    "roundtrip_pass": true,
+    "later_destination_ip": true
+  },
+  "changed_ip_existing_trials": [
+    {
+      "verdict_original": "FAIL",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.6",
+      "pre_count": 10,
+      "post_count": 0,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    },
+    {
+      "verdict_original": "PASS",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.6",
+      "pre_count": 10,
+      "post_count": 10,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    },
+    {
+      "verdict_original": "PASS",
+      "state_gate": true,
+      "guest_state_preserved": true,
+      "native_state_reset": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.6",
+      "pre_count": 10,
+      "post_count": 10,
+      "roundtrip_pass": true,
+      "later_destination_ip": true
+    }
+  ],
+  "changed_ip_fresh_trial": {
+    "verdict_original": "PASS",
+    "state_gate": true,
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.6",
+    "pre_count": 10,
+    "post_count": 10,
+    "roundtrip_pass": true,
+    "later_destination_ip": true
+  },
+  "same_ip_observations_reproduced": true,
+  "changed_ip_observations_reproduced": true,
+  "changed_ip_run01_original_harness_verdict": "FAIL",
+  "changed_ip_run01_plan_criteria_reanalysis": "PASS"
+}

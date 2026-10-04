@@ -1,0 +1,359 @@
+{
+  "baseline_commit": "11e78503586aae6d728d35bf2b875917583aaa3a",
+  "root_head_after": "11e78503586aae6d728d35bf2b875917583aaa3a",
+  "branch": "experiment/cr-state-boundary",
+  "trial_sequence": [
+    "same",
+    "changed"
+  ],
+  "same_trial": {
+    "trial_id": "experimental-same-run-03",
+    "arm": "experimental",
+    "mode": "same",
+    "verdict": "PASS",
+    "reason": "post window [15, 16, 17, 18, 19, 20, 21, 22, 23, 24]",
+    "checkpointed": true,
+    "N": 14,
+    "timings_ns": {
+      "checkpoint": 1064704490,
+      "checkpoint_signal_to_process_exit": 1064704490,
+      "state_hash": 664435609,
+      "tenth_callback_to_sigusr2": 108681994,
+      "restore_stage": 299385348,
+      "recovery_to_first_new_callback": 3155565957,
+      "restore_to_first_peer_receive": 2155194980,
+      "last_pre_callback_to_first_post_callback": 5206862149
+    },
+    "utc": {
+      "sigusr2": "2026-10-04T04:18:53.422+00:00",
+      "restore_stage_end_note": "estimated from last Finish to restore stack before application output",
+      "restore_command": "2026-10-04T04:18:55.365+00:00",
+      "first_new_callback": "2026-10-04T04:18:58.521+00:00"
+    },
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "netif_default_restored_nonnull": true,
+    "netif_points_to_restored_object": true,
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.3",
+    "application_roundtrip_pass": true,
+    "saved_sentinel": 2768240654,
+    "checkpoint_armed_id": 14,
+    "pre_complete_ids": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "extra_publishes_before_signal": [
+      14
+    ],
+    "pre_window": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "restore_stage": {
+      "status": "estimated",
+      "restore_stage_end_mono_ns": 2846554855020015,
+      "stack_restore_count": 12,
+      "first_app_mono_ns": 2846557711148105,
+      "elapsed_from_restore_command_ns": 299385348
+    },
+    "post_boundary": "id=24 reached=callback ids_seen=15..25 count=11",
+    "first_post_restore_loop": {
+      "mono": 2846557711118619,
+      "id": 15,
+      "guest": 2768240654,
+      "host": 0
+    },
+    "first_post_restore_netif_refresh": {
+      "mono": 2846557711035703,
+      "default": "0x9bf18",
+      "self": "0x9bf18",
+      "same": 1,
+      "stored": 50336428,
+      "probed": 50336428,
+      "pending": 0
+    },
+    "observations_valid": true,
+    "startup_reran": false,
+    "state_gate_pass": true,
+    "destination_ip_observed_after_refresh": true,
+    "post_window": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "first_new_id": 15,
+    "first_peer_receive_id": 15,
+    "raw_evidence_sha256": {
+      "checkpoint-boundary.json": "9e49c9ce5528f1eb6e7eedc10f5773bc2e0294e0b3d6d7a891c6580d309ef2ca",
+      "checkpoint-boundary.txt": "9229a651dea0223e85c42d97328eb0014eb79fb80768aa540d2e4eae58bceff8",
+      "checkpoint-signal.log": "68103d76857d6e2f0ae9df69602ed6e6a236d777cd3a24f6af41c2f9c9f9318a",
+      "checkpoint-state-files.sha256": "92a104c44416d841a655d49bf981eb6fab736b99fa87a211ef960ea9edf51895",
+      "checkpoint-state-files.txt": "33891beed20a07aef8f53930d6a569a7195153dcfd5a8c606cbec6e56554db5f",
+      "cleanup-after.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cleanup-before.json": "40a11da6b4fe58f6e1ea337029cd179f4c8165e6e2a9d24aeccf90a26ec5283d",
+      "cleanup-commands.txt": "8073b96f615ab204f211e53d1df6b5f9a189247a74652a2cc30e07f4e293f0e9",
+      "disk-after.txt": "a9c8ddd46f88909e94b2f0381290cc9a33d4d886e8bf999b99f5d586da96a048",
+      "disk-before.txt": "e42911ad8923a182e2ab0500c65dcf9482450e8d6adecd49a3c713564984e2db",
+      "docker-commands.log": "438029c7add9bd5204d2f0db3bde53c14ac94d7e16f04a16ade8db1ce9c56d7c",
+      "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e",
+      "native-peer-ldd.txt": "d6b8d3c56255606269eeefea89d33714a30e26849f346f167b4b336fbea3b94f",
+      "network-after-cleanup.json": "abdaaafdd23e33ca91b6f2ed96b0d4b20ed0ee12459d415f10a105884227c056",
+      "network-after-create.json": "54e99ad65bba0688d7fe05c4ecde0a3beac8b2b211647917ddfd6686cd98705a",
+      "network-before.json": "abdaaafdd23e33ca91b6f2ed96b0d4b20ed0ee12459d415f10a105884227c056",
+      "peer-identity.txt": "3d0d912a0b0a5be2b8277fb461a936770476357321a8618d8ef9684fc809c9bb",
+      "peer-inspect.json": "65dfef9f45c22001eaa21c6cb41b8d90926a1579dd4f4fad662f788bca262369",
+      "peer-native.log": "924fb8ee0600e59c78ef81226ba38b72e3603055a89809cf17bc672411f6ede8",
+      "peer.command.txt": "21863fecef01df990d4edec4e0e2ad2781b2fec1ccbf4c8bf7c27e88288291c8",
+      "peer.pid": "20d2add851bf39edcc6b5e830930f962db7e19dffa2cab8610eed551eda6c302",
+      "preflight.json": "dbc0449571634aeea92efd4a2702db69cc622412989ef8b26594fbbea430f500",
+      "result.json": "bc49200c09168535df318a4633dc9e97575ec243bf84efedc43038c877e55b6e",
+      "state-discarded.txt": "411ddb0275bebe1152e5082f6e1bdd8eff26e0d332a394ceefd18ecb9a6905dd",
+      "wamr-inspect.json": "00de23ba17d815feffa9f2c016fe90d88a87ed73df646c52fc15d8bc4b92ac85",
+      "wasm-checkpoint-identity.txt": "d6b318aee4a0a2e87a0194e362d32b0f4c333bb8b4770b1c703c23fe52585307",
+      "wasm-checkpoint.command.txt": "c1dadba733f2b3fcd1d0aac8f3ae1baa6d0c2369370793328b9c19c4e514f715",
+      "wasm-checkpoint.log": "6384d1badeab0a5815098da99c61e21a5a9559da04141d85ba8372812e198732",
+      "wasm-checkpoint.pid": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "wasm-restore-identity.txt": "4100da70eb4b9c4d9a513a226b0bc96af688ca6518117dc9da69bcb91d119b54",
+      "wasm-restore-stop.log": "3df4a807fcd740e9d2b73ff31bdf3c1c67ed55aa02ec41b589e3c5750b1941bd",
+      "wasm-restore.command.txt": "e018c4d6877acbed28496ef1ed2a24bedd8c4c0066ae300e1ff90ca7c4167900",
+      "wasm-restore.log": "631212856a16cef4425e7060fcdbc44c6e29d7bb81139c9d631ea38655d8207d",
+      "wasm-restore.pid": "6f3e559bbd93fa2f9b25cbd9b5f348a4b20c902d8e6498de5c28d73df8e2f571"
+    },
+    "artifact_hashes": {
+      "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+      "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+      "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+      "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+    },
+    "first_post_restore_refresh_ips": {
+      "stored": "172.18.0.3",
+      "probed": "172.18.0.3"
+    },
+    "raw_evidence_path": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/results/fresh-20261004-01/smoke/same/run-03"
+  },
+  "changed_trial": {
+    "trial_id": "experimental-changed-run-01",
+    "arm": "experimental",
+    "mode": "changed",
+    "verdict": "PASS",
+    "reason": "post window [16, 17, 18, 19, 20, 21, 22, 23, 24, 25]",
+    "checkpointed": true,
+    "N": 14,
+    "timings_ns": {
+      "checkpoint": 1055792258,
+      "checkpoint_signal_to_process_exit": 1055792258,
+      "state_hash": 619715174,
+      "tenth_callback_to_sigusr2": 123250228,
+      "restore_stage": 317134030,
+      "recovery_to_first_new_callback": 6179949747,
+      "restore_to_first_peer_receive": 2176977370,
+      "last_pre_callback_to_first_post_callback": 9014709850
+    },
+    "utc": {
+      "sigusr2": "2026-10-04T04:20:07.583+00:00",
+      "restore_stage_end_note": "estimated from last Finish to restore stack before application output",
+      "restore_command": "2026-10-04T04:20:10.295+00:00",
+      "first_new_callback": "2026-10-04T04:20:16.475+00:00"
+    },
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "netif_default_restored_nonnull": true,
+    "netif_points_to_restored_object": true,
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.6",
+    "application_roundtrip_pass": true,
+    "saved_sentinel": 2768240654,
+    "checkpoint_armed_id": 14,
+    "pre_complete_ids": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "extra_publishes_before_signal": [
+      14
+    ],
+    "pre_window": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "restore_stage": {
+      "status": "estimated",
+      "restore_stage_end_mono_ns": 2846629802716012,
+      "stack_restore_count": 12,
+      "first_app_mono_ns": 2846632664208140,
+      "elapsed_from_restore_command_ns": 317134030
+    },
+    "post_boundary": "id=25 reached=callback ids_seen=15..26 count=12",
+    "first_post_restore_loop": {
+      "mono": 2846632664180869,
+      "id": 15,
+      "guest": 2768240654,
+      "host": 0
+    },
+    "first_post_restore_netif_refresh": {
+      "mono": 2846632664093734,
+      "default": "0x9bf18",
+      "self": "0x9bf18",
+      "same": 1,
+      "stored": 50336428,
+      "probed": 100668076,
+      "pending": 0
+    },
+    "observations_valid": true,
+    "startup_reran": false,
+    "state_gate_pass": true,
+    "destination_ip_observed_after_refresh": true,
+    "post_window": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "first_new_id": 16,
+    "first_peer_receive_id": 15,
+    "raw_evidence_sha256": {
+      "checkpoint-boundary.json": "9ab693be07b21b9b9a91de4e17e02a70ebf1a533944e43435135836ef2b20822",
+      "checkpoint-boundary.txt": "9229a651dea0223e85c42d97328eb0014eb79fb80768aa540d2e4eae58bceff8",
+      "checkpoint-signal.log": "a3263507c46be15b2028f16d43c0eae03a01c6d97fa5dad2080858bcb42e842b",
+      "checkpoint-state-files.sha256": "df1d3975b39e1ee6f68a63197142cb0dc73058a18fa54942157502bd829f5c06",
+      "checkpoint-state-files.txt": "3bd4ae3243932790f8964cf18155f2e334d6e4dcdc2d82c22e29509418265e23",
+      "cleanup-after.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cleanup-before.json": "4487ea17fb8c3bf711824810c9cef773e404ddbb17c913cde01a7be1bf0346f3",
+      "cleanup-commands.txt": "452dbfbe4b8df2bd24ca4cf069d5a02ae76c53f8523b77d39be68f7b9fb09904",
+      "dest-inspect.json": "8d45cf4b225fdbaa321a690a3e66040c5fab61c0d3f7f3fa6ab474a9743a1925",
+      "disk-after.txt": "4e8d86241cf2dec7b85ffc71f6b7e4b7926fd81e8fdbcfa3f5b0f00d7f553847",
+      "disk-before.txt": "424d2542b0374f1efa32ead2cac011f68e3e1de24f2368b05885a7f481897c10",
+      "docker-commands.log": "42672d72ce79d586c079f5cafd322f27481524c95c8501331c119e8d4c9c74d8",
+      "hashes-before-restore.json": "9849250279445e6049bb8ccaa3914cdc8eb7fd67d8136fe08ca35c8c9ae8b82e",
+      "native-peer-ldd.txt": "e69e2b2d80b50dff7b3c3de47c6fb957de9f17ad312710ecc3e20953db76f038",
+      "network-after-cleanup.json": "abdaaafdd23e33ca91b6f2ed96b0d4b20ed0ee12459d415f10a105884227c056",
+      "network-after-create.json": "793187abbe7569c5700d6a2586318ce0ff5a12dcfebc3cb40db3edb64c7c948f",
+      "network-before.json": "abdaaafdd23e33ca91b6f2ed96b0d4b20ed0ee12459d415f10a105884227c056",
+      "peer-identity.txt": "3d0d912a0b0a5be2b8277fb461a936770476357321a8618d8ef9684fc809c9bb",
+      "peer-inspect.json": "88dee0df8e3fe32f8b141f98a78cadc8e056f2e2a1bae31dde27b9f8e4b1da9c",
+      "peer-native.log": "9284c8592c08cf6d86cf7d29c367d6f8dbd30fb631f7c03bd190fef0d2c4ba69",
+      "peer.command.txt": "df9a6266426e87b0469017280398efcffe4f8d2fdcb271b8f5351d92af4090f9",
+      "peer.pid": "20d2add851bf39edcc6b5e830930f962db7e19dffa2cab8610eed551eda6c302",
+      "preflight.json": "373ff643b6e507c1c20adf131d9b7608c9850e4bef25f8a5e0d0ea1808a709a1",
+      "result.json": "80e46c8a7b91d8d8a261304a22e9cf64c8b1795c765e3d85dd4c6a55348b404a",
+      "state-discarded.txt": "5e87753195f37f6d4921b4394b616ce9d05a6937b45c3c34fd7ea2812b008358",
+      "wamr-inspect.json": "8461b42e0a32dc2420cd68d967c64d33af2c96b8793294f02dbaf9d8adb198f8",
+      "wasm-checkpoint-identity.txt": "c50043ed84db35e8547dc86a6e88eddd7ede485f39d2c66ba64fb023037737c0",
+      "wasm-checkpoint.command.txt": "d787fc0f1cc965ef724f5dbb9511cc300f009f2d636064f9fbb37c771e370ad8",
+      "wasm-checkpoint.log": "df35396a42669a6213bd00efb853f1ce66ef60128431872240471b2d714b42ae",
+      "wasm-checkpoint.pid": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25",
+      "wasm-restore-identity.txt": "4557b3720146a338640475ec25b487dbbca891d75af25ec5e0ee2966a4ac886c",
+      "wasm-restore-stop.log": "4702bbfa479f79bbcea5011013ffc79b5ed4d495977822191321fb2e93228099",
+      "wasm-restore.command.txt": "0cab829129eba7a3db3f3aee1e725ec1e1db5fb9a8ec98eec866e67bbbf87765",
+      "wasm-restore.log": "45b731c4d846c9247178555b3650ac535e21226b2637aa88926cddf5ffc87932",
+      "wasm-restore.pid": "9a92adbc0cee38ef658c71ce1b1bf8c65668f166bfb213644c895ccb1ad07a25"
+    },
+    "artifact_hashes": {
+      "iwasm": "fa63c40c2a17f8df6461d687a95cb01bf544e0b7788377d41c317dcec6d46822",
+      "wasm": "52ecd6ffde313c25cc6c20298769f7c9ad816419b0ddce80555c5bc2417520e0",
+      "native_probe": "b91cdb900b478292d78a8dbfab24906bbdd3252be93b688f9c03e96c0b9121ca",
+      "peer": "8f41fa890a8da84c9000772bba2fb8287553bea1311ccf7fd4d5d0daed7b27b1"
+    },
+    "first_post_restore_refresh_ips": {
+      "stored": "172.18.0.3",
+      "probed": "172.18.0.6"
+    },
+    "raw_evidence_path": "/home/osslab/20261004-mros2-wasm-cr-state-boundary/experiments/cr-state-boundary/results/fresh-20261004-01/smoke/changed/run-01"
+  },
+  "artifact_hashes_identical_before_and_restore": true,
+  "source_hashes_unchanged_during_trials": true,
+  "docker_network_after": {
+    "name": "mros2-cr-net",
+    "id": "609362e37c7a945ba44d7f2416fe24159ed9d9adb36207f8eb844b95b3c37408",
+    "occupied_ips": {}
+  },
+  "trial_containers_remaining": [],
+  "full_raw_evidence_sha256": true,
+  "changed_gate_used_prior_same_ip_trials": [
+    "smoke/same/run-01",
+    "smoke/same/run-02"
+  ],
+  "third_same_ip_gate_trial": "fresh same run-03",
+  "result_interpretation": "Recorded runner verdicts retained verbatim; both fresh trials passed their planned state and 10-roundtrip gates.",
+  "module_revisions_after": {
+    ".": {
+      "head": "11e78503586aae6d728d35bf2b875917583aaa3a",
+      "same_head_as_before": true,
+      "status_after": "## experiment/cr-state-boundary\n m third_party/cartographer-library/wasi/boost\n ? third_party/wamr\n?? experiments/cr-ros2-interoperability/\n?? experiments/cr-state-boundary/__pycache__/\n?? experiments/cr-state-boundary/build/\n?? experiments/cr-state-boundary/plan.md\n?? experiments/cr-state-boundary/results/fresh-20261004-01/\n?? experiments/cr-state-boundary/runtime-build-verified-20261004/\n?? experiments/cr-state-boundary/runtime-build/\n?? experiments/cr-state-boundary/state_probe.py"
+    },
+    "cmsis-wasm": {
+      "head": "182dcaff50a0e9c626c84db365b1d762747a806b",
+      "same_head_as_before": true,
+      "status_after": "## HEAD (no branch)"
+    },
+    "lwip-wasm": {
+      "head": "50a6e414aa7c5863e634603102640741ea7c3dd1",
+      "same_head_as_before": true,
+      "status_after": "## experiment/cr-state-boundary-lwip"
+    },
+    "mros2": {
+      "head": "912cfbdd1af9a28be685ab67803093d84bb31ed1",
+      "same_head_as_before": true,
+      "status_after": "## HEAD (no branch)"
+    },
+    "mros2/embeddedRTPS": {
+      "head": "81a6a4fe9309f3cb16f0f3b60c92ca89b8602182",
+      "same_head_as_before": true,
+      "status_after": "## HEAD (no branch)"
+    },
+    "third_party/wamr": {
+      "head": "db2054224dcff9686f3f98850a29c554974096bc",
+      "same_head_as_before": true,
+      "status_after": "## HEAD (no branch)\n?? product-mini/platforms/linux/build-cr-state-boundary-classic/\n?? product-mini/platforms/linux/build-cr-state-boundary-verified-20261004/\n?? product-mini/platforms/linux/build-cr-state-boundary/"
+    }
+  },
+  "root_status_after": "## experiment/cr-state-boundary\n m third_party/cartographer-library/wasi/boost\n ? third_party/wamr\n?? experiments/cr-ros2-interoperability/\n?? experiments/cr-state-boundary/__pycache__/\n?? experiments/cr-state-boundary/build/\n?? experiments/cr-state-boundary/plan.md\n?? experiments/cr-state-boundary/results/fresh-20261004-01/\n?? experiments/cr-state-boundary/runtime-build-verified-20261004/\n?? experiments/cr-state-boundary/runtime-build/\n?? experiments/cr-state-boundary/state_probe.py",
+  "no_new_source_or_module_revision": true,
+  "workspace_status_note": "The pre-run root status did not contain experiments/cr-ros2-interoperability/. It appeared in the after-run status while trials were running. It was not inspected or touched; all experiment source hashes and module HEADs remained unchanged.",
+  "checkpoint_state_retention": "On PASS, the unchanged campaign runner deletes its newly created checkpoint state directory after hashing all state files. The state-discarded.txt record and checkpoint-state-files.sha256/checkpoint-state-files.txt inventories are retained; the large state images themselves are not retained."
+}

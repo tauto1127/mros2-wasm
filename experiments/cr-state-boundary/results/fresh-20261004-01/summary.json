@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "11e78503586aae6d728d35bf2b875917583aaa3a",
+  "fresh_same_ip": {
+    "trial_id": "experimental-same-run-03",
+    "verdict": "PASS",
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.3",
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "application_roundtrip_pass": true
+  },
+  "fresh_changed_ip": {
+    "trial_id": "experimental-changed-run-01",
+    "verdict": "PASS",
+    "stored_ip_before_refresh": "172.18.0.3",
+    "probed_ip_before_refresh": "172.18.0.6",
+    "later_stored_ip": "172.18.0.6",
+    "guest_state_preserved": true,
+    "native_state_reset": true,
+    "application_roundtrip_pass": true
+  },
+  "reproduced_existing_observations": true,
+  "gate_provenance": "The runner requires three same-IP PASS result files before changed-IP. Prior same-IP run-01 and run-02 were copied byte-for-byte as gate inputs; the fresh run-03 supplied the third PASS. The changed-IP run was fresh.",
+  "provenance_before": "provenance/before.json",
+  "provenance_after": "provenance/after.json",
+  "same_gate_record": "provenance/same-gate.json",
+  "raw_trial_directories": [
+    "smoke/same/run-03",
+    "smoke/changed/run-01"
+  ],
+  "checkpoint_image_note": "PASS cleanup removed newly generated checkpoint image files after recording their hashes and inventory, per unchanged runner behavior."
+}

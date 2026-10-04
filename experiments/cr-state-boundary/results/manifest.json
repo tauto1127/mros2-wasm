@@ -573,5 +573,48 @@
     "no_source_or_runtime_rebuild_between_smoke_trials": "No intervening application/lwIP source commit appears in the recorded experiment history; per-trial dirty-tree snapshots were not captured.",
     "stale_log_reuse": "No duplicate trial directories; campaign refuses existing trial paths and each trial has distinct raw logs.",
     "raw_log_checksums": "Recorded for the principal logs and result files in each trial entry."
+  },
+  "fresh_verification": {
+    "evidence_root": "experiments/cr-state-boundary/results/fresh-20261004-01/",
+    "baseline_commit": "11e78503586aae6d728d35bf2b875917583aaa3a",
+    "reproduced_existing_observations": true,
+    "same_ip": {
+      "trial_id": "experimental-same-run-03",
+      "verdict": "PASS",
+      "pre_roundtrip_count": 10,
+      "post_roundtrip_count": 10,
+      "saved_guest_sentinel": "0xA500000E",
+      "first_post_restore_guest_sentinel": "0xA500000E",
+      "first_post_restore_native_sentinel": "0",
+      "first_refresh_default_nonnull_and_same_object": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.3",
+      "later_stored_ip": "172.18.0.3",
+      "result": "experiments/cr-state-boundary/results/fresh-20261004-01/smoke/same/run-03/result.json"
+    },
+    "changed_ip": {
+      "trial_id": "experimental-changed-run-01",
+      "verdict": "PASS",
+      "pre_roundtrip_count": 10,
+      "post_roundtrip_count": 10,
+      "saved_guest_sentinel": "0xA500000E",
+      "first_post_restore_guest_sentinel": "0xA500000E",
+      "first_post_restore_native_sentinel": "0",
+      "first_refresh_default_nonnull_and_same_object": true,
+      "stored_ip_before_refresh": "172.18.0.3",
+      "probed_ip_before_refresh": "172.18.0.6",
+      "later_stored_ip": "172.18.0.6",
+      "result": "experiments/cr-state-boundary/results/fresh-20261004-01/smoke/changed/run-01/result.json"
+    },
+    "provenance": {
+      "before": "experiments/cr-state-boundary/results/fresh-20261004-01/provenance/before.json",
+      "after": "experiments/cr-state-boundary/results/fresh-20261004-01/provenance/after.json",
+      "commands": "experiments/cr-state-boundary/results/fresh-20261004-01/provenance/commands.txt",
+      "changed_ip_gate_inputs": "experiments/cr-state-boundary/results/fresh-20261004-01/provenance/same-gate.json",
+      "comparison": "experiments/cr-state-boundary/results/fresh-20261004-01/provenance/comparison.json",
+      "raw_log_sha256": "Each fresh result.json records SHA-256 values for all raw trial files; checkpoint-state-files.sha256 records the removed PASS checkpoint images."
+    },
+    "gate_note": "Existing same-IP run-01 and run-02 result files were copied byte-for-byte into the isolated runner gate; the fresh same-IP run-03 supplied the third PASS. The changed-IP run was fresh.",
+    "checkpoint_image_retention": "The unchanged runner removed generated PASS checkpoint images after recording their hashes and inventory; checkpoint-state-files.sha256, checkpoint-state-files.txt, and state-discarded.txt are retained."
   }
 }

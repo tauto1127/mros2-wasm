@@ -207,3 +207,16 @@ rtk proxy env \
 ```
 
 The campaign runner refuses to reuse existing smoke trial directories. For a new campaign, use a fresh experiment worktree and fresh Docker network/container names with the source/restore artifact hashes verified before signaling. Existing runs are not repeated by this audit; their exact logs and checkpoint boundaries remain under `smoke/` and are indexed in the manifest.
+
+## Fresh verification from the documented baseline
+
+Two fresh trials were run from root commit `11e78503586aae6d728d35bf2b875917583aaa3a`, using the unchanged campaign runner and the original hash-pinned runtime/application artifacts. Complete inputs, commands, environment provenance, logs, results, checkpoint inventories, and per-file checksums are preserved under `results/fresh-20261004-01/`.
+
+| Trial | Verdict | Pre/post round trips | First post-restore state | First refresh | Later stored IP |
+|---|---|---|---|---|---|
+| `experimental-same-run-03` | PASS | 10 / 10 consecutive | guest `0xA500000E`; native `0` | non-NULL restored object; `.3` / `.3` | `.3` |
+| `experimental-changed-run-01` | PASS | 10 / 10 consecutive | guest `0xA500000E`; native `0` | non-NULL restored object; `.3` / `.6` | `.6` |
+
+The fresh results reproduce the previously recorded same-IP and changed-IP state observations. The changed-IP runner gate required three same-IP PASS inputs: existing same-IP runs 01 and 02 were copied byte-for-byte into the isolated fresh output tree, and fresh run 03 supplied the third input. Their source paths, verdicts, and SHA-256 values are recorded in `results/fresh-20261004-01/provenance/same-gate.json` and `provenance/before.json`; the changed-IP trial itself was fresh.
+
+The runner's existing PASS cleanup removed the generated checkpoint images after writing their inventory and SHA-256 list. The inventories, `state-discarded.txt`, and raw logs remain; the image files themselves were not retained. No experiment source or runner code was changed for these trials.
