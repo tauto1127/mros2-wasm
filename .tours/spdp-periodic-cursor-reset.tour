@@ -1,0 +1,62 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "なぜ周期SPDPは古いChangeを再送する？",
+  "description": "このTourは、周期SPDPで送信cursorがなぜhistoryの最小SNへ戻るのかを、呼び出し側から実送信まで順に追います。SN1/SN2に入ったIPと実際に送られるpayloadを自分で結び付けてください。コードに書かれていない設計理由やThreadPoolの厳密な実行順は推測せず、「未確定」と分けます。各stepは「見る箇所・追う状態・確認問題」の3項目だけです。",
+  "isPrimary": true,
+  "steps": [
+    {
+      "title": "1. runBroadcast — 周期処理の中でcursor resetを呼ぶ場所",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 99,
+      "description": "1. **この箇所で見ること:** `runBroadcast()`はSPDP用threadです。最初にannounceを行い、その後`m_running`がtrueの間、一定時間待ってから周期処理をします。IP変更時だけの処理（`if`）と、その直後の`setAllChangesToUnsent()`の位置を、括弧の範囲までたどってください。\n2. **追う変数・状態:** `m_running`、`SPDP_RESEND_PERIOD_MS`、`applyPendingLocalIpChange()`の戻り値、`setAllChangesToUnsent()`の呼び出し位置。\n3. **確認問題:** `setAllChangesToUnsent()`はIP変更時の`if`の内側と外側のどちらにありますか？"
+    },
+    {
+      "title": "2. setAllChangesToUnsent — resetの実体",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 312,
+      "description": "1. **この箇所で見ること:** 関数本体の代入を確認します。payloadの中身を書き換えるのではなく、次にhistoryから読む場所を表すcursorを設定しています。設定後はThreadPoolへこのWriterのworkを依頼します。\n2. **追う変数・状態:** `m_nextSequenceNumberToSend`（次に読むSN）、`m_history.getSeqNumMin()`、`mp_threadPool`。\n3. **確認問題:** `m_nextSequenceNumberToSend`には、何の戻り値が設定されますか？"
+    },
+    {
+      "title": "3. getSeqNumMin — minはhistoryのどこか",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 145,
+      "description": "1. **この箇所で見ること:** historyが空の場合と、Changeがある場合のreturnを読み分けます。Changeがあれば`m_tail`位置のSNを返します。`m_tail`はリングhistoryの古い側です。\n2. **追う変数・状態:** `m_head == m_tail`、`m_tail`、`m_buffer[m_tail].sequenceNumber`。\n3. **確認問題:** historyに複数のChangeが残っている場合、この関数は新しい側と古い側のどちらのSNを返しますか？"
+    },
+    {
+      "title": "4. addChange — 2つのannounceは別々のChangeになる",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 87,
+      "description": "1. **この箇所で見ること:** `addChange(data, size)`は受け取ったpayloadを新しい`CacheChange`にコピーし、`m_lastUsedSequenceNumber`を進めてSNを割り当て、ring historyに置きます。SPDPではannounceごとにbufferの内容が渡されます。\n2. **追う変数・状態:** `data`、`size`、`change.data`、`m_lastUsedSequenceNumber`、`m_head`。観測シナリオでは最初のpayloadが`.3`、IP refresh後のpayloadが`.6`です。\n3. **確認問題:** `.3`のpayloadを先に登録し、その後`.6`を登録した場合、どちらに小さいSNが付きますか？"
+    },
+    {
+      "title": "5. incrementHead — なぜ古いChangeがまだ残るか",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 178,
+      "description": "1. **この箇所で見ること:** historyは固定長のリング配列です。`m_head`が書き込み位置、`m_tail`が最古Changeの位置です。新しい場所が古い側に追いついた場合に、tailを進めて古いChangeをdropします。\n2. **追う変数・状態:** `m_head`、`m_tail`、`m_buffer.size()`、`SIZE`、`isFull()`。\n3. **確認問題:** historyに空きがあるとき`.6`のChangeを追加すると、先に入れた`.3`のChangeは残りますか？"
+    },
+    {
+      "title": "6. progress — cursorが指すpayloadを送る",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 341,
+      "description": "1. **この箇所で見ること:** `progress()`はcursorのSNを`getChangeBySN()`へ渡してChangeを選びます。通常のpayload経路では、そのChangeの`next->data`をRTPS DATA submessageへ入れ、`sendPacket()`を呼びます。現在のSPDP bufferを読み直す処理があるかも確認してください。\n2. **追う変数・状態:** `m_nextSequenceNumberToSend`、`next->sequenceNumber`、`next->data`、`sendPacket()`。\n3. **確認問題:** `progress()`は最新bufferと、cursorが選んだhistory内のpayloadのどちらを送りますか？"
+    },
+    {
+      "title": "7. addWorkload — queueに入るもの",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 155,
+      "description": "1. **この箇所で見ること:** `addWorkload()`はWriterへのpointerをoutgoing queueへ入れ、成功時にsemaphoreでWorkerへ通知します。SNやpayloadのsnapshotをqueueへ入れるのではありません。\n2. **追う変数・状態:** `workload`、`m_queueOutgoing`、`m_writerNotificationSem`、戻り値。\n3. **確認問題:** queueに入るのはChangeのpayloadですか、それともWriterへのpointerですか？"
+    },
+    {
+      "title": "8. doWriterWork — WorkerとrunBroadcastの並行実行",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 186,
+      "description": "1. **この箇所で見ること:** WorkerはqueueからWriterを取り出し、その時点で`workload->progress()`を呼びます。queueが空ならsemaphoreを待ちます。Workerは周期処理の`runBroadcast()`とは別threadです。\n2. **追う変数・状態:** `m_queueOutgoing`、`m_writerNotificationSem`、`m_running`、cursor更新と`progress()`実行の相対順。\n3. **確認問題:** このコードだけで、SN2（`.6`）がSN1（`.3`）より先に一度だけ送られる正確な順序を証明できますか？できないなら「未確定」としてください。"
+    },
+    {
+      "title": "9. 最後に因果をつなぐ",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 108,
+      "description": "1. **この箇所で見ること:** `runBroadcast()`の周期呼び出しから、`setAllChangesToUnsent()`、`getSeqNumMin()`、`progress()`のChange選択までをTourで見た順にたどります。\n2. **追う変数・状態:** SN1/SN2のpayloadとIP、historyの最古SN、`m_nextSequenceNumberToSend`、送信される`next->data`。\n3. **確認問題:** periodic resendが`.3`を再送する理由を、「呼び出し箇所→cursorの値→progressが選ぶChange」の順で説明してください。"
+    }
+  ]
+}

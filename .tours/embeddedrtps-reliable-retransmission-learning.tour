@@ -1,0 +1,266 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "embeddedRTPS RELIABLE通信 — SN=2の欠落から再送とLocatorまで",
+  "description": "実際のソースを一緒に読む学習ツアー。通常トピックのSN=1,2,3の通信を軸に、Writer/Reader・History・Proxy・HEARTBEAT・ACKNACKと返信先を追います。このcheckoutでは順序外SN=3を保存せず、SN=2と3を再送します。対象はALIVEの通常DATAで、サービスrq/・rr/、断片化、Variant Cの修正手順は主題に含めません。初期SN=1、相互のProxy・callback登録済み、Historyに1〜3保持、キュー登録成功・有効な通知を前提にします。目安60〜90分。番号と送り先を紙へ書きながら進めてください。CodeTourの公式schemaに従い、現在の作業ツリーの行に紐付けています。",
+  "isPrimary": false,
+  "steps": [
+    {
+      "title": "1. まず、何を取り戻したいのか",
+      "file": "mros2/embeddedRTPS/src/messages/MessageReceiver.cpp",
+      "line": 120,
+      "description": "まずは、落ちたDATAを取り戻すための入口を見てみよう。Writerはデータを送る側、Readerは受け取る側だよ。UDPではパケットが失われるので、RELIABLE通信は番号を使って不足を確かめ、送り直す仕組みを持つ。このswitchにはDATA・HEARTBEAT・ACKNACKの入口が並んでいるね。\n\n今回は通常トピックでSN=1,2,3を送り、2だけが落ちる例を追おう。SNはデータの通し番号。相手との接続情報とcallbackは登録済み、DATAは断片化しない小さなpayload、Historyには3件が残り、再送は順番どおり届くとするよ。HEARTBEATとACKNACKには、DATAと違って何を載せればよいだろう？"
+    },
+    {
+      "title": "2. StatefulWriterが持つ、送り直すための道具",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.h",
+      "line": 69,
+      "description": "不足を聞いて送り直すには、Writerが過去のデータを覚えている必要がある。ここで全体の道具を見てみよう。`m_history`は送信内容の保管場所、`m_nextSequenceNumberToSend`は初回送信で次に選ぶSNだよ。`m_heartbeatThread`と`m_hbCount`は、手元のデータ範囲を相手へ知らせるために使う。\n\n例の3件を送ったあとでも、HistoryにSN=2の内容があれば再送できる。`m_transport`はパケットを渡す先、`m_packetInfo.srcPort`は自分の送信ポートだね。では、初回送信用の位置だけ残して、Historyを捨てたら何が困るだろう？"
+    },
+    {
+      "title": "3. StatelessWriterもHistoryを持つけれど",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 320,
+      "description": "比較すると、StatefulWriterが必要な理由が見えてくるよ。ここはStatelessWriterのACKNACK受信関数だけれど、中身は空だね。この実装では、Readerから不足を聞いて再送する処理を行わない。Domainの`createWriter()`も、reliable指定ならStatefulWriter、そうでなければStatelessWriterを選ぶ。\n\nただし『Statelessだから何も記憶しない』とは考えないでね。StatelessWriterにもHistoryや送信位置、相手への送り先がある。違いは、SN=2を要求されたときの応答やHEARTBEATの仕組みだよ。次は、応答の材料になるHistoryの中身を見よう。"
+    },
+    {
+      "title": "4. CacheChangeはDATA一件の材料",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/CacheChange.h",
+      "line": 34,
+      "description": "再送に必要なものが、何なのか確かめよう。`CacheChange`は送信する一件を表す箱だよ。`kind`は変更の種類、`sequenceNumber`はその一件のSN、`data`はpayload、つまりアプリが送るデータ本体を保持する。普通の`newChange()`では、この箱にバイト列が入る。\n\nSN=2を再送するときには、同じ番号と同じ内容が必要だよね。UDPパケット丸ごとや、相手Readerの受信状況をこの箱に保存しているわけではない。サービス用の識別情報やcallbackの欄もあるけれど、今回の軸は通常のバイト列だよ。では、この箱のSNを決めるのは誰だろう？"
+    },
+    {
+      "title": "5. Historyが内容をコピーし、SNを付ける",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 96,
+      "description": "先ほどの箱がどこで作られるかを見よう。`addChange(data, size)`はpayload用の領域を用意して`append()`で内容をコピーし、`++m_lastUsedSequenceNumber`をSNにする。その箱をリング状の配列へ移すんだ。採番元の初期値は同じファイルの`{0,0}`なので、最初の登録はSN=1になる。\n\n例の3回の登録には1,2,3が付く。再送時はここへ新規登録せず、既存の箱を読むからSN=2のまま送り直せるよ。送信元の一時bufferが後で変わっても、コピーが成功していればHistoryには登録時の内容が残る。"
+    },
+    {
+      "title": "6. SNの採番と、送信位置を分けよう",
+      "file": "mros2/embeddedRTPS/include/rtps/common/types.h",
+      "line": 192,
+      "description": "『番号を増やす』にも用途が違うことを確かめよう。SNは`high`と`low`の組で、ここではlowを増やし、桁があふれるとhighへ繰り上げる。ツアーのSN=2は`{0,2}`という省略表記だよ。\n\nHistoryの`m_lastUsedSequenceNumber`は最後に登録した番号。一方、Writerの`m_nextSequenceNumberToSend`は次の初回送信位置で、Readerの`expectedSN`は次に受け入れたい番号なんだ。3件の初回送信が済むと登録番号は3、送信位置は4になりうる。でもReaderが1しか受理していなければ期待番号は2。同じ型でも意味が違うね。"
+    },
+    {
+      "title": "7. Historyには保存できる量の上限がある",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 187,
+      "description": "送り直せる条件も押さえておこう。Historyは固定容量のリングで、`m_head`は次の書き込み位置、`m_tail`は最古の箱の位置だよ。書き込み位置が最古の位置に追いつくと、ここでtailを進めて古い一件を外す。\n\nStatefulWriterの`newChange()`も、満杯なら未確認の古いDATAを残すために待つのではなく、追加を続ける実装なんだ。今回は1,2,3が残る前提で進めるけれど、2が押し出されたあとでは事情が変わる。『RELIABLEなら、いつでも全部を取り戻せる』と考えてよいかな？この問いはHistory検索へ戻ったときに確かめよう。"
+    },
+    {
+      "title": "8. ReaderProxyはWriter側の、相手ごとの記録",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/Writer.h",
+      "line": 67,
+      "description": "今度は『誰に送り直すのか』を覚える場所を見よう。この`m_proxies`はWriterの基底クラスにあり、ReaderProxyを相手Readerごとに保持する。Proxyは、ここでは相手を表すローカルな記録だよ。名前がReaderProxyでも、置かれているのはWriter側なんだ。\n\n同じSN=2を送っても、Reader Aは受理済みで、Reader Bだけが落とすことがある。データ一件のHistoryだけでは、どのReaderから要求が来たかを区別できないよね。ここでReaderProxyが必要なのはなぜだろう？次のメンバを見ながら、相手ごとに違うものを探してみよう。"
+    },
+    {
+      "title": "9. ReaderProxyが覚える相手と通知番号",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/ReaderProxy.h",
+      "line": 33,
+      "description": "相手ごとに違う情報を具体的に見てみよう。`remoteReaderGuid`は相手Readerの識別子、`remoteLocator`は相手のIPとportを表す送り先だよ。`ackNackCount`は、そのReaderから処理済みのACKNACK通知番号。古い通知を何度も処理しないために必要なんだ。\n\nSN=2を要求するReader Bと、要求しないAでは、この通知番号も送り先も独立する。一方、DATAの内容は共通のHistoryへ置けるね。`ackNackSet`という欄もあるけれど、このcheckoutのStatefulWriterは受信bitmapをここへ保存せず、その場で使う。名前だけから欠落一覧を保持すると推測しないでね。"
+    },
+    {
+      "title": "10. newChangeは送信予約まで進める",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 288,
+      "description": "アプリから初回送信が始まる場所へ戻ろう。`newChange()`はALIVEの変更を受け付け、Writerのmutexを取ってHistoryへ追加し、ThreadPoolに`this`を渡す。mutexは、複数の実行経路がHistoryを同時に触るときの保護だよ。ここではまだUDP送信をしていない。\n\n例では3回の登録で、SN=1,2,3の箱と送信仕事が用意される。Historyは内容の保管、仕事の登録は送信を動かす合図、と分けると読みやすいね。登録するものがDATAのコピーなのか、それともWriterへのpointerなのか、次のキューのコードで確かめよう。"
+    },
+    {
+      "title": "11. 送信キューに入るのはWriterへのpointer",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 155,
+      "description": "送信を別スレッドで進めるため、仕事を渡す仕組みを見よう。`addWorkload()`は`Writer*`をoutgoing queueへ入れ、成功したらsemaphoreでWorkerを起こす。semaphoreは、待っているWorkerへの通知だよ。下の`doWriterWork()`がキューからpointerを取り出し、`progress()`を呼ぶ。\n\n例のpayloadが置かれるのはHistoryで、キューには『このWriterを進めて』という依頼が入る。呼び出し元の登録とWorkerの実行は別のタイミングだね。満杯なら仕事登録は失敗し、`newChange()`はその戻り値を確認しないため、今回はキュー登録も成功する前提にするよ。"
+    },
+    {
+      "title": "12. progressが初回送信の位置を進める",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 340,
+      "description": "Workerが何を一回分進めるか見よう。`progress()`は現在の`m_nextSequenceNumberToSend`を、登録されたReaderProxyごとに送信関数へ渡す。unicastを強制すると`sendData()`、そうでなければ`sendDataWRMulticast()`を選び、最後に送信位置を一つ増やす。\n\n仕事が順に実行されれば、例の1,2,3を選んでいくよ。送信結果の成功だけでReaderの受理まで確認できるわけではなく、この位置は失敗時にも進む。だから後で不足を聞く仕組みが必要なんだ。相手へ届いたかどうかを、このcursorだけで判断できるだろうか？"
+    },
+    {
+      "title": "13. 初回DATAの宛先と、箱の取り出し",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 575,
+      "description": "実際の初回DATAを作る経路を見よう。`sendDataWRMulticast()`はReaderProxyの送信設定から、multicast用Locatorかunicast用`remoteLocator`を選び、SNでHistoryを検索する。Locatorは通信先の種類・IP・portを持つ値だよ。送信設定によっては、同じmulticastを重ねて送らないために送信を省く。\n\n例のSN=2も、箱が見つかればそのpayloadとSNをDATAへ入れて`sendPacket()`へ渡す。今回パケットが落ちるのはその後の想定だね。multicastを使って初回DATAを送っても、後で見るACKNACKへの再送は別の関数からunicastで行うよ。"
+    },
+    {
+      "title": "14. StatefulReaderは何を持つのか",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.h",
+      "line": 55,
+      "description": "Readerが受信順序を守るために必要な道具へ移ろう。このクラスはアプリへ渡す`m_callback`と`m_callee`、状態を守るmutex、返信用の送信ポートとtransportを持つ。相手Writerごとの記録は基底クラスReaderの`m_proxies`にあり、型はWriterProxyだよ。\n\nWriterのHistoryと対称な、順序外DATAを保管するHistoryは、このStatefulReaderにはないんだ。SN=1をアプリへ渡す処理と、『次は2を待つ』という記憶を組み合わせる設計だね。では、その期待番号はReader全体で一つなのか、相手Writerごとなのか、次を見よう。"
+    },
+    {
+      "title": "15. WriterProxyはReader側の、相手Writerの記録",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 33,
+      "description": "複数のWriterを混同しないための記録を見よう。これはReader側に置かれるWriterProxyだよ。`remoteWriterGuid`は相手の識別子、`expectedSN`はそのWriterから次に受け入れるSN。コンストラクタでは1から待ち始める。Writer AのSN=2とWriter BのSN=2は別の流れだから、期待番号も相手ごとに必要なんだ。\n\n`hbCount`は処理済みHEARTBEATの通知番号、`ackNackCount`は自分が次に送るACKNACKの通知番号で、初期値はそれぞれ0と1。`remoteLocator`は相手Writerへの返信先だよ。どのメンバもpayloadそのものを保存してはいないね。"
+    },
+    {
+      "title": "16. 届いたDATAからReaderCacheChangeを作る",
+      "file": "mros2/embeddedRTPS/src/messages/MessageReceiver.cpp",
+      "line": 234,
+      "description": "受信したパケットとReaderの処理をつなごう。通常DATAの経路では、MessageReceiverが相手WriterのGUID、SN、payloadをまとめて`ReaderCacheChange`を作り、`reader->newChange()`へ渡す。GUIDはRTPS headerのprefixとDATAのwriterIdを組み合わせた識別子だよ。\n\n名前にCacheがあっても、このオブジェクトはHistoryへの保存ではない。Reader.hでは受信bufferへのpointerを借りる形になっていて、callbackの外へそのまま持ち出せない。例のSN=3が届いてここを通っても、Readerが保管したとはまだ言えないんだ。受け入れる条件を次に見よう。"
+    },
+    {
+      "title": "17. SN=1を受け入れ、次の期待を2にする",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 106,
+      "description": "受け入れたDATAを一度ずつ順番にアプリへ渡すため、条件を見るよ。`newChange()`はcallbackが未登録なら戻り、登録済みならGUIDが一致するWriterProxyを探す。通常トピックでは`expectedSN == cacheChange.sn`のときにcallbackを呼び、そのSNの次を期待番号にするんだ。\n\n例では最初の期待が1なので、SN=1を受け入れると`expectedSN`は2になる。これは『1まで連続して受理した』という小さな記憶だね。ここでは通常トピックのACKNACKを送っていない。では、次にSN=2ではなくSN=3が到着したら、この条件はどうなるだろう？"
+    },
+    {
+      "title": "18. SN=3は届くが、受け入れず保存もしない",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 46,
+      "description": "前の問いを、保存方針とつなげよう。コメントには、今はパケットを保存せず、次に期待する番号から要求するとあるね。StatefulReaderの通常トピックでは、期待が2のときに3が来ても一致条件を通らず、callbackも呼ばれず、期待番号も2のままだよ。\n\nだから例を正確に言うと『1と3のパケットは到着したが、受理済みなのは1だけ』になる。一般的な受信済み一覧から2だけを抜き出す設計とは違うんだ。[RTPS仕様の参照モデル](https://www.omg.org/spec/DDSI-RTPS/2.5/PDF#page=115) §8.4.12.2では受信Cacheと受信状態を扱うけれど、この実装はそれを簡略化しているよ。"
+    },
+    {
+      "title": "19. このcheckoutのサービス返信は例外",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 90,
+      "description": "コードを読んで例と矛盾しそうな分岐を見つけたら、対象を確かめよう。`rr/`で始まるサービス返信トピックでは、`service_reply_after_gap`が真なら、期待番号より先のDATAも受け入れる。独立した返信を古い欠落で止め続けないため、受理したSNの次へ期待番号を進める実装だよ。\n\nつまりこの分岐なら、期待2で3を受け入れ、期待4へ進み、さらに直後にfinal ACKを送る。通常トピックの『3を捨てて2を待つ』とは違うね。ここからは通常トピックの例へ戻ろう。今回の再送を説明するときは、この例外を混ぜないことが大事だよ。"
+    },
+    {
+      "title": "20. HEARTBEATはいつ動くのか",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 660,
+      "description": "落ちた2を取り戻すきっかけを見るよ。Writerごとにinitで作ったHEARTBEAT用スレッドが、このループで`sendHeartBeat()`を呼び、`Config::SF_WRITER_HB_PERIOD_MS`だけ待つ。初回DATAの送信キューとは別に、相手へ状況を繰り返し知らせるんだ。\n\n今回は1,2,3の初回送信後に通知が来た場面を選ぶけれど、実際のスレッド実行順まで固定されているわけではない。周期値は使用するビルド設定に依存するよ。またこのcheckoutには、サービス要求送信後やbase=0のACKNACK受信時に直接HEARTBEATを送る経路もある。"
+    },
+    {
+      "title": "21. HEARTBEATはHistoryの範囲を知らせる",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 696,
+      "description": "通知する内容が分かると、再送との役割分担が見えるよ。Writerはmutexの内側でHistoryの最小・最大SNを読み、`firstSN`と`lastSN`としてHEARTBEATへ入れる。ReaderProxyごとのunicast Locatorへ送り、一巡後に`m_hbCount`を増やす。相手がいないときやHistoryが空のときは送らない。\n\n1,2,3が残っている例なら『手元の範囲は1から3』という通知になる。これは各Readerの受信済み範囲でも、初回送信済みの範囲でもなく、保管している範囲だよ。HEARTBEATはDATAそのものを再送しているのかな？次の組み立てを見て考えよう。"
+    },
+    {
+      "title": "22. HEARTBEATにはpayloadが入らない",
+      "file": "mros2/embeddedRTPS/include/rtps/messages/MessageFactory.h",
+      "line": 307,
+      "description": "前の問いを、パケットの中身で確かめよう。`addHeartbeat()`が入れるのはWriterとReaderのID、最初と最後のSN、通知のcountだね。CacheChangeの`data`を渡す引数はない。HEARTBEAT自体は『この範囲のDATAがある』と知らせるもので、SN=2の内容を届ける処理ではないんだ。\n\nこの実装はfinal flagを立てず、Readerへ応答を促す。例ではReaderが持つ期待2と、Writerから聞いた最大3を照らし合わせる材料が届いたことになる。もしSN=3も落ちていたとしても、最大3の通知があれば不足を知るきっかけになるね。"
+    },
+    {
+      "title": "23. Readerが新しいHEARTBEATだけを処理する",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 226,
+      "description": "どのWriterへの返答かを間違えず、重複通知も避けるための処理を見よう。MessageReceiverから`onNewHeartbeat()`へ進むと、headerのGUID prefixとHEARTBEATのwriterIdでWriterProxyを探す。見つからなければ返信せず、countが保存済み`hbCount`以下でも処理しない。\n\n例で新しい通知を受けたら、countを記録してACKNACK生成へ進む。ここでcountはDATAのSNとは別の番号だよ。SN=2が欠けたままでも、HEARTBEATのcountは増える。相手を選ぶのに使っているのは識別子であって、受信元IPではないことも覚えておこう。"
+    },
+    {
+      "title": "24. getMissingは最初に期待する一件を示す",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 48,
+      "description": "不足をどう表現するかを見よう。この`getMissing()`は、lastAvailが期待SNより小さければ`base=expectedSN, numBits=0`を返す。それ以外は`base=expectedSN, numBits=1`として、bitmapの先頭bitを立てる。受信済みSNの一覧を検索する関数ではないんだ。\n\n期待2、HEARTBEATのlastSN=3なら、base=2、numBits=1、bitmap=0x80000000になる。明示的に要求する番号は2だけだよ。先に届いた3を保存していないことは前に確認したね。では3の内容は、あとでどう取り戻すのだろう？Writerの受信処理で答えを探そう。"
+    },
+    {
+      "title": "25. baseとbitmapを、SNに読み替える",
+      "file": "mros2/embeddedRTPS/include/rtps/common/types.h",
+      "line": 218,
+      "description": "再送要求を読むため、bitmapの意味だけ整理しよう。`base`は表現の起点、`numBits`は有効bit数、`bitMap`は要求するSNをbitで表したもの。`isSet(i)`が、base+iを要求しているか調べる。先頭bitは最上位bitなので、この例の0x80000000では`isSet(0)`が真になる。\n\nbase=2なら2より前、つまり1までを受理済みと伝え、bit 0で2を要求するんだ。3は有効範囲の外だよ。[RTPS仕様](https://www.omg.org/spec/DDSI-RTPS/2.5/PDF#page=53) §8.3.8.1でも、baseより前の確認と、集合に入る番号の要求を区別する。baseを最後の受信SNと取り違えないでね。"
+    },
+    {
+      "title": "26. ACKNACKを組み立てる",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 260,
+      "description": "期待番号を通信相手に伝えるため、ここで実際のACKNACKを作るよ。Readerは`getMissing(firstSN,lastSN)`の結果と`getNextAckNackCount()`の通知番号をMessageFactoryへ渡す。通知番号は返した後に増えるので、次のACKNACKをWriterが区別できる。\n\n例の一回目なら、base=2、numBits=1、先頭bitあり、count=1になる。`addAckNack()`はWriter/ReaderのIDとその状態をバイト列へ変換し、ここではfinal=falseで送る。HEARTBEAT処理中にそのままtransportへ渡し、応答用タイマーを予約する処理はない。さて、この要求をどのIPへ届けるのだろう？"
+    },
+    {
+      "title": "27. ACKNACKの送り先は保存済みWriterProxy",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 256,
+      "description": "返信先を決める行を、ここでしっかり見てみよう。`info.destAddr`と`info.destPort`には、選んだWriterProxyの`remoteLocator`を使っている。送信元portはReader自身の`m_packetInfo.srcPort`だよ。HEARTBEATを受けたときのIPをそのまま返答先にしている処理ではないんだ。\n\n例のWriterがIP=Aなら、発見時に保存したAへSN=2の要求を送る。あとで同じWriterがIP=Bに移っても、この値がAなら要求はAへ向かう。ここは再送状態が正しくても通信が止まる接点だね。このLocatorがいつ保存されたものなのか、次で由来を追おう。"
+    },
+    {
+      "title": "28. 通常トピックのLocatorは発見時にコピーされる",
+      "file": "mros2/embeddedRTPS/src/discovery/SEDPAgent.cpp",
+      "line": 211,
+      "description": "保存された送り先の由来を確かめよう。SEDPは、相手のWriterやReaderを見つけて結び付ける発見処理だよ。相手WriterのTopicDataにあるunicast Locatorから、ここでWriterProxyを作ってローカルReaderへ追加する。`WriterProxy`のコンストラクタとLocatorIPv4はIP・portを値としてコピーする。\n\n例ではWriterのAという住所が、ReaderのProxyの中へ保存される。元のTopicDataを変えたら自動追従する参照ではないんだ。反対向きでは`onNewSubscriber()`がReaderProxyを作り、Writerへ相手ReaderのLocatorを保存する。この二方向のコピーを区別して覚えよう。"
+    },
+    {
+      "title": "29. パケットの受信元IPから自動更新しない",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 199,
+      "description": "新しいIPから通知が来たら返信先も変わるのか、受信入口まで戻って確かめよう。UDP callbackの引数は`const ip_addr_t * /*addr*/`で、受信元IPを使っていない。受信パケットをincoming queueへ入れ、Reader workerからDomain、Participant、MessageReceiverへ進むけれど、解析へ渡すのはpayloadと長さだよ。\n\nだからBからHEARTBEATが届いたことだけでは、WriterProxyのAをBへ書き換えない。送信側のUdpDriverは`PacketInfo`の宛先を`udp_sendto()`へ渡す。この経路に、届いたIPをACKNACKの宛先として学習する処理は確認できないんだ。"
+    },
+    {
+      "title": "30. ACKNACKを担当WriterとReaderProxyへ振り分ける",
+      "file": "mros2/embeddedRTPS/src/messages/MessageReceiver.cpp",
+      "line": 285,
+      "description": "今度はWriter側へ渡ったACKNACKを追おう。MessageReceiverはACKNACKのwriterIdでローカルWriterを選び、headerから得た相手のGUID prefixと一緒に`onNewAckNack()`へ渡す。その中ではprefixとreaderIdでReaderProxyを探す。どちらも、送り先の名前と送り手の名前を確認するためだよ。\n\n例でReader Bが2を要求してきたら、WriterはBのProxyを使って送り直す。対応するProxyがなければ要求は無視される。Historyに2の箱があるだけでは、誰からの要求に応えるか分からないね。ここで、Writer側にReaderProxyがある理由がもう一度つながるはずだよ。"
+    },
+    {
+      "title": "31. 新しい要求を受け付け、countを記録する",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 437,
+      "description": "同じ要求で無駄な再送を繰り返さないため、通知番号を見るよ。ACKNACKのcountがReaderProxyの`ackNackCount`以下なら戻り、新しければ保存する。例の最初のcount=1は、初期値0より大きいので通る。ここで更新するのは通知番号で、HistoryのSNや初回送信cursorではないんだ。\n\n直後にあるbase={0,0}の分岐は、まだ範囲を知らない相手からの初期の通知を扱い、このcheckoutではHEARTBEATを返して戻る。今回のbase=2はそこを通らない。では次に、bitmapの要求から再送する番号を一つ選んでみよう。"
+    },
+    {
+      "title": "32. bitmapの先頭bitからSN=2を再送する",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 468,
+      "description": "Readerが明示した要求に応える場所を見よう。`nextSN`はACKNACKのbaseから始まり、有効bitを一つずつ読む。bitが立っていれば`sendData(*reader,nextSN)`を呼び、bitが進むごとにSNも増やす。欠落一覧を別キューへ保存してから処理する実装ではないんだ。\n\n例のbase=2、numBits=1では、i=0でSN=2を送る。その一回を終えるとnextSNは3になる。これはACKNACKを処理している受信Workerから直接進む経路で、初回DATA用のWriter仕事キューを経由しない。では先に捨てられた3はどうなるか、次のループを見よう。"
+    },
+    {
+      "title": "33. bitmapの後ろにあるSN=3も送る",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 484,
+      "description": "前の問いを解決するのが、この追加のループだよ。WriterはHistoryの最大SNを読み、bitmapの有効範囲を読み終えたnextSNから最大SNまで`sendData()`する。例ではnextSN=3、maxSN=3なので、SN=3も送り直すんだ。\n\nつまり『ACKNACKに2と3のbitが立つ』のではなく、『Readerは2だけ明示し、Writerが続きの3も送る』という組み合わせだね。Readerが順序外DATAを保存しない設計と結び付けて読むと理解しやすい。追加で4までHistoryへ登録されていたら、このループは4も送る。範囲後方の送り直しは、この実装で実際に行う処理だよ。"
+    },
+    {
+      "title": "34. Historyから、同じSNと内容でDATAを作り直す",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 515,
+      "description": "再送の実体を見よう。`sendData()`はmutexの内側で`getChangeBySN(snMissing)`を使い、箱があればその`data`と`sequenceNumber`でDATAを作る。宛先はWriter側のReaderProxyの`remoteLocator`で、unicastだよ。パケットは組み立て直すけれど、アプリから新しい一件を登録する処理ではない。\n\n例ではSN=2の箱を読んで2を送り、その後3の箱を読んで3を送る。もしHistoryから2が消えていたら検索はnullptrとなり、送信できずfalseを返す。前の『Historyがなければ何が困るか』の答えはここだね。Proxyの通知番号だけではpayloadを復元できないんだ。"
+    },
+    {
+      "title": "35. 再送SN=2、続くSN=3を受け入れる",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulReader.tpp",
+      "line": 108,
+      "description": "欠落がどう解消するか、Readerの同じ受理条件へ戻ろう。まだ期待2なので、再送2が届くとcallbackでアプリへ渡して期待3にする。続く再送3も一致するから、同じように渡して期待4へ進む。先に届いた3をbufferから取り出しているのではなく、Writerから届き直した3を受け入れたんだ。\n\nアプリが受け取る順序は1→2→3になる。もし再送3が2より先に着けばまた受け入れず、次のHEARTBEATで要求する機会を待つ。今回は順に届く前提だよ。通常トピックでは2や3を受理した瞬間にACKNACKを送らない点も、サービス返信との違いだね。"
+    },
+    {
+      "title": "36. 次のHEARTBEATで、3までの受理を知らせる",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 51,
+      "description": "Writerへ解消を伝えるところまで追おう。期待4になったReaderが、最大3を知らせる新しいHEARTBEATを受けると、`lastAvail < expectedSN`が真になる。返す状態はbase=4、numBits=0。要求bitはなく、3まで連続して受理したことを伝えるよ。\n\nWriterはcountを記録するけれど、このcheckoutの`onNewAckNack()`には、base未満をHistoryから削除する処理がない。ReaderProxyの`ackNackSet`へ確認状況を保存する処理もないんだ。Historyに削除用の関数があることと、ここで呼ばれることは別だね。解消しても箱が残ることを押さえておこう。"
+    },
+    {
+      "title": "37. Historyから消えた欠落を飛ばせるとは限らない",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 48,
+      "description": "再送できる前提が崩れた場合も、コードで確認しよう。`getMissing()`のfirstAvail引数はコメント化され、使われていない。期待2のままWriterのHistoryが3以降へ進んでも、Readerはここで期待を3へ引き上げないんだ。Writerも消えた2を`sendData()`で復元できない。\n\n[RTPS仕様の参照モデル](https://www.omg.org/spec/DDSI-RTPS/2.5/PDF#page=115) §8.4.12.2にはfirstSNによる失われた変更の扱いとGAP処理がある。一方、このMessageReceiverのswitchはGAPを扱わない。だから保存上限を越えた欠落の回復まで、今回の成功例から一般化しないでね。"
+    },
+    {
+      "title": "38. Writer側の責務を、自分の言葉で整理しよう",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.h",
+      "line": 70,
+      "description": "ここまでの流れを、保存場所で整理しよう。再送するには『内容』『相手』『動かす処理』の三つがそろう必要があるよ。\n\n| Writer側のもの | 保持するもの・必要な理由 |\n| --- | --- |\n| History / CacheChange | SNとpayload。要求された内容を再現するため |\n| ReaderProxy | 相手ReaderのGUID、Locator、処理済みACKNACK count。相手と重複通知を区別するため |\n| StatefulWriter | Historyと送信位置、HEARTBEAT count・実行経路。初回送信と再送を動かすため |\n\nSN=2を誰へ送るかはProxy、何を送るかはHistoryから決まる。この二つを交換して説明しないようにしてみよう。"
+    },
+    {
+      "title": "39. Reader側の責務と、今回の一本の流れ",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/Reader.h",
+      "line": 128,
+      "description": "Reader側も、同じ問いで整理してみよう。\n\n| Reader側のもの | 保持するもの・必要な理由 |\n| --- | --- |\n| WriterProxy | 相手WriterのGUID、期待SN、HB/ACKNACK count、Locator。順序・通知・返信先を判断するため |\n| StatefulReader | callback、mutex、transportと送信ポート。受理と返信を実行するため |\n| ReaderCacheChange | 受信内容への一時参照。callbackへ渡すため |\n\n今回の流れは、1を受理→3は保存せず→HBで1〜3を知る→base2の要求→Writerが2と3を再送→期待4になる、だったね。Readerにpayloadの保管Historyを想像して足さず、実際に残る状態で説明してみよう。"
+    },
+    {
+      "title": "40. 移行で維持したいのは、整合した通信状態",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/WriterProxy.h",
+      "line": 34,
+      "description": "ここからライブマイグレーションへ結び付けよう。途中から同じ通信を続けるには、番号だけを単独で保存するのでなく、番号と保管内容、相手の識別子が対応している必要がある。WriterではHistoryの箱・リング位置・採番元と送信位置、ReaderではWriterProxyの期待番号が、その中心になるよ。\n\n例の期待2を保っても、相手WriterからHistoryの2を失えば再送できない。HB/ACKNACKのcountと、それを比較する相手側のcountも食い違えば通知が無視されうる。キューのpointerやmutex・スレッド・UDP資源が移行先で有効かは、RTPS状態とは別に確認が必要だね。"
+    },
+    {
+      "title": "41. 移動する相手に合わせて必要になるLocator",
+      "file": "mros2/embeddedRTPS/include/rtps/common/Locator.h",
+      "line": 154,
+      "description": "通信状態が残っても、送り先が古ければ要求が届かない。そのつながりをこの値で考えよう。WriterがAからBへ移るなら、相手Reader内のWriterProxy.remoteLocatorがACKNACKのBへの送り先になる必要がある。Readerが移るなら、相手Writer内のReaderProxy.remoteLocatorがDATA再送とHEARTBEATの送り先になる必要があるよ。\n\n通常DATAでmulticastを使うならReaderProxyのmulticast Locatorと送信設定も関係する。自分が公告するTopicDataのLocatorと、通信相手がコピーして持つProxyのLocatorは別の値なんだ。自分の住所だけ変えれば、相手の保存値も変わるだろうか？"
+    },
+    {
+      "title": "42. 発見処理でも、古いコピーは自動で置き換わらない",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 212,
+      "description": "前の問いを、既存相手の扱いで確かめよう。SPDPはParticipantを発見する処理だけれど、ここでは既知のprefixなら生存通知を更新して戻る。Locatorが変わっただけで既存Proxyを更新する処理ではない。SEDP用の組み込みWriterProxyも、初回のSPDP処理で相手の組み込み通信用Locatorから作られるよ。\n\n通常WriterProxyの追加も`m_proxies.add(newProxy)`で、同じGUIDの古い値を置換しない。HEARTBEATでは最初に一致したProxyを使う。だからAの記録が残れば、新IPからの通知や再公告だけではBへの返信を保証できない。ACKNACKが旧IPへ向かう理由を、保存値と参照する行で説明しよう。"
+    },
+    {
+      "title": "43. 最後の復習：三つを声に出して説明しよう",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatefulWriter.tpp",
+      "line": 468,
+      "description": "最後はコードを隠して、次の三つを自分の言葉で説明してみよう。答え合わせは、詰まった箇所のステップへ戻ってコードで確認してね。\n\n1. SN=2が落ちて3が届いた通常Readerは、何を保存する？期待SN、ACKNACKのbase・numBits・bitmap、Writerが再送するSNを順に説明できる？\n2. ReaderProxyとWriterProxyはどちら側にある？Historyと比べて役割はどう違い、Historyから2が消えると何ができなくなる？\n3. WriterがAからBへ移ってHEARTBEATがBから届いても、なぜACKNACKはAへ向かいうる？送り先のコピーを作る行と、使う行を挙げられる？"
+    }
+  ]
+}

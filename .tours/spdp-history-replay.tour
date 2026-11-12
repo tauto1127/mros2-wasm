@@ -1,0 +1,92 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "restore後のSPDPとWriter履歴を追う",
+  "description": "RTPSのSPDPは、参加者が「自分はここにいる」と知らせる発見用データです。このTourでは、そのデータが準備され、Writerに保存され、後から再送されるまでをたどります。各stepの説明とコードを対応させ、最後に観測された`.6`から`.3`への戻りを自分で説明してください。ThreadPoolの実行順だけで断定できない部分は「未確定」と記録します。",
+  "isPrimary": true,
+  "steps": [
+    {
+      "title": "1. SPDPAgent::init — 最初のParticipantデータを準備",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 48,
+      "description": "1. **この箇所で見ること:** `init()`はSPDPAgentの準備です。Participant（RTPS上の参加者）とbuiltin endpointを保存し、受信callbackを登録してから送信データ用bufferを初期化します。`ucdr_init_buffer()`は書き込み場所とcursorを設定し、`addParticipantParameters()`がParticipant情報をバイト列にします。\n2. **追う変数・状態:** `mp_participant`（Participant本体）、`m_buildInEndpoints`（SPDP Writer/Readerなど）、`m_outputBuffer`（送信バイト列を置く配列）、`m_microbuffer`（配列上の書き込み位置を管理）。\n3. **確認問題:** Participant情報のバイト列を実際に書き込む呼び出しはどれですか？"
+    },
+    {
+      "title": "2. announce — runBroadcast内の通知処理",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 102,
+      "description": "1. **この箇所で見ること:** このcheckoutの`announce`は`runBroadcast()`内のラムダです。ラムダは、小さな処理に名前を付けて同じ場所から呼び直すC++の書き方です。クラスに`SPDPAgent::announce()`というメンバー関数があるかも検索してください。\n2. **追う変数・状態:** `m_microbuffer.init`（データ先頭）、`ucdr_buffer_length()`（書き込み済みの長さ）、`spdpWriter`、`ChangeKind_t::ALIVE`。\n3. **確認問題:** `announce`が呼ばれたとき、Participant情報を作り直しますか、それとも今あるbufferをWriterへ渡しますか？"
+    },
+    {
+      "title": "3. StatelessWriterT::newChange — Writerへの登録",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 282,
+      "description": "1. **この箇所で見ること:** Writerはデータを送るRTPS endpointです。`newChange()`はWriterに新しい送信データを登録します。`kind`が`ALIVE`以外なら受け付けず戻り、受け付けたpayload（送信するデータ本体）をhistoryへ渡します。ThreadPoolが設定済みなら送信workも依頼します。\n2. **追う変数・状態:** `kind`（changeの種類）、`data`と`size`（payloadの場所と長さ）、`m_history`、`mp_threadPool`。\n3. **確認問題:** `newChange()`自身がUDPパケットを送信しますか、それとも履歴への追加と送信workの登録をしますか？"
+    },
+    {
+      "title": "4. SimpleHistoryCache::addChange — ChangeとSNの追加",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 87,
+      "description": "1. **この箇所で見ること:** `CacheChange`は送信データ1件を包む箱です。`addChange()`は箱を作り、payloadを`change.data`へコピーし、通し番号を付けてhistoryの次の場所に保存します。SN（sequence number）は、WriterがChangeを区別する番号です。\n2. **追う変数・状態:** `data`/`size`、`change.data`、`m_lastUsedSequenceNumber`、`m_head`、既存のChange。\n3. **確認問題:** 先に登録したChangeと後から登録したChangeでは、どちらに小さいSNが付きますか？"
+    },
+    {
+      "title": "5. SimpleHistoryCache::incrementHead — 古いChangeの保持条件",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 178,
+      "description": "1. **この箇所で見ること:** historyは固定長のリング（輪）状の配列です。`m_head`は次の書き込み場所、`m_tail`は一番古いChangeの場所です。`incrementHead()`は書き込み位置を進め、満杯になって古い側に追いついた場合だけ`m_tail`も進めて古いChangeを捨てます。\n2. **追う変数・状態:** `m_head`、`m_tail`、`m_buffer.size()`、template引数`SIZE`、`isFull()`。\n3. **確認問題:** historyに空きがあるとき、次のChangeを追加すると最古のChangeは捨てられますか？"
+    },
+    {
+      "title": "6. SPDPAgent::applyPendingLocalIpChange — restore後のbuffer再構築",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 79,
+      "description": "1. **この箇所で見ること:** restore後にIP変更の通知があれば、Participantのlocator（通信先を表すIPアドレスとport）を更新し、`m_microbuffer`を先頭から使ってParticipant情報を作り直します。ここは次のannounceが読むbufferを準備する処理です。\n2. **追う変数・状態:** pending flag、更新後のParticipant locator、`m_microbuffer`/`m_outputBuffer`、return値。`m_history`を操作する呼び出しがあるかも見てください。\n3. **確認問題:** この関数が作り直すのはWriter historyですか、それとも次のannounceが読むbufferですか？"
+    },
+    {
+      "title": "7. SPDPAgent::addParticipantParameters — locatorを送信データに書く",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 332,
+      "description": "1. **この箇所で見ること:** Participant情報をParameterId（項目名）と値の組としてbufferへシリアライズします。3種類のlocatorを取得し、`PID_DEFAULT_UNICAST_LOCATOR`や`PID_METATRAFFIC_UNICAST_LOCATOR`などの項目に書き込みます。\n2. **追う変数・状態:** `userUniCastLocator`、`builtInUniCastLocator`、`builtInMultiCastLocator`、`getLocalIpAddress()`が読む`netif_default`、`m_microbuffer`。\n3. **確認問題:** built-in unicast locatorのIPはどこから読み取られ、buffer内のどのParameterIdに書かれますか？"
+    },
+    {
+      "title": "8. runBroadcast — restore後のannounceと周期処理の順序",
+      "file": "mros2/embeddedRTPS/src/discovery/SPDPAgent.cpp",
+      "line": 108,
+      "description": "1. **この箇所で見ること:** `runBroadcast()`はSPDP用background threadです。停止flagが有効な間、周期待ちのあとIP変更を確認し、変更があれば`announce()`を呼び、その後は毎周期`setAllChangesToUnsent()`を呼びます。コードの並びを指で追ってください。\n2. **追う変数・状態:** `m_running`、周期待ち、`applyPendingLocalIpChange()`の戻り値、`m_microbuffer`、SPDP Writerのhistoryとcursor。\n3. **確認問題:** IP変更を検出した周期では、新しいChangeを登録する処理とcursorを戻す処理のどちらが先ですか？"
+    },
+    {
+      "title": "9. StatelessWriterT::setAllChangesToUnsent — 送信cursorを戻す",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 312,
+      "description": "1. **この箇所で見ること:** この関数は各Changeの中身を編集しません。historyにある最小SNを`m_nextSequenceNumberToSend`へ設定し、ThreadPoolへWriter workを依頼します。これは本の内容を変えず、読むページを先頭へ戻す動きに近いです。\n2. **追う変数・状態:** `m_history.getSeqNumMin()`、`m_nextSequenceNumberToSend`（次に読む場所）、`mp_threadPool`。\n3. **確認問題:** この関数が先頭へ戻すのはpayloadですか、それとも次に読むSNを示すcursorですか？"
+    },
+    {
+      "title": "10. SimpleHistoryCache::getSeqNumMin — historyの最小SN",
+      "file": "mros2/embeddedRTPS/include/rtps/storages/SimpleHistoryCache.h",
+      "line": 145,
+      "description": "1. **この箇所で見ること:** `getSeqNumMin()`はhistoryが空ならunknownを返し、空でなければ`m_tail`が指す最古ChangeのSNを返します。ここでの`min`は「historyに残っているChangeのうち、古い側の番号」です。\n2. **追う変数・状態:** `m_head == m_tail`（空かどうか）、`m_tail`、`m_buffer[m_tail].sequenceNumber`。\n3. **確認問題:** `.3`と`.6`のChangeがその順でhistoryに残っている場合、cursor resetに使われる最小SNはどちらのChangeのものですか？"
+    },
+    {
+      "title": "11. StatelessWriterT::progress — 選ばれたChangeを送る",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 341,
+      "description": "1. **この箇所で見ること:** `progress()`はWorkerが呼ぶ送信処理です。cursorのSNでhistoryからChangeを取り出し、通常のdata経路では`next->data`をRTPS DATA submessage（送信データを含む部分）に入れます。その後、送信相手（proxy）から宛先を選び、`sendPacket()`へ渡します。\n2. **追う変数・状態:** `m_nextSequenceNumberToSend`（選択位置）、`next`（選ばれたChange）、`next->sequenceNumber`、`next->data`、宛先locator。\n3. **確認問題:** DATA submessageへ入るのはbufferの最新内容ですか、それとも選ばれた`next`の内容ですか？"
+    },
+    {
+      "title": "12. ThreadPool::addWorkload — Writer workをキューへ登録",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 155,
+      "description": "1. **この箇所で見ること:** `addWorkload()`はpayloadではなく`Writer*`をoutgoing queueに入れ、追加できたときsemaphoreでWorkerへ知らせます。queueが満杯なら登録失敗を記録します。\n2. **追う変数・状態:** `workload`（Writerへのpointer）、`m_queueOutgoing`、`m_writerNotificationSem`、戻り値。\n3. **確認問題:** `newChange()`から渡される`this`はpayloadですか、それともどのオブジェクトへのpointerですか？"
+    },
+    {
+      "title": "13. ThreadPool::doWriterWork — queueからprogressへ",
+      "file": "mros2/embeddedRTPS/src/ThreadPool.cpp",
+      "line": 186,
+      "description": "1. **この箇所で見ること:** WorkerはqueueからWriterを取り出します。queueが空なら通知を待ち、workがあれば`workload->progress()`を呼びます。これはrunBroadcastとは別threadなので、登録後すぐ送信関数が実行されるとは限りません。\n2. **追う変数・状態:** `m_running`、`m_queueOutgoing`、`m_writerNotificationSem`、work登録時点と`progress()`実行時点。\n3. **確認問題:** このコードだけで、SN2（`.6`）が一度だけ送られる正確な実行順序まで証明できますか？証明できない部分は「未確定」としてください。"
+    },
+    {
+      "title": "14. SN1/SN2を送信Changeまで追跡",
+      "file": "mros2/embeddedRTPS/include/rtps/entities/StatelessWriter.tpp",
+      "line": 312,
+      "description": "1. **この箇所で見ること:** ここまでの答えを使い、cursor reset、historyの最古SN、`progress()`が選ぶChangeを順に対応づけます。\n2. **追う変数・状態:** 各SNのpayloadと生成時IP、historyの最古SN、`m_nextSequenceNumberToSend`、送信された`next->data`。\n3. **確認問題:** periodic resendのcursor reset後に再送されるChangeを、SNとIPの対応を含めて自分の言葉で説明できますか？"
+    }
+  ]
+}
